@@ -1,11 +1,16 @@
-import express  from "express";
-import body_parser from 'body-parser'
+import express from 'express'
+import Fincas  from './src/routes/fincas.routes.js'
+import User from './src/routes/esteno.routes.js'
+import Lotes from './src/routes/lotes.routes.js'
+import Variedades from './src/routes/variables.routes.js'
 
-const servidor = express()
+const app = express()
 
-servidor.use(body_parser.json())
-servidor.use(body_parser.urlencoded({extend: false}))
+app.use(express.json())/*recive los datos y los convierte en un json y luego se los pasa a las rutas */
+app.use('/fincas',Fincas)
+app.use('/user',User)
+app.use('/lote',Lotes)
+app.use('/var',Variedades)
 
-servidor.listen(3000, () => {
-    console.log('Servidor rodando na porta 3000')
-})
+app.listen(3000)
+console.log('Server funcionando GG 🙈')
