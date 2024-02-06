@@ -25,6 +25,11 @@ export const registrarResultados = async (req, res) => {
     try {
         
         const{fecha, fk_analisis, fk_variables, valor, observaciones} = req.body
+
+        if(fecha == undefined || fk_analisis == undefined ||  fk_variables == undefined || valor == undefined ){
+            res.status(400).json({ message: 'Por favor llenar todos los campos' })
+        }
+        
         let sql = `INSERT INTO resultados (fecha, fk_analisis, fk_variables, observaciones, valor) values (?, ?, ?, ?, ?)`
 
         const[rows] = await pool.query(sql, [fecha, fk_analisis, fk_variables, observaciones, valor])
