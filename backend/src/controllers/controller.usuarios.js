@@ -6,12 +6,12 @@ const getUsuarios= async (req,res)=>{
         const result = await pool.getConnection();
         const [rows] = await result.query("SELECT * FROM usuarios");
 
-        res.json(rows);
-        // console.table(result);
+        const resultadoJSON = JSON.stringify(rows);
+        
+        res.send(resultadoJSON);
         
     } catch (error) {
         console.error('Error al obtener usuarios:', error);
-        res.status(500).json({ error: 'Error al obtener usuarios' });
     }
 };
 export default getUsuarios();
@@ -21,7 +21,7 @@ export default getUsuarios();
 
 //     let id_usuario,telefono,nombre,correo_electronico,tipo_usuario,estado
 
-//     id_usuario=123123;
+//     id_usuario=143123;
 //     telefono="+57 3125440153";
 //     nombre="juan";
 //     correo_electronico="juan@gmail.com";
