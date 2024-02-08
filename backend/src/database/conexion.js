@@ -5,6 +5,6 @@ export const pool  = createPool(
         host:'localhost',
         user:'root',
         password:'',
-        database:'madac_coffe'
+        database:'madac_coffee'
     }
 )
