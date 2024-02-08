@@ -65,11 +65,8 @@ export const actualizarResultado = async (req, res) => {
         
         const{fecha, fk_analisis, fk_variable, observaciones, valor} = req.body
         const {id} = req.params
-        const[oldResultado] = await pool.query(`SELECT * FROM resultados WHERE codigo=?`, [id])
 
-        const[rows] = await pool.query(`UPDATE resultados SET fecha=${fecha ? fecha : oldResultado[0].fecha} fk_analisis=${fk_analisis ? fk_analisis : oldResultado[0].fk_analisis} fk_variables = ${fk_variable ? fk_variable : oldResultado[0].fk_variable} observaciones = ${observaciones ? observaciones : oldResultado[0].observaciones} valor = ${valor ? valor : oldResultado[0].valor} WHERE codigo= ?`,[id]);
-
-        
+        const[rows] = await pool.query(`UPDATE resultados SET fecha=IFNULL(?,fecha), fk_analisis=IFNULL(?,fk_analisis), fk_variables=IFNULL(?,fk_variables), observaciones=IFNULL(?,observaciones), valor=IFNULL(?,valor) WHERE codigo= ?`,[fecha, fk_analisis, fk_variable, observaciones, valor, id]);
 
         if(rows.affectedRows>0){
             res.status(200).json({
