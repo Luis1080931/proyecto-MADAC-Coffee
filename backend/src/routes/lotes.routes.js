@@ -1,10 +1,11 @@
 import { Router } from "express";
 import {getLotes,getLote,postLotes,activar_desactivar_Lotes,actualizarLotes} from '..//controllers/lotes.controller.js'
 
-const router = Router()
-router.get("/lotes",getLotes)
-router.get("/lotes/:codigo",getLote)
-router.post("/lotes",postLotes)
-router.put("/lotes/:codigo",activar_desactivar_Lotes)
-router.patch('/lotes/:codigo',actualizarLotes)
-export default router;
+const routeLotes = Router()
+
+routeLotes.get("/listar",getLotes)
+routeLotes.get("/buscar/:codigo",getLote)
+routeLotes.post("/registrar",postLotes)
+routeLotes.put("/desactivar/:codigo",activar_desactivar_Lotes)
+routeLotes.put('/actualizar/:codigo',actualizarLotes)
+export default routeLotes;

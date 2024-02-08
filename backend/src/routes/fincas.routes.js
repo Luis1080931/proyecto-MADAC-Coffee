@@ -1,11 +1,12 @@
 import { Router } from "express";
 import {getFincas,getFinca,postFincas,activar_desactivar_Fincas,actualizarFincas} from '..//controllers/fincas.controller.js';
 
-const router = Router()
-router.get("/finca",getFincas)
-router.get("/finca/:codigo",getFinca)
-router.post("/finca",postFincas)
-router.put("/finca/:codigo",activar_desactivar_Fincas)
-router.patch("/finca/:codigo",actualizarFincas)
+const routeFincas = Router()
 
-export default router;
+routeFincas.get("/listar",getFincas)
+routeFincas.get("/buscar/:codigo",getFinca)
+routeFincas.post("/registrar",postFincas)
+routeFincas.put("/desactivar/:codigo",activar_desactivar_Fincas)
+routeFincas.put("/actualizar/:codigo",actualizarFincas)
+
+export default routeFincas;

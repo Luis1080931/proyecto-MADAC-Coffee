@@ -37,6 +37,7 @@ export const activar_desactivar_Fincas=async(req,res)=>{
     const [rows]=await pool.query('SELECT * FROM fincas WHERE codigo = ?',[codigo])
     res.json(rows[0])
 }
+
 export const actualizarFincas = async(req,res)=>{
     const {codigo}=req.params
     const {dimension_mt2,fk_caficultor,municipio,vereda}=req.body

@@ -1,11 +1,11 @@
 import { Router } from 'express'
 import { desactivarAnalisis, editarAnalisis, registrarAnalisis } from '../controllers/analisis.controller.js'
 
-const router = Router()
+const routeAnalisis = Router()
 
 // localhost:3333/analisis/1
-router.post("/analisis", registrarAnalisis)
-router.put("/analisis/:codigo", editarAnalisis)
-router.post("/analisis/:codigo", desactivarAnalisis)
+routeAnalisis.post("/registrar", registrarAnalisis)
+routeAnalisis.put("/actualizar/:codigo", editarAnalisis)
+routeAnalisis.put("/desactivar/:codigo", desactivarAnalisis)
 
-export default router
+export default routeAnalisis

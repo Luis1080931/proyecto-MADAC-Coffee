@@ -1,4 +1,5 @@
 import { pool } from '../database/conexion.js'
+import { query } from 'express' 
 /*
     * X Registrar // POST
     * X Editar // PUT
@@ -9,7 +10,7 @@ import { pool } from '../database/conexion.js'
 export const registrarAnalisis = async (req, res) => {
     try {
         const { fecha, analista, fk_muestra, fk_tipo_analisis, estado } = req.body
-        const [ resultado ] = await pool.query("INSERT INTO analisis(fecha, analista, fk_muestra, fk_tipo_analisis, estado) VALUES (?, ?, ?, ?, ?)", [fecha, analista, fk_muestra, fk_tipo_analisis, estado])
+        const [ resultado ] = await pool.query("INSERT INTO analisis(fecha, fk_analista, fk_muestra, fk_tipo_analisis, estado) VALUES (?, ?, ?, ?, ?)", [fecha, analista, fk_muestra, fk_tipo_analisis, estado])
 
         // 0 = No afecto nada
         // 1, 2, 3 = Que hizo algo en la base de datos
@@ -36,12 +37,7 @@ export const editarAnalisis = async (req, res) => {
         const { fecha, analista, fk_muestra, fk_tipo_analisis, estado } = req.body
         
         const [ analisisPasado ] = await pool.query("select * from analisis where codigo=?", [codigo])
-        const [ resultado ] = await pool.query(`update analisis set 
-                                                fecha='${fecha ? fecha : analisisPasado[0].fecha}', 
-                                                analista='${analista ? analista : analisisPasado[0].analista}', 
-                                                fk_muestra=${fk_muestra ? fk_muestra : analisisPasado[0].fk_muestra}, 
-                                                fk_tipo_analisis=${fk_tipo_analisis ? fk_tipo_analisis : analisisPasado[0].fk_tipo_analisis}, 
-                                                estado='${estado ? estado : analisisPasado[0].estado}' where codigo=? `, [codigo])
+        const [ resultado ] = await pool.query(`update analisis set fecha=${fecha ? fecha : analisisPasado[0].fecha} fk_analista='${analista ? analista : analisisPasado[0].analista} fk_muestra=${fk_muestra ? fk_muestra : analisisPasado[0].fk_muestra} fk_tipo_analisis=${fk_tipo_analisis ? fk_tipo_analisis : analisisPasado[0].fk_tipo_analisis} estado=${estado ? estado : analisisPasado[0].estado} where codigo=? `, [codigo])
 
         if (resultado.affectedRows > 0) {
             res.status(201).json({
