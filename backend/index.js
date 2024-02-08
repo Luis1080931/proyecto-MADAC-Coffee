@@ -5,6 +5,7 @@ import routeAnalisis from "./src/routes/analisis.routes.js";
 import routeFincas from "./src/routes/fincas.routes.js";
 import routeLotes from "./src/routes/lotes.routes.js";
 import routeVariedades from "./src/routes/variedades.routes.js";
+import routeUsuarios from "./src/routes/usuarios.route.js";
 
 const servidor = express()
 
@@ -16,6 +17,7 @@ servidor.use('/analisis', routeAnalisis)
 servidor.use('/fincas', routeFincas)
 servidor.use('/lotes', routeLotes)
 servidor.use('/variedades', routeVariedades)
+servidor.use('/usuarios', routeUsuarios)
 
 
 servidor.listen(3000, () => {

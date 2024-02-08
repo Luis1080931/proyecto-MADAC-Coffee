@@ -1,15 +1,15 @@
 import { Router } from "express";
 import { desactivarUsuarios, editarUsuarios, registrarUsuarios } from "../controllers/usuarios.controller.js";
 
-const router = Router()
+const routeUsuarios = Router()
 
-router.post("/registrar", registrarUsuarios)
+routeUsuarios.post("/registrar", registrarUsuarios)
 
-router.put("/actualizar/:identificacion", editarUsuarios)
+routeUsuarios.put("/actualizar/:identificacion", editarUsuarios)
 
-router.post("/desactivar/:identificacion", desactivarUsuarios)
+routeUsuarios.put("/desactivar/:identificacion", desactivarUsuarios)
 
 
 
-export default router
+export default routeUsuarios
 
