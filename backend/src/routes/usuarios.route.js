@@ -3,11 +3,11 @@ import { desactivarUsuarios, editarUsuarios, registrarUsuarios } from "../contro
 
 const router = Router()
 
-router.post("/usuarios", registrarUsuarios)
+router.post("/registrar", registrarUsuarios)
 
-router.put("/usuarios/:identificacion", editarUsuarios)
+router.put("/actualizar/:identificacion", editarUsuarios)
 
-router.post("/usuarios/:identificacion", desactivarUsuarios)
+router.post("/desactivar/:identificacion", desactivarUsuarios)
 
 
 
