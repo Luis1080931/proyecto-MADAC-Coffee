@@ -11,6 +11,11 @@ export const listarResultados = async (req, res) => {
 
         if(result.length>0){
             res.status(200).json(result)
+        }else{
+            res.status(404).json({
+                'status': 404,
+                'message': 'No hay resultados registrados'
+            })
         }
 
     } catch (error) {
@@ -59,11 +64,12 @@ export const actualizarResultado = async (req, res) => {
     try {
         
         const{fecha, fk_analisis, fk_variable, observaciones, valor} = req.body
-        let idResultado = req.params.idResultado
+        const {id} = req.params
+        const[oldResultado] = await pool.query(`SELECT * FROM resultados WHERE codigo=?`, [id])
 
-        let sql = `UPDATE resultados set fecha = ?, fk_analisis = ?, fk_variables = ?, observaciones = ?, valor = ? WHERE codigo = ?`
+        const[rows] = await pool.query(`UPDATE resultados SET fecha=${fecha ? fecha : oldResultado[0].fecha} fk_analisis=${fk_analisis ? fk_analisis : oldResultado[0].fk_analisis} fk_variables = ${fk_variable ? fk_variable : oldResultado[0].fk_variable} observaciones = ${observaciones ? observaciones : oldResultado[0].observaciones} valor = ${valor ? valor : oldResultado[0].valor} WHERE codigo= ?`,[id]);
 
-        const[rows] = await pool.query(sql, [fecha, fk_analisis, fk_variable, observaciones, valor, idResultado])
+        
 
         if(rows.affectedRows>0){
             res.status(200).json({
