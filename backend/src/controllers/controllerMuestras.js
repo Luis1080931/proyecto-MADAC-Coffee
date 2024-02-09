@@ -1,4 +1,4 @@
-import { pool} from "../database/conexion.js"
+import {pool} from "../database/conexion.js"
 
 export const listarMuestras = async (req, res) => {
     try {
@@ -35,58 +35,34 @@ export const CrearMuestra = async (req, res) => {
     }
 };
 
-
-  
+//actualizar muestra
 export const actualizarMuestra = async (req, res) => {
     try {
         const { codigo } = req.params;
-        console.log('Codigo recibido:', codigo); // Depuración
-        // Verificar que codigo sea un número
-        if (!Number.isFinite(codigo)) {
-            return res.status(400).json({
-                "mensaje": "Código inválido"
-            });
-        }
-        const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado } = req.body;
-        const [oldPost] = await pool.query("SELECT * FROM muestras WHERE codigo=?", [codigo]);
-        // Usar una consulta preparada para evitar la inyección de SQL
-        const [resultado] = await pool.query(`UPDATE muestras SET fecha=?, cantidad=?, quien_recibe=?, proceso_fermentacion=?, humedad_cafe=?, altura_MSNM=?, tipo_secado=?, observaciones=?, fk_lote=?, estado=? WHERE codigo=?`, [
-            fecha || oldPost[0].fecha,
-            cantidad || oldPost[0].cantidad,
-            quien_recibe || oldPost[0].quien_recibe,
-            proceso_fermentacion || oldPost[0].proceso_fermentacion,
-            humedad_cafe || oldPost[0].humedad_cafe,
-            altura_MSNM || oldPost[0].altura_MSNM,
-            tipo_secado || oldPost[0].tipo_secado,
-            observaciones || oldPost[0].observaciones,
-            fk_lote || oldPost[0].fk_lote,
-            estado || oldPost[0].estado,
-            parseInt(codigo)
-        ]);
+        const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote } = req.body;
 
-        if (resultado.affectedRows >  0) {
-            res.status(200).json({
-                "mensaje": "La publicación ha sido actualizada"
-            });
+        // La consulta debe tener placeholders para cada valor que se va a actualizar
+        const [result] = await pool.query('UPDATE muestras SET fecha = IFNULL(?, fecha), cantidad = IFNULL(?, cantidad), quien_recibe = IFNULL(?, quien_recibe) , proceso_fermentacion = IFNULL(?, proceso_fermentacion), humedad_cafe = IFNULL(?, humedad_cafe), altura_MSNM = IFNULL(?, altura_MSNM), tipo_secado = IFNULL(?, tipo_secado), observaciones = IFNULL(?, observaciones), fk_lote = IFNULL(?, fk_lote) WHERE codigo = ?', [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, codigo]);
+
+        if (result.affectedRows >  0) {
+            res.status(200).json({ message: 'La muestra ha sido actualizada correctamente.' });
         } else {
-            res.status(404).json({
-                "mensaje": "No se pudo actualizar la publicación, ¡intente de nuevo!"
-            });
+            res.status(400).json({ message: 'No se pudo actualizar la muestra. Por favor, verifica los datos proporcionados.' });
         }
-
     } catch (error) {
-        res.status(500).json({
-            "mensaje": error
-        });
+        console.error(error);
+        res.status(500).json({ message: 'Error al intentar actualizar la muestra. Por favor, inténtalo de nuevo más tarde.' });
     }
-}
+};
+
 
 // desactivar muestras}
 
 export const desactivarMuestras = async (req, res) => {
     try {
-        const { codigo } = req.body; // Corregido de 'codigo' a 'codigo'
-        const [result] = await pool.query("DELETE FROM muestras WHERE codigo = ?", [codigo]);
+        const { codigo } = req.params; // Corregido de 'codigo' a 'codigo'
+        const {estado} = req.body
+        const [result] = await pool.query("UPDATE muestras SET estado = ? WHERE codigo = ?", [estado, codigo]);
 
         if (result.affectedRows >  0) {
             res.status(200).json({

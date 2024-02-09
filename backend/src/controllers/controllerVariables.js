@@ -50,48 +50,30 @@ export const CrearVariable = async (req, res) => {
 
 export const ActualizarVariable = async (req, res) => {
     try {
-        const { codigo, nombre, fk_tipo_analisis, estado } = req.body;
-        
-        // se asegura de que el valor sea numerico
-        if (!Number.isInteger(codigo)) {
-            return res.status(400).json({
-                "mensaje": "El campo 'codigo' debe ser un número entero."
-            });
-        }
-        
-        const [oldPost] = await pool.query("select * from variables where codigo=?", [codigo]);
-        if (!oldPost || oldPost.length ===   0) {
-            return res.status(404).json({
-                "mensaje": "No se encontró la variable con el código proporcionado."
-            });
-        }
-        
-        // Realiza la actualización.
-        const [resultado] = await pool.query("update variables set nombre=?, fk_tipo_analisis=?, estado=? where codigo=?", [nombre, fk_tipo_analisis, estado, codigo]);
+        const { codigo } = req.params;
+        const { nombre, fk_tipo_analisis } = req.body;
 
-        if (resultado.affectedRows >   0) {
-            res.status(200).json({
-                "mensaje": "La variable ha sido actualizada"
-            });
+        // La consulta debe tener placeholders para cada valor que se va a actualizar
+        const [result] = await pool.query('UPDATE variables SET nombre = IFNULL(?, nombre), fk_tipo_analisis = IFNULL(?, fk_tipo_analisis) WHERE codigo = ?', [nombre, fk_tipo_analisis, codigo]);
+
+        if (result.affectedRows >  0) {
+            res.status(200).json({ message: 'La variable ha sido actualizada correctamente.' });
         } else {
-            res.status(404).json({
-                "mensaje": "No se pudo actualizar la variable"
-            });
+            res.status(400).json({ message: 'No se pudo actualizar la variable. Por favor, verifica los datos proporcionados.' });
         }
-
     } catch (error) {
-        res.status(500).json({
-            "mensaje": error
-        });
+        console.error(error);
+        res.status(500).json({ message: 'Error al intentar actualizar la variable. Por favor, inténtalo de nuevo más tarde.' });
     }
-}
+};
 
 //activar desactivar variables 
 
 export const desactivarVariable = async (req, res) => {
     try {
-        const { codigo} = req.body; // Cambiado de 'codigo' a 'codigo'
-        const [result] = await pool.query("DELETE FROM variables WHERE codigo = ?", [codigo]);
+        const {codigo} = req.params; // Cambiado de 'codigo' a 'codigo'
+        const {estado} = req.body
+        const [result] = await pool.query("UPDATE variables  SET estado= ? WHERE codigo = ?", [estado, codigo]);
 
         if (result.affectedRows > 0) {
             res.status(200).json({

@@ -3,11 +3,13 @@ import { listarMuestras, CrearMuestra, actualizarMuestra, desactivarMuestras } f
 
 const RouteMuestras = Router();
 
+//localhost:3000/actualizarMuestra
+
 RouteMuestras.get("/listarMuestra", listarMuestras);
 RouteMuestras.post("/crearMuestra", CrearMuestra);
 RouteMuestras.put("/actualizarMuestra/:codigo", actualizarMuestra);
 
 // Cambiar la solicitud PUT a DELETE para desactivarMuestras
-RouteMuestras.delete("/desactivarMuestra", desactivarMuestras);
+RouteMuestras.put("/desactivarMuestra/:codigo", desactivarMuestras);
 
 export default RouteMuestras;

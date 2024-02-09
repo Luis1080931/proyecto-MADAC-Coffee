@@ -5,7 +5,7 @@ const routeVariables = Router()
 
 routeVariables.get("/listarvariable", listarVariables)
 routeVariables.post("/crearvariable", CrearVariable)
-routeVariables.put("/actualizarvariable", ActualizarVariable)
-routeVariables.delete("/desactivarVariable", desactivarVariable)
+routeVariables.put("/actualizarvariable/:codigo", ActualizarVariable)
+routeVariables.put("/desactivarVariable/:codigo", desactivarVariable)
 
 export default routeVariables
