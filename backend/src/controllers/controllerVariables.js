@@ -94,3 +94,25 @@ export const desactivarVariable = async (req, res) => {
         });
     }
 }
+
+//buscar variable 
+export const buscarvariable = async (req, res) => {
+    try {
+        const { nombre } = req.body; //esta es la caracterica para buscar
+        const [result] = await pool.query("SELECT * FROM variables WHERE nombre LIKE ?", [`%${nombre}%`]);
+                                                        //nombre tabla
+        if (result.length > 0) {
+            res.status(200).json(result);
+        } else {
+            res.status(404).json({
+                status: 404,
+                message: 'No se encontraron resultados para la búsqueda'
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: error
+        });
+    }
+}

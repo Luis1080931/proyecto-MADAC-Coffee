@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { listarMuestras, CrearMuestra, actualizarMuestra, desactivarMuestras } from "../controllers/controllerMuestras.js";
+import { listarMuestras, CrearMuestra, actualizarMuestra, desactivarMuestras, BuscarMuestra } from "../controllers/controllerMuestras.js";
 
 const RouteMuestras = Router();
 
@@ -7,9 +7,9 @@ const RouteMuestras = Router();
 
 RouteMuestras.get("/listarMuestra", listarMuestras);
 RouteMuestras.post("/crearMuestra", CrearMuestra);
-RouteMuestras.put("/actualizarMuestra/:codigo", actualizarMuestra);
 
-// Cambiar la solicitud PUT a DELETE para desactivarMuestras
+RouteMuestras.put("/actualizarMuestra/:codigo", actualizarMuestra);
 RouteMuestras.put("/desactivarMuestra/:codigo", desactivarMuestras);
+RouteMuestras.get("/buscarmuestra", BuscarMuestra);
 
 export default RouteMuestras;
