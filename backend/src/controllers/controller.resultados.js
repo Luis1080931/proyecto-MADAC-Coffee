@@ -20,7 +20,7 @@ export const listarResultados = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({
-            message: 'Error en listar los resultados' + error
+            message: 'Error del servidor' + error
         })
     }
 }
@@ -125,12 +125,21 @@ export const buscarResultados = async (req, res) => {
         let sql = `SELECT fecha, fk_analisis AS analisis, fk_variables AS variable, observaciones, valor FROM resultados JOIN variables ON fk_variables = codigo`
 
         const[result] = await pool.query(sql, [idResultado])
-        res.status(200).json(result)
+
+        if(result.length>0){
+            res.status(200).json(result)
+        }else{
+            res.status(400).json({
+                'status': 400,
+                'message': 'No se encontró el resultado'
+            })
+        }
+        
         
 
     } catch (error) {
         res.status(500).json({
-            message: 'Error en la consulta' + error
+            message: 'Error del servidor' + error
         })
     }
 }
