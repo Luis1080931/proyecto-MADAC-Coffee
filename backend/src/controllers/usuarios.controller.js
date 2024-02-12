@@ -1,7 +1,6 @@
 //registrar, editar, actualizar, desactivar.
 
 import { pool } from "../database/conexion.js"
-import { query } from "express" 
 
 
 //Registrar
@@ -29,6 +28,50 @@ export const registrarUsuarios = async (req,res)=>{
     } catch (error) {
         res.status(500).json({
             "mensaje": error
+        })
+    }
+}
+
+// listar
+export const listarUsuarios=async(req,res)=>{
+    try {
+
+        const [usuarios] = await pool.query("SELECT * FROM usuarios")
+
+        if (usuarios.length>0) {
+            res.status(200).json({usuarios})
+        } else {
+        res.status(404).json({
+            "mensaje":"No hay usuarios registrados"
+        })
+        }
+        
+        
+    } catch (error) {
+        res.status(500).json({
+            "mensaje":error
+        })
+    }
+}
+// Buscar
+
+export const buscarUsuarios=async(req,res)=>{
+    try {
+
+        const {identificacion} =req.params
+
+        const [usuario] =await pool.query("SELECT * FROM usuarios where identificacion = ?",[identificacion])
+        
+        if (usuario.length>0) {
+            res.status(200).json(usuario)
+        } else {
+            res.status(404).json({
+                "mensaje":"el usuario no existe"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            "mensaje":error
         })
     }
 }

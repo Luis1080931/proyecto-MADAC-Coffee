@@ -6,7 +6,7 @@ import routeLotes from './src/routes/lotes.routes.js'
 import routeResultados from './src/routes/route.resultados.js'
 import routeMuestras from './src/routes/routeMuestras.js'
 import routeVariables from './src/routes/routeVariables.js'
-import routeUsuarios from './src/routes/usuarios.route.js'
+import routeUsuarios from "./src/routes/usuarios.route.js";
 import routeVariedades from './src/routes/variedades.routes.js'
 
 const servidor = express()
