@@ -16,8 +16,11 @@ servidor.use("/muestras", RouteMuestras)
 servidor.set('view engine', 'ejs')
 servidor.set('views', './views');
 
-servidor.get('/documents', (req,res)=>{
-    res.render('documents.ejs');
+servidor.get('/documentvariable', (req,res)=>{
+    res.render('documentVariable.ejs');
+})
+servidor.get('/documentmuestra', (req,res)=>{
+    res.render('documentMuestra.ejs');
 })
 
 //public styles css
