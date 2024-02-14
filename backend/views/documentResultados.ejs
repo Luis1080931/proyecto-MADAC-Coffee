@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Document API MADAC-Coffee </title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <h1> Documenyacion API MADAC-Coffee </h1>
+    <hr>
+    <h2> Modulo resultados </h2>
+    <hr>
+    <h3> Requerimiento listar resultados: </h3>
+    <table>
+        <tr>
+            <td>NUMERO</td>
+            <td> 1 </td>
+        </tr>
+        <tr>
+            <td>NOMBRE DEL SERVICIO</td>
+            <td>LISTAR RESULTADOS</td>
+        </tr>
+        <tr>
+            <td>URL</td>
+            <td>/resultados/listar</td>
+        </tr>
+        <tr>
+            <td>DESCRIPCIÓN</td>
+            <td>PERMITE LISTAR TODOS RESULTADOS REGISTRADOS EN LA BASE DE DATOS</td>
+        </tr>
+        <tr>
+            <td>VERBO HTTP</td>
+            <td>GET</td>
+        </tr>
+        <tr>
+            <td>HEADER</td>
+            <td>NULL</td>
+        </tr>
+        <tr>
+            <td>USUARIO</td>
+            <td>ADMINISTRADOR</td>
+        </tr>
+        <tr>
+            <td>PETICIÓN BODY-FORM-DATA </td>
+            <td>NULL</td>
+        </tr>
+        <tr>
+            <td>RESPUESTA JSON</td>
+            <td>
+                CORRECTO :
+                STATUS: 200
+                JSON : 
+                {
+
+                },
+
+                INCORRECTO : 
+                STATUS : 404
+                BODY JSON : 
+                {
+                    STATUS: 404
+                    MESSAGE: NO HAY RESULTADOS REGISTRADOS
+                },
+
+                ERROR:
+                STATUS: 500
+                BODY: JSON :
+                {
+                    STATUS: 500
+                    MESSAGE: ERROR DEL SERVIDOR + ERROR
+                }
+            </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento registrar resultado </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 2 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Registrar resultado </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /resultados/registrar </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite registrar nuevos resultados</td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Post </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td>
+                Json : 
+                {
+                    "fecha": "2024-02-12",
+                    "fk_analisis": 1,
+                    "fk_variables": 1,
+                    "valor": 1,
+                    "observaciones": "tus observaciones"
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>Respuesta Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Json: 
+                {
+
+                },
+
+                Incorrecto:
+                Status: 400
+                Body Json: 
+                {
+                    Status: 400
+                    Message: No se registro el resultado 
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+            </td>
+        </tr>
+    </table>
+    
+    <hr>
+
+    <h3> Requerimiento actualizar resultado </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 3 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Actualizar resultados </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /resultados/actualizar/:id </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite actualizar resultados registrados en la base de datos </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Put </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td>
+                Json : 
+                {
+                    "fecha": "2024-01-12"
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto:
+                Status: 200
+                Body Json:
+                {
+                    Status: 200,
+                    Message: Se actualizó con exito el resultado
+                },
+
+                Incorrecto:
+                Status: 400
+                Body json: 
+                {
+                    Status: 400,
+                    Message: No fue posible actualizar el resultado
+                },
+
+                Error:
+                Status: 500,
+                Body Json :
+                {
+                    Status: 500,
+                    Message: Error del servidor + error
+                }
+            </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento eliminar resultado </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 4 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Eliminar resultado </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /resultados/eliminar/:idResultado </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite eliminar resultados de la base de datos </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Delete </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Body Json: 
+                {
+                    Status: 200,
+                    Message: Se elimino con exito el resultado
+                },
+
+                Incorrecto:
+                Status: 400
+                Body Json: 
+                {
+                    Status: 400,
+                    Message: Error al intentar eliminar el resultado
+                },
+
+                Error:
+                Status: 500
+                Body Json: 
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+            </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento buscar resultados </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 5 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Buscar resultado </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /resultados/buscar/:idResultado </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite buscar un resultado en especifico por su id </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Get </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Peticion body-form-data </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Body Json:
+                {
+                     
+                },
+
+                Incorrecto:
+                Status: 400
+                Body Json:
+                {
+                    Status: 400,
+                    Message: No se encontró el resultado
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error del servidor + error
+                }
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
