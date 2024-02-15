@@ -9,6 +9,7 @@ import routeVariables from './src/routes/routeVariables.js'
 import routeUsuarios from "./src/routes/usuarios.route.js";
 import routeVariedades from './src/routes/variedades.routes.js'
 
+
 const servidor = express()
 
 servidor.use(body_parser.json())
