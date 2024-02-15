@@ -1,6 +1,17 @@
 * {
     margin: 0;
     padding: 0;
-    background-color: rgb(230, 136, 14);
+    background-color: rgb(248, 243, 236);
+}
+
+table, td {
+    border: 2px solid rgb(197, 194, 194);
+}
+table {
+    width: 600px;
+    height: 50px;
+}
+td {
+    height: 25px;
 }
 
