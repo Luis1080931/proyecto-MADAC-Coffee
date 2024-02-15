@@ -90,7 +90,7 @@ export const desactivarVariable = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             status: 500,
-            message: error.message
+            message: 'Error del servidor' + error
         });
     }
 }
@@ -112,7 +112,7 @@ export const buscarvariable = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             status: 500,
-            message: error
+            message: 'Error del servidor' + error
         });
     }
 }
