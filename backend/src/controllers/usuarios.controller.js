@@ -76,8 +76,8 @@ export const buscarUsuarios=async(req,res)=>{
     }
 }
 
-//Editar
-export const editarUsuarios = async (req,res)=>{
+//Actualizar
+export const actualizarUsuarios = async (req,res)=>{
 
     try {
         const { identificacion } = req.params
@@ -97,14 +97,14 @@ export const editarUsuarios = async (req,res)=>{
 
             res.status(201).json(
                 {
-                    "mensaje": "Usuario editado con exito!!"
+                    "mensaje": "Usuario actualizado con exito!!"
                 }
             )
             
         } else{
             res.status(404).json(
                 {
-                    "mensaje": "No se pudo editar el usuario!"
+                    "mensaje": "No se pudo actualizar el usuario!"
                 }
             )
         }

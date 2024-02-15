@@ -5,7 +5,7 @@ const router = Router()
 
 router.post("/registrar", registrarUsuarios)
 
-router.put("/actualizar/:identificacion", editarUsuarios)
+router.put("/actualizar/:identificacion", actualizarUsuarios)
 
 router.put("/desactivar/:identificacion", desactivarUsuarios)
 
