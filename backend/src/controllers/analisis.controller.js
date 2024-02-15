@@ -1,12 +1,11 @@
 import { pool } from '../database/conexion.js'
-import { query } from 'express' 
 /*
     * X Registrar // POST
     * X Editar // PUT
     * X Desactivar // POST
 */
 
-
+//Registrar
 export const registrarAnalisis = async (req, res) => {
     try {
         const { fecha, analista, fk_muestra, fk_tipo_analisis, estado } = req.body
@@ -16,11 +15,11 @@ export const registrarAnalisis = async (req, res) => {
         // 1, 2, 3 = Que hizo algo en la base de datos
         if (resultado.affectedRows > 0) {
             res.status(201).json({
-                "mensaje": "Analisis creado con exito!!!!!"
+                "mensaje": "Analisis creado con exito!"
             })
         } else {
             res.status(404).json({
-                "mensaje": "No se pudo crear el analisis :c"
+                "mensaje": "No se pudo crear el analisis"
             })
         }
 
@@ -31,7 +30,8 @@ export const registrarAnalisis = async (req, res) => {
     }
 }
 
-export const editarAnalisis = async (req, res) => {
+//Actualizar
+export const actualizarAnalisis = async (req, res) => {
     try {
         const { codigo } = req.params
         const { fecha, analista, fk_muestra, fk_tipo_analisis, estado } = req.body
@@ -41,11 +41,11 @@ export const editarAnalisis = async (req, res) => {
 
         if (resultado.affectedRows > 0) {
             res.status(201).json({
-                "mensaje": "Analisis editado con exito!!!!!"
+                "mensaje": "Analisis actualizado con exito!"
             })
         } else {
             res.status(404).json({
-                "mensaje": "No se puedo editar el analisis"
+                "mensaje": "No se pudo actualizar el analisis"
             })
         }
 
@@ -56,7 +56,7 @@ export const editarAnalisis = async (req, res) => {
     }
 }
 
-
+//Desactivar
 export const desactivarAnalisis = async (req, res) => {
     try {
         const { codigo } = req.params
@@ -68,13 +68,55 @@ export const desactivarAnalisis = async (req, res) => {
             })
         } else {
             res.status(404).json({
-                "mensaje": "No se puedo desactivar el analisis"
+                "mensaje": "No se pudo desactivar el analisis"
             })
         }
 
     } catch (error) {
         res.status(500).json({
             "mensaje": error
+        })
+    }
+}
+//Listar
+export const listarAnalisis=async(req,res)=>{
+    try {
+
+        const [analisis] = await pool.query("SELECT * FROM analisis")
+
+        if (analisis.length>0) {
+            res.status(200).json({analisis})
+        } else {
+        res.status(404).json({
+            "mensaje":"No hay analisis registrados"
+        })
+        }
+        
+        
+    } catch (error) {
+        res.status(500).json({
+            "mensaje":error
+        })
+    }
+}
+//Buscar
+export const buscarAnalisis=async(req,res)=>{
+    try {
+
+        const {codigo} =req.params
+
+        const [analisis] =await pool.query("SELECT * FROM analisis where codigo = ?",[codigo])
+        
+        if (analisis.length>0) {
+            res.status(200).json(analisis)
+        } else {
+            res.status(404).json({
+                "mensaje":"El analisis no existe"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            "mensaje":error
         })
     }
 }
