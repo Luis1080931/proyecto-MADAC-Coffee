@@ -23,6 +23,16 @@ servidor.use('/analisis', routeAnalisis)
 servidor.use('/variables', routeVariables)
 servidor.use('/resultados', routeResultados)
 
+servidor.set('view engine', 'ejs')
+
+servidor.set('views', './views')
+
+servidor.use(express.static('./public'))
+
+servidor.get('/document', (req, res) => {
+    res.render('documents.ejs')
+})
+
 //listen 
 servidor.listen(3000, () => {
     console.log('Servidor rodando na porta 3000')
