@@ -9,7 +9,7 @@ routeUsuarios.put("/actualizar/:identificacion", actualizarUsuarios)
 
 routeUsuarios.put("/desactivar/:identificacion", desactivarUsuarios)
 
-routeUsuarios.post("/listar", listarUsuarios)
+routeUsuarios.get("/listar", listarUsuarios)
 
 routeUsuarios.post("/buscar/:identificacion",buscarUsuarios)
 
