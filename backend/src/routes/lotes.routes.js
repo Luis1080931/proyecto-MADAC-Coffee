@@ -6,5 +6,5 @@ routerLotes.get("/listar",getLotes)
 routerLotes.get("/buscar/:codigo",getLote)
 routerLotes.post("/registrar",postLotes)
 routerLotes.put("/desactivar/:codigo",activar_desactivar_Lotes)
-routerLotes.put('/actualizar/:codigo',actualizarLotes)
+routerLotes.patch('/actualizar/:codigo',actualizarLotes)
 export default routerLotes;
