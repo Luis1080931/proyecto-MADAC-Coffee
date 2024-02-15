@@ -15,61 +15,69 @@
     <h3> Requerimiento listar resultados: </h3>
     <table>
         <tr>
-            <td>NUMERO</td>
+            <td> Numero </td>
             <td> 1 </td>
         </tr>
         <tr>
-            <td>NOMBRE DEL SERVICIO</td>
-            <td>LISTAR RESULTADOS</td>
+            <td>Nombre del servicio </td>
+            <td>Listar resultados</td>
         </tr>
         <tr>
             <td>URL</td>
             <td>/resultados/listar</td>
         </tr>
         <tr>
-            <td>DESCRIPCIÓN</td>
-            <td>PERMITE LISTAR TODOS RESULTADOS REGISTRADOS EN LA BASE DE DATOS</td>
+            <td>Descripción</td>
+            <td>Permite listar todos los resultados registrados en la base de datos</td>
         </tr>
         <tr>
-            <td>VERBO HTTP</td>
+            <td>Verbo HTTP</td>
             <td>GET</td>
         </tr>
         <tr>
-            <td>HEADER</td>
-            <td>NULL</td>
+            <td>Header</td>
+            <td>Null</td>
         </tr>
         <tr>
-            <td>USUARIO</td>
-            <td>ADMINISTRADOR</td>
+            <td>Usuario</td>
+            <td>Administrador</td>
         </tr>
         <tr>
-            <td>PETICIÓN BODY-FORM-DATA </td>
-            <td>NULL</td>
+            <td>Petición body-form-data </td>
+            <td>Null</td>
         </tr>
         <tr>
-            <td>RESPUESTA JSON</td>
+            <td>Respuesta json</td>
             <td>
-                CORRECTO :
-                STATUS: 200
-                JSON : 
+                Correcto :
+                Status: 200
+                Json : 
                 {
-
+                    [
+                        {
+                            "fecha": "2024-02-07T05:00:00.000Z",
+                            "analisis": 3,
+                            "variable": "Peso C.P.S (g)",
+                            "observaciones": "Peso acorde",
+                            "valor": "98"
+                        }
+                    ]
                 },
 
-                INCORRECTO : 
-                STATUS : 404
-                BODY JSON : 
+                Incorrecto : 
+                Statu: 404
+                Body Json : 
                 {
-                    STATUS: 404
-                    MESSAGE: NO HAY RESULTADOS REGISTRADOS
+                    Status: 404
+                    Message: 'No hay resultados registrados'
                 },
 
-                ERROR:
-                STATUS: 500
-                BODY: JSON :
+                Error:
+                Status: 500
+                Body Json :
                 {
-                    STATUS: 500
-                    MESSAGE: ERROR DEL SERVIDOR + ERROR
+                    Status: 500
+                    Message: 'Error del servidor' + error
                 }
             </td>
         </tr>
@@ -165,7 +173,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /resultados/actualizar/:id </td>
+            <td> /resultados/actualizar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -237,7 +245,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /resultados/eliminar/:idResultado </td>
+            <td> /resultados/eliminar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -304,7 +312,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /resultados/buscar/:idResultado </td>
+            <td> /resultados/buscar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -333,7 +341,15 @@
                 Status: 200
                 Body Json:
                 {
-                     
+                    [
+                        {
+                            "fecha": "2024-02-07T05:00:00.000Z",
+                            "analisis": 3,
+                            "variable": "Peso C.P.S (g)",
+                            "observaciones": "Peso acorde",
+                            "valor": "98"
+                        }
+                    ]
                 },
 
                 Incorrecto:
