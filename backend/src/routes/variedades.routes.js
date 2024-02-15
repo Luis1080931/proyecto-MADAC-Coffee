@@ -1,11 +1,14 @@
 import { Router } from 'express'
-import { desactivarVariedades, editarVariedades, registrarVariedades} from '../controllers/variedades.controller.js'
+import { desactivarVariedades, actualizarVariedades, registrarVariedades, listarVariedades, buscarVariedades} from '../controllers/variedades.controller.js'
 
-const router = Router()
+const routeVariedades = Router()
 
 // localhost:3333/variedades/#
-router.post("/variedades", registrarVariedades)
-router.put("/variedades/:codigo", editarVariedades)
-router.post("/variedades/:codigo", desactivarVariedades)
+routeVariedades.post("/registrar", registrarVariedades)
+routeVariedades.put("/actualizar/:codigo", actualizarVariedades)
+routeVariedades.put("/desactivar/:codigo", desactivarVariedades)
+routeVariedades.get("/listar", listarVariedades)
+routeVariedades.get("/buscar/:codigo", buscarVariedades)
 
-export default router
+
+export default routeVariedades

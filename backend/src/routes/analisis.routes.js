@@ -1,11 +1,13 @@
 import { Router } from 'express'
-import { desactivarAnalisis, editarAnalisis, registrarAnalisis } from '../controllers/analisis.controller.js'
+import { desactivarAnalisis, actualizarAnalisis, registrarAnalisis, listarAnalisis, buscarAnalisis } from '../controllers/analisis.controller.js'
 
-const router = Router()
+const routeAnalisis = Router()
 
 // localhost:3333/analisis/1
-router.post("/analisis", registrarAnalisis)
-router.put("/analisis/:codigo", editarAnalisis)
-router.post("/analisis/:codigo", desactivarAnalisis)
+routeAnalisis.post("/registrar", registrarAnalisis)
+routeAnalisis.put("/actualizar/:codigo", actualizarAnalisis)
+routeAnalisis.put("/desactivar/:codigo", desactivarAnalisis)
+routeAnalisis.get("/listar", listarAnalisis)
+routeAnalisis.get("/buscar/:codigo", buscarAnalisis)
 
-export default router
+export default routeAnalisis
