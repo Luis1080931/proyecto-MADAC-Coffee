@@ -121,16 +121,16 @@ export const buscarResultados = async (req, res) => {
 
     try {
         
-        let idResultado = req.params.idResultado
-        let sql = `SELECT fecha, fk_analisis AS analisis, fk_variables AS variable, observaciones, valor FROM resultados JOIN variables ON fk_variables = codigo`
+        let {idResultado} = req.params
+        let sql = `SELECT fecha, fk_analisis AS analisis, fk_variables AS variable, observaciones, valor FROM resultados AS r JOIN variables ON fk_variables = v_codigo WHERE r.codigo = ?`
 
         const[result] = await pool.query(sql, [idResultado])
 
         if(result.length>0){
             res.status(200).json(result)
         }else{
-            res.status(400).json({
-                'status': 400,
+            res.status(404).json({
+                'status': 404,
                 'message': 'No se encontró el resultado'
             })
         }
