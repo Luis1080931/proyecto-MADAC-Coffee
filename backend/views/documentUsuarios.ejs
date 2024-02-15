@@ -12,11 +12,87 @@
     <hr>
     <h2> Modulo Usuarios </h2>
     <hr>
+    
+    <h3> Requerimiento registrar usuarios </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 1 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Registrar usuarios </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /usuarios/registrar </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite registrar nuevos usuarios al sistema</td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Post </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td>
+                Json : 
+                {
+                    "identificacion":"1004083010",
+                    "telefono":"311234523",
+                    "nombre":"lucas",
+                    "correo_electronico":"lucas@gmail.com",
+                    "tipo_usuario":"catador",
+                    "estado":"activo"
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>Respuesta Json </td>
+            <td>
+                Correcto: 
+                Status: 201
+                Json: 
+                {
+                    "mensaje": "Usuario registrado con exito!!"
+                },
+
+                Incorrecto:
+                Status: 404
+                Body Json: 
+                {
+                    "mensaje": "No se pudo registrar el usuario!"
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    "mensaje": error
+                }
+            </td>
+        </tr>
+    </table>
+
+
+    <hr>
+
     <h3> Requerimiento listar usuarios: </h3>
     <table>
         <tr>
             <td>Numero</td>
-            <td> 1 </td>
+            <td> 2 </td>
         </tr>
         <tr>
             <td>Nombre del servicio</td>
@@ -53,6 +129,15 @@
                 Status: 201
                 Json : 
                 {
+                    "usuarios": [                   
+                        {
+                          "identificacion": 1004083010,
+                          "telefono": "311234523",
+                          "nombre": "lucas",
+                          "correo_electronico": "lucas@gmail.com",
+                          "tipo_usuario": "catador",
+                          "estado": "activo"
+                        }
 
                 },
 
@@ -72,81 +157,7 @@
             </td>
         </tr>
     </table>
-
-
-    <hr>
-
-    <h3> Requerimiento registrar usuarios </h3>
-
-    <table>
-        <tr>
-            <td> Numero </td>
-            <td> 2 </td>
-        </tr>
-        <tr>
-            <td> Nombre del servicio </td>
-            <td> Registrar usuarios </td>
-        </tr>
-        <tr>
-            <td> Url </td>
-            <td> /usuarios/registrar </td>
-        </tr>
-        <tr>
-            <td> Descripción </td>
-            <td> Permite registrar nuevos usuarios al sistema</td>
-        </tr>
-        <tr>
-            <td> Verbo HTTP </td>
-            <td> Post </td>
-        </tr>
-        <tr>
-            <td> Header </td>
-            <td> Null </td>
-        </tr>
-        <tr>
-            <td> Usuario </td>
-            <td> Administrador </td>
-        </tr>
-        <tr>
-            <td> Petición body-form-data </td>
-            <td>
-                Json : 
-                {
-                    "identificacion":"1004083010"
-                    "telefono":"311234523"
-                    "nombre":"lucas"
-                    "correo_electronico":"lucas@gmail.com"
-                    "tipo_usuario":"catador"
-                    "estado":"activo"
-                }
-            </td>
-        </tr>
-        <tr>
-            <td>Respuesta Json </td>
-            <td>
-                Correcto: 
-                Status: 201
-                Json: 
-                {
-                    "mensaje": "Usuario registrado con exito!!"
-                },
-
-                Incorrecto:
-                Status: 404
-                Body Json: 
-                {
-                    "mensaje": "No se pudo registrar el usuario!"
-                },
-
-                Error:
-                Status: 500
-                Body Json:
-                {
-                    "mensaje": error
-                }
-            </td>
-        </tr>
-    </table>
+    
     
     <hr>
 
@@ -163,7 +174,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /usuarios/actualizar/:identificacion </td>
+            <td> /usuarios/actualizar/1004083010 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -186,11 +197,10 @@
             <td>
                 Json : 
                 {
-                    "identificacion":"1004083010"
-                    "telefono":"3112346783"
-                    "nombre":"lucas"
-                    "correo_electronico":"lucas123@gmail.com"
-                    "tipo_usuario":"catador"
+                    "telefono":"3112346783",
+                    "nombre":"lucas",
+                    "correo_electronico":"lucas123@gmail.com",
+                    "tipo_usuario":"catador",
                     "estado":"activo"
                 }
             </td>
@@ -202,7 +212,7 @@
                 Status: 201
                 Body Json:
                 {
-                    S"mensaje": "Usuario actualizado con exito!!"
+                    "mensaje": "Usuario actualizado con exito!!"
                 },
 
                 Incorrecto:
@@ -237,7 +247,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /usuarios/desactivar/:identificacion </td>
+            <td> /usuarios/desactivar/1004083010 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -301,7 +311,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /usuarios/buscar/:identificacion </td>
+            <td> /usuarios/buscar/1004083010 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -330,7 +340,12 @@
                 Status: 201
                 Body Json:
                 {
-                     
+                    "identificacion": 1004083010,
+                    "telefono": "3112346783",
+                    "nombre": "lucas",
+                    "correo_electronico": "lucas123@gmail.com",
+                    "tipo_usuario": "catador",
+                    "estado": "inactivo"
                 },
 
                 Incorrecto:
