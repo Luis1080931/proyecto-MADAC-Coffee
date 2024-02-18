@@ -7,9 +7,8 @@ import { pool } from "../database/conexion.js"
 export const registrarUsuarios = async (req,res)=>{
 
     try {
-        const{ identificacion, telefono, nombre, correo_electronico, tipo_usuario, estado
-        } = req.body
-        const [resultado] = await pool.query("INSERT INTO usuarios(identificacion, telefono, nombre, correo_electronico, tipo_usuario, estado) VALUES(?, ?, ?, ?, ?, ?)",[identificacion, telefono, nombre, correo_electronico, tipo_usuario, estado])
+        const{ identificacion, telefono, nombre, correo_electronico, tipo_usuario, password, estado} = req.body
+        const [resultado] = await pool.query("INSERT INTO usuarios(identificacion, telefono, nombre, correo_electronico, tipo_usuario, password, estado) VALUES(?, ?, ?, ?, ?, ?, ?)",[identificacion, telefono, nombre, correo_electronico, tipo_usuario, password, estado])
         if (resultado.affectedRows > 0) {
 
             res.status(201).json(
