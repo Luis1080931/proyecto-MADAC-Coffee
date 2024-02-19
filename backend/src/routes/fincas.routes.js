@@ -6,6 +6,6 @@ routeFincas.get("/listar",getFincas)
 routeFincas.get("/buscar/:codigo",getFinca)
 routeFincas.post("/registrar",postFincas)
 routeFincas.put("/desactivar/:codigo",activar_desactivar_Fincas)
-routeFincas.patch("/actualizar/:codigo",actualizarFincas)
+routeFincas.put("/actualizar/:codigo",actualizarFincas)
 
 export default routeFincas;

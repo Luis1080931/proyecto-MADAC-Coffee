@@ -6,7 +6,7 @@ const routeVariedades = Router()
 // localhost:3333/variedades/#
 routeVariedades.post("/registrar", registrarVariedades)
 routeVariedades.put("/actualizar/:codigo", actualizarVariedades)
-routeVariedades.post("/desactivar/:codigo", desactivarVariedades)
+routeVariedades.put("/desactivar/:codigo", desactivarVariedades)
 routeVariedades.get('/listar', listarVariedades)
 routeVariedades.get('/buscar/:codigo', buscarVariedades)
 

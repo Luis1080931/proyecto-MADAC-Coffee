@@ -34,10 +34,9 @@ export const registrarAnalisis = async (req, res) => {
 export const actualizarAnalisis = async (req, res) => {
     try {
         const { codigo } = req.params
-        const { fecha, analista, fk_muestra, fk_tipo_analisis, estado } = req.body
+        const { fecha, fk_analista, fk_muestra, fk_tipo_analisis, estado } = req.body
         
-        const [ analisisPasado ] = await pool.query("select * from analisis where codigo=?", [codigo])
-        const [ resultado ] = await pool.query(`update analisis set fecha=${fecha ? fecha : analisisPasado[0].fecha} fk_analista='${analista ? analista : analisisPasado[0].analista} fk_muestra=${fk_muestra ? fk_muestra : analisisPasado[0].fk_muestra} fk_tipo_analisis=${fk_tipo_analisis ? fk_tipo_analisis : analisisPasado[0].fk_tipo_analisis} estado=${estado ? estado : analisisPasado[0].estado} where codigo=? `, [codigo])
+        const[resultado] = await pool.query(`UPDATE analisis SET fecha=IFNULL(?,fecha), fk_analista=IFNULL(?,fk_analista), fk_muestra=IFNULL(?,fk_muestra), fk_tipo_analisis=IFNULL(?,fk_tipo_analisis), estado=IFNULL(?,estado) WHERE codigo= ?`,[fecha, fk_analista, fk_muestra, fk_tipo_analisis, estado, codigo]);
 
         if (resultado.affectedRows > 0) {
             res.status(201).json({

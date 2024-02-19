@@ -1,4 +1,5 @@
 import {pool} from "../database/conexion.js"
+import { query } from "express"
 
 export const listarMuestras = async (req, res) => {
     try {
@@ -61,8 +62,7 @@ export const actualizarMuestra = async (req, res) => {
 export const desactivarMuestras = async (req, res) => {
     try {
         const { codigo } = req.params; // Corregido de 'codigo' a 'codigo'
-        const {estado} = req.body
-        const [result] = await pool.query("UPDATE muestras SET estado = ? WHERE codigo = ?", [estado, codigo]);
+        const [result] = await pool.query("UPDATE muestras SET estado = 2 WHERE codigo = ?", [codigo]);
 
         if (result.affectedRows >  0) {
             res.status(200).json({
@@ -86,8 +86,9 @@ export const desactivarMuestras = async (req, res) => {
 
 export const BuscarMuestra = async (req, res) => {
     try {
-        const { fecha } = req.body; //esta es la caracterica
-        const [result] = await pool.query("SELECT * FROM muestras WHERE fecha LIKE ?", [`%${fecha}%`]);
+        const {codigo} = req.params; //esta es la caracterica
+        let sql = (`SELECT * FROM muestras WHERE codigo = ?`)
+        const [result] = await pool.query(sql, [codigo]);
                                                         //nombre tabla
         if (result.length > 0) {
             res.status(200).json(result);

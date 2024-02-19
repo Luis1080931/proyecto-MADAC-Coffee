@@ -54,7 +54,7 @@ export const ActualizarVariable = async (req, res) => {
         const { nombre, fk_tipo_analisis } = req.body;
 
         // La consulta debe tener placeholders para cada valor que se va a actualizar
-        const [result] = await pool.query('UPDATE variables SET nombre = IFNULL(?, nombre), fk_tipo_analisis = IFNULL(?, fk_tipo_analisis) WHERE codigo = ?', [nombre, fk_tipo_analisis, codigo]);
+        const [result] = await pool.query('UPDATE variables SET nombre = IFNULL(?, nombre), fk_tipo_analisis = IFNULL(?, fk_tipo_analisis) WHERE v_codigo = ?', [nombre, fk_tipo_analisis, codigo]);
 
         if (result.affectedRows >  0) {
             res.status(200).json({ message: 'La variable ha sido actualizada correctamente.' });
