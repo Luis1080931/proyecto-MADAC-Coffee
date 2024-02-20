@@ -23,7 +23,7 @@ export const getLote=async(req,res)=>{
             res.status(200).json(rows)
         }else{
             res.status(404).json({
-                message:"no se pudo registrar el lote"
+                message:"no se encontro ningun lote"
             })
         }
     }catch(error){
@@ -51,19 +51,18 @@ export const postLotes=async(req,res)=>{
         })
     }
 }
-export const activar_desactivar_Lotes=async(req,res)=>{
+export const desactivar_Lotes=async(req,res)=>{
     try{
         const {codigo}=req.params
-        const {estado}=req.body
-        const [result]=await pool.query('UPDATE lotes SET estado=IFNULL(?,estado) WHERE codigo=?',[estado,codigo])
+        const [result]=await pool.query('UPDATE lotes SET estado=2 WHERE codigo=?',[codigo])
         
         if(result.affectedRows > 0){
             res.status(200).json({
-                message:"lote desactivado exitosamente"})
+                message:"Lote desactivado exitosamente"})
         }
         else{
-            res.status(404).json({
-                message:"no encontramos a nadie con ese codigo"
+            res.status(403).json({
+                message:"no encontramos ningun lote"
             })
         }
     }catch(error){

@@ -15,7 +15,7 @@
         <tr><td>Descripcion</td><td>Permite al usuario listar a todas las fincas que se encuentren la base de datos</td></tr>
         <tr><td>Verbo HTTP</td><td>GET</td></tr>
         <tr><td>Header</td><td>Null</td></tr>
-        <tr><td>Usuarios</td><td>Todos</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
         <tr><td>Peticion JSON</td><td>""</td></tr>
         <tr><td>Respuesta JSON</td><td>
             Correcto:
@@ -70,7 +70,7 @@
           Incorrecto:
           Status:404
            JSON:{
-            message:"no encontramos a ninguna finca"
+            message:"no encontramos a la finca"
            }
            <br>
            Error:
@@ -101,13 +101,13 @@
             Correcto:
             Status:200
             json:{
-            "message": "finca registrado Correctamente"
+            "message": "finca registrado correctamente"
             }
           <br>
           Incorrecto:
           Status:404
            JSON:{
-            message:"no se pudo registrar Correctamente"
+            message:"no se pudo registrar correctamente"
            }
            <br>
            Error:
@@ -120,27 +120,23 @@
     <hr>
     <table>
         <tr><td>Nombre del servicio</td><td>Desactivar Finca</td></tr>
-        <tr><td>Uri</td><td>http://localhost:3000/descativar/5</td></tr>
+        <tr><td>Uri</td><td>http://localhost:3000/desactivar/5</td></tr>
         <tr><td>Descripcion</td><td>Permite al administrador desactivar la finca</td></tr>
         <tr><td>Verbo HTTP</td><td>PUT</td></tr>
         <tr><td>Header</td><td>Null</td></tr>
         <tr><td>Usuarios</td><td>Administrador</td></tr>
-        <tr><td>Peticion JSON</td><td>
-              {
-                "estado":2
-              }
-        </td></tr>
+        <tr><td>Peticion JSON</td><td>''</td></tr>
         <tr><td>Respuesta JSON</td><td>
             Correcto:
             Status:200
             json:{
-                "message": "finca registrado Correctamente"
+                "message": "finca desactivada correctamente"
             }
           <br>
           Incorrecto:
           Status:404
            JSON:{
-            message:"no encontramos a nadie"
+            message:"no se pudo desctivar correctamente"
            }
            <br>
            Error:
@@ -245,7 +241,7 @@
           Incorrecto:
           Status:404
            JSON:{
-            "message": "no encontramos el lote"
+            message:"no se encontro ningun lote"
            }
            <br>
            Error:
@@ -275,13 +271,13 @@
             Correcto:
             Status:200
             json:{
-            "message": "lote registrado Correctamente"
+            "message": "lote registrado correctamente"
             }
           <br>
           Incorrecto:
           Status:404
            JSON:{
-            message:"no se pudo registrar el lote"
+            message:"no se pudo registrar correctamente"
            }
            <br>
            Error:
@@ -294,16 +290,12 @@
     <hr>
     <table>
         <tr><td>Nombre del servicio</td><td>Desactivar lote</td></tr>
-        <tr><td>Uri</td><td>http://localhost:3000/descativar/3</td></tr>
+        <tr><td>Uri</td><td>http://localhost:3000/desactivar/3</td></tr>
         <tr><td>Descripcion</td><td>Permite al administrador desactivar el lote</td></tr>
         <tr><td>Verbo HTTP</td><td>PUT</td></tr>
         <tr><td>Header</td><td>Null</td></tr>
         <tr><td>Usuarios</td><td>Administrador</td></tr>
-        <tr><td>Peticion JSON</td><td>
-              {
-                "estado":2
-              }
-        </td></tr>
+        <tr><td>Peticion JSON</td><td>''</td></tr>
         <tr><td>Respuesta JSON</td><td>
             Correcto:
             Status:200
@@ -314,7 +306,7 @@
           Incorrecto:
           Status:404
            JSON:{
-            message:"no encontramos a nadie con ese codigo"
+            message:"no encontramos a nadie"
            }
            <br>
            Error:
@@ -341,7 +333,7 @@
             Correcto:
             Status:200
             json:{
-                "message": "finca actualizada exitosamente"
+                "message": "lote actualizado exitosamente"
             }
           <br>
           Incorrecto:

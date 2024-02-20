@@ -40,11 +40,11 @@ export const postFincas=async(req,res)=>{
         /*res.send es para que nos muestren los datos*/
         if(rows.affectedRows > 0){
             res.status(200).json({
-                message:"finca registrado Correctamente"
+                message:"finca registrado correctamente"
         })
         }else{
             res.status(404).json({
-                message:"no se pudo registrar Correctamente"
+                message:"no se pudo registrar correctamente"
         })
         }
     }catch(error){
@@ -53,19 +53,18 @@ export const postFincas=async(req,res)=>{
         })
     }
 }
-export const activar_desactivar_Fincas=async(req,res)=>{
+export const desactivar_Fincas=async(req,res)=>{
     try{
         const {codigo}=req.params
-        const {estado}=req.body
-        const [result]=await pool.query('UPDATE fincas SET estado=IFNULL(?,estado) WHERE codigo=?',[estado,codigo])
+        const [result]=await pool.query('UPDATE fincas SET estado=2 WHERE codigo=?',[codigo])
         
         if(result.affectedRows > 0){
             res.status(200).json({
-                message:"finca desactivado exitosamente"})
+                message:"Finca desactivada correctamente"})
         }
         else{
             res.status(404).json({
-                message:"no encontramos a nadie"
+                message:"no se pudo desctivar correctamente"
             })
         }
     }catch(error){
