@@ -64,19 +64,15 @@
                 Status: 201
                 Json: 
                 {
-                    "fecha": "2024/12/03"
-                    "analisista" "Juan"
-                    "fk_muestra" "1"
-                    "fk_tipo_analisis" "1"
-                    "estado": "activo"
-
+                    "Status": 200,
+                    "Message": "Analisis creado con exito!"
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body Json: 
                 {
-                    Status: 400
+                    Status: 403
                     Message: No se pudo crear el analisis
                 },
 
@@ -179,7 +175,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /analisis/actualizar/:codigo </td>
+            <td> /analisis/actualizar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -222,10 +218,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body json: 
                 {
-                    Status: 400,
+                    Status: 403,
                     Message: No se pudo actualizar el analisis
                 },
 
@@ -255,7 +251,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /analisis/desactivar/:codigo </td>
+            <td> /analisis/desactivar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -289,10 +285,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body Json: 
                 {
-                    Status: 400,
+                    Status: 403,
                     Message: No se pudo desactivar el analisis
                 },
 
@@ -322,7 +318,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /analisis/buscar/:codigo </td>
+            <td> /analisis/buscar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -359,10 +355,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 404
                 Body Json:
                 {
-                    Status: 400,
+                    Status: 404,
                     Message: El analisis no existe
                 },
 

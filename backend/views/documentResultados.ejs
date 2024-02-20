@@ -68,10 +68,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body Json: 
                 {
-                    Status: 400
+                    Status: 403
                     Message: No se registro el resultado 
                 },
 
@@ -214,10 +214,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body json: 
                 {
-                    Status: 400,
+                    Status: 403,
                     Message: No fue posible actualizar el resultado
                 },
 
@@ -234,7 +234,7 @@
 
     <hr>
 
-    <h3> Requerimiento eliminar resultado </h3>
+    <h3> Requerimiento desactivar resultado </h3>
 
     <table>
         <tr>
@@ -243,19 +243,19 @@
         </tr>
         <tr>
             <td> Nombre del servicio </td>
-            <td> Eliminar resultado </td>
+            <td> Desactivar resultado </td>
         </tr>
         <tr>
             <td> Url </td>
-            <td> /resultados/eliminar/1 </td>
+            <td> /resultados/desactivar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
-            <td> Permite eliminar resultados de la base de datos </td>
+            <td> Permite desactivar resultados de la base de datos </td>
         </tr>
         <tr>
             <td> Verbo HTTP </td>
-            <td> Delete </td>
+            <td> Put </td>
         </tr>
         <tr>
             <td> Header </td>
@@ -277,15 +277,15 @@
                 Body Json: 
                 {
                     Status: 200,
-                    Message: Se elimino con exito el resultado
+                    Message: Se desactivó con exito el resultado
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body Json: 
                 {
-                    Status: 400,
-                    Message: Error al intentar eliminar el resultado
+                    Status: 403,
+                    Message: Error al intentar desactivar el resultado
                 },
 
                 Error:
@@ -355,10 +355,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 404
                 Body Json:
                 {
-                    Status: 400,
+                    Status: 404,
                     Message: No se encontró el resultado
                 },
 

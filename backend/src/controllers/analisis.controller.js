@@ -18,7 +18,7 @@ export const registrarAnalisis = async (req, res) => {
                 "mensaje": "Analisis creado con exito!"
             })
         } else {
-            res.status(404).json({
+            res.status(403).json({
                 "mensaje": "No se pudo crear el analisis"
             })
         }
@@ -43,14 +43,14 @@ export const actualizarAnalisis = async (req, res) => {
                 "mensaje": "Analisis actualizado con exito!"
             })
         } else {
-            res.status(404).json({
+            res.status(403).json({
                 "mensaje": "No se pudo actualizar el analisis"
             })
         }
 
     } catch (error) {
         res.status(500).json({
-            "mensaje": error
+            message: "Error del servidor" + error
         })
     }
 }
@@ -66,7 +66,7 @@ export const desactivarAnalisis = async (req, res) => {
                 "mensaje": "Analisis desactivado con exito!"
             })
         } else {
-            res.status(404).json({
+            res.status(403).json({
                 "mensaje": "No se pudo desactivar el analisis"
             })
         }
@@ -94,7 +94,7 @@ export const listarAnalisis=async(req,res)=>{
         
     } catch (error) {
         res.status(500).json({
-            "mensaje":error
+            message: "Error del servidor" + error
         })
     }
 }

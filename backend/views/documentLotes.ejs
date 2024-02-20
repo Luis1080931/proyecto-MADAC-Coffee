@@ -15,7 +15,7 @@
     <table>
         <tr><td>Numero</td><td>16</td></tr>
         <tr><td>Nombre del servicio</td><td>registrar lote</td></tr>
-        <tr><td>Uri</td><td>http://localhost:3000/registrar</td></tr>
+        <tr><td>Url</td><td>/lotes/registrar</td></tr>
         <tr><td>Descripcion</td><td>Permite al administrador registrar nuevos lotes</td></tr>
         <tr><td>Verbo HTTP</td><td>POST</td></tr>
         <tr><td>Header</td><td>Null</td></tr>
@@ -32,13 +32,13 @@
             Correcto:
             Status:200
             json:{
-            "message": "lote registrado Correctamente"
+            "message": "Lote registrado correctamente"
             }
           <br>
           Incorrecto:
-          Status:404
+          Status:403
            JSON:{
-            message:"no se pudo registrar el lote"
+            message:"No se pudo registrar el lote"
            }
            <br>
            Error:
@@ -56,12 +56,12 @@
     <table>
         <tr><td>Numero</td><td>17</td></tr>
         <tr><td>Nombre del servicio</td><td>Listar lotes</td></tr>
-        <tr><td>Uri</td><td>http://localhost:3000/listar</td></tr>
+        <tr><td>Url</td><td>/lotes/listar</td></tr>
         <tr><td>Descripcion</td><td>Permite al usuario listar a todas los lostes que se encuentren en la base de datos</td></tr>
         <tr><td>Verbo HTTP</td><td>GET</td></tr>
         <tr><td>Header</td><td>Null</td></tr>
-        <tr><td>Usuarios</td><td>Todos</td></tr>
-        <tr><td>Peticion JSON</td><td>""</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>Null</td></tr>
         <tr><td>Respuesta JSON</td><td>
             Correcto:
             Status:200
@@ -79,7 +79,7 @@
           Incorrecto:
           Status:404
            JSON:{
-            message:"no encontramos a ningun lote"
+            message:"No encontramos a ningun lote"
            }
            <br>
            Error:
@@ -97,27 +97,25 @@
     <table>
         <tr><td>Numero</td><td>18</td></tr>
         <tr><td>Nombre del servicio</td><td>Desactivar lote</td></tr>
-        <tr><td>Uri</td><td>http://localhost:3000/descativar/3</td></tr>
+        <tr><td>Url</td><td>/lotes/descativar/3</td></tr>
         <tr><td>Descripcion</td><td>Permite al administrador desactivar el lote</td></tr>
         <tr><td>Verbo HTTP</td><td>PUT</td></tr>
         <tr><td>Header</td><td>Null</td></tr>
         <tr><td>Usuarios</td><td>Administrador</td></tr>
         <tr><td>Peticion JSON</td><td>
-              {
-                "estado":2
-              }
+              Null
         </td></tr>
         <tr><td>Respuesta JSON</td><td>
             Correcto:
             Status:200
             json:{
-                "message": "lote desactivado exitosamente"
+                "message": "Lote desactivado exitosamente"
             }
           <br>
           Incorrecto:
-          Status:404
+          Status:403
            JSON:{
-            message:"no encontramos a nadie con ese codigo"
+            message:"No se pudo desactivar el lote"
            }
            <br>
            Error:
@@ -132,9 +130,9 @@
     <table>
         <tr><td>Numero</td><td>19</td></tr>
         <tr><td>Nombre del servicio</td><td>Actualizar Lotes</td></tr>
-        <tr><td>Uri</td><td>http://localhost:3000/actualizar/3</td></tr>
+        <tr><td>Url</td><td>/lotes/actualizar/3</td></tr>
         <tr><td>Descripcion</td><td>Permite al administrador actualizar el lote</td></tr>
-        <tr><td>Verbo HTTP</td><td>PATCH</td></tr>
+        <tr><td>Verbo HTTP</td><td>Put</td></tr>
         <tr><td>Header</td><td>Null</td></tr>
         <tr><td>Usuarios</td><td>Administrador</td></tr>
         <tr><td>Peticion JSON</td><td>
@@ -146,13 +144,13 @@
             Correcto:
             Status:200
             json:{
-                "message": "finca actualizada exitosamente"
+                "message": "Lote actualizado exitosamente"
             }
           <br>
           Incorrecto:
-          Status:404
+          Status:403
            JSON:{
-            message:"no encontramos ningun lote"
+            message:"No se pudo actualizar el lote"
            }
            <br>
            Error:
@@ -169,12 +167,12 @@
     <table>
         <tr><td>Numero</td><td>20</td></tr>
         <tr><td>Nombre del servicio</td><td>buscar lote</td></tr>
-        <tr><td>Uri</td><td>http://localhost:3000/buscar/3</td></tr>
+        <tr><td>Url</td><td>/lotes/buscar/3</td></tr>
         <tr><td>Descripcion</td><td>Permite al administrador buscar el lote por medio de su codigo</td></tr>
         <tr><td>Verbo HTTP</td><td>GET</td></tr>
         <tr><td>Header</td><td>Null</td></tr>
         <tr><td>Usuarios</td><td>Administrador</td></tr>
-        <tr><td>Peticion JSON</td><td>""</td></tr>
+        <tr><td>Peticion JSON</td><td>Null</td></tr>
         <tr><td>Respuesta JSON</td><td>
             Correcto:
             Status:200
@@ -192,7 +190,7 @@
           Incorrecto:
           Status:404
            JSON:{
-            "message": "no encontramos el lote"
+            "message": "No se encontró ningun lote"
            }
            <br>
            Error:

@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <td> Nombre del servicio </td>
-            <td> Registrar analisis </td>
+            <td> Registrar variedades </td>
         </tr>
         <tr>
             <td> Url </td>
@@ -64,10 +64,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body Json: 
                 {
-                    Status: 400
+                    Status: 403
                     Message: No se pudo crear la variedad
                 },
 
@@ -169,7 +169,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /variedades/actualizar/:codigo </td>
+            <td> /variedades/actualizar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -209,10 +209,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body json: 
                 {
-                    Status: 400,
+                    Status: 403,
                     Message: No se pudo actualizar la variedad
                 },
 
@@ -242,7 +242,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /variedades/desactivar/:codigo </td>
+            <td> /variedades/desactivar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -276,10 +276,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body Json: 
                 {
-                    Status: 400,
+                    Status: 403,
                     Message: No se pudo desactivar la variedad
                 },
 
@@ -309,7 +309,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /variedades/buscar/:codigo </td>
+            <td> /variedades/buscar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -343,10 +343,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 404
                 Body Json:
                 {
-                    Status: 400,
+                    Status: 404,
                     Message: La variedad no existe
                 },
 

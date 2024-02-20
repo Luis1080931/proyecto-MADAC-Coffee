@@ -43,7 +43,7 @@ export const postFincas=async(req,res)=>{
                 message:"finca registrado Correctamente"
         })
         }else{
-            res.status(404).json({
+            res.status(403).json({
                 message:"no se pudo registrar Correctamente"
         })
         }
@@ -56,16 +56,15 @@ export const postFincas=async(req,res)=>{
 export const activar_desactivar_Fincas=async(req,res)=>{
     try{
         const {codigo}=req.params
-        const {estado}=req.body
-        const [result]=await pool.query('UPDATE fincas SET estado=IFNULL(?,estado) WHERE codigo=?',[estado,codigo])
+        const [result]=await pool.query('UPDATE fincas SET estado=2 WHERE codigo=?',[codigo])
         
         if(result.affectedRows > 0){
             res.status(200).json({
-                message:"finca desactivado exitosamente"})
+                message:"Finca desactivada exitosamente"})
         }
         else{
             res.status(404).json({
-                message:"no encontramos a nadie"
+                message:"No se pudo desactivar la finca"
             })
         }
     }catch(error){
@@ -86,8 +85,8 @@ export const actualizarFincas = async(req,res)=>{
                 message:"finca actualizada exitosamente"})
         }
         else{
-            res.status(404).json({
-                message:"no encontramos a nadie"
+            res.status(403).json({
+                message:"No fue posible actualizar la finca"
             })
         }
 

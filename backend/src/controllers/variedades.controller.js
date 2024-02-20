@@ -12,7 +12,7 @@ export const registrarVariedades = async (req, res) => {
                 "mensaje": "Variedad creada con exito!"
             })
         } else {
-            res.status(404).json({
+            res.status(403).json({
                 "mensaje": "No se pudo crear la variedad"
             })
         }
@@ -39,7 +39,7 @@ export const actualizarVariedades = async (req, res) => {
                 "mensaje": "Variedad actualizada con exito"
             })
         } else {
-            res.status(404).json({
+            res.status(403).json({
                 "mensaje": "No se pudo actualizar la variedad"
             })
         }
@@ -62,7 +62,7 @@ export const desactivarVariedades = async (req, res) => {
                 "mensaje": "Variedad desactivada con exito"
             })
         } else {
-            res.status(404).json({
+            res.status(403).json({
                 "mensaje": "No se pudo desactivar la variedad"
             })
         }
@@ -106,7 +106,7 @@ export const buscarVariedades=async(req,res)=>{
         if (variedades.length>0) {
             res.status(200).json(variedades)
         } else {
-            res.status(404).json({
+            res.status(403).json({
                 "mensaje":"La variedad no existe"
             })
         }

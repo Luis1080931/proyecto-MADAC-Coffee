@@ -13,7 +13,7 @@ export const listarMuestras = async (req, res) => {
             });
         }
     } catch (error) {
-        res.status(500).json({"Mensaje": error})
+        res.status(500).json({message:"Error en el servidor" + error})
     }
 }
 
@@ -29,10 +29,10 @@ export const CrearMuestra = async (req, res) => {
         if (resultado.affectedRows >  0) {
             res.status(200).json({ mensaje: "Se creó una muestra" });
         } else {
-            res.status(404).json({ mensaje: "No se creó una muestra" });
+            res.status(403).json({ mensaje: "No se creó una muestra" });
         }
     } catch (error) {
-        res.status(500).json({ mensaje: error.message || "Error interno del servidor" });
+        res.status(500).json({message:"Error en el servidor" + error})
     }
 };
 
@@ -52,7 +52,7 @@ export const actualizarMuestra = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al intentar actualizar la muestra. Por favor, inténtalo de nuevo más tarde.' });
+        res.status(500).json({message:"Error en el servidor" + error})
     }
 };
 
@@ -68,19 +68,15 @@ export const desactivarMuestras = async (req, res) => {
             res.status(200).json({
                 status:  200,
                 message: 'Se desactivó con éxito',
-                result: result
             });
         } else {
-            res.status(404).json({
-                status:  404,
-                message: 'No se encontró el registro para desactivar'
+            res.status(403).json({
+                status:  403,
+                message: 'No se pudo desactivar la muestra'
             });
         }
     } catch (error) {
-        res.status(500).json({
-            status:  500,
-            message: error.message
-        });
+        res.status(500).json({message:"Error en el servidor" + error})
     }
 };
 
@@ -99,9 +95,6 @@ export const BuscarMuestra = async (req, res) => {
             });
         }
     } catch (error) {
-        res.status(500).json({
-            status: 500,
-            message: error
-        });
+        res.status(500).json({message:"Error en el servidor" + error})
     }
 }

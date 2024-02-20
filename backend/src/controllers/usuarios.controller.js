@@ -18,7 +18,7 @@ export const registrarUsuarios = async (req,res)=>{
             )
             
         } else{
-            res.status(404).json(
+            res.status(403).json(
                 {
                     "mensaje": "No se pudo registrar el usuario!"
                 }

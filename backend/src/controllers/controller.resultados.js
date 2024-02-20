@@ -41,8 +41,8 @@ export const registrarResultados = async (req, res) => {
                 'message': 'Se realizo el registro con exito'
             })
         } else {
-            res.status(400).json({
-                'status': 400,
+            res.status(403).json({
+                'status': 403,
                 'message': 'No se registro el resultado'
             })
         }
@@ -70,8 +70,8 @@ export const actualizarResultado = async (req, res) => {
                 'message': 'Se actualizo con exito el resultado'
             })
         } else {
-            res.status(400).json({
-                'status': 400,
+            res.status(403).json({
+                'status': 403,
                 'message': 'No fue posible actualizar el resultado'
             })
         }
@@ -99,8 +99,8 @@ export const desactivarResultado = async (req, res) => {
                 'message': 'Se desactivó con exito el resultado'
             })
         }else {
-            res.status(400).json({
-                'status': 400,
+            res.status(403).json({
+                'status': 403,
                 'message': 'Error  al intentar desactivar el resultado'
             })
         }

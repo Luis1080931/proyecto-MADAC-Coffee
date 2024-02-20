@@ -28,7 +28,7 @@
         <tr><td>Respuesta json</td><td>
 
         correcto:
-        status: 200 "message":'se registro la Variable con exito '
+        status: 200 "message":'Se registro la variable con exito '
         json:
            {
             "codigo": 3,
@@ -37,8 +37,16 @@
             "estado": "activo"
            }
             incorrecto:
-            status:404
-            "Mensaje":"No hay variables"
+            status:403
+            "Mensaje":"No se registró la variable"
+
+            Error:
+            Status: 500
+            Body Json: 
+            {
+                "Status": 500,
+                "Message": "Error del servidor" + error
+            }
             </td></tr>
     </table>
 
@@ -68,7 +76,13 @@
             status:404
             "Mensaje":"No hay variables"
 
-
+            Error:
+            Status: 500
+            Body Json: 
+            {
+                "Status": 500,
+                "Message": "Error del servidor" + error
+            }
             </td></tr>
     </table>
 
@@ -79,7 +93,7 @@
     <table>
         <tr><td>numero</td><td>33</td></tr>
         <tr><td>Nombre del servicio</td><td>Actualizar Variables</td></tr>
-        <tr><td>URI</td><td>/variables/actualizarvariable/:codigo</td></tr>
+        <tr><td>URI</td><td>/variables/actualizarvariable/1</td></tr>
         <tr><td>Descripción</td><td>Permite actualizar las variables registradas en la base de datos </td></tr>
         <tr><td>verbo HTTP</td><td>put</td></tr>
         <tr><td>HEADER</td><td>null</td></tr>
@@ -88,19 +102,28 @@
         <tr><td>Respuesta json</td><td>
 
         correcto:
-        status: 200 "message":'La variable ha sido actualizada correctamente.'
+        status: 200 
         json:
            {
-            "codigo": 3,
-            "nombre": "cafe",
-            "fk_tipo_analisis": 2,
-            "estado": "activo"
+            "Status": 200
+            "message":'La variable ha sido actualizada correctamente.'
            }
             incorrecto:
-            status:404
-            message: 'No se pudo actualizar la variable. Por favor, verifica los datos proporcionados.'
+            status:403
+            Json:
+            {
+                "Status": 403
+                message: 'No se pudo actualizar la variable. Por favor, verifica los datos proporcionados.'
+            }
+            
 
-
+            Error:
+            Status: 500
+            Body Json: 
+            {
+                "Status": 500,
+                "Message": "Error del servidor" + error
+            }
             </td></tr>
     </table>
 
@@ -116,9 +139,7 @@
         <tr><td>Header</td><td>Null</td></tr>
         <tr><td>Usuarios</td><td>Administrador</td></tr>
         <tr><td>Peticion JSON</td><td>
-              {
-                "estado":2
-              }
+              Null
         </td></tr>
         <tr><td>Respuesta JSON</td><td>
             Correcto:
@@ -126,18 +147,20 @@
             json:{
                 "message": "Se desactivó con éxito"
             }
-          <br>
+
           Incorrecto:
-          Status:404
+          Status:403
            JSON:{
-            message:"No se encontró el registro para desactivar"
+            message:"No se pudo desactivar la variable"
            }
-           <br>
+          
            Error:
-           Status:500
-           JSON:{
-            message:"error en el servidor"+error
-           }
+            Status: 500
+            Body Json: 
+            {
+                "Status": 500,
+                "Message": "Error del servidor" + error
+            }
         </td></tr>
     </table>
 
@@ -152,7 +175,7 @@
         <tr><td>Verbo HTTP</td><td>GET</td></tr>
         <tr><td>Header</td><td>Null</td></tr>
         <tr><td>Usuarios</td><td>Administrador</td></tr>
-        <tr><td>Peticion JSON</td><td>""</td></tr>
+        <tr><td>Peticion JSON</td><td>Null</td></tr>
         <tr><td>Respuesta JSON</td><td>
             Correcto:
             Status:200
@@ -164,18 +187,20 @@
                   "estado": activo
                 }
               ]
-          <br>
+         
           Incorrecto:
           Status:404
            JSON:{
             "message": "No se encontraron resultados para la busqueda"
            }
-           <br>
+        
            Error:
-           Status:500
-           JSON:{
-            message:"Error del servidor"+error
-           }
+            Status: 500
+            Body Json: 
+            {
+                "Status": 500,
+                "Message": "Error del servidor" + error
+            }
         </td></tr>
     </table>
 

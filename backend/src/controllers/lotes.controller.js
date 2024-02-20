@@ -7,7 +7,7 @@ export const getLotes=async(req,res)=>{
             res.status(200).json(rows)
         }else{
             res.status(404).json({
-                message:"no encontramos a ningun lote"
+                message:"No encontramos a ningun lote"
             })
         }
     }catch(error){
@@ -23,7 +23,7 @@ export const getLote=async(req,res)=>{
             res.status(200).json(rows)
         }else{
             res.status(404).json({
-                message:"no se pudo registrar el lote"
+                message:"No se encontró ningun lote"
             })
         }
     }catch(error){
@@ -38,11 +38,11 @@ export const postLotes=async(req,res)=>{
         const [rows]=await pool.query('INSERT INTO lotes (numero_arboles,fk_finca,fk_variedad,estado) VALUES(?,?,?,?)',[numero_arboles,fk_finca,fk_variedad,estado])
         if(rows.affectedRows > 0){
             res.status(200).json({
-                message:"lote registrado Correctamente"
+                message:"Lote registrado correctamente"
         })
         }else{
-            res.status(404).json({
-                message:"no se pudo registrar Correctamente"
+            res.status(403).json({
+                message:"No se pudo registrar el lote"
         })
         }
     }catch(error){
@@ -54,16 +54,15 @@ export const postLotes=async(req,res)=>{
 export const activar_desactivar_Lotes=async(req,res)=>{
     try{
         const {codigo}=req.params
-        const {estado}=req.body
-        const [result]=await pool.query('UPDATE lotes SET estado=IFNULL(?,estado) WHERE codigo=?',[estado,codigo])
+        const [result]=await pool.query('UPDATE lotes SET estado=2 WHERE codigo=?',[codigo])
         
         if(result.affectedRows > 0){
             res.status(200).json({
-                message:"lote desactivado exitosamente"})
+                message:"Lote desactivado exitosamente"})
         }
         else{
-            res.status(404).json({
-                message:"no encontramos a nadie con ese codigo"
+            res.status(403).json({
+                message:"No se pudo desactivar el lote"
             })
         }
     }catch(error){
@@ -80,11 +79,11 @@ export const actualizarLotes =async(req,res)=>{
         const [result]=await pool.query('UPDATE lotes SET numero_arboles=IFNULL(?,numero_arboles),fk_finca=IFNULL(?,fk_finca),fk_variedad=IFNULL(?,fk_variedad) WHERE codigo=?',[numero_arboles,fk_finca,fk_variedad,codigo])
         if(result.affectedRows > 0){
             res.status(200).json({
-                message:"lote actualizado exitosamente"})
+                message:"Lote actualizado exitosamente"})
         }
         else{
-            res.status(404).json({
-                message:"no encontramos ningun lote"
+            res.status(403).json({
+                message:"No se pudo actualizar el lote"
             })
         }
     }catch(error){

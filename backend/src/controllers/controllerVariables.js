@@ -13,7 +13,10 @@ export const listarVariables = async (req, res) => {
             })
         }
     } catch (error) {
-        res.status(500).json({"Mensaje": error})
+        res.status(500).json({
+            status:500,
+            message: "Error del servidor" + error
+        })
     }
 }
 
@@ -29,19 +32,18 @@ export const CrearVariable = async (req, res) => {
         if (result.affectedRows > 0 ) {
             res.status(200).json({
                 status:(200),
-                "message":'se registro la Variable con exito ',
-                result:result
+                "message":'Se registro la variable con exito ',
             })
         } else {
-            res.status(404).json({
-                status:(404),
-                "message":'no se registro la Variable',
+            res.status(403).json({
+                status:(403),
+                "message":'No se registro la variable',
             })
         }
     } catch (error) {
         res.status(500).json({
             status:500,
-            message:error
+            message: "Error del servidor" + error
         })
     }
 }
@@ -59,11 +61,13 @@ export const ActualizarVariable = async (req, res) => {
         if (result.affectedRows >  0) {
             res.status(200).json({ message: 'La variable ha sido actualizada correctamente.' });
         } else {
-            res.status(400).json({ message: 'No se pudo actualizar la variable. Por favor, verifica los datos proporcionados.' });
+            res.status(403).json({ message: 'No se pudo actualizar la variable. Por favor, verifica los datos proporcionados.' });
         }
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error al intentar actualizar la variable. Por favor, inténtalo de nuevo más tarde.' });
+        res.status(500).json({
+            status:500,
+            message: "Error del servidor" + error
+        })
     }
 };
 
@@ -72,8 +76,7 @@ export const ActualizarVariable = async (req, res) => {
 export const desactivarVariable = async (req, res) => {
     try {
         const {codigo} = req.params; // Cambiado de 'codigo' a 'codigo'
-        const {estado} = req.body
-        const [result] = await pool.query("UPDATE variables  SET estado= ? WHERE v_codigo = ?", [estado, codigo]);
+        const [result] = await pool.query("UPDATE variables  SET estado= 2 WHERE v_codigo = ?", [ codigo]);
 
         if (result.affectedRows > 0) {
             res.status(200).json({
@@ -82,16 +85,16 @@ export const desactivarVariable = async (req, res) => {
                 result: result
             });
         } else {
-            res.status(404).json({
-                status: 404,
-                message: 'No se encontró el registro para desactivar'
+            res.status(403).json({
+                status: 403,
+                message: 'No se pudo desactivar la variable'
             });
         }
     } catch (error) {
         res.status(500).json({
-            status: 500,
-            message: 'Error del servidor' + error
-        });
+            status:500,
+            message: "Error del servidor" + error
+        })
     }
 }
 
@@ -111,8 +114,8 @@ export const buscarvariable = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({
-            status: 500,
-            message: 'Error del servidor' + error
-        });
+            status:500,
+            message: "Error del servidor" + error
+        })
     }
 }
