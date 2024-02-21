@@ -10,6 +10,6 @@ RouteMuestras.post("/crearMuestra", CrearMuestra);
 
 RouteMuestras.put("/actualizarMuestra/:codigo", actualizarMuestra);
 RouteMuestras.put("/desactivarMuestra/:codigo", desactivarMuestras);
-RouteMuestras.get("/buscarmuestra", BuscarMuestra);
+RouteMuestras.get("/buscarmuestra/:codigo", BuscarMuestra);
 
 export default RouteMuestras;

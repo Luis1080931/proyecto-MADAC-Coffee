@@ -8,11 +8,14 @@ export const listarMuestras = async (req, res) => {
             res.status(200).json(result)
         } else {
             res.status(404).json({
+                "status": 404,
                 "Mensaje":"No hay muestras"
             });
         }
     } catch (error) {
-        res.status(500).json({"Mensaje": error})
+        res.status(500).json({
+            "Mensaje": error
+        })
     }
 }
 
@@ -31,7 +34,7 @@ export const CrearMuestra = async (req, res) => {
             res.status(404).json({ mensaje: "No se creó una muestra" });
         }
     } catch (error) {
-        res.status(500).json({ mensaje: error.message || "Error interno del servidor" });
+        res.status(500).json({ mensaje:  "Error interno del servidor" });
     }
 };
 
@@ -51,7 +54,7 @@ export const actualizarMuestra = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al intentar actualizar la muestra. Por favor, inténtalo de nuevo más tarde.' });
+        res.status(500).json({ message: 'Error interno del servidor' });
     }
 };
 
@@ -79,7 +82,7 @@ export const desactivarMuestras = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             status:  500,
-            message: error.message
+            message: 'error interno del servidor'
         });
     }
 };
@@ -100,7 +103,7 @@ export const BuscarMuestra = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             status: 500,
-            message: error
+            message: "error al intentar conectar con el servidor"
         });
     }
 }

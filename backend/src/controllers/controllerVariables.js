@@ -9,11 +9,15 @@ export const listarVariables = async (req, res) => {
             res.status(200).json(result)
         } else {
             res.status(404).json({
+                status:(404),
                 "Mensaje":"No hay variables"
             })
         }
     } catch (error) {
-        res.status(500).json({"Mensaje": error})
+        res.status(500).json({
+            status:500,
+            message:" error al intentar conectar con el servidor"
+        })
     }
 }
 
@@ -29,19 +33,18 @@ export const CrearVariable = async (req, res) => {
         if (result.affectedRows > 0 ) {
             res.status(200).json({
                 status:(200),
-                "message":'se registro la Variable con exito ',
-                result:result
+                "message":'se registro la Variable con exito '
             })
         } else {
             res.status(404).json({
                 status:(404),
-                "message":'no se registro la Variable',
+                message:'no se registro la Variable',
             })
         }
     } catch (error) {
         res.status(500).json({
             status:500,
-            message:error
+            message:" error al intentar conectar con el servidor"
         })
     }
 }
@@ -57,13 +60,19 @@ export const ActualizarVariable = async (req, res) => {
         const [result] = await pool.query('UPDATE variables SET nombre = IFNULL(?, nombre), fk_tipo_analisis = IFNULL(?, fk_tipo_analisis) WHERE codigo = ?', [nombre, fk_tipo_analisis, codigo]);
 
         if (result.affectedRows >  0) {
-            res.status(200).json({ message: 'La variable ha sido actualizada correctamente.' });
+            res.status(200).json({ 
+                status: 200,
+                message: 'La variable ha sido actualizada correctamente.' });
         } else {
-            res.status(400).json({ message: 'No se pudo actualizar la variable. Por favor, verifica los datos proporcionados.' });
+            res.status(400).json({ 
+                status: 404,
+                message: 'No se pudo actualizar la variable. Por favor, verifica los datos proporcionados.' });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al intentar actualizar la variable. Por favor, inténtalo de nuevo más tarde.' });
+        res.status(500).json({ 
+            status: 500,
+            message: 'error al intentar conectar con el servidor' });
     }
 };
 
@@ -73,13 +82,12 @@ export const desactivarVariable = async (req, res) => {
     try {
         const {codigo} = req.params; // Cambiado de 'codigo' a 'codigo'
         const {estado} = req.body
-        const [result] = await pool.query("UPDATE variables  SET estado= ? WHERE codigo = ?", [estado, codigo]);
+        const [result] = await pool.query("UPDATE variables  SET estado= ? WHERE v_codigo = ?", [estado, codigo]);
 
         if (result.affectedRows > 0) {
             res.status(200).json({
                 status: 200,
                 message: 'Se desactivó con éxito',
-                result: result
             });
         } else {
             res.status(404).json({
@@ -90,7 +98,7 @@ export const desactivarVariable = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             status: 500,
-            message: error.message
+            message: 'error al intentar conectar con el servidor'
         });
     }
 }
@@ -98,8 +106,8 @@ export const desactivarVariable = async (req, res) => {
 //buscar variable 
 export const buscarvariable = async (req, res) => {
     try {
-        const { nombre } = req.body; //esta es la caracterica para buscar
-        const [result] = await pool.query("SELECT * FROM variables WHERE nombre LIKE ?", [`%${nombre}%`]);
+        const { id } = req.params; //esta es la caracterica para buscar
+        const [result] = await pool.query("SELECT * FROM variables WHERE v_codigo = ?", [id]);
                                                         //nombre tabla
         if (result.length > 0) {
             res.status(200).json(result);
@@ -112,7 +120,7 @@ export const buscarvariable = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             status: 500,
-            message: error
+            message: 'error al intentar conectar con el servidor'
         });
     }
 }
