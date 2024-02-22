@@ -26,7 +26,7 @@ export const registrarUsuarios = async (req,res)=>{
         }
     } catch (error) {
         res.status(500).json({
-            "mensaje": error
+            "mensaje": "Error del servidor" + error
         })
     }
 }
@@ -48,7 +48,7 @@ export const listarUsuarios=async(req,res)=>{
         
     } catch (error) {
         res.status(500).json({
-            "mensaje":error
+            "mensaje": "Error del servidor" + error
         })
     }
 }
@@ -70,7 +70,7 @@ export const buscarUsuarios=async(req,res)=>{
         }
     } catch (error) {
         res.status(500).json({
-            "mensaje":error
+            "mensaje": "Error del servidor" + error
         })
     }
 }
@@ -110,7 +110,7 @@ export const actualizarUsuarios = async (req,res)=>{
 
     } catch (error) {
         res.status(500).json({
-            "mensaje": error
+            "mensaje": "Error del servidor" + error
         })
     }
 }
@@ -141,7 +141,7 @@ export const desactivarUsuarios = async (req,res)=>{
 
     } catch (error) {
         res.status(500).json({
-            "mensaje": error
+            "mensaje": "Error del servidor" + error
         })
     }
 }
