@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document Muestras</title>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
     
@@ -21,42 +22,44 @@
     <tr><td>verbo HTTP</td><td>post</td></tr>
     <tr><td>HEADER</td><td>null</td></tr>
     <tr><td>Usuario</td><td>administrador </td></tr>
-    <tr><td>petición json</td><td>{"codigo": 1,"fecha": "2024-02-01T05:00:00.000Z","cantidad": "12.00","quien_recibe": "Maria fernanda","proceso_fermentacion": "bueno","humedad_cafe": "12.20","altura_MSNM": "11.20","tipo_secado": "seco","observaciones": "ninguna","fk_lote": 3,"estado": "inactivo"}</td></tr>
+    <tr><td>petición json</td><td>{
+      "fecha": "2024-02-11",
+      "cantidad": 1500,
+      "quien_recibe": "Miguel",
+      "proceso_fermentacion": "24 horas en cilo",
+      "humedad_cafe": 15,
+      "altura_MSNM": 1500,
+      "tipo_secado": "full",
+      "observaciones": "Todo melo",
+      "fk_lote": 5,
+      "estado": 1
+  }</td></tr>
     <tr><td>Respuesta json</td><td>
 
     correcto:
     status: 200 
-    Body Json:
-    {
-      "mensaje": "Se creó una muestra"
-    }
-    Body json:
-    {
-        "codigo": 1,
-        "fecha": "2024-02-01T05:00:00.000Z",
-        "cantidad": "12.00",
-        "quien_recibe": "Maria fernanda",
-        "proceso_fermentacion": "bueno",
-        "humedad_cafe": "12.20",
-        "altura_MSNM": "11.20",
-        "tipo_secado": "seco",
-        "observaciones": "ninguna",
-        "fk_lote": 3,
-        "estado": "inactivo"
+    json:
+      {
+      "status": 200,
+      "message":"Se creó una muestra"
       }
         incorrecto:
-        status:404
-        Body Json:
-        {
+        status:403
         "Mensaje":""No se creó una muestra"
-        }
-        Error:
-        status:500 
-        Body Json:
+
+        Error: 
+        Status: 500,
+        Body Json: 
         {
-          "mensaje": "Error interno del servidor"
+          "Status": 500,
+          "Message": "Error en el servidor": + error
         }
         </td></tr>
+        <tr>
+          <td> Programador </td>
+          <td> Alejandro David Pasaje </td>
+        </tr>
+    
 </table>
 
 <hr>
@@ -76,7 +79,7 @@
 
         correcto:
         status: 200 
-        Body Json:
+        json:
         {
             "codigo": 1,
             "fecha": "2024-02-01T05:00:00.000Z",
@@ -92,18 +95,20 @@
           }
             incorrecto:
             status:404
-            Body Json:
+            "Mensaje":"No hay muestras"
+
+            Error: 
+            Status: 500,
+            Body Json: 
             {
-              "status":404,
-              "Mensaje":"No hay muestras"
-            },
-            Error:
-            status:500 
-            Body Json:
-            {
-              "mensaje": "Error interno del servidor"
+              "Status": 500,
+              "Message": "Error en el servidor": + error
             }
             </td></tr>
+            <tr>
+              <td> Programador </td>
+              <td> Alejandro David Pasaje </td>
+            </tr>
     </table>
     
 <hr>
@@ -123,24 +128,26 @@
 
         correcto:
         status: 200 
-        Body Json:
+        json:
         {
-          "message":'La muestra ha sido actualizada correctamente.'
-        }  
+            "message": "La muestra ha sido actualizada correctamente."
+          }
+            incorrecto:
+            status:404
+            message: 'No se pudo actualizar la muestra. Por favor, verifica los datos proporcionados.'
 
-        incorrecto:
-        status:404
-        Body Json:
-        {
-        message: 'No se pudo actualizar la muestra. Por favor, verifica los datos proporcionados.
-        }
-        Error:
-        status:500 
-        Body Json:
-        {
-          "mensaje": "Error interno del servidor"
-        }
+            Error: 
+            Status: 500,
+            Body Json: 
+            {
+              "Status": 500,
+              "Message": "Error en el servidor": + error
+            }
             </td></tr>
+            <tr>
+              <td> Programador </td>
+              <td> Alejandro David Pasaje </td>
+            </tr>
     </table>
 <hr>
 <h3> Requerimiento desactivar muestras </h3>
@@ -153,41 +160,32 @@
     <tr><td>verbo HTTP</td><td>put</td></tr>
     <tr><td>HEADER</td><td>null</td></tr>
     <tr><td>Usuario</td><td>administrador </td></tr>
-    <tr><td>petición json</td><td>{"estado": 2}</td></tr>
+    <tr><td>petición json</td><td>Null</td></tr>
     <tr><td>Respuesta json</td><td>
 
     correcto:
-    status: 200 
-    Body Json:
+    status: 200 message: 'Se desactivó con éxito'
+    json:
     {
         "status": 200,
         "message": "Se desactivó con éxito",
-        "result": {
-          "fieldCount": 0,
-          "affectedRows": 1,
-          "insertId": 0,
-          "info": "Rows matched: 1  Changed: 0  Warnings: 0",
-          "serverStatus": 2,
-          "warningStatus": 0,
-          "changedRows": 0
-        }
       }
         incorrecto:
-        status:404
-        Body Json:
-        {
-          "status":  404,
-          "message": 'No se encontró el registro para desactivar'
-        }
-        Error:
-        status:500 
-        Body Json:
-        {
-          "status":  500,
-          "message": 'error interno del servidor'
-        }
+        status:403
+        "Mensaje": 'No se pudo desactivar la muestra'
 
+        Error: 
+        Status: 500,
+        Body Json: 
+        {
+          "Status": 500,
+          "Message": "Error en el servidor": + error
+        }
         </td></tr>
+        <tr>
+          <td> Programador </td>
+          <td> Alejandro David Pasaje </td>
+        </tr>
 </table>
 <hr>
 <h3> Requerimiento buscar muestras </h3>
@@ -200,12 +198,12 @@
     <tr><td>verbo HTTP</td><td>get</td></tr>
     <tr><td>HEADER</td><td>null</td></tr>
     <tr><td>Usuario</td><td>administrador </td></tr>
-    <tr><td>petición json</td><td>{"fecha": "2024-02-01"}</td></tr>
+    <tr><td>petición json</td><td>Null</td></tr>
     <tr><td>Respuesta json</td><td>
 
     correcto:
     status: 200 
-    Body Json:
+    json:
     {
         "codigo": 1,
         "fecha": "2024-02-01T05:00:00.000Z",
@@ -221,20 +219,21 @@
       }
         incorrecto:
         status:404
-        {
-        "status": 404,
-        "message": 'No se encontraron resultados para la búsqueda'
-        }
-        Error:
-        status:500,
-        Body Json:
-        {
-          "status": 500,
-          "message": "error al intentar conectar con el servidor"
-        }
+        message: 'No se encontraron resultados para la búsqueda'
 
+        Error: 
+        Status: 500,
+        Body Json: 
+        {
+          "Status": 500,
+          "Message": "Error en el servidor": + error
+        }
 
         </td></tr>
+        <tr>
+          <td> Programador </td>
+          <td> Alejandro David Pasaje </td>
+        </tr>
 </table>
 </body>
 </html>

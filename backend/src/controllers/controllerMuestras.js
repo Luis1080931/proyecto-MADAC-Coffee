@@ -1,4 +1,5 @@
 import {pool} from "../database/conexion.js"
+import { query } from "express"
 
 export const listarMuestras = async (req, res) => {
     try {
@@ -8,14 +9,11 @@ export const listarMuestras = async (req, res) => {
             res.status(200).json(result)
         } else {
             res.status(404).json({
-                "status": 404,
                 "Mensaje":"No hay muestras"
             });
         }
     } catch (error) {
-        res.status(500).json({
-            "Mensaje": error
-        })
+        res.status(500).json({message:"Error en el servidor" + error})
     }
 }
 
@@ -31,10 +29,10 @@ export const CrearMuestra = async (req, res) => {
         if (resultado.affectedRows >  0) {
             res.status(200).json({ mensaje: "Se creó una muestra" });
         } else {
-            res.status(404).json({ mensaje: "No se creó una muestra" });
+            res.status(403).json({ mensaje: "No se creó una muestra" });
         }
     } catch (error) {
-        res.status(500).json({ mensaje:  "Error interno del servidor" });
+        res.status(500).json({message:"Error en el servidor" + error})
     }
 };
 
@@ -54,7 +52,7 @@ export const actualizarMuestra = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error interno del servidor' });
+        res.status(500).json({message:"Error en el servidor" + error})
     }
 };
 
@@ -64,33 +62,29 @@ export const actualizarMuestra = async (req, res) => {
 export const desactivarMuestras = async (req, res) => {
     try {
         const { codigo } = req.params; // Corregido de 'codigo' a 'codigo'
-        const {estado} = req.body
-        const [result] = await pool.query("UPDATE muestras SET estado = ? WHERE codigo = ?", [estado, codigo]);
+        const [result] = await pool.query("UPDATE muestras SET estado = 2 WHERE codigo = ?", [codigo]);
 
         if (result.affectedRows >  0) {
             res.status(200).json({
                 status:  200,
                 message: 'Se desactivó con éxito',
-                result: result
             });
         } else {
-            res.status(404).json({
-                status:  404,
-                message: 'No se encontró el registro para desactivar'
+            res.status(403).json({
+                status:  403,
+                message: 'No se pudo desactivar la muestra'
             });
         }
     } catch (error) {
-        res.status(500).json({
-            status:  500,
-            message: 'error interno del servidor'
-        });
+        res.status(500).json({message:"Error en el servidor" + error})
     }
 };
 
 export const BuscarMuestra = async (req, res) => {
     try {
-        const { fecha } = req.body; //esta es la caracterica
-        const [result] = await pool.query("SELECT * FROM muestras WHERE fecha LIKE ?", [`%${fecha}%`]);
+        const {codigo} = req.params; //esta es la caracterica
+        let sql = (`SELECT * FROM muestras WHERE codigo = ?`)
+        const [result] = await pool.query(sql, [codigo]);
                                                         //nombre tabla
         if (result.length > 0) {
             res.status(200).json(result);
@@ -101,9 +95,6 @@ export const BuscarMuestra = async (req, res) => {
             });
         }
     } catch (error) {
-        res.status(500).json({
-            status: 500,
-            message: "error al intentar conectar con el servidor"
-        });
+        res.status(500).json({message:"Error en el servidor" + error})
     }
 }

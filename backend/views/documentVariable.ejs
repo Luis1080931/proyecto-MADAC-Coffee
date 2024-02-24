@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Api Variables</title>
+<!-- En tu archivo .ejs -->
+<link rel="stylesheet" type="text/css" href="../public/styles.css">
 
 </head>
 <body>
@@ -16,7 +18,7 @@
     <!-- registar variables -->
     <table>
         <tr><td>numero</td><td>31</td></tr>
-        <tr><td>Nombre del servicio</td><td>registar Variables</td></tr>
+        <tr><td>Nombre del servicio</td><td>Crear Variables</td></tr>
         <tr><td>URI</td><td>/variables/crearvariable</td></tr>
         <tr><td>Descripción</td><td>Permite crear las variables para registrarlas en la base de datos </td></tr>
         <tr><td>verbo HTTP</td><td>post</td></tr>
@@ -26,12 +28,8 @@
         <tr><td>Respuesta json</td><td>
 
         correcto:
-        status: 200 
-        Body Json:
-        {
-        "message":'se registro la Variable con exito '
-        }
-        Body json:
+        status: 200 "message":'Se registro la variable con exito '
+        json:
            {
             "codigo": 3,
             "nombre": "cafe",
@@ -39,20 +37,21 @@
             "estado": "activo"
            }
             incorrecto:
-            status:404 
-            Body Json:
-            {
-            "Mensaje":"No hay variables"                
-            }
-            Error:
-            status: 500
-            body Json:
-            {
-                "status":500,
-                "message":" error al intentar conectar con el servidor"
-            }
+            status:403
+            "Mensaje":"No se registró la variable"
 
+            Error:
+            Status: 500
+            Body Json: 
+            {
+                "Status": 500,
+                "Message": "Error del servidor" + error
+            }
             </td></tr>
+            <tr>
+                <td> Programador </td>
+                <td> Alejandro David Pasaje </td>
+              </tr>
     </table>
 
     <hr>
@@ -70,7 +69,7 @@
 
         correcto:
         status: 200
-        Body json:
+        json:
            {
             "codigo": 3,
             "nombre": "cafe",
@@ -79,17 +78,20 @@
            }
             incorrecto:
             status:404
-            {
-            "Mensaje":"No hay variables"                
-            }
+            "Mensaje":"No hay variables"
+
             Error:
-            status: 500
-            Body Json:
+            Status: 500
+            Body Json: 
             {
-             "status":500,
-             "message":" error al intentar conectar con el servidor"
+                "Status": 500,
+                "Message": "Error del servidor" + error
             }
             </td></tr>
+            <tr>
+                <td> Programador </td>
+                <td> Alejandro David Pasaje </td>
+              </tr>
     </table>
 
 <hr>
@@ -99,7 +101,7 @@
     <table>
         <tr><td>numero</td><td>33</td></tr>
         <tr><td>Nombre del servicio</td><td>Actualizar Variables</td></tr>
-        <tr><td>URI</td><td>/variables/actualizarvariable/3</td></tr>
+        <tr><td>URI</td><td>/variables/actualizarvariable/1</td></tr>
         <tr><td>Descripción</td><td>Permite actualizar las variables registradas en la base de datos </td></tr>
         <tr><td>verbo HTTP</td><td>put</td></tr>
         <tr><td>HEADER</td><td>null</td></tr>
@@ -109,30 +111,32 @@
 
         correcto:
         status: 200 
-        {
-        "status": 200,   
-        "message":'La variable ha sido actualizada correctamente.'    
-        }
-        Body json:
+        json:
            {
-            "codigo": 3,
-            "nombre": "cafe",
-            "fk_tipo_analisis": 2,
-            "estado": "activo"
+            "Status": 200
+            "message":'La variable ha sido actualizada correctamente.'
            }
             incorrecto:
-            status:404 
+            status:403
+            Json:
             {
-            message: 'No se pudo actualizar la variable. Por favor, verifica los datos proporcionados.'
+                "Status": 403
+                message: 'No se pudo actualizar la variable. Por favor, verifica los datos proporcionados.'
             }
+            
+
             Error:
-            status: 500,
-            Body Json:
+            Status: 500
+            Body Json: 
             {
-            "status":500,
-            "message":" error al intentar conectar con el servidor"
+                "Status": 500,
+                "Message": "Error del servidor" + error
             }
             </td></tr>
+            <tr>
+                <td> Programador </td>
+                <td> Alejandro David Pasaje </td>
+              </tr>
     </table>
 
     <hr>
@@ -147,39 +151,38 @@
         <tr><td>Header</td><td>Null</td></tr>
         <tr><td>Usuarios</td><td>Administrador</td></tr>
         <tr><td>Peticion JSON</td><td>
-              {
-                "estado":2
-              }
+              Null
         </td></tr>
         <tr><td>Respuesta JSON</td><td>
             Correcto:
             Status:200
-            Body Json:
             json:{
-                "status": 200,
                 "message": "Se desactivó con éxito"
             }
-          <br>
+
           Incorrecto:
-          Status:404
-          Body JSON:
-          {
-            "status": 404
-            message:"No se encontró el registro para desactivar"
-           }
-           <br>
-           Error:
-           Status:500
+          Status:403
            JSON:{
-            "status": 500,
-            "message": "error al intentar conectar con el servidor"
+            message:"No se pudo desactivar la variable"
            }
+          
+           Error:
+            Status: 500
+            Body Json: 
+            {
+                "Status": 500,
+                "Message": "Error del servidor" + error
+            }
         </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Alejandro David Pasaje </td>
+          </tr>
     </table>
 
     <hr>
 
-    <h3> Requerimiento buscar variable. </h3>
+    <h3> Requerimiento buscar variable </h3>
     <table>
         <tr><td>Numero</td><td>35</td></tr>
         <tr><td>Nombre del servicio</td><td>Buscar variable</td></tr>
@@ -188,11 +191,11 @@
         <tr><td>Verbo HTTP</td><td>GET</td></tr>
         <tr><td>Header</td><td>Null</td></tr>
         <tr><td>Usuarios</td><td>Administrador</td></tr>
-        <tr><td>Peticion JSON</td><td>{"nombre": "Humedad"}</td></tr>
+        <tr><td>Peticion JSON</td><td>Null</td></tr>
         <tr><td>Respuesta JSON</td><td>
             Correcto:
             Status:200
-            Body json:
+            json:
                 [
                 {
                   "nombre": "Humedad",
@@ -200,21 +203,25 @@
                   "estado": activo
                 }
               ]
-          <br>
+         
           Incorrecto:
           Status:404
-          Body Json:{
-            "status": 404,
+           JSON:{
             "message": "No se encontraron resultados para la busqueda"
            }
-           <br>
+        
            Error:
-           Status:500
-           Body Json:{
-            "status": 500,
-            "message": 'error al intentar conectar con el servidor'
-           }
+            Status: 500
+            Body Json: 
+            {
+                "Status": 500,
+                "Message": "Error del servidor" + error
+            }
         </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Alejandro David Pasaje </td>
+          </tr>
     </table>
 
 
