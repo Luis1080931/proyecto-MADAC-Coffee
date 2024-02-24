@@ -1,4 +1,5 @@
 import { pool } from "../database/conexion.js";
+import { validationResult } from "express-validator";
 
 
 export const listarVariables = async (req, res) => {
@@ -25,6 +26,12 @@ export const listarVariables = async (req, res) => {
 //crud listar
 export const CrearVariable = async (req, res) => {
     try {
+
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).json(errors);
+        }
+
         const { nombre, fk_tipo_analisis, estado } = req.body
         const [result] = await pool.query("INSERT INTO variables (nombre, fk_tipo_analisis, estado) VALUES (? , ? , ? )", [nombre, fk_tipo_analisis, estado])
         
