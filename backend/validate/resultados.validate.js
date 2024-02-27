@@ -15,10 +15,10 @@ export const validarResultados =
         .notEmpty().withMessage('El campo no puede estar vacío'),
 
     check(valor)
-        .isInt().withMessage('Ingrese un valor válido mayor a 0')
-        .notEmpty().withMessage('El campo no puede estar vacío'),
+        .not().isEmpty().withMessage('El campo no puede estar vacío')
+        .isLength({ max: 50 }).withMessage('No se acepan más de 50 caracteres'),
 
     check(observaciones)
         .not().isEmpty().withMessage('El campo no puede estar vacio')
-        .isLength({ max: 500}).withMessage('No puede digitar tanto texto')
+        .isLength({ max: 500}).withMessage('No se aceptan más de 50 caracteres')
 ]
