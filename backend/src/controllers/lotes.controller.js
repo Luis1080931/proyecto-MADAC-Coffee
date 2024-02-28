@@ -1,4 +1,6 @@
 import {pool} from '../database/conexion.js'
+import { validationResult } from 'express-validator'
+
 
 export const getLotes=async(req,res)=>{
     try{
@@ -34,6 +36,11 @@ export const getLote=async(req,res)=>{
 }
 export const postLotes=async(req,res)=>{
     try{
+        
+        const errores=validationResult(req)
+        if(!errores.isEmpty()){
+            return res.status(400).json(errores.array());
+        }
         const {numero_arboles,fk_finca,fk_variedad,estado}=req.body
         const [rows]=await pool.query('INSERT INTO lotes (numero_arboles,fk_finca,fk_variedad,estado) VALUES(?,?,?,?)',[numero_arboles,fk_finca,fk_variedad,estado])
         if(rows.affectedRows > 0){
@@ -74,6 +81,11 @@ export const desactivar_Lotes=async(req,res)=>{
 
 export const actualizarLotes =async(req,res)=>{
     try{
+
+        const erroress=validationResult(req)
+        if(!erroress.isEmpty()){
+            return res.status(400).json(erroress.array());
+        }
         const{codigo}=req.params
         const{numero_arboles,fk_finca,fk_variedad}=req.body
         const [result]=await pool.query('UPDATE lotes SET numero_arboles=IFNULL(?,numero_arboles),fk_finca=IFNULL(?,fk_finca),fk_variedad=IFNULL(?,fk_variedad) WHERE codigo=?',[numero_arboles,fk_finca,fk_variedad,codigo])
