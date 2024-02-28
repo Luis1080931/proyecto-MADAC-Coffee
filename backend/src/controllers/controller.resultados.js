@@ -30,7 +30,7 @@ export const registrarResultados = async (req, res) => {
 
     try {
 
-        let errors = validationResult(req)
+        const errors = validationResult(req)
         if(!errors.isEmpty()){
             return res.status(403).json(errors)
         }
@@ -65,7 +65,7 @@ export const actualizarResultado = async (req, res) => {
 
     try {
 
-        let errors = validationResult(req)
+        const errors = validationResult(req)
         if(!errors.isEmpty()){
             return res.status(403).json(errors)
         }
