@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { listarVariables, CrearVariable, ActualizarVariable, desactivarVariable, buscarvariable } from "../controllers/controllerVariables.js";
-import { validacionVariable } from "../validate/variable.js";
+import { validacionVariable } from "../../validate/variable.js";
 
 const routeVariables = Router()
 

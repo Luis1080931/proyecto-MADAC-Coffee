@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { listarMuestras, CrearMuestra, actualizarMuestra, desactivarMuestras, BuscarMuestra } from "../controllers/controllerMuestras.js";
-import { validacionMuestra } from "../validate/muestra.js";
+import { validacionMuestra } from '../../validate/muestra.js'
 
 
 const RouteMuestras = Router();
