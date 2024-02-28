@@ -1,6 +1,6 @@
 import { query } from "express" 
 import { pool } from "../database/conexion.js" 
-import { validarResultados } from "../../validate/resultados.validate.js"
+import { validationResult } from "express-validator"
 
 export const listarResultados = async (req, res) => {
 
@@ -30,7 +30,7 @@ export const registrarResultados = async (req, res) => {
 
     try {
 
-        let errors = validarResultados(req)
+        let errors = validationResult(req)
         if(!errors.isEmpty()){
             return res.status(403).json(errors)
         }
@@ -65,7 +65,7 @@ export const actualizarResultado = async (req, res) => {
 
     try {
 
-        let errors = validarResultados(req)
+        let errors = validationResult(req)
         if(!errors.isEmpty()){
             return res.status(403).json(errors)
         }
