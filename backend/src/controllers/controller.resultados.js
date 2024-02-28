@@ -1,6 +1,6 @@
 import { query } from "express" 
 import { pool } from "../database/conexion.js" 
-import { validarResultados } from "../../validate/resultados.validate.js"
+import { validationResult } from "express-validator"
 
 export const listarResultados = async (req, res) => {
 
@@ -29,12 +29,13 @@ export const listarResultados = async (req, res) => {
 export const registrarResultados = async (req, res) => {
 
     try {
-        
-        const{fecha, fk_analisis, fk_variables, valor, observaciones} = req.body
 
-        if(fecha == undefined || fk_analisis == undefined ||  fk_variables == undefined || valor == undefined ){
-            res.status(400).json({ message: 'Por favor llenar todos los campos' })
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(403).json(errors)
         }
+        
+        const{fecha, fk_analisis, fk_variables, valor, observaciones, estado} = req.body
         
         let sql = `INSERT INTO resultados (fecha, fk_analisis, fk_variables, observaciones, valor, estado) values (?, ?, ?, ?, ?, ?)`
 
@@ -64,6 +65,11 @@ export const actualizarResultado = async (req, res) => {
 
     try {
         
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(403).json(errors)
+        }
+
         const{fecha, fk_analisis, fk_variable, observaciones, valor} = req.body
         const {id} = req.params
 
