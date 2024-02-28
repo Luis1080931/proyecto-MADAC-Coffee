@@ -1,5 +1,6 @@
 import {pool} from "../database/conexion.js"
-import { validationResult } from "express-validator"
+import { validationResult } from 'express-validator';
+
 
 export const listarMuestras = async (req, res) => {
     try {
@@ -18,30 +19,31 @@ export const listarMuestras = async (req, res) => {
 }
 
 //crear muestras 
-
- 
 export const CrearMuestra = async (req, res) => {
     try {
-//validación datos 
-        const errors = validationResult(req);
+        // Validación de datos
+        const errors= validationResult(req);
         if(!errors.isEmpty()){
             return res.status(400).json(errors);
         }
-
-
+        // Extracción de datos del cuerpo de la solicitud
         const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado } = req.body;
 
+        // Consulta SQL para insertar la muestra
         const [resultado] = await pool.query("INSERT INTO muestras (fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado]);
 
+        // Verificación del resultado de la inserción
         if (resultado.affectedRows >  0) {
             res.status(200).json({ mensaje: "Se creó una muestra" });
         } else {
             res.status(403).json({ mensaje: "No se creó una muestra" });
         }
     } catch (error) {
-        res.status(500).json({message:"Error en el servidor" + error})
+        // Manejo de errores generales
+        res.status(500).json({ message: "Error en el servidor: " + error });
     }
 };
+
 
 //actualizar muestra
 export const actualizarMuestra = async (req, res) => {

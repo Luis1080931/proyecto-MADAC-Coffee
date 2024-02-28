@@ -11,7 +11,7 @@ RouteMuestras.get("/listarMuestra", listarMuestras);
 //validation datos 
 RouteMuestras.post("/crearMuestra",validacionMuestra,CrearMuestra);
 
-RouteMuestras.put("/actualizarMuestra/:codigo", actualizarMuestra);
+RouteMuestras.put("/actualizarMuestra/:codigo",actualizarMuestra);
 RouteMuestras.put("/desactivarMuestra/:codigo", desactivarMuestras);
 RouteMuestras.get("/buscarmuestra/:codigo", BuscarMuestra);
 
