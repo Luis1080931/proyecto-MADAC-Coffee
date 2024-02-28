@@ -1,18 +1,19 @@
 import { Router } from "express";
-import { desactivarUsuarios, editarUsuarios, registrarUsuarios, listarUsuarios, buscarUsuarios } from "../controller/usuarios.controller.js";
+import { desactivarUsuarios, actualizarUsuarios, registrarUsuarios, listarUsuarios, buscarUsuarios } from "./../controllers/usuarios.controller.js";
 
-const router = Router()
+const routeUsuarios = Router()
 
-router.post("/registrar", registrarUsuarios)
+routeUsuarios.post("/registrar", registrarUsuarios)
 
-router.put("/actualizar/:identificacion", actualizarUsuarios)
+routeUsuarios.put("/actualizar/:identificacion", actualizarUsuarios)
 
-router.put("/desactivar/:identificacion", desactivarUsuarios)
+routeUsuarios.put("/desactivar/:identificacion", desactivarUsuarios)
 
-router.post("/listar", listarUsuarios)
+routeUsuarios.get("/listar", listarUsuarios)
 
-router.post("/buscar/:identificacion",buscarUsuarios)
+routeUsuarios.get("/buscar/:identificacion",buscarUsuarios)
 
 
-export default router
+export default routeUsuarios
+
 

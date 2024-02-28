@@ -7,9 +7,8 @@ import { pool } from "../database/conexion.js"
 export const registrarUsuarios = async (req,res)=>{
 
     try {
-        const{ identificacion, telefono, nombre, correo_electronico, tipo_usuario, estado
-        } = req.body
-        const [resultado] = await pool.query("INSERT INTO usuarios(identificacion, telefono, nombre, correo_electronico, tipo_usuario, estado) VALUES(?, ?, ?, ?, ?, ?)",[identificacion, telefono, nombre, correo_electronico, tipo_usuario, estado])
+        const{ identificacion, telefono, nombre, correo_electronico, tipo_usuario, password, estado} = req.body
+        const [resultado] = await pool.query("INSERT INTO usuarios(identificacion, telefono, nombre, correo_electronico, tipo_usuario, password, estado) VALUES(?, ?, ?, ?, ?, ?, ?)",[identificacion, telefono, nombre, correo_electronico, tipo_usuario, password, estado])
         if (resultado.affectedRows > 0) {
 
             res.status(201).json(
@@ -19,7 +18,7 @@ export const registrarUsuarios = async (req,res)=>{
             )
             
         } else{
-            res.status(404).json(
+            res.status(403).json(
                 {
                     "mensaje": "No se pudo registrar el usuario!"
                 }
@@ -27,7 +26,7 @@ export const registrarUsuarios = async (req,res)=>{
         }
     } catch (error) {
         res.status(500).json({
-            "mensaje": error
+            "mensaje": "Error del servidor" + error
         })
     }
 }
@@ -49,7 +48,7 @@ export const listarUsuarios=async(req,res)=>{
         
     } catch (error) {
         res.status(500).json({
-            "mensaje":error
+            "mensaje": "Error del servidor" + error
         })
     }
 }
@@ -71,7 +70,7 @@ export const buscarUsuarios=async(req,res)=>{
         }
     } catch (error) {
         res.status(500).json({
-            "mensaje":error
+            "mensaje": "Error del servidor" + error
         })
     }
 }
@@ -111,7 +110,7 @@ export const actualizarUsuarios = async (req,res)=>{
 
     } catch (error) {
         res.status(500).json({
-            "mensaje": error
+            "mensaje": "Error del servidor" + error
         })
     }
 }
@@ -142,7 +141,7 @@ export const desactivarUsuarios = async (req,res)=>{
 
     } catch (error) {
         res.status(500).json({
-            "mensaje": error
+            "mensaje": "Error del servidor" + error
         })
     }
 }
