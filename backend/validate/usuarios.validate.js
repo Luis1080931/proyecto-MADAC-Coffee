@@ -21,6 +21,4 @@ export const validarUsuarios=[
     check('password')
     .not() .isEmpty() .isLength( { min: 7 }),
 
-    check('estado', 'tienes que selecionar un estado')
-    .not().isEmpty()
 ]
