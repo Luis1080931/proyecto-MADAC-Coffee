@@ -2,7 +2,7 @@ import { check } from "express-validator";
 
 export const validarResultados = 
 [
-    check('fecha', 'El campo no puede estar vacío')
+    check('fecha', 'El campo no puede estar vacio')
         /* .matches(/^\d{4}-\d{2}-d{2}$/) */
         .not().isEmpty(),
 
@@ -18,10 +18,10 @@ export const validarResultados =
         .not().isEmpty()
         .isLength({ max: 50 }),
 
-    check('observaciones', 'El campo no puede estar vacio y co maximo 500 caracteres')
+    check('observaciones', 'El campo no puede estar y con maximo 500 caracteres')
         .not().isEmpty()
         .isLength({ max: 500}),
 
     check('estado', 'Seleccione un estado')
-        .not().isEmpty()
+    .not().isEmpty()
 ]

@@ -69,11 +69,11 @@ export const actualizarResultado = async (req, res) => {
         if(!errors.isEmpty()){
             return res.status(403).json(errors)
         }
-        
-        const{fecha, fk_analisis, fk_variable, observaciones, valor, estado} = req.body
+
+        const{fecha, fk_analisis, fk_variable, observaciones, valor} = req.body
         const {id} = req.params
 
-        const[rows] = await pool.query(`UPDATE resultados SET fecha=IFNULL(?,fecha), fk_analisis=IFNULL(?,fk_analisis), fk_variables=IFNULL(?,fk_variables), observaciones=IFNULL(?,observaciones), valor=IFNULL(?,valor), estado=IFNULL(?, estado) WHERE codigo= ?`,[fecha, fk_analisis, fk_variable, observaciones, valor,estado, id]);
+        const[rows] = await pool.query(`UPDATE resultados SET fecha=IFNULL(?,fecha), fk_analisis=IFNULL(?,fk_analisis), fk_variables=IFNULL(?,fk_variables), observaciones=IFNULL(?,observaciones), valor=IFNULL(?,valor) WHERE codigo= ?`,[fecha, fk_analisis, fk_variable, observaciones, valor, id]);
 
         if(rows.affectedRows>0){
             res.status(200).json({
@@ -129,7 +129,7 @@ export const buscarResultados = async (req, res) => {
     try {
         
         let idResultado = req.params.idResultado
-        let sql = `SELECT codigo, fecha, fk_analisis AS analisis, nombre AS variable, observaciones, valor, r.estado FROM resultados AS r JOIN variables ON fk_variables = v_codigo WHERE r.codigo = ?`
+        let sql = `SELECT fecha, fk_analisis AS analisis, fk_variables AS variable, observaciones, valor FROM resultados JOIN variables ON fk_variables = codigo`
 
         const[result] = await pool.query(sql, [idResultado])
 
