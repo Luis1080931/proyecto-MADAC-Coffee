@@ -1,4 +1,11 @@
+import { query } from "express"
 import { pool } from '../database/conexion.js'
+import { validationResult } from "express-validator"
+
+
+
+// Usa validationResult según sea necesario en tu código
+
 /*
     * X Registrar // POST
     * X Editar // PUT
@@ -8,6 +15,12 @@ import { pool } from '../database/conexion.js'
 //Registrar
 export const registrarAnalisis = async (req, res) => {
     try {
+
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(403).json(errors)
+        }
+
         const { fecha, analista, fk_muestra, fk_tipo_analisis, estado } = req.body
         const [ resultado ] = await pool.query("INSERT INTO analisis(fecha, fk_analista, fk_muestra, fk_tipo_analisis, estado) VALUES (?, ?, ?, ?, ?)", [fecha, analista, fk_muestra, fk_tipo_analisis, estado])
 
@@ -33,6 +46,12 @@ export const registrarAnalisis = async (req, res) => {
 //Actualizar
 export const actualizarAnalisis = async (req, res) => {
     try {
+
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(403).json(errors)
+        }
+
         const { codigo } = req.params
         const { fecha, fk_analista, fk_muestra, fk_tipo_analisis, estado } = req.body
         

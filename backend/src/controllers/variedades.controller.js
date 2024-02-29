@@ -1,8 +1,16 @@
+import { query } from "express"
 import { pool } from '../database/conexion.js'
+import { validationResult } from "express-validator"
 
 //Registrar
 export const registrarVariedades = async (req, res) => {
     try {
+
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(403).json(errors)
+        }
+
         const { nombre, estado } = req.body
         const [ resultado ] = await pool.query("INSERT INTO variedades(nombre, estado) VALUES (?, ?)", [nombre, estado])
 
@@ -26,6 +34,12 @@ export const registrarVariedades = async (req, res) => {
 //Actualizar
 export const actualizarVariedades = async (req, res) => {
     try {
+
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(403).json(errors)
+        }
+        
         const { codigo } = req.params
         const { nombre, estado } = req.body
         
