@@ -1,14 +1,22 @@
 //registrar, editar, actualizar, desactivar.
 
+import { validationResult } from "express-validator"
 import { pool } from "../database/conexion.js"
+import { query } from "express"
 
 
 //Registrar
 export const registrarUsuarios = async (req,res)=>{
 
     try {
-        const{ identificacion, telefono, nombre, correo_electronico, tipo_usuario, password, estado} = req.body
-        const [resultado] = await pool.query("INSERT INTO usuarios(identificacion, telefono, nombre, correo_electronico, tipo_usuario, password, estado) VALUES(?, ?, ?, ?, ?, ?, ?)",[identificacion, telefono, nombre, correo_electronico, tipo_usuario, password, estado])
+
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(403).json(errors)
+        }
+
+        const{ identificacion, telefono, nombre, correo_electronico, tipo_usuario, password} = req.body
+        const [resultado] = await pool.query("INSERT INTO usuarios(identificacion, telefono, nombre, correo_electronico, tipo_usuario, password, estado) VALUES(?, ?, ?, ?, ?, ?, 1)",[identificacion, telefono, nombre, correo_electronico, tipo_usuario, password, ])
         if (resultado.affectedRows > 0) {
 
             res.status(201).json(
@@ -79,6 +87,13 @@ export const buscarUsuarios=async(req,res)=>{
 export const actualizarUsuarios = async (req,res)=>{
 
     try {
+
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(403).json(errors)
+        }
+
+
         const { identificacion } = req.params
         const{ telefono, nombre, correo_electronico, tipo_usuario, estado
         } = req.body
