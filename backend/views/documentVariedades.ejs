@@ -8,20 +8,20 @@
 </head>
 <body>
 
-    <h1> Documentación de la api </h1>
     <hr>
     <h2> Modulo variedades </h2>
+    <hr>
 
     <h3> Requerimiento registrar variedades </h3>
 
     <table>
         <tr>
             <td> Numero </td>
-            <td> 1 </td>
+            <td> 11 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
-            <td> Registrar analisis </td>
+            <td> Registrar variedades </td>
         </tr>
         <tr>
             <td> Url </td>
@@ -64,10 +64,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body Json: 
                 {
-                    Status: 400
+                    Status: 403
                     Message: No se pudo crear la variedad
                 },
 
@@ -80,6 +80,10 @@
                 }
             </td>
         </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
     </table>
     
 
@@ -89,7 +93,7 @@
     <table>
         <tr>
             <td>Numero</td>
-            <td> 2 </td>
+            <td> 12 </td>
         </tr>
         <tr>
             <td>Nombre del servicio</td>
@@ -149,6 +153,10 @@
 
             </td>
         </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
     </table>
 
     <hr>
@@ -161,7 +169,7 @@
     <table>
         <tr>
             <td> Numero </td>
-            <td> 3 </td>
+            <td> 13 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
@@ -169,7 +177,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /variedades/actualizar/:codigo </td>
+            <td> /variedades/actualizar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -209,10 +217,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body json: 
                 {
-                    Status: 400,
+                    Status: 403,
                     Message: No se pudo actualizar la variedad
                 },
 
@@ -225,6 +233,10 @@
                 }
             </td>
         </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
     </table>
 
     <hr>
@@ -234,7 +246,7 @@
     <table>
         <tr>
             <td> Numero </td>
-            <td> 4 </td>
+            <td> 14 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
@@ -242,7 +254,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /variedades/desactivar/:codigo </td>
+            <td> /variedades/desactivar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -276,10 +288,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body Json: 
                 {
-                    Status: 400,
+                    Status: 403,
                     Message: No se pudo desactivar la variedad
                 },
 
@@ -292,6 +304,10 @@
                 }
             </td>
         </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
     </table>
 
     <hr>
@@ -301,7 +317,7 @@
     <table>
         <tr>
             <td> Numero </td>
-            <td> 5 </td>
+            <td> 15 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
@@ -309,7 +325,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /variedades/buscar/:codigo </td>
+            <td> /variedades/buscar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -343,10 +359,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 404
                 Body Json:
                 {
-                    Status: 400,
+                    Status: 404,
                     Message: La variedad no existe
                 },
 
@@ -358,6 +374,10 @@
                     Message: Error del servidor + error
                 }
             </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
         </tr>
     </table>
 </body>

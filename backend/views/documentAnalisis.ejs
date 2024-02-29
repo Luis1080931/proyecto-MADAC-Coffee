@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Document API MADAC-Coffee </title>
-    <link rel="stylesheet" href="/estilos.css">
 </head>
 <body>
 
-    <h1> Documentación de la api </h1>
+ 
     <hr>
     <h2> Modulo analisis </h2>
 
@@ -19,7 +18,7 @@
     <table>
         <tr>
             <td> Numero </td>
-            <td> 1 </td>
+            <td> 26 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
@@ -65,19 +64,15 @@
                 Status: 201
                 Json: 
                 {
-                    "fecha": "2024/12/03"
-                    "analisista" "Juan"
-                    "fk_muestra" "1"
-                    "fk_tipo_analisis" "1"
-                    "estado": "activo"
-
+                    "Status": 200,
+                    "Message": "Analisis creado con exito!"
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body Json: 
                 {
-                    Status: 400
+                    Status: 403
                     Message: No se pudo crear el analisis
                 },
 
@@ -90,6 +85,10 @@
                 }
             </td>
         </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
     </table>
 
 
@@ -98,7 +97,7 @@
     <table>
         <tr>
             <td>Numero</td>
-            <td> 2 </td>
+            <td> 27 </td>
         </tr>
         <tr>
             <td>Nombre del servicio</td>
@@ -161,6 +160,10 @@
 
             </td>
         </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
     </table>
 
     
@@ -172,7 +175,7 @@
     <table>
         <tr>
             <td> Numero </td>
-            <td> 3 </td>
+            <td> 28 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
@@ -180,7 +183,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /analisis/actualizar/:codigo </td>
+            <td> /analisis/actualizar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -223,10 +226,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body json: 
                 {
-                    Status: 400,
+                    Status: 403,
                     Message: No se pudo actualizar el analisis
                 },
 
@@ -239,6 +242,10 @@
                 }
             </td>
         </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
     </table>
 
     <hr>
@@ -248,7 +255,7 @@
     <table>
         <tr>
             <td> Numero </td>
-            <td> 4 </td>
+            <td> 29 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
@@ -256,7 +263,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /analisis/desactivar/:codigo </td>
+            <td> /analisis/desactivar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -290,10 +297,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 403
                 Body Json: 
                 {
-                    Status: 400,
+                    Status: 403,
                     Message: No se pudo desactivar el analisis
                 },
 
@@ -306,6 +313,10 @@
                 }
             </td>
         </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
     </table>
 
     <hr>
@@ -315,7 +326,7 @@
     <table>
         <tr>
             <td> Numero </td>
-            <td> 5 </td>
+            <td> 30 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
@@ -323,7 +334,7 @@
         </tr>
         <tr>
             <td> Url </td>
-            <td> /analisis/buscar/:codigo </td>
+            <td> /analisis/buscar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
@@ -360,10 +371,10 @@
                 },
 
                 Incorrecto:
-                Status: 400
+                Status: 404
                 Body Json:
                 {
-                    Status: 400,
+                    Status: 404,
                     Message: El analisis no existe
                 },
 
@@ -375,6 +386,10 @@
                     Message: Error del servidor + error
                 }
             </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
         </tr>
     </table>
 </body>

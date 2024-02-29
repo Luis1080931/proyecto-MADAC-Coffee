@@ -1,8 +1,16 @@
+import { query } from "express"
 import { pool } from '../database/conexion.js'
+import { validationVariedades } from "express-validator"
 
 //Registrar
 export const registrarVariedades = async (req, res) => {
     try {
+
+        const errors = validationVariedades(req)
+        if(!errors.isEmpty()){
+            return res.status(403).json(errors)
+        }
+
         const { nombre, estado } = req.body
         const [ resultado ] = await pool.query("INSERT INTO variedades(nombre, estado) VALUES (?, ?)", [nombre, estado])
 
@@ -12,7 +20,7 @@ export const registrarVariedades = async (req, res) => {
                 "mensaje": "Variedad creada con exito!"
             })
         } else {
-            res.status(404).json({
+            res.status(403).json({
                 "mensaje": "No se pudo crear la variedad"
             })
         }
@@ -26,6 +34,12 @@ export const registrarVariedades = async (req, res) => {
 //Actualizar
 export const actualizarVariedades = async (req, res) => {
     try {
+
+        const errors = validationVariedades(req)
+        if(!errors.isEmpty()){
+            return res.status(403).json(errors)
+        }
+        
         const { codigo } = req.params
         const { nombre, estado } = req.body
         
@@ -39,7 +53,7 @@ export const actualizarVariedades = async (req, res) => {
                 "mensaje": "Variedad actualizada con exito"
             })
         } else {
-            res.status(404).json({
+            res.status(403).json({
                 "mensaje": "No se pudo actualizar la variedad"
             })
         }
@@ -62,7 +76,7 @@ export const desactivarVariedades = async (req, res) => {
                 "mensaje": "Variedad desactivada con exito"
             })
         } else {
-            res.status(404).json({
+            res.status(403).json({
                 "mensaje": "No se pudo desactivar la variedad"
             })
         }
@@ -106,7 +120,7 @@ export const buscarVariedades=async(req,res)=>{
         if (variedades.length>0) {
             res.status(200).json(variedades)
         } else {
-            res.status(404).json({
+            res.status(403).json({
                 "mensaje":"La variedad no existe"
             })
         }
