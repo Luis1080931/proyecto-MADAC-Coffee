@@ -1,4 +1,5 @@
 import {pool} from '../database/conexion.js'
+import {validationResult} from 'express-validator'
 
 export const getFincas=async(req,res)=>{
     try{
@@ -34,13 +35,16 @@ export const getFinca = async (req,res)=>{
 }
 export const postFincas=async(req,res)=>{
     try{
+
+        const errors=validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(400).json(errors.array());
+        }
         const {dimension_mt2,fk_caficultor,municipio,vereda,estado}=req.body
         const [rows]=await pool.query('INSERT INTO fincas (dimension_mt2,fk_caficultor,municipio,vereda,estado) VALUES (?,?,?,?,?)',[dimension_mt2,fk_caficultor,municipio,vereda,estado])
-        /*el rows significa que solo esta pidiendo las filas ya que si no estuviera nos daria todo el codigo  */
-        /*res.send es para que nos muestren los datos*/
         if(rows.affectedRows > 0){
             res.status(200).json({
-                message:"finca registrado Correctamente"
+                message:"finca registrado correctamente"
         })
         }else{
             res.status(403).json({
@@ -53,7 +57,7 @@ export const postFincas=async(req,res)=>{
         })
     }
 }
-export const activar_desactivar_Fincas=async(req,res)=>{
+export const desactivar_Fincas=async(req,res)=>{
     try{
         const {codigo}=req.params
         const [result]=await pool.query('UPDATE fincas SET estado=2 WHERE codigo=?',[codigo])
@@ -76,6 +80,11 @@ export const activar_desactivar_Fincas=async(req,res)=>{
 
 export const actualizarFincas = async(req,res)=>{
     try{
+
+        const errorss=validationResult(req)
+        if(!errorss.isEmpty()){
+            return res.status(400).json(errorss.array());
+        }
         const {codigo}=req.params
         const {dimension_mt2,fk_caficultor,municipio,vereda}=req.body
     
