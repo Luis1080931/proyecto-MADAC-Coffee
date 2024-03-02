@@ -22,18 +22,19 @@ export const listarMuestras = async (req, res) => {
 export const CrearMuestra = async (req, res) => {
     try {
         // Validación de datos
-        const errors= validationResult(req);
-        if(!errors.isEmpty()){
-            return res.status(400).json(errors);
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            const errorMessages = errors.array().map(error => ({
+                path: error.param,
+                message: error.msg
+            }));
+            return res.status(400).json({ errors: errorMessages });
         }
-        // Extracción de datos del cuerpo de la solicitud
-        const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado } = req.body;
 
-        // Consulta SQL para insertar la muestra
+        const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado } = req.body;
         const [resultado] = await pool.query("INSERT INTO muestras (fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado]);
 
-        // Verificación del resultado de la inserción
-        if (resultado.affectedRows >  0) {
+        if (resultado.affectedRows > 0) {
             res.status(200).json({ mensaje: "Se creó una muestra" });
         } else {
             res.status(403).json({ mensaje: "No se creó una muestra" });
@@ -45,16 +46,35 @@ export const CrearMuestra = async (req, res) => {
 };
 
 
+
 //actualizar muestra
 export const actualizarMuestra = async (req, res) => {
     try {
         const { codigo } = req.params;
         const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote } = req.body;
 
-        // La consulta debe tener placeholders para cada valor que se va a actualizar
-        const [result] = await pool.query('UPDATE muestras SET fecha = IFNULL(?, fecha), cantidad = IFNULL(?, cantidad), quien_recibe = IFNULL(?, quien_recibe) , proceso_fermentacion = IFNULL(?, proceso_fermentacion), humedad_cafe = IFNULL(?, humedad_cafe), altura_MSNM = IFNULL(?, altura_MSNM), tipo_secado = IFNULL(?, tipo_secado), observaciones = IFNULL(?, observaciones), fk_lote = IFNULL(?, fk_lote) WHERE codigo = ?', [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, codigo]);
+        // Función para validar si al menos un dato está presente
+        const validar = (fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote) => {
+            return fecha !== undefined && fecha !== null ||
+                   cantidad !== undefined && cantidad !== null ||
+                   quien_recibe !== undefined && quien_recibe !== null ||
+                   proceso_fermentacion !== undefined && proceso_fermentacion !== null ||
+                   humedad_cafe !== undefined && humedad_cafe !== null ||
+                   altura_MSNM !== undefined && altura_MSNM !== null ||
+                   tipo_secado !== undefined && tipo_secado !== null ||
+                   observaciones !== undefined && observaciones !== null ||
+                   fk_lote !== undefined && fk_lote !== null;
+        };
 
-        if (result.affectedRows >  0) {
+        // Verificar si al menos un dato está presente
+        if (!validar(fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote)) {
+            return res.status(400).json({ message: 'Debe proporcionar al menos un dato para actualizar.' });
+        }
+
+        // La consulta debe tener placeholders para cada valor que se va a actualizar
+        const [result] = await pool.query('UPDATE muestras SET fecha = IFNULL(?, fecha), cantidad = IFNULL(?, cantidad), quien_recibe = IFNULL(?, quien_recibe), proceso_fermentacion = IFNULL(?, proceso_fermentacion), humedad_cafe = IFNULL(?, humedad_cafe), altura_MSNM = IFNULL(?, altura_MSNM), tipo_secado = IFNULL(?, tipo_secado), observaciones = IFNULL(?, observaciones), fk_lote = IFNULL(?, fk_lote) WHERE codigo = ?', [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, codigo]);
+
+        if (result.affectedRows > 0) {
             res.status(200).json({ message: 'La muestra ha sido actualizada correctamente.' });
         } else {
             res.status(400).json({ message: 'No se pudo actualizar la muestra. Por favor, verifica los datos proporcionados.' });
@@ -64,6 +84,7 @@ export const actualizarMuestra = async (req, res) => {
         res.status(500).json({message:"Error en el servidor" + error})
     }
 };
+
 
 
 // desactivar muestras}

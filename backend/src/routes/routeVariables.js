@@ -10,7 +10,7 @@ routeVariables.post("/crearvariable",validacionVariable,CrearVariable)
 
 routeVariables.put("/actualizarvariable/:codigo", ActualizarVariable)
 routeVariables.put("/desactivarVariable/:codigo", desactivarVariable)
-routeVariables.get("/buscarvariable", buscarvariable)
+routeVariables.get("/buscarvariable/:codigo", buscarvariable)
 
 
 export default routeVariables

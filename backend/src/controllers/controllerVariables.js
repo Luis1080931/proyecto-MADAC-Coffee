@@ -62,28 +62,39 @@ export const ActualizarVariable = async (req, res) => {
         const { codigo } = req.params;
         const { nombre, fk_tipo_analisis } = req.body;
 
-        // La consulta debe tener placeholders para cada valor que se va a actualizar
-        const [result] = await pool.query('UPDATE variables SET nombre = IFNULL(?, nombre), fk_tipo_analisis = IFNULL(?, fk_tipo_analisis) WHERE v_codigo = ?', [nombre, fk_tipo_analisis, codigo]);
+        // Función para validar si al menos un dato está presente
+        const validar = (nombre, fk_tipo_analisis) => {
+            return nombre !== undefined && nombre !== null ||
+                   fk_tipo_analisis !== undefined && fk_tipo_analisis !== null;
+        };
 
-        if (result.affectedRows >  0) {
+        // Verificar si al menos un dato está presente
+        if (!validar(nombre, fk_tipo_analisis)) {
+            return res.status(400).json({ message: 'Debe proporcionar al menos un dato para actualizar.' });
+        }
+
+        const [result] = await pool.query('UPDATE variables SET nombre = IFNULL(?, nombre), fk_tipo_analisis = IFNULL(?, fk_tipo_analisis) WHERE codigo = ?', [nombre, fk_tipo_analisis, codigo]);
+
+        if (result.affectedRows > 0) {
             res.status(200).json({ message: 'La variable ha sido actualizada correctamente.' });
         } else {
             res.status(403).json({ message: 'No se pudo actualizar la variable. Por favor, verifica los datos proporcionados.' });
         }
     } catch (error) {
         res.status(500).json({
-            status:500,
+            status: 500,
             message: "Error del servidor" + error
-        })
+        });
     }
 };
+
 
 //activar desactivar variables 
 
 export const desactivarVariable = async (req, res) => {
     try {
         const {codigo} = req.params; // Cambiado de 'codigo' a 'codigo'
-        const [result] = await pool.query("UPDATE variables  SET estado= 2 WHERE v_codigo = ?", [ codigo]);
+        const [result] = await pool.query("UPDATE variables  SET estado= 2 WHERE codigo = ?", [ codigo]);
 
         if (result.affectedRows > 0) {
             res.status(200).json({
@@ -108,8 +119,8 @@ export const desactivarVariable = async (req, res) => {
 //buscar variable 
 export const buscarvariable = async (req, res) => {
     try {
-        const { id } = req.params; //esta es la caracterica para buscar
-        const [result] = await pool.query("SELECT * FROM variables WHERE v_codigo = ?", [id]);
+        const { codigo } = req.params; 
+        const [result] = await pool.query("SELECT * FROM variables WHERE codigo = ?", [codigo]);
                                                         //nombre tabla
         if (result.length > 0) {
             res.status(200).json(result);
