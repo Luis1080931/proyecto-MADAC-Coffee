@@ -1,6 +1,5 @@
 import {pool} from "../database/conexion.js"
 import { validationResult } from 'express-validator';
-import { check } from "express-validator";
 
 export const listarMuestras = async (req, res) => {
     try {
@@ -25,11 +24,7 @@ export const CrearMuestra = async (req, res) => {
         // Validación de datos
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            const errorMessages = errors.array().map(error => ({
-                path: error.param,
-                message: error.msg
-            }));
-            return res.status(400).json({ errors: errorMessages });
+            return res.status(400).json(errors.array());
         }
 
         const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado } = req.body;

@@ -1,15 +1,16 @@
-import { check}  from 'express-validator';
-
+import { check } from 'express-validator';
 
 export const validacionMuestra = [
-/*  check('fecha', 'fecha no esta registrada').not().isEmpty().isDate(), */
- check('cantidad', 'cantidad no esta registrada').not().isEmpty().isDecimal(),
- check('quien_recibe', 'quien recibe no esta registrada').not().isEmpty().isLength({max:200}).matches(/^[a-zA-Z\s]+$/),
- check('proceso_fermentacion', 'el proceso de fermentación no esta registrado').not().isEmpty().isLength({max:200}).matches(/^[a-zA-Z\s]+$/),
- check('humedad_cafe', 'la humedad del cafe no esta registrada').not().isEmpty().isDecimal(),
- check('altura_MSNM', 'la altura MSNM no esta registrada').not().isEmpty().isDecimal(),
- check('tipo_secado', 'tipo de secado no esta registrado').not().isEmpty().isLength({max:200}).matches(/^[a-zA-Z\s]+$/),
- check('observaciones', 'observaciones no esta registrado').not().isEmpty().isLength({max:200}).matches(/^[a-zA-Z\s]+$/),
- check('fk_lote', 'la fk lote no esta registrada').not().isEmpty().isNumeric(),
- check('estado', 'escribe un estado').not().isEmpty().isIn(['activo', 'inactivo'])
+  //no pude con la fecha 
+/*     check('fecha', 'La fecha es obligatoria y debe estar en formato YYYY-MM-DD').not().isEmpty().isDate({ format: 'YYYY-MM-DD' }), */
+    check('cantidad', 'La cantidad es obligatoria y debe ser un número decimal').not().isEmpty().isDecimal(),
+    check('quien_recibe', 'El campo quien recibe es obligatorio, debe tener máximo 200 caracteres, y solo puede contener letras y espacios').not().isEmpty().isLength({max:200}).matches(/^[a-zA-Z\s]+$/),
+    check('proceso_fermentacion', 'El proceso de fermentación es obligatorio, debe tener máximo 200 caracteres, y solo puede contener letras y espacios').not().isEmpty().isLength({max:200}).matches(/^[a-zA-Z\s]+$/),
+    check('humedad_cafe', 'La humedad del café es obligatoria y debe ser un número decimal').not().isEmpty().isDecimal(),
+    check('altura_MSNM', 'La altura MSNM es obligatoria y debe ser un número decimal').not().isEmpty().isDecimal(),
+    check('tipo_secado', 'El tipo de secado es obligatorio, debe tener máximo 200 caracteres, y solo puede contener letras y espacios').not().isEmpty().isLength({max:200}).matches(/^[a-zA-Z\s]+$/),
+    check('observaciones', 'Las observaciones son obligatorias, deben tener máximo 200 caracteres, y solo pueden contener letras y espacios').not().isEmpty().isLength({max:200}).matches(/^[a-zA-Z\s]+$/),
+    check('fk_lote', 'El campo fk lote es obligatorio y debe contener solo números').not().isEmpty().isNumeric(),
+    check('estado', 'El estado es obligatorio y debe ser "activo" o "inactivo"').not().isEmpty().isIn(['activo', 'inactivo'])
 ];
+
