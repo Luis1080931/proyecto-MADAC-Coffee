@@ -22,15 +22,10 @@ export const listarMuestras = async (req, res) => {
 export const CrearMuestra = async (req, res) => {
     try {
         // Validación de datos
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            const errorMessages = errors.array().map(error => ({
-                path: error.param,
-                message: error.msg
-            }));
-            return res.status(400).json({ errors: errorMessages });
+        const errors= validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).json(errors);
         }
-
         const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado } = req.body;
         const [resultado] = await pool.query("INSERT INTO muestras (fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado]);
 
