@@ -8,6 +8,7 @@ import routeMuestras from './src/routes/routeMuestras.js'
 import routeVariables from './src/routes/routeVariables.js'
 import routeUsuarios from "./src/routes/usuarios.route.js";
 import routeVariedades from './src/routes/variedades.routes.js'
+import rutaValidacion from "./src/routes/seguridad.route.js"; 
 
 
 const servidor = express()
@@ -23,6 +24,7 @@ servidor.use('/muestras', routeMuestras)
 servidor.use('/analisis', routeAnalisis)
 servidor.use('/variables', routeVariables)
 servidor.use('/resultados', routeResultados)
+servidor.use(rutaValidacion)
 
 servidor.set('view engine', 'ejs')
 
