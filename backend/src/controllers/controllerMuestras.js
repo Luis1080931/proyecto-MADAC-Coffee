@@ -46,28 +46,15 @@ export const CrearMuestra = async (req, res) => {
 //actualizar muestra
 export const actualizarMuestra = async (req, res) => {
     try {
+        // Validación de datos
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json(errors.array());
+        }
+    
         const { codigo } = req.params;
         const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote } = req.body;
 
-        // Función para validar si al menos un dato está presente
-        const validar = (fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote) => {
-            return fecha !== undefined && fecha !== null ||
-                   cantidad !== undefined && cantidad !== null ||
-                   quien_recibe !== undefined && quien_recibe !== null ||
-                   proceso_fermentacion !== undefined && proceso_fermentacion !== null ||
-                   humedad_cafe !== undefined && humedad_cafe !== null ||
-                   altura_MSNM !== undefined && altura_MSNM !== null ||
-                   tipo_secado !== undefined && tipo_secado !== null ||
-                   observaciones !== undefined && observaciones !== null ||
-                   fk_lote !== undefined && fk_lote !== null;
-        };
-
-        // Verificar si al menos un dato está presente
-        if (!validar(fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote)) {
-            return res.status(400).json({ message: 'Debe proporcionar al menos un dato para actualizar.' });
-        }
-
-        // La consulta debe tener placeholders para cada valor que se va a actualizar
         const [result] = await pool.query('UPDATE muestras SET fecha = IFNULL(?, fecha), cantidad = IFNULL(?, cantidad), quien_recibe = IFNULL(?, quien_recibe), proceso_fermentacion = IFNULL(?, proceso_fermentacion), humedad_cafe = IFNULL(?, humedad_cafe), altura_MSNM = IFNULL(?, altura_MSNM), tipo_secado = IFNULL(?, tipo_secado), observaciones = IFNULL(?, observaciones), fk_lote = IFNULL(?, fk_lote) WHERE codigo = ?', [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, codigo]);
 
         if (result.affectedRows > 0) {

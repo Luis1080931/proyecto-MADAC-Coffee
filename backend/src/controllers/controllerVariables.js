@@ -59,20 +59,14 @@ export const CrearVariable = async (req, res) => {
 
 export const ActualizarVariable = async (req, res) => {
     try {
-        const { codigo } = req.params;
-        const { nombre, fk_tipo_analisis } = req.body;
-
-        // Función para validar si al menos un dato está presente
-        const validar = (nombre, fk_tipo_analisis) => {
-            return nombre !== undefined && nombre !== null ||
-                   fk_tipo_analisis !== undefined && fk_tipo_analisis !== null;
-        };
-
-        // Verificar si al menos un dato está presente
-        if (!validar(nombre, fk_tipo_analisis)) {
-            return res.status(400).json({ message: 'Debe proporcionar al menos un dato para actualizar.' });
+        // Función para validar.
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            return res.status(400).json(errors);
         }
 
+        const { codigo } = req.params;
+        const { nombre, fk_tipo_analisis } = req.body;
         const [result] = await pool.query('UPDATE variables SET nombre = IFNULL(?, nombre), fk_tipo_analisis = IFNULL(?, fk_tipo_analisis) WHERE codigo = ?', [nombre, fk_tipo_analisis, codigo]);
 
         if (result.affectedRows > 0) {
@@ -100,7 +94,6 @@ export const desactivarVariable = async (req, res) => {
             res.status(200).json({
                 status: 200,
                 message: 'Se desactivó con éxito',
-                result: result
             });
         } else {
             res.status(403).json({
