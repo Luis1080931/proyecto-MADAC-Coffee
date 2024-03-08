@@ -9,9 +9,12 @@ import routeVariables from './src/routes/routeVariables.js'
 import routeUsuarios from "./src/routes/usuarios.route.js";
 import routeVariedades from './src/routes/variedades.routes.js'
 import rutaValidacion from "./src/routes/seguridad.route.js"; 
+import cors from 'cors'
 
 
 const servidor = express()
+
+servidor.use(cors())
 
 servidor.use(body_parser.json())
 servidor.use(body_parser.urlencoded({extend: false}))
