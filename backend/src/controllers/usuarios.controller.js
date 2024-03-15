@@ -16,7 +16,7 @@ export const registrarUsuarios = async (req,res)=>{
         }
 
         const{ identificacion, telefono, nombre, correo_electronico, tipo_usuario, password} = req.body
-        const [resultado] = await pool.query("INSERT INTO usuarios(identificacion, telefono, nombre, correo_electronico, tipo_usuario, password, estado) VALUES(?, ?, ?, ?, ?, ?, 1)",[identificacion, telefono, nombre, correo_electronico, tipo_usuario, password, ])
+        const [resultado] = await pool.query("INSERT INTO usuarios(identificacion, telefono, nombre, correo_electronico, tipo_usuario, password, estado) VALUES(?, ?, ?, ?, ?, ?, 1)",[identificacion, telefono, nombre, correo_electronico, tipo_usuario, password])
         if (resultado.affectedRows > 0) {
 
             res.status(201).json(
@@ -95,8 +95,7 @@ export const actualizarUsuarios = async (req,res)=>{
 
 
         const { identificacion } = req.params
-        const{ telefono, nombre, correo_electronico, tipo_usuario, estado
-        } = req.body
+        const{ telefono, nombre, correo_electronico, tipo_usuario, estado} = req.body
         
         const [ usuarioAnterior ] = await pool.query("select * from usuarios where identificacion=?", [identificacion])
 
