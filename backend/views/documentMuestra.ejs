@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Muestras</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    
+    <hr>
+    <h2> Módulo muestras </h2>
+    <hr>
+    <h3> Requerimiento registrar muestras </h3>
+
+  <!-- registar muestras -->
+  <table>
+    <tr><td>numero</td><td>21</td></tr>
+    <tr><td>Nombre del servicio</td><td>Crear Muestra</td></tr>
+    <tr><td>URI</td><td>/muestras/CrearMuestra</td></tr>
+    <tr><td>Descripción</td><td>Permite crear las muestras para registrarlas en la base de datos </td></tr>
+    <tr><td>verbo HTTP</td><td>post</td></tr>
+    <tr><td>HEADER</td><td>null</td></tr>
+    <tr><td>Usuario</td><td>administrador </td></tr>
+    <tr><td>petición json</td><td>{
+      "fecha": "2024-02-11",
+      "cantidad": 1500,
+      "quien_recibe": "Miguel",
+      "proceso_fermentacion": "24 horas en cilo",
+      "humedad_cafe": 15,
+      "altura_MSNM": 1500,
+      "tipo_secado": "full",
+      "observaciones": "Todo melo",
+      "fk_lote": 5,
+      "estado": 1
+  }</td></tr>
+    <tr><td>Respuesta json</td><td>
+
+    correcto:
+    status: 200 
+    json:
+      {
+      "status": 200,
+      "message":"Se creó una muestra"
+      }
+        incorrecto:
+        status:403
+        "Mensaje":""No se creó una muestra"
+
+        Error: 
+        Status: 500,
+        Body Json: 
+        {
+          "Status": 500,
+          "Message": "Error en el servidor": + error
+        }
+        </td></tr>
+        <tr>
+          <td> Programador </td>
+          <td> Alejandro David Pasaje </td>
+        </tr>
+    
+</table>
+
+<hr>
+ <h3> Requerimiento listar muestras </h3>
+
+<!-- listar muestras  -->
+    <table>
+        <tr><td>numero</td><td>22</td></tr>
+        <tr><td>Nombre del servicio</td><td>Listar Muestras</td></tr>
+        <tr><td>URI</td><td>/muestras/listarMuestras</td></tr>
+        <tr><td>Descripción</td><td>Permite listar las muestras registradas en la base de datos </td></tr>
+        <tr><td>verbo HTTP</td><td>get</td></tr>
+        <tr><td>HEADER</td><td>null</td></tr>
+        <tr><td>Usuario</td><td>administrador </td></tr>
+        <tr><td>petición json</td><td>null</td></tr>
+        <tr><td>Respuesta json</td><td>
+
+        correcto:
+        status: 200 
+        json:
+        {
+            "codigo": 1,
+            "fecha": "2024-02-01T05:00:00.000Z",
+            "cantidad": "12.00",
+            "quien_recibe": "Maria fernanda",
+            "proceso_fermentacion": "bueno",
+            "humedad_cafe": "12.20",
+            "altura_MSNM": "11.20",
+            "tipo_secado": "seco",
+            "observaciones": "ninguna",
+            "fk_lote": 3,
+            "estado": "inactivo"
+          }
+            incorrecto:
+            status:404
+            "Mensaje":"No hay muestras"
+
+            Error: 
+            Status: 500,
+            Body Json: 
+            {
+              "Status": 500,
+              "Message": "Error en el servidor": + error
+            }
+            </td></tr>
+            <tr>
+              <td> Programador </td>
+              <td> Alejandro David Pasaje </td>
+            </tr>
+    </table>
+    
+<hr>
+
+<h3> Requerimiento actualizar muestras </h3>
+    <!-- actualizar muestras  -->
+    <table>
+        <tr><td>numero</td><td>23</td></tr>
+        <tr><td>Nombre del servicio</td><td>Actualizar muestras</td></tr>
+        <tr><td>URI</td><td>/muestras/actualizarMuestra/1</td></tr>
+        <tr><td>Descripción</td><td>Permite actualizar las muestras registradas en la base de datos </td></tr>
+        <tr><td>verbo HTTP</td><td>put</td></tr>
+        <tr><td>HEADER</td><td>null</td></tr>
+        <tr><td>Usuario</td><td>administrador </td></tr>
+        <tr><td>petición json</td><td>{"fecha": "2024-02-01T05:00:00.000Z","cantidad": "12.00","quien_recibe": "Maria fernanda","proceso_fermentacion": "bueno","humedad_cafe": "12.20","altura_MSNM": "11.20","tipo_secado": "seco","observaciones": "ninguna","fk_lote": 3"}</td></tr>
+        <tr><td>Respuesta json</td><td>
+
+        correcto:
+        status: 200 
+        json:
+        {
+            "message": "La muestra ha sido actualizada correctamente."
+          }
+            incorrecto:
+            status:404
+            message: 'No se pudo actualizar la muestra. Por favor, verifica los datos proporcionados.'
+
+            Error: 
+            Status: 500,
+            Body Json: 
+            {
+              "Status": 500,
+              "Message": "Error en el servidor": + error
+            }
+            </td></tr>
+            <tr>
+              <td> Programador </td>
+              <td> Alejandro David Pasaje </td>
+            </tr>
+    </table>
+<hr>
+<h3> Requerimiento desactivar muestras </h3>
+<!-- desactivar variable -->
+<table>
+    <tr><td>numero</td><td>24</td></tr>
+    <tr><td>Nombre del servicio</td><td>desactivar muestras</td></tr>
+    <tr><td>URI</td><td>/muestras/desactivarmuestra/1</td></tr>
+    <tr><td>Descripción</td><td>Permite desactivar o activar las muestras registradas en la base de datos </td></tr>
+    <tr><td>verbo HTTP</td><td>put</td></tr>
+    <tr><td>HEADER</td><td>null</td></tr>
+    <tr><td>Usuario</td><td>administrador </td></tr>
+    <tr><td>petición json</td><td>Null</td></tr>
+    <tr><td>Respuesta json</td><td>
+
+    correcto:
+    status: 200 message: 'Se desactivó con éxito'
+    json:
+    {
+        "status": 200,
+        "message": "Se desactivó con éxito",
+      }
+        incorrecto:
+        status:403
+        "Mensaje": 'No se pudo desactivar la muestra'
+
+        Error: 
+        Status: 500,
+        Body Json: 
+        {
+          "Status": 500,
+          "Message": "Error en el servidor": + error
+        }
+        </td></tr>
+        <tr>
+          <td> Programador </td>
+          <td> Alejandro David Pasaje </td>
+        </tr>
+</table>
+<hr>
+<h3> Requerimiento buscar muestras </h3>
+<!-- Buscar muestras -->
+<table>
+    <tr><td>numero</td><td>25</td></tr>
+    <tr><td>Nombre del servicio</td><td>buscar muestras</td></tr>
+    <tr><td>URI</td><td>/muestras/buscarmuestra/1</td></tr>
+    <tr><td>Descripción</td><td>Permite buscar las muestras registradas en la base de datos </td></tr>
+    <tr><td>verbo HTTP</td><td>get</td></tr>
+    <tr><td>HEADER</td><td>null</td></tr>
+    <tr><td>Usuario</td><td>administrador </td></tr>
+    <tr><td>petición json</td><td>Null</td></tr>
+    <tr><td>Respuesta json</td><td>
+
+    correcto:
+    status: 200 
+    json:
+    {
+        "codigo": 1,
+        "fecha": "2024-02-01T05:00:00.000Z",
+        "cantidad": "12.00",
+        "quien_recibe": "Maria fernanda",
+        "proceso_fermentacion": "bueno",
+        "humedad_cafe": "12.20",
+        "altura_MSNM": "11.20",
+        "tipo_secado": "seco",
+        "observaciones": "ninguna",
+        "fk_lote": 3,
+        "estado": null
+      }
+        incorrecto:
+        status:404
+        message: 'No se encontraron resultados para la búsqueda'
+
+        Error: 
+        Status: 500,
+        Body Json: 
+        {
+          "Status": 500,
+          "Message": "Error en el servidor": + error
+        }
+
+        </td></tr>
+        <tr>
+          <td> Programador </td>
+          <td> Alejandro David Pasaje </td>
+        </tr>
+</table>
+</body>
+</html>

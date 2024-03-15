@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <hr>
+    <h2> Modulo lotes </h2>
+    <hr>
+    <h3> Requerimiento registrar lote </h3>
+
+    <table>
+        <tr><td>Numero</td><td>16</td></tr>
+        <tr><td>Nombre del servicio</td><td>registrar lote</td></tr>
+        <tr><td>Url</td><td>/lotes/registrar</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador registrar nuevos lotes</td></tr>
+        <tr><td>Verbo HTTP</td><td>POST</td></tr>
+        <tr><td>Header</td><td>Null</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+            {
+                "numero_arboles": 100,
+                "fk_finca":7,
+                "fk_variedad": 4,
+                "estado": 1
+              }
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:
+            Status:200
+            json:{
+            "message": "Lote registrado correctamente"
+            }
+          <br>
+          Incorrecto:
+          Status:403
+           JSON:{
+            message:"No se pudo registrar el lote"
+           }
+           <br>
+           Error:
+           Status:500
+           JSON:{
+            message:"error en el servidor"+error
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento listar lotes </h3>
+
+    <table>
+        <tr><td>Numero</td><td>17</td></tr>
+        <tr><td>Nombre del servicio</td><td>Listar lotes</td></tr>
+        <tr><td>Url</td><td>/lotes/listar</td></tr>
+        <tr><td>Descripcion</td><td>Permite al usuario listar a todas los lostes que se encuentren en la base de datos</td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td>Null</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>Null</td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:
+            Status:200
+            json:
+            [
+        {
+            "codigo": 3,
+             "numero_arboles": 300,
+            "fk_finca": 5,
+             "fk_variedad": 3,
+            "estado": "activo"
+        }
+            ]
+          <br>
+          Incorrecto:
+          Status:404
+           JSON:{
+            message:"No encontramos a ningun lote"
+           }
+           <br>
+           Error:
+           Status:500
+           JSON:{
+            message:"error en el servidor"+error
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+    
+    <hr>
+    
+    <h3> Requerimiento desactivar lote </h3>
+
+    <table>
+        <tr><td>Numero</td><td>18</td></tr>
+        <tr><td>Nombre del servicio</td><td>Desactivar lote</td></tr>
+        <tr><td>Url</td><td>/lotes/descativar/3</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador desactivar el lote</td></tr>
+        <tr><td>Verbo HTTP</td><td>PUT</td></tr>
+        <tr><td>Header</td><td>Null</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+              Null
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:
+            Status:200
+            json:{
+                "message": "Lote desactivado exitosamente"
+            }
+          <br>
+          Incorrecto:
+          Status:403
+           JSON:{
+            message:"No se pudo desactivar el lote"
+           }
+           <br>
+           Error:
+           Status:500
+           JSON:{
+            message:"error en el servidor"+error
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+    <hr>
+    <h3> Requerimiento actualizar lote </h3>
+    <table>
+        <tr><td>Numero</td><td>19</td></tr>
+        <tr><td>Nombre del servicio</td><td>Actualizar Lotes</td></tr>
+        <tr><td>Url</td><td>/lotes/actualizar/3</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador actualizar el lote</td></tr>
+        <tr><td>Verbo HTTP</td><td>Put</td></tr>
+        <tr><td>Header</td><td>Null</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+            {
+                "numero_arboles":500
+              }
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:
+            Status:200
+            json:{
+                "message": "Lote actualizado exitosamente"
+            }
+          <br>
+          Incorrecto:
+          Status:403
+           JSON:{
+            message:"No se pudo actualizar el lote"
+           }
+           <br>
+           Error:
+           Status:500
+           JSON:{
+            message:"error en el servidor"+error
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+
+    <hr>
+    
+    <h3> Requerimiento buscar lote </h3>
+    <table>
+        <tr><td>Numero</td><td>20</td></tr>
+        <tr><td>Nombre del servicio</td><td>buscar lote</td></tr>
+        <tr><td>Url</td><td>/lotes/buscar/3</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador buscar el lote por medio de su codigo</td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td>Null</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>Null</td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:
+            Status:200
+            json:
+                [
+                {
+                  "codigo": 3,
+                  "numero_arboles": 300,
+                  "fk_finca": 5,
+                  "fk_variedad": 3,
+                  "estado": "activo"
+                }
+              ]
+          <br>
+          Incorrecto:
+          Status:404
+           JSON:{
+            "message": "No se encontró ningun lote"
+           }
+           <br>
+           Error:
+           Status:500
+           JSON:{
+            message:"error en el servidor"+error
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+</body>
+</html>

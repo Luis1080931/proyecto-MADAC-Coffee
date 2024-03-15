@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentacion de la API</title>
+</head>
+<body>
+
+    <hr>
+    <h2> Modulo fincas </h2>
+    <hr>
+    <h3> Requerimiento registrar fincas </h3>
+
+    <table>
+        <tr><td>Numero</td><td>6</td></tr>
+        <tr><td>Nombre del servicio</td><td>registrar finca</td></tr>
+        <tr><td>Uri</td><td>/fincas/registrar</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador registrar nuevas fincas</td></tr>
+        <tr><td>Verbo HTTP</td><td>POST</td></tr>
+        <tr><td>Header</td><td>Null</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+            {
+                "dimension_mt2": "24.50",
+                "fk_caficultor": 876543210,
+                "municipio": "nogales",
+                "vereda": "quebrada",
+                "estado": "activo"
+              }
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:
+            Status:200
+            json:{
+            "message": "finca registrado Correctamente"
+            }
+          <br>
+          Incorrecto:
+          Status:403
+           JSON:{
+            message:"no se pudo registrar Correctamente"
+           }
+           <br>
+           Error:
+           Status:500
+           JSON:{
+            message:"error en el servidor"+error
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento listar fincas </h3>
+
+    <table>
+        <tr><td>Numero</td><td>7</td></tr>
+        <tr><td>Nombre del servicio</td><td>Listar fincas</td></tr>
+        <tr><td>Uri</td><td>fincas/listar</td></tr>
+        <tr><td>Descripcion</td><td>Permite al usuario listar a todas las fincas que se encuentren la base de datos</td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td>Null</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>Null</td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:
+            Status:200
+            json:
+            [
+                {
+            "codigo": 5,
+            "dimension_mt2": "12.50",
+            "fk_caficultor": 1029880306,
+            "municipio": "patio bonito",
+            "vereda": "acevedo",
+            "estado": "activo"
+                }
+            ]
+          <br>
+          Incorrecto:
+          Status:404
+           JSON:{
+            message:"no encontramos a ninguna finca"
+           }
+           <br>
+           Error:
+           Status:500
+           JSON:{
+            message:"error en el servidor"+error
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+    
+    <hr>
+
+    <h3> Requerimiento actualizar finca </h3>
+    <table>
+        <tr><td>Numero</td><td>8</td></tr>
+        <tr><td>Nombre del servicio</td><td>Actualizar Finca</td></tr>
+        <tr><td>Url</td><td>fincas/actualizar/5</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador actualizar la finca</td></tr>
+        <tr><td>Verbo HTTP</td><td>Put</td></tr>
+        <tr><td>Header</td><td>Null</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+             {
+                "dimension_mt2": "25.50"
+              }
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:
+            Status:200
+            json:{
+                "message": "finca actualizada exitosamente"
+            }
+          <br>
+          Incorrecto:
+          Status:403
+           JSON:{
+            message:"No fue posible actualizar la finca"
+           }
+           <br>
+           Error:
+           Status:500
+           JSON:{
+            message:"error en el servidor"+error
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+    <hr>
+
+    <h3> Requerimiento desactivar finca </h3>
+    <table>
+        <tr><td>Numero</td><td>9</td></tr>
+        <tr><td>Nombre del servicio</td><td>Desactivar Finca</td></tr>
+        <tr><td>Uri</td><td>fincas/descativar/5</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador desactivar la finca</td></tr>
+        <tr><td>Verbo HTTP</td><td>PUT</td></tr>
+        <tr><td>Header</td><td>Null</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+              Null
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:
+            Status:200
+            json:{
+                "message": "Finca desactivada correctamente"
+            }
+          <br>
+          Incorrecto:
+          Status:403
+           JSON:{
+            message:"No se pudo desactivar la finca"
+           }
+           <br>
+           Error:
+           Status:500
+           JSON:{
+            message:"error en el servidor"+error
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+    
+    <hr>
+
+    <h3> Requerimiento buscar finca </h3>
+    <table>
+        <tr><td>Numero</td><td>10</td></tr>
+        <tr><td>Nombre del servicio</td><td>buscar finca</td></tr>
+        <tr><td>Uri</td><td>fincas/buscar/5</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador buscar a la finca por medio de su codigo</td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td>Null</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>Null</td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:
+            Status:200
+            json:
+            {
+            "codigo": 5,
+            "dimension_mt2": "12.50",
+            "fk_caficultor": 1029880306,
+            "municipio": "patio bonito",
+            "vereda": "acevedo",
+            "estado": "activo"
+            }
+          <br>
+          Incorrecto:
+          Status:404
+           JSON:{
+            message:"no encontramos a ninguna finca"
+           }
+           <br>
+           Error:
+           Status:500
+           JSON:{
+            message:"error en el servidor"+error
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+    
+</body>
+</html>

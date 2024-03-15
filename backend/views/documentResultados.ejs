@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Document API MADAC-Coffee </title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <hr>
+    <h2> Modulo resultados </h2>
+    <hr>
+
+    <h3> Requerimiento registrar resultado </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 36 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Registrar resultado </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /resultados/registrar </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite registrar nuevos resultados</td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Post </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td>
+                Json : 
+                {
+                    "fecha": "2024-02-12",
+                    "fk_analisis": 1,
+                    "fk_variables": 1,
+                    "valor": 1,
+                    "observaciones": "tus observaciones"
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>Respuesta Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Json: 
+                {
+                    Status: 200,
+                    Message: 'Se realizo el registro con exito'
+                },
+
+                Incorrecto:
+                Status: 403
+                Body Json: 
+                {
+                    Status: 403
+                    Message: No se registro el resultado 
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> Luis Alfredo Ubaque Perdomo </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento listar resultados: </h3>
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 37 </td>
+        </tr>
+        <tr>
+            <td>Nombre del servicio </td>
+            <td>Listar resultados</td>
+        </tr>
+        <tr>
+            <td>URL</td>
+            <td>/resultados/listar</td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td>Permite listar todos los resultados registrados en la base de datos</td>
+        </tr>
+        <tr>
+            <td>Verbo HTTP</td>
+            <td>GET</td>
+        </tr>
+        <tr>
+            <td>Header</td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Usuario</td>
+            <td>Administrador</td>
+        </tr>
+        <tr>
+            <td>Petición body-form-data </td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Respuesta json</td>
+            <td>
+                Correcto :
+                Status: 200
+                Json : 
+                {
+                    [
+                        {
+                            "fecha": "2024-02-07T05:00:00.000Z",
+                            "analisis": 3,
+                            "variable": "Peso C.P.S (g)",
+                            "observaciones": "Peso acorde",
+                            "valor": "98",
+                            "estado": "activo"
+                        }
+                    ]
+                },
+
+                Incorrecto : 
+                Statu: 404
+                Body Json : 
+                {
+                    Status: 404
+                    Message: 'No hay resultados registrados'
+                },
+
+                Error:
+                Status: 500
+                Body Json :
+                {
+                    Status: 500
+                    Message: 'Error del servidor' + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> Luis Alfredo Ubaque Perdomo </td>
+        </tr>
+    </table>
+    
+    <hr>
+
+    <h3> Requerimiento actualizar resultado </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 38 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Actualizar resultados </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /resultados/actualizar/1 </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite actualizar resultados registrados en la base de datos </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Put </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td>
+                Json : 
+                {
+                    "fecha": "2024-01-12"
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto:
+                Status: 200
+                Body Json:
+                {
+                    Status: 200,
+                    Message: Se actualizó con exito el resultado
+                },
+
+                Incorrecto:
+                Status: 403
+                Body json: 
+                {
+                    Status: 403,
+                    Message: No fue posible actualizar el resultado
+                },
+
+                Error:
+                Status: 500,
+                Body Json :
+                {
+                    Status: 500,
+                    Message: Error del servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> Luis Alfredo Ubaque Perdomo </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento desactivar resultado </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 39 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Desactivar resultado </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /resultados/desactivar/1 </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite desactivar resultados de la base de datos </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Put </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Body Json: 
+                {
+                    Status: 200,
+                    Message: Se desactivó con exito el resultado
+                },
+
+                Incorrecto:
+                Status: 403
+                Body Json: 
+                {
+                    Status: 403,
+                    Message: Error al intentar desactivar el resultado
+                },
+
+                Error:
+                Status: 500
+                Body Json: 
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> Luis Alfredo Ubaque Perdomo </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento buscar resultados </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 40 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Buscar resultado </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /resultados/buscar/1 </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite buscar un resultado en especifico por su id </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Get </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Peticion body-form-data </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Body Json:
+                {
+                    [
+                        {
+                            "fecha": "2024-02-07T05:00:00.000Z",
+                            "analisis": 3,
+                            "variable": "Peso C.P.S (g)",
+                            "observaciones": "Peso acorde",
+                            "valor": "98",
+                            "estado": "activo"
+                        }
+                    ]
+                },
+
+                Incorrecto:
+                Status: 404
+                Body Json:
+                {
+                    Status: 404,
+                    Message: No se encontró el resultado
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error del servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> Luis Alfredo Ubaque Perdomo </td>
+        </tr>
+    </table>
+</body>
+</html>

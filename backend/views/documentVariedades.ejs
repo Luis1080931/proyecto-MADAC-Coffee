@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Document API MADAC-Coffee </title>
+    <link rel="stylesheet" href="/estilos.css">
+</head>
+<body>
+
+    <hr>
+    <h2> Modulo variedades </h2>
+    <hr>
+
+    <h3> Requerimiento registrar variedades </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 11 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Registrar variedades </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /variedades/registrar </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite registrar nuevas variedades</td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Post </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td>
+                Json : 
+                {
+                    "nombre"
+                    "estado":
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>Respuesta Json </td>
+            <td>
+                Correcto: 
+                Status: 201
+                Json: 
+                {
+                   Message: Variedad creada con exito!
+                },
+
+                Incorrecto:
+                Status: 403
+                Body Json: 
+                {
+                    Status: 403
+                    Message: No se pudo crear la variedad
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>
+    
+
+
+    <hr>
+    <h3> Requerimiento listar variedades </h3>
+    <table>
+        <tr>
+            <td>Numero</td>
+            <td> 12 </td>
+        </tr>
+        <tr>
+            <td>Nombre del servicio</td>
+            <td>Listar variedades</td>
+        </tr>
+        <tr>
+            <td>Url</td>
+            <td>/variedades/listar</td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td>Permite listar todas las variedades registradas en la base de datos</td>
+        </tr>
+        <tr>
+            <td>Verbo http</td>
+            <td>Get</td>
+        </tr>
+        <tr>
+            <td>Header</td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Usuario</td>
+            <td>Administrador</td>
+        </tr>
+        <tr>
+            <td>Petición body-form-data </td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Respuesta json</td>
+            <td>
+                correcto :
+                status: 200
+                json : 
+                {
+                    "nombre": "Castillo"
+                    "estado":"activo"
+
+                },
+
+                incorrecto : 
+                status : 404
+                body json : 
+                {
+                    status: 404
+                    message: No hay variedades registradas
+                },
+
+                error:
+                status: 500
+                body: json :
+                {
+                    status: 500
+                    message: error del servidor + error
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>
+
+    <hr>
+
+   
+    <hr>
+
+    <h3> Requerimiento actualizar variedades </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 13 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Actualizar variedades </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /variedades/actualizar/1 </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite actualizar las variedades registradas en la base de datos </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Put </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td>
+                Json : 
+                {
+                    "nombre"
+                    "estado"
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto:
+                Status: 200
+                Body Json:
+                {
+                    Status: 200,
+                    Message: Variedad actualizada con exito
+                },
+
+                Incorrecto:
+                Status: 403
+                Body json: 
+                {
+                    Status: 403,
+                    Message: No se pudo actualizar la variedad
+                },
+
+                Error:
+                Status: 500,
+                Body Json :
+                {
+                    Status: 500,
+                    Message: Error del servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento desactivar variedades </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 14 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Desactivar variedades </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /variedades/desactivar/1 </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite desactivar las variedades de la base de datos </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Put </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Body Json: 
+                {
+                    Status: 200,
+                    Message: Variedad desactivada con exito
+                },
+
+                Incorrecto:
+                Status: 403
+                Body Json: 
+                {
+                    Status: 403,
+                    Message: No se pudo desactivar la variedad
+                },
+
+                Error:
+                Status: 500
+                Body Json: 
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento buscar variedades </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 15 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Buscar variedades </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /variedades/buscar/1 </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite buscar una variedad en especifico por su codigo</td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Get </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Peticion body-form-data </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Body Json:
+                {
+                    "nombre": "Borbon rosado"
+                    "estado": "activo"
+                },
+
+                Incorrecto:
+                Status: 404
+                Body Json:
+                {
+                    Status: 404,
+                    Message: La variedad no existe
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error del servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Document API MADAC-Coffee </title>
+</head>
+<body>
+
+ 
+    <hr>
+    <h2> Modulo analisis </h2>
+
+    <hr>
+
+    <h3> Requerimiento registrar analisis </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 26 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Registrar analisis </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /analisis/registrar </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite registrar nuevos analisis</td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Post </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td>
+                Json : 
+                {
+                    "fecha": 
+                    "analisista"
+                    "fk_muestra"
+                    "fk_tipo_analisis"
+                    "estado":
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>Respuesta Json </td>
+            <td>
+                Correcto: 
+                Status: 201
+                Json: 
+                {
+                    "Status": 200,
+                    "Message": "Analisis creado con exito!"
+                },
+
+                Incorrecto:
+                Status: 403
+                Body Json: 
+                {
+                    Status: 403
+                    Message: No se pudo crear el analisis
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>
+
+
+    <hr> 
+    <h3> Requerimiento listar analisis</h3>
+    <table>
+        <tr>
+            <td>Numero</td>
+            <td> 27 </td>
+        </tr>
+        <tr>
+            <td>Nombre del servicio</td>
+            <td>Listar analisis</td>
+        </tr>
+        <tr>
+            <td>Url</td>
+            <td>/analisis/listar</td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td>Permite listar todos analisis registrados en la base de datos</td>
+        </tr>
+        <tr>
+            <td>Verbo http</td>
+            <td>Get</td>
+        </tr>
+        <tr>
+            <td>Header</td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Usuario</td>
+            <td>Administrador</td>
+        </tr>
+        <tr>
+            <td>Petición body-form-data </td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Respuesta json</td>
+            <td>
+                correcto :
+                status: 200
+                json : 
+                {
+                    "fecha": "2024/12/03"
+                    "analisista" "Juan"
+                    "fk_muestra" "1"
+                    "fk_tipo_analisis" "1"
+                    "estado": "activo"
+
+                },
+
+                incorrecto : 
+                status : 404
+                body json : 
+                {
+                    status: 404
+                    message: No hay analisis registrados
+                },
+
+                error:
+                status: 500
+                body: json :
+                {
+                    status: 500
+                    message: error del servidor + error
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>
+
+    
+    
+    <hr>
+
+    <h3> Requerimiento actualizar analisis </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 28 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Actualizar analisis </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /analisis/actualizar/1 </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite actualizar analisis registrados en la base de datos </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Put </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td>
+                Json : 
+                {
+                    "fecha": "2024/08/10"
+                    "analisista" "Juan"
+                    "fk_muestra" "1"
+                    "fk_tipo_analisis" "1"
+                    "estado": "activo"
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto:
+                Status: 200
+                Body Json:
+                {
+                    Status: 200,
+                    Message: Analisis actualizado con exito!
+                },
+
+                Incorrecto:
+                Status: 403
+                Body json: 
+                {
+                    Status: 403,
+                    Message: No se pudo actualizar el analisis
+                },
+
+                Error:
+                Status: 500,
+                Body Json :
+                {
+                    Status: 500,
+                    Message: Error del servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento desactivar analisis </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 29 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Desactivar analisis </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /analisis/desactivar/1 </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite desactivar el analisis de la base de datos </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Put </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Body Json: 
+                {
+                    Status: 200,
+                    Message: Analisis desactivado con exito!
+                },
+
+                Incorrecto:
+                Status: 403
+                Body Json: 
+                {
+                    Status: 403,
+                    Message: No se pudo desactivar el analisis
+                },
+
+                Error:
+                Status: 500
+                Body Json: 
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento buscar analisis </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 30 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Buscar analisis </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /analisis/buscar/1 </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite buscar un analisis en especifico por su codigo</td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Get </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Peticion body-form-data </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Body Json:
+                {
+                    "fecha": "2023/12/03"
+                    "analisista" "Andres"
+                    "fk_muestra" "21"
+                    "fk_tipo_analisis" "11"
+                    "estado": "activo"
+                },
+
+                Incorrecto:
+                Status: 404
+                Body Json:
+                {
+                    Status: 404,
+                    Message: El analisis no existe
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error del servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>
+</body>
+</html>

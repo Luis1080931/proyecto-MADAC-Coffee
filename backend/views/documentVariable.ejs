@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Api Variables</title>
+<!-- En tu archivo .ejs -->
+<link rel="stylesheet" type="text/css" href="../public/styles.css">
+
+</head>
+<body>
+    
+    <hr>
+    <h2> Módulo variables </h2>
+    <hr>
+    <h3> Requerimiento registrar variables </h3>
+
+    <!-- registar variables -->
+    <table>
+        <tr><td>numero</td><td>31</td></tr>
+        <tr><td>Nombre del servicio</td><td>Crear Variables</td></tr>
+        <tr><td>URI</td><td>/variables/crearvariable</td></tr>
+        <tr><td>Descripción</td><td>Permite crear las variables para registrarlas en la base de datos </td></tr>
+        <tr><td>verbo HTTP</td><td>post</td></tr>
+        <tr><td>HEADER</td><td>null</td></tr>
+        <tr><td>Usuario</td><td>administrador </td></tr>
+        <tr><td>petición json</td><td>{"codigo": 3,"nombre": "cafe","fk_tipo_analisis": 2,"estado": "activo"}</td></tr>
+        <tr><td>Respuesta json</td><td>
+
+        correcto:
+        status: 200 "message":'Se registro la variable con exito '
+        json:
+           {
+            "codigo": 3,
+            "nombre": "cafe",
+            "fk_tipo_analisis": 2,
+            "estado": "activo"
+           }
+            incorrecto:
+            status:403
+            "Mensaje":"No se registró la variable"
+
+            Error:
+            Status: 500
+            Body Json: 
+            {
+                "Status": 500,
+                "Message": "Error del servidor" + error
+            }
+            </td></tr>
+            <tr>
+                <td> Programador </td>
+                <td> Alejandro David Pasaje </td>
+              </tr>
+    </table>
+
+    <hr>
+    <h3> Requerimiento listar variables </h3>
+    <table>
+        <tr><td>numero</td><td>32</td></tr>
+        <tr><td>Nombre del servicio</td><td>Listar Variables</td></tr>
+        <tr><td>URI</td><td>/variables/listarvariable</td></tr>
+        <tr><td>Descripción</td><td>Permite listar las variables registradas en la base de datos </td></tr>
+        <tr><td>verbo HTTP</td><td>get</td></tr>
+        <tr><td>HEADER</td><td>null</td></tr>
+        <tr><td>Usuario</td><td>administrador </td></tr>
+        <tr><td>petición json</td><td>ninguna</td></tr>
+        <tr><td>Respuesta json</td><td>
+
+        correcto:
+        status: 200
+        json:
+           {
+            "codigo": 3,
+            "nombre": "cafe",
+            "fk_tipo_analisis": 2,
+            "estado": "activo"
+           }
+            incorrecto:
+            status:404
+            "Mensaje":"No hay variables"
+
+            Error:
+            Status: 500
+            Body Json: 
+            {
+                "Status": 500,
+                "Message": "Error del servidor" + error
+            }
+            </td></tr>
+            <tr>
+                <td> Programador </td>
+                <td> Alejandro David Pasaje </td>
+              </tr>
+    </table>
+
+<hr>
+
+<h3> Requerimiento actualizar variables </h3>
+    <!-- actualizar variables  -->
+    <table>
+        <tr><td>numero</td><td>33</td></tr>
+        <tr><td>Nombre del servicio</td><td>Actualizar Variables</td></tr>
+        <tr><td>URI</td><td>/variables/actualizarvariable/1</td></tr>
+        <tr><td>Descripción</td><td>Permite actualizar las variables registradas en la base de datos </td></tr>
+        <tr><td>verbo HTTP</td><td>put</td></tr>
+        <tr><td>HEADER</td><td>null</td></tr>
+        <tr><td>Usuario</td><td>administrador </td></tr>
+        <tr><td>petición json</td><td>{"codigo": 3,"nombre": "cafe","fk_tipo_analisis": 2}</td></tr>
+        <tr><td>Respuesta json</td><td>
+
+        correcto:
+        status: 200 
+        json:
+           {
+            "Status": 200
+            "message":'La variable ha sido actualizada correctamente.'
+           }
+            incorrecto:
+            status:403
+            Json:
+            {
+                "Status": 403
+                message: 'No se pudo actualizar la variable. Por favor, verifica los datos proporcionados.'
+            }
+            
+
+            Error:
+            Status: 500
+            Body Json: 
+            {
+                "Status": 500,
+                "Message": "Error del servidor" + error
+            }
+            </td></tr>
+            <tr>
+                <td> Programador </td>
+                <td> Alejandro David Pasaje </td>
+              </tr>
+    </table>
+
+    <hr>
+    <h3> Requerimiento desactivar variable </h3>
+
+    <table>
+        <tr><td>Numero</td><td>34</td></tr>
+        <tr><td>Nombre del servicio</td><td>Desactivar variable</td></tr>
+        <tr><td>Url</td><td>/variables/desactivarVariable/1</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador desactivar las variables registradas en la base de datos</td></tr>
+        <tr><td>Verbo HTTP</td><td>PUT</td></tr>
+        <tr><td>Header</td><td>Null</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+              Null
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:
+            Status:200
+            json:{
+                "message": "Se desactivó con éxito"
+            }
+
+          Incorrecto:
+          Status:403
+           JSON:{
+            message:"No se pudo desactivar la variable"
+           }
+          
+           Error:
+            Status: 500
+            Body Json: 
+            {
+                "Status": 500,
+                "Message": "Error del servidor" + error
+            }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Alejandro David Pasaje </td>
+          </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento buscar variable </h3>
+    <table>
+        <tr><td>Numero</td><td>35</td></tr>
+        <tr><td>Nombre del servicio</td><td>Buscar variable</td></tr>
+        <tr><td>Url</td><td>/variables/buscarvariable/1</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador buscar una variable por medio de su codigo</td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td><td>Null</td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>Null</td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:
+            Status:200
+            json:
+                [
+                {
+                  "nombre": "Humedad",
+                  "fk_tipo_analisis": fisico,
+                  "estado": activo
+                }
+              ]
+         
+          Incorrecto:
+          Status:404
+           JSON:{
+            "message": "No se encontraron resultados para la busqueda"
+           }
+        
+           Error:
+            Status: 500
+            Body Json: 
+            {
+                "Status": 500,
+                "Message": "Error del servidor" + error
+            }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Alejandro David Pasaje </td>
+          </tr>
+    </table>
+
+
+</body>
+</html>
