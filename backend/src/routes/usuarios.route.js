@@ -6,7 +6,7 @@ import { validarToken } from "../controllers/seguridad.controller.js";
 
 const routeUsuarios = Router()
 
-routeUsuarios.post("/registrar", validarUsuarios, registrarUsuarios)
+routeUsuarios.post("/registrar",validarToken, validarUsuarios, registrarUsuarios)
 
 routeUsuarios.put("/actualizar/:identificacion", validarToken,validarUsuarios, actualizarUsuarios)
 
