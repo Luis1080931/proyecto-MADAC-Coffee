@@ -27,10 +27,10 @@ export const CrearMuestra = async (req, res) => {
             return res.status(400).json(errors);
         }
         // Extracción de datos del cuerpo de la solicitud
-        const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado } = req.body;
+        const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote/* , estado  */} = req.body;
 
         // Consulta SQL para insertar la muestra
-        const [resultado] = await pool.query("INSERT INTO muestras (fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado]);
+        const [resultado] = await pool.query("INSERT INTO muestras (fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote]);
 
         // Verificación del resultado de la inserción
         if (resultado.affectedRows >  0) {
@@ -52,9 +52,19 @@ export const actualizarMuestra = async (req, res) => {
         const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote } = req.body;
 
         // La consulta debe tener placeholders para cada valor que se va a actualizar
-        const [result] = await pool.query('UPDATE muestras SET fecha = IFNULL(?, fecha), cantidad = IFNULL(?, cantidad), quien_recibe = IFNULL(?, quien_recibe) , proceso_fermentacion = IFNULL(?, proceso_fermentacion), humedad_cafe = IFNULL(?, humedad_cafe), altura_MSNM = IFNULL(?, altura_MSNM), tipo_secado = IFNULL(?, tipo_secado), observaciones = IFNULL(?, observaciones), fk_lote = IFNULL(?, fk_lote) WHERE codigo = ?', [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, codigo]);
+        const [result] = await pool.query(`UPDATE muestras SET
+        fecha = IF(? IS NOT NULL, ?, fecha),
+        cantidad = IF(? IS NOT NULL, ?, cantidad),
+        quien_recibe = IF(? IS NOT NULL, ?, quien_recibe),
+        proceso_fermentacion = IF(? IS NOT NULL, ?, proceso_fermentacion),
+        humedad_cafe = IF(? IS NOT NULL, ?, humedad_cafe),
+        altura_MSNM = IF(? IS NOT NULL, ?, altura_MSNM),
+        tipo_secado = IF(? IS NOT NULL, ?, tipo_secado),
+        observaciones = IF(? IS NOT NULL, ?, observaciones),
+        fk_lote = IF(? IS NOT NULL, ?, fk_lote)
+        WHERE codigo = ?`, [fecha, fecha, cantidad, cantidad, quien_recibe, quien_recibe, proceso_fermentacion, proceso_fermentacion, humedad_cafe, humedad_cafe, altura_MSNM, altura_MSNM, tipo_secado, tipo_secado, observaciones, observaciones, fk_lote, fk_lote, codigo]);
 
-        if (result.affectedRows >  0) {
+        if (result.affectedRows > 0) {
             res.status(200).json({ message: 'La muestra ha sido actualizada correctamente.' });
         } else {
             res.status(400).json({ message: 'No se pudo actualizar la muestra. Por favor, verifica los datos proporcionados.' });
@@ -64,6 +74,7 @@ export const actualizarMuestra = async (req, res) => {
         res.status(500).json({message:"Error en el servidor" + error})
     }
 };
+
 
 
 // desactivar muestras}

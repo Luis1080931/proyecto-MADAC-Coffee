@@ -4,7 +4,8 @@ import { validationResult } from "express-validator";
 
 export const listarVariables = async (req, res) => {
     try {
-        const [result] = await pool.query("SELECT * FROM variables")
+        let sql = 'SELECT v.codigo, v.nombre, v.fk_tipo_analisis AS tipo_analisis, ta.tipo_analisis  from variables AS v JOIN tipo_analisis AS ta ON v.fk_tipo_analisis = ta.id'
+        const [result] = await pool.query(sql)
 
         if (result.length > 0 ) {
             res.status(200).json(result)
