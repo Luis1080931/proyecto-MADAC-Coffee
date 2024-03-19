@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-02-2024 a las 02:03:14
+-- Tiempo de generación: 19-03-2024 a las 05:02:36
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -36,14 +36,6 @@ CREATE TABLE `analisis` (
   `estado` enum('activo','inactivo') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `analisis`
---
-
-INSERT INTO `analisis` (`codigo`, `fecha`, `fk_analista`, `fk_muestra`, `fk_tipo_analisis`, `estado`) VALUES
-(3, '2024-02-04', 1080932, 3, 1, 'activo'),
-(4, '2024-02-07', 1080932, 3, 2, 'inactivo');
-
 -- --------------------------------------------------------
 
 --
@@ -54,18 +46,10 @@ CREATE TABLE `fincas` (
   `codigo` int(11) NOT NULL,
   `dimension_mt2` decimal(10,2) NOT NULL,
   `fk_caficultor` int(11) DEFAULT NULL,
-  `municipio` varchar(200) NOT NULL,
+  `municipio` int(11) NOT NULL,
   `vereda` varchar(200) NOT NULL,
   `estado` enum('activo','inactivo') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `fincas`
---
-
-INSERT INTO `fincas` (`codigo`, `dimension_mt2`, `fk_caficultor`, `municipio`, `vereda`, `estado`) VALUES
-(4, 50.00, 1080931, 'Timana', 'Palmito', 'inactivo'),
-(5, 50.00, 1080931, 'Pitalito', 'Mira valles', 'activo');
 
 -- --------------------------------------------------------
 
@@ -80,14 +64,6 @@ CREATE TABLE `lotes` (
   `fk_variedad` int(11) DEFAULT NULL,
   `estado` enum('activo','inactivo') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `lotes`
---
-
-INSERT INTO `lotes` (`codigo`, `numero_arboles`, `fk_finca`, `fk_variedad`, `estado`) VALUES
-(3, 1000, 4, 3, 'activo'),
-(4, 2500, 5, 3, 'inactivo');
 
 -- --------------------------------------------------------
 
@@ -109,13 +85,58 @@ CREATE TABLE `muestras` (
   `estado` enum('activo','inactivo') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `muestras`
+-- Estructura de tabla para la tabla `municipios`
 --
 
-INSERT INTO `muestras` (`codigo`, `fecha`, `cantidad`, `quien_recibe`, `proceso_fermentacion`, `humedad_cafe`, `altura_MSNM`, `tipo_secado`, `observaciones`, `fk_lote`, `estado`) VALUES
-(3, '2024-02-04', 200.00, 'Silvia', '12 horas en baba', 12.40, 1400.00, 'En secadero', 'Cafe en buen estado', 3, 'activo'),
-(4, '2024-02-11', 500.00, 'Luis', '12 horas en cilo', 12.00, 2000.00, 'full', 'Todo melo', 4, 'inactivo');
+CREATE TABLE `municipios` (
+  `id_municipio` int(11) NOT NULL,
+  `nombre` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `municipios`
+--
+
+INSERT INTO `municipios` (`id_municipio`, `nombre`) VALUES
+(1, 'Aipe'),
+(2, 'Algeciras'),
+(3, 'Baraya'),
+(4, 'Campoalegre'),
+(5, 'Hobo'),
+(6, 'Iquira'),
+(7, 'Neiva'),
+(8, 'Palermo'),
+(9, 'Rivera'),
+(10, 'Santa Maria '),
+(11, 'Tello'),
+(12, 'Teruel'),
+(13, 'Villavieja'),
+(14, 'Yaguara'),
+(15, 'Agrado'),
+(16, 'Altamira '),
+(17, 'Garzon '),
+(18, 'Gigante '),
+(19, 'Guadalupe'),
+(20, 'Pital'),
+(21, 'Suaza'),
+(22, 'Tarqui'),
+(23, 'La Argentina '),
+(24, 'La Plata '),
+(25, 'Nataga'),
+(26, 'Paicol'),
+(27, 'Tesalia'),
+(28, 'Acevedo '),
+(29, 'Elias'),
+(30, 'Isnos '),
+(31, 'Oporapa '),
+(32, 'Palestina '),
+(33, 'Pitalito '),
+(34, 'Saladoblanco'),
+(35, 'San Agustin '),
+(36, 'Timana');
 
 -- --------------------------------------------------------
 
@@ -128,16 +149,10 @@ CREATE TABLE `resultados` (
   `fecha` date NOT NULL,
   `fk_analisis` int(11) DEFAULT NULL,
   `fk_variables` int(11) DEFAULT NULL,
-  `observaciones` varchar(200) NOT NULL,
-  `valor` varchar(200) NOT NULL
+  `observaciones` varchar(500) NOT NULL,
+  `valor` varchar(50) NOT NULL,
+  `estado` enum('activo','inactivo') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `resultados`
---
-
-INSERT INTO `resultados` (`codigo`, `fecha`, `fk_analisis`, `fk_variables`, `observaciones`, `valor`) VALUES
-(11, '2024-02-07', 3, 3, 'Peso acorde', '98');
 
 -- --------------------------------------------------------
 
@@ -179,9 +194,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`identificacion`, `telefono`, `nombre`, `correo_electronico`, `tipo_usuario`, `password`, `estado`) VALUES
-(1080931, '3154051769', 'Luis Ubaque', 'luis@gmail.com', 'caficultor', '', 'inactivo'),
-(1080932, '3114957883', 'Pepito Perez', 'pepito@gmail.com', 'catador', '', 'activo'),
-(1080933, '3204622680', 'Armando Casas', 'armando@gmail.com', 'catador', '', 'inactivo');
+(1080, '315405', 'Luis', 'luis@gmail.com', 'caficultor', 'aristobulo123', 'activo'),
+(1080934, '3119547883', 'Aristobulo', 'aristobulo@gmail.com', 'catador', 'ari123', 'activo'),
+(1080934638, '3119547883', 'Aristobulo', 'aristobulo@gmail.com', 'catador', 'aristobulo123', 'inactivo');
 
 -- --------------------------------------------------------
 
@@ -195,14 +210,6 @@ CREATE TABLE `variables` (
   `fk_tipo_analisis` int(11) DEFAULT NULL,
   `estado` enum('activo','inactivo') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `variables`
---
-
-INSERT INTO `variables` (`v_codigo`, `nombre`, `fk_tipo_analisis`, `estado`) VALUES
-(3, 'Peso C.P.S (g)', 1, 'activo'),
-(4, 'Humedad', 2, 'inactivo');
 
 -- --------------------------------------------------------
 
@@ -221,8 +228,8 @@ CREATE TABLE `variedades` (
 --
 
 INSERT INTO `variedades` (`codigo`, `nombre`, `estado`) VALUES
-(3, 'castillo', 'activo'),
-(4, 'fj16', 'inactivo');
+(1, 'borbon rosado', 'activo'),
+(2, 'fj-16', 'activo');
 
 --
 -- Índices para tablas volcadas
@@ -242,7 +249,8 @@ ALTER TABLE `analisis`
 --
 ALTER TABLE `fincas`
   ADD PRIMARY KEY (`codigo`),
-  ADD KEY `pertenecer` (`fk_caficultor`);
+  ADD KEY `pertenecer` (`fk_caficultor`),
+  ADD KEY `partir` (`municipio`);
 
 --
 -- Indices de la tabla `lotes`
@@ -258,6 +266,12 @@ ALTER TABLE `lotes`
 ALTER TABLE `muestras`
   ADD PRIMARY KEY (`codigo`),
   ADD KEY `ser` (`fk_lote`);
+
+--
+-- Indices de la tabla `municipios`
+--
+ALTER TABLE `municipios`
+  ADD PRIMARY KEY (`id_municipio`);
 
 --
 -- Indices de la tabla `resultados`
@@ -300,31 +314,37 @@ ALTER TABLE `variedades`
 -- AUTO_INCREMENT de la tabla `analisis`
 --
 ALTER TABLE `analisis`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `fincas`
 --
 ALTER TABLE `fincas`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `lotes`
 --
 ALTER TABLE `lotes`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `muestras`
 --
 ALTER TABLE `muestras`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `municipios`
+--
+ALTER TABLE `municipios`
+  MODIFY `id_municipio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `resultados`
 --
 ALTER TABLE `resultados`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_analisis`
@@ -336,13 +356,13 @@ ALTER TABLE `tipo_analisis`
 -- AUTO_INCREMENT de la tabla `variables`
 --
 ALTER TABLE `variables`
-  MODIFY `v_codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `v_codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `variedades`
 --
 ALTER TABLE `variedades`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
@@ -360,6 +380,7 @@ ALTER TABLE `analisis`
 -- Filtros para la tabla `fincas`
 --
 ALTER TABLE `fincas`
+  ADD CONSTRAINT `partir` FOREIGN KEY (`municipio`) REFERENCES `municipios` (`id_municipio`),
   ADD CONSTRAINT `pertenecer` FOREIGN KEY (`fk_caficultor`) REFERENCES `usuarios` (`identificacion`);
 
 --
