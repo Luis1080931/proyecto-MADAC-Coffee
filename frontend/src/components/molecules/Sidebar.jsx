@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { IoMdHome } from "react-icons/io";
 import { MdFindInPage, MdAssignmentAdd } from "react-icons/md";
 import { GrDocumentUpdate } from "react-icons/gr";
-import { FaAlignJustify } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import { FaX } from "react-icons/fa6";
 import { IconContext } from 'react-icons';
 import './../../App.css'
+import LogoProyecto from './../../assets/logoProyeccto-removebg.png'
 
 
 export const Sidebar = ({ children }) => {
@@ -44,15 +44,18 @@ export const Sidebar = ({ children }) => {
         
         <div className='bg-[#39A900] h-20 flex justify-start items-center'>
             <Link to='#'>
-                <FaAlignJustify size={30} className="ml-3 cursor-pointer" onClick={showSideBar}/>
+                {/* <LogoProyecto size={30} className="ml-3 cursor-pointer" onClick={showSideBar}/> */}
+                <img src={LogoProyecto} onClick={showSideBar} className='w-28' />
             </Link>
+            
         </div>
         <IconContext.Provider value={{ color: '#000' }}>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
             <ul className='w-full mt-14' onClick={showSideBar}>
-                <li className='ml-8 text-3xl bg-none'>
-                    <Link to='#'>
+                <li className='flex  ml-8 text-3xl bg-none'>
+                    <Link to='#' className='flex'>
                         <FaX />
+                        <h2 className='flex text-xl font-bold ml-5 mt-1'> MADAC-Coffee </h2>
                     </Link>
                 </li>
                 {menuItem.map((item, index) => {

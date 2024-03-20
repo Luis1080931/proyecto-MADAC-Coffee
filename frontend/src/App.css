@@ -15,3 +15,9 @@
   left: -100%;
   transition: 850ms;
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
