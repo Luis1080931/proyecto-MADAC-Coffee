@@ -1,6 +1,7 @@
 .nav-menu.active{
   left: 0;
   transition: 350ms;
+  z-index: 100;
 }
 
 .nav-menu{

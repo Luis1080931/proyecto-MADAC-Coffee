@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import DataTable from 'react-data-table-component'
-import { Header } from '../components/Header.jsx'
-import { FaSistrix } from "react-icons/fa6";
+import { Header } from './../molecules/Header.jsx'
 import { Link } from 'react-router-dom';
+import { Buscador } from '../atoms/Buscador.jsx';
+import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
+import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
 
 export function Resultados () {
 
@@ -61,8 +63,12 @@ export function Resultados () {
             observaciones: "Peso adecuado",
             valor: "30 g",
             estado: "activo", 
-            acciones: <><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/resultadosactualizar`}>Actualizar</Link></button> <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> ,
-            accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> 
+            acciones: <>
+                <ButtonActualizar link={'/resultadosactualizar'} />
+                
+                <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> ,
+                accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button>
+            </> 
         },
         {
             codigo: 2,
@@ -127,16 +133,9 @@ export function Resultados () {
         <Header title="Resultados" />
         <div className='w-full flex flex-col justify-center items-center p-10'>
             
-            <div className='w-96 bg-[#E5E5E5] flex justify-center items-center m-8 border-2 rounded-lg border-black md:flex'>
-                <input className='p-2 bg-[#E5E5E5] text-black rounded-lg w-96' type="text" onChange={handleFilter} placeholder='Buscar' />
-                <FaSistrix size={25} />
-            </div>
-            <div className='flex w-full'>
-                <button className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32' type="button">
-                    <Link to={`/resultadosregistrar`}>Registrar</Link>
-                    
-                </button>
-            </div>
+            <Buscador handler={handleFilter} />
+            <ButtonRegister link={'/resultadosregistrar'} />
+
             <DataTable
                 columns={colums}
                 data={records}

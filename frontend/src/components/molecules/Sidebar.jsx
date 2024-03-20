@@ -6,7 +6,7 @@ import { FaAlignJustify } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import { FaX } from "react-icons/fa6";
 import { IconContext } from 'react-icons';
-import './../App.css'
+import './../../App.css'
 
 
 export const Sidebar = ({ children }) => {

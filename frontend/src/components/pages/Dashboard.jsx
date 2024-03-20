@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { FaAlignJustify } from "react-icons/fa6";
-import ImgBody from './../assets/imagenSliderEjemplo.jpg'
+import ImgBody from './../../assets/imgBody.webp'
 import { FaAngleLeft } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
 import { RxDotFilled } from 'react-icons/rx';
-import { Sidebar } from '../components/Sidebar.jsx';
+import { Sidebar } from './../molecules/Sidebar.jsx';
 
 export const Dashboard = () => {
 

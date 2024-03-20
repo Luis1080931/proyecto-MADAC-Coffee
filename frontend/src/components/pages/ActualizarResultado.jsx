@@ -1,7 +1,8 @@
 import React from 'react'
-import { HeaderRegis } from '../components/HeaderRegis.jsx'
-import LogoSena from './../assets/Logosimbolo-SENA-PRINCIPAL.png'
-import LogoProyecto from './../assets/logoProyeccto-removebg.png'
+import { HeaderRegis } from './../molecules/HeaderRegis.jsx'
+import LogoSena from './../../assets/Logosimbolo-SENA-PRINCIPAL.png'
+import LogoProyecto from './../../assets/logoProyeccto-removebg.png'
+import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx'
 
 export const ActualizarResultado = () => {
   return (
@@ -40,7 +41,7 @@ export const ActualizarResultado = () => {
                         <textarea className='p-2 rounded-lg' ame="" id="" cols="30" rows="3" placeholder='Observaciones'></textarea>
                     </div>
                     <div className='flex flex-col m-5 justify-center items-center'>
-                        <button className='bg-[#39A900] w-32 p-2 rounded-lg text-white font-bold text-xl' type="button">Actualizar</button>
+                        <ButtonActualizar />
                     </div>
                 </form>
                 
