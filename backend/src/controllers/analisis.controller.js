@@ -4,13 +4,6 @@ import { validationAnalisis } from "express-validator"
 
 
 
-// Usa validationResult según sea necesario en tu código
-
-/*
-    * X Registrar // POST
-    * X Editar // PUT
-    * X Desactivar // POST
-*/
 
 //Registrar
 export const registrarAnalisis = async (req, res) => {
@@ -100,7 +93,7 @@ export const desactivarAnalisis = async (req, res) => {
 export const listarAnalisis=async(req,res)=>{
     try {
 
-        const [analisis] = await pool.query("SELECT * FROM analisis")
+        const [analisis] = await pool.query("SELECT a.codigo, a.fecha, a.fk_muestra, a.estado, u.nombre as nombre_analista, u.tipo_usuario as tipo_analista, t.tipo_analisis FROM analisis a JOIN usuarios u ON a.analista = u.identificacion JOIN tipo_analisis t ON a.fk_tipo_analisis = t.id")
 
         if (analisis.length>0) {
             res.status(200).json({analisis})
