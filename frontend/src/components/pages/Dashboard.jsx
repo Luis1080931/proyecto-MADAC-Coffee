@@ -4,7 +4,7 @@ import ImgBody from './../../assets/imgBody.webp'
 import { FaAngleLeft } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
 import { RxDotFilled } from 'react-icons/rx';
-import { Sidebar } from './../molecules/Sidebar.jsx';
+import { Sidebar } from './../organisms/Sidebar.jsx';
 
 export const Dashboard = () => {
 

@@ -4,9 +4,11 @@ import { Header } from './../molecules/Header.jsx'
 import { Link } from 'react-router-dom';
 import { Buscador } from '../atoms/Buscador.jsx';
 import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
-import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
+import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';   
+import ResultadosModal from '../organisms/ResultadosModal.jsx';
 
 export function Resultados () {
+
 
     const colums = [
         {
@@ -127,6 +129,8 @@ export function Resultados () {
         })
         setRecords(newData)
     }
+
+    const [modalOpen, setModalOpen] = useState(false)
   return (
     
     <div>
@@ -134,13 +138,14 @@ export function Resultados () {
         <div className='w-full flex flex-col justify-center items-center p-10'>
             
             <Buscador handler={handleFilter} />
-            <ButtonRegister link={'/resultadosregistrar'} />
+            <ButtonRegister click={() => setModalOpen(true)} />
+            <ResultadosModal open={modalOpen} onClose={() => setModalOpen(false)} />
 
             <DataTable
                 columns={colums}
                 data={records}
                 title="Resultados registrados"
-                fixedHeader
+                fixedHeader 
                 pagination
                 paginationComponentOptions={paginaOpciones}
             >
