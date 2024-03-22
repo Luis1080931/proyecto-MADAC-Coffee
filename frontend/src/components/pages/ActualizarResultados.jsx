@@ -2,11 +2,13 @@ import React from 'react'
 import { HeaderRegis } from './../molecules/HeaderRegis.jsx'
 import LogoSena from './../../assets/icons/Logosimbolo-SENA-PRINCIPAL.png'
 import LogoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
+import { ButtonVolver } from '../atoms/ButtonVolver.jsx'
 
 export const ActualizarResultado = () => {
   return (
     <div>
-        <HeaderRegis title='Actualizar resultados' link='/resultados' />
+        <HeaderRegis title='Actualizar resultados' />
+        <ButtonVolver link={'/resultados'} />
         <div className='flex'>
             <div className='w-5/12 flex justify-center items-center ml-20'>
                 <img src={LogoProyecto} alt="" />

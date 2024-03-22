@@ -5,8 +5,16 @@ import { Buscador } from './../atoms/Buscador.jsx';
 import { Link } from 'react-router-dom';
 import ResultadosModal from '../templates/ResultadosModal.jsx';
 import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
+import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
 
 export function Resultados () {
+
+    const [mode, setMode] = useState('actualizar')
+
+    const handleMode = (mode) => {
+        setMode(mode)
+        setModalOpen(true)
+    }
 
     const colums = [
         {
@@ -63,9 +71,8 @@ export function Resultados () {
             observaciones: "Peso adecuado",
             valor: "30 g",
             estado: "activo", 
-            acciones: <><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/resultadosactualizar`}>Actualizar</Link></button> <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> ,
-            accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> 
-        },
+            acciones: <ButtonActualizar click={() => handleMode('actualizar')}/>
+        }/* ,
         {
             codigo: 2,
             fecha: "2024-02-29",
@@ -105,7 +112,7 @@ export function Resultados () {
             valor: "30 g",
             estado: "inactivo", 
             acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/resultadosactualizar`}>Actualizar</Link></button> <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></div> 
-        }
+        } */
     ]
 
     const paginaOpciones={
@@ -126,7 +133,6 @@ export function Resultados () {
 
     const [modalOpen, setModalOpen] = useState(false)
 
-
   return (
     
     <div>
@@ -136,14 +142,14 @@ export function Resultados () {
             
             <Buscador handler={handleFilter} />
             
-            {/* <div className='flex w-full'>
+            <div className='flex w-full'>
                 <button className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32' type="button">
                     <Link to={`/resultadosregistrar`}>Registrar</Link>
                     
                 </button>
-            </div> */}
-            <ButtonRegister click={() => setModalOpen(true)} />
-            <ResultadosModal open={modalOpen} onClose={() => setModalOpen(false)} />
+            </div>
+            {/* <ButtonRegister click={() => handleMode('registro')} />
+            <ResultadosModal open={modalOpen} onClose={() => setModalOpen(false)} mode={mode} /> */}
 
             <DataTable
                 columns={colums}

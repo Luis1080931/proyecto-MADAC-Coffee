@@ -7,8 +7,8 @@ import { ButtonVolver } from '../atoms/ButtonVolver.jsx'
 export const RegistrarResultados = () => {
   return (
     <div>
-        <HeaderRegis title='Registrar resultados' />
-        <ButtonVolver link={'/resultados'} />
+        <HeaderRegis title='Registrar resultados' link={'/resultados    '} />
+      {/*   <ButtonVolver link={'/resultados'} /> */}
         <div className='w-[100%] flex md:flex md:rounded-2xl'>
             <div className='bg-[#E6E6E6] flex items-center justify-center p-8 m-16 rounded-lg md:grid md:rounded-2xl md:w-4/12 md:content-center'>
                 <form action="#" className='flex-col md:flex md:rounded-2xl md:w-1/2'>
