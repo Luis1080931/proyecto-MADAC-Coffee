@@ -2,22 +2,29 @@ import {pool} from '../database/conexion.js'
 import { validationResult } from 'express-validator'
 
 
-export const getLotes=async(req,res)=>{
-    try{
-        const [rows]=await pool.query('SELECT * FROM lotes')
-        if(rows.length > 0){
-            res.status(200).json(rows)
-        }else{
+export const getLotes = async (req, res) => {
+    try {
+        const query = `
+            SELECT l.codigo, l.numero_arboles, v.nombre AS fk_variedad, l.estado
+            FROM lotes l
+            LEFT JOIN variedades v ON l.fk_variedad = v.codigo
+        `;
+        const [rows] = await pool.query(query);
+        if (rows.length > 0) {
+            res.status(200).json(rows);
+        } else {
             res.status(404).json({
-                message:"no encontramos a ningun lote"
-            })
+                message: "No se encontraron lotes"
+            });
         }
-    }catch(error){
+    } catch (error) {
         res.status(500).json({
-            message:"error en el servidor"+error
-        })
+            message: "Error en el servidor: " + error
+        });
     }
-}
+};
+
+
 export const getLote=async(req,res)=>{
     try{
         const [rows] =await pool.query('SELECT * FROM lotes WHERE codigo=?',[req.params.codigo])

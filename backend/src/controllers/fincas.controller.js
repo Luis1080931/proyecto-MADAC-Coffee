@@ -1,22 +1,29 @@
 import {pool} from '../database/conexion.js'
 import {validationResult} from 'express-validator'
 
-export const getFincas=async(req,res)=>{
-    try{
-        const [rows]=await pool.query('SELECT * FROM fincas')
-        if(rows.length > 0){
-            res.status(200).json(rows)
-        }else{
+export const getFincas = async (req, res) => {
+    try {
+        const query = `
+            SELECT f.codigo, f.dimension_mt2, u.nombre AS fk_caficultor, f.municipio, f.vereda, f.estado
+            FROM fincas f
+            LEFT JOIN usuarios u ON f.fk_caficultor = u.identificacion
+        `;
+        const [rows] = await pool.query(query);
+        if (rows.length > 0) {
+            res.status(200).json(rows);
+        } else {
             res.status(404).json({
-                message:"no encontramos a ninguna finca"
-            })
+                message: "No se encontraron fincas"
+            });
         }
-    }catch(error){
+    } catch (error) {
         res.status(500).json({
-            message:"error en el servidor"+error
-        })
+            message: "Error en el servidor: " + error
+        });
     }
-}
+};
+
+
 export const getFinca = async (req,res)=>{
     try{
         const [rows]=await pool.query('SELECT * FROM fincas WHERE codigo=?',[req.params.codigo])
