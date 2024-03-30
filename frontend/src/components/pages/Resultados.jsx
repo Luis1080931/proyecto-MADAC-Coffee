@@ -142,14 +142,14 @@ export function Resultados () {
             
             <Buscador handler={handleFilter} />
             
-            <div className='flex w-full'>
+            {/* <div className='flex w-full'>
                 <button className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32' type="button">
                     <Link to={`/resultadosregistrar`}>Registrar</Link>
                     
                 </button>
-            </div>
-            {/* <ButtonRegister click={() => handleMode('registro')} />
-            <ResultadosModal open={modalOpen} onClose={() => setModalOpen(false)} mode={mode} /> */}
+            </div> */}
+            <ButtonRegister click={() => handleMode('registro')} />
+            <ResultadosModal open={modalOpen} onClose={() => setModalOpen(false)} mode={mode} />
 
             <DataTable
                 columns={colums}

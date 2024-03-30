@@ -1,6 +1,7 @@
 import React from 'react'
 import { ButtonRegister } from '../atoms/ButtonRegister.jsx'
 import LogoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
+import { Button } from '../atoms/Button.jsx'
 
 const FormResultados = () => {
   return (
@@ -33,7 +34,7 @@ const FormResultados = () => {
         <textarea className='p-2 rounded-lg w-80' ame="" id="" cols="30" rows="3" placeholder='Observaciones'></textarea>
     </div>
     <div className='flex-col md:flex justify-center mt-5 items-center'>
-        <ButtonRegister />
+        
     </div>
     </div>
     <div className='flex justify-center items-center w-[60%] h-[60%] mt-24 '>
