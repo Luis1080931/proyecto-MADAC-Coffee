@@ -1,5 +1,5 @@
 import {pool} from "../database/conexion.js"
-import { validationResult } from "express-validator"
+import { validationResult } from 'express-validator';
 
 export const listarMuestras = async (req, res) => {
     try {
@@ -19,40 +19,45 @@ export const listarMuestras = async (req, res) => {
 
 //crear muestras 
 
- 
 export const CrearMuestra = async (req, res) => {
     try {
-//validación datos 
-        const errors = validationResult(req);
-        if(!errors.isEmpty()){
-            return res.status(400).json(errors);
-        }
-
+        // Validación de datos
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json(errors.array());
+    }
 
         const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado } = req.body;
-
         const [resultado] = await pool.query("INSERT INTO muestras (fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado]);
 
-        if (resultado.affectedRows >  0) {
+        if (resultado.affectedRows > 0) {
             res.status(200).json({ mensaje: "Se creó una muestra" });
         } else {
             res.status(403).json({ mensaje: "No se creó una muestra" });
         }
     } catch (error) {
-        res.status(500).json({message:"Error en el servidor" + error})
+        // Manejo de errores generales
+        res.status(500).json({ message: "Error en el servidor: " + error });
     }
 };
+
+
 
 //actualizar muestra
 export const actualizarMuestra = async (req, res) => {
     try {
+        // Validación de datos
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json(errors.array());
+        }
+    
         const { codigo } = req.params;
         const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote } = req.body;
 
-        // La consulta debe tener placeholders para cada valor que se va a actualizar
-        const [result] = await pool.query('UPDATE muestras SET fecha = IFNULL(?, fecha), cantidad = IFNULL(?, cantidad), quien_recibe = IFNULL(?, quien_recibe) , proceso_fermentacion = IFNULL(?, proceso_fermentacion), humedad_cafe = IFNULL(?, humedad_cafe), altura_MSNM = IFNULL(?, altura_MSNM), tipo_secado = IFNULL(?, tipo_secado), observaciones = IFNULL(?, observaciones), fk_lote = IFNULL(?, fk_lote) WHERE codigo = ?', [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, codigo]);
+        const [result] = await pool.query('UPDATE muestras SET fecha = IFNULL(?, fecha), cantidad = IFNULL(?, cantidad), quien_recibe = IFNULL(?, quien_recibe), proceso_fermentacion = IFNULL(?, proceso_fermentacion), humedad_cafe = IFNULL(?, humedad_cafe), altura_MSNM = IFNULL(?, altura_MSNM), tipo_secado = IFNULL(?, tipo_secado), observaciones = IFNULL(?, observaciones), fk_lote = IFNULL(?, fk_lote) WHERE codigo = ?', [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, codigo]);
 
-        if (result.affectedRows >  0) {
+        if (result.affectedRows > 0) {
             res.status(200).json({ message: 'La muestra ha sido actualizada correctamente.' });
         } else {
             res.status(400).json({ message: 'No se pudo actualizar la muestra. Por favor, verifica los datos proporcionados.' });
@@ -62,6 +67,7 @@ export const actualizarMuestra = async (req, res) => {
         res.status(500).json({message:"Error en el servidor" + error})
     }
 };
+
 
 
 // desactivar muestras}
