@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { listarMuestras, CrearMuestra, actualizarMuestra, desactivarMuestras, BuscarMuestra } from "../controllers/controllerMuestras.js";
+<<<<<<< HEAD
 import { validacionMuestra } from '../../validate/muestra.js'
 import { validarToken } from "../controllers/seguridad.controller.js";
 
@@ -8,6 +9,7 @@ const RouteMuestras = Router();
 
 //localhost:3000/actualizarMuestra
 
+RouteMuestras.get("/listarMuestra",validarToken, listarMuestras);
 RouteMuestras.get("/listarMuestra",validarToken, listarMuestras);
 //validation datos 
 RouteMuestras.post("/crearMuestra",validarToken, validacionMuestra,CrearMuestra);
