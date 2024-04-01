@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component'
 import { Header } from './../molecules/Header.jsx'
-import { Link } from 'react-router-dom';
 import { Buscador } from '../atoms/Buscador.jsx';
 import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
-import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';   
-import ResultadosModal from '../organisms/ResultadosModal.jsx'
+import ResultadosModal from './../templates/Resultados.jsx';
 import axios from 'axios';
 
 
@@ -30,7 +28,7 @@ export function Resultados () {
     const columns = [
         {
             name:  'Id',
-            selector: 'codigo',
+           /*  selector: 'codigo', */
             sortable: true
         },
         {
@@ -80,6 +78,24 @@ export function Resultados () {
     }
 
     const [modalOpen, setModalOpen] = useState(false)
+    const [mode, setMode] = useState('create')
+
+    
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(mode === 'create'){
+            const baseURL = 'http://localhost:3000/resultados/registrar'
+
+            axios.post(baseURL).then((response) => {
+                console.log("Registrado con exito")
+                setModalOpen(false)
+            })
+        }else if(mode === 'update'){
+
+        }
+        setModalOpen(false)
+    }
   return (
     
     <div>
@@ -88,7 +104,12 @@ export function Resultados () {
             
             <Buscador handler={handleFilter} />
             <ButtonRegister click={() => setModalOpen(true)} />
-            <ResultadosModal open={modalOpen} onClose={() => setModalOpen(false)} />
+            <ResultadosModal 
+                open={modalOpen} 
+                onClose={() => setModalOpen(false)} 
+                handleSubmit={handleSubmit}
+                actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                />
 
             <DataTable
                 columns={columns}

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { FaAlignJustify } from "react-icons/fa6";
-import ImgBody from './../../assets/imgBody.webp'
 import { FaAngleLeft } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
 import { RxDotFilled } from 'react-icons/rx';

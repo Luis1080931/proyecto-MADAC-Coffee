@@ -1,7 +1,7 @@
 import React from 'react'
 import { HeaderRegis } from './../molecules/HeaderRegis.jsx'
-import LogoSena from './../../assets/Logosimbolo-SENA-PRINCIPAL.png'
-import LogoProyecto from './../../assets/logoProyeccto-removebg.png'
+import LogoSena from './../../assets/icons/Logosimbolo-SENA-PRINCIPAL.png'
+import LogoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
 
 export const RegistrarResultados = () => {
   return (

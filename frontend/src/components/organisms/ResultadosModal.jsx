@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { FaX } from "react-icons/fa6";
-import LogoProyecto from './../../assets/logoProyeccto-removebg.png'
+import LogoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
 
 function ResultadosModal ({ open, onClose }){
 
