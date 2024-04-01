@@ -14,7 +14,7 @@ export const listarVariables = async (req, res) => {
                 "Mensaje":"No hay variables"
             })
         }
-    } catch (error) {z
+    } catch (error) {
         res.status(500).json({
             status:500,
             message: "Error del servidor" + error

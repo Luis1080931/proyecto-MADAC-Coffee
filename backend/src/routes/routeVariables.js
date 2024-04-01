@@ -1,15 +1,12 @@
 import { Router } from "express";
 import { listarVariables, CrearVariable, ActualizarVariable, desactivarVariable, buscarvariable } from "../controllers/controllerVariables.js";
-<<<<<<< HEAD
 import { validacionVariable } from "../../validate/variable.js";
 import { validarToken } from "../controllers/seguridad.controller.js";
 
 const routeVariables = Router()
 
-routeVariables.get("/listarvariable",validarToken, listarVariables)
-routeVariables.get("/listarvariable",validarToken, listarVariables)
+routeVariables.get("/listarvariable", listarVariables)
 
-routeVariables.post("/crearvariable",validarToken, validacionVariable,CrearVariable)
 routeVariables.post("/crearvariable",validarToken, validacionVariable,CrearVariable)
 
 routeVariables.put("/actualizarvariable/:codigo",validarToken, ActualizarVariable)
