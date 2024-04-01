@@ -16,16 +16,11 @@ const servidor = express()
 
 servidor.use(cors())
 
+servidor.use(cors())
+
 servidor.use(body_parser.json())
 servidor.use(body_parser.urlencoded({extend: false}))
 
-servidor.use('/usuarios', routeUsuarios)
-servidor.use('/fincas', routeFincas)
-servidor.use('/lotes', routeLotes)
-servidor.use('/variedades', routeVariedades)
-servidor.use('/muestras', routeMuestras)
-servidor.use('/analisis', routeAnalisis)
-servidor.use('/variables', routeVariables)
 servidor.use('/resultados', routeResultados)
 servidor.use(rutaValidacion)
 

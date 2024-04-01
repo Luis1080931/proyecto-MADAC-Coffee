@@ -64,7 +64,7 @@ export const registrarResultados = async (req, res) => {
 export const actualizarResultado = async (req, res) => {
 
     try {
-        
+
         const errors = validationResult(req)
         if(!errors.isEmpty()){
             return res.status(403).json(errors)
