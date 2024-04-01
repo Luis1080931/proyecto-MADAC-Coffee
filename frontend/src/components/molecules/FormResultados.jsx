@@ -39,7 +39,7 @@ const FormResultados = ({ handleSubmit, actionLabel }) => {
     const [variables, setVariables] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:3000/variables/listar').then((response) => {
+        axios.get('http://localhost:3000/variables/listarvariable').then((response) => {
             console.log(response.data)
 
             const variableFilter = response.data.filter(variable => variable.estado == 'activo')
