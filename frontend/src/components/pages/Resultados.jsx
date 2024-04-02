@@ -5,18 +5,19 @@ import { Buscador } from '../atoms/Buscador.jsx';
 import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
 import ResultadosModal from './../templates/Resultados.jsx';
 import axios from 'axios';
+import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
 
 
 export function Resultados () {
 
     const baseURL = 'http://localhost:3000/resultados/listar'
-   /*  const token = localStorage.getItem('token') */
+    const token = localStorage.getItem('token')
 
-    const [data, setData] = useState([])
+    const [datos, setData] = useState([])
 
     useEffect(() => {
         try {
-            axios.get(baseURL).then((response) => {
+            axios.get(baseURL, {headers: {token:token}}).then((response) => {
                 console.log(response)
                 setData(response.data)
             })
@@ -60,8 +61,21 @@ export function Resultados () {
             name: 'Estado',
      /*        selector: 'estado', */
             sortable: true
-        }
+        },
+     /*    {
+            name: 'Acciones',
+            selector: row => row.acciones
+        } */
     ]
+
+    /* const acciones = [
+        {
+            acciones: 
+            <>
+                <button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button" click={() => setModalOpen(true)}>Actualizar</button>
+            </>
+        }
+    ] */
 
     const paginaOpciones={
         rowsPerPageText: 'Filas por página',
@@ -70,6 +84,8 @@ export function Resultados () {
         selectAllRowsText: 'Todos'
     }
     
+/*     const [records, setRecords] = useState(acciones) */
+
     function handleFilter (event){
         const newData = data.filter(row => {
             return row.variable.toLowerCase().includes(event.target.value.toLowerCase())
@@ -79,6 +95,14 @@ export function Resultados () {
 
     const [modalOpen, setModalOpen] = useState(false)
     const [mode, setMode] = useState('create')
+
+    const handleToggle = (mode) => {
+        setMode(mode)
+        setModalOpen(true)
+        if(mode === 'update'){
+            
+        }
+    }
 
     
 
@@ -103,7 +127,8 @@ export function Resultados () {
         <div className='w-full flex flex-col justify-center items-center p-10'>
             
             <Buscador handler={handleFilter} />
-            <ButtonRegister click={() => setModalOpen(true)} />
+            <ButtonRegister click={() => handleToggle('create')} />
+            <ButtonActualizar click={() => handleToggle('update')} />
             <ResultadosModal 
                 open={modalOpen} 
                 onClose={() => setModalOpen(false)} 
@@ -113,7 +138,7 @@ export function Resultados () {
 
             <DataTable
                 columns={columns}
-                data={data}
+                data={datos}
                 title="Resultados registrados"
                 fixedHeader 
                 pagination

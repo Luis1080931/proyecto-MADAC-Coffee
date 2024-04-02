@@ -1,9 +1,11 @@
 import React from 'react'
 
-export const Button = (props) => {
+export const Button = ({ actionLabel }) => {
   return (
     <div className='flex-col md:flex justify-center mt-5 items-center'>
-        <button type='submit'>{props.label}</button>
+      <button type='submit' className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32'>
+        {actionLabel}
+      </button>
     </div>
   )
 }
