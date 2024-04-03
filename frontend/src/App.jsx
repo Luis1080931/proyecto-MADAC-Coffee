@@ -1,17 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { RegistrarLotes } from "./pages/RegistrarLotes.jsx"
-import { ActualizarLotes } from "./pages/ActualizarLotes.jsx"
-import { Lotes } from "./pages/Lotes.jsx"
-import { ActualizarFincas } from "./pages/ActualizarFincass.jsx"
-import { RegistrarFincas } from "./pages/RegistrarFincass.jsx"
-import { Fincas } from "./pages/Fincass.jsx"
-
+import { Fincas } from "./components/pages/Fincass.jsx"
+import { RegistrarFincas } from "./components/pages/RegistrarFincass.jsx"
+import { ActualizarFincas } from "./components/pages/ActualizarFincass.jsx"
+import { Lotes } from "./components/pages/Lotes.jsx"
+import { RegistrarLotes } from "./components/pages/RegistrarLotes.jsx"
+import { ActualizarLotes } from "./components/pages/ActualizarLotes.jsx"
 function App() {
 
   return (
     <BrowserRouter>    
-     { <RegistrarLotes/>}
-
+     { <ActualizarLotes/>}
     </BrowserRouter>
 
   )

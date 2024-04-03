@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
-import { HeaderRegis } from '../components/HeaderRegis.jsx';
-import LogoSena from './../assets/Logosimbolo-SENA-PRINCIPAL.png';
+import { HeaderRegis } from '../HeaderRegis.jsx';
+import LogoSena from '../../assets/Logosimbolo-SENA-PRINCIPAL.png';
 import axios from 'axios';
-import LogoProyecto from './../assets/logoProyeccto-removebg.png';
+import LogoProyecto from '../../assets/logoProyeccto-removebg.png';
 
 const baseURL = "http://localhost:3000/fincas/registrar";
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZGVudGlmaWNhY2lvbiI6MTAyOTg4MDMwNiwibm9tYnJlIjoiU2VyZ2lvIENvcG8iLCJ0ZWxlZm9ubyI6IjMyMjc1ODIzODIiLCJ0aXBvX3VzdWFyaW8iOiJjYWZpY3VsdG9yIiwiZXN0YWRvIjoiYWN0aXZvIn1dLCJpYXQiOjE3MTE1NzE2OTcsImV4cCI6MTcxMTY1ODA5N30.vd35eg8d6tpVcWeGbrly5DwGZOrt4i90tV852YiwLYE";
