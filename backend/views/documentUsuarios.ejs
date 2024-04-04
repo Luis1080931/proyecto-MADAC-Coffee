@@ -4,32 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Document API MADAC-Coffee </title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/public/style.css">
 </head>
 <body>
 
+    <h1> Documentacion API MADAC-Coffee </h1>
     <hr>
-    <h2> Modulo resultados </h2>
+    <h2> Modulo Usuarios </h2>
     <hr>
-
-    <h3> Requerimiento registrar resultado </h3>
+    
+    <h3> Requerimiento registrar usuarios </h3>
 
     <table>
         <tr>
             <td> Numero </td>
-            <td> 36 </td>
+            <td> 1 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
-            <td> Registrar resultado </td>
+            <td> Registrar usuarios </td>
         </tr>
         <tr>
             <td> Url </td>
-            <td> /resultados/registrar </td>
+            <td> /usuarios/registrar </td>
         </tr>
         <tr>
             <td> Descripción </td>
-            <td> Permite registrar nuevos resultados</td>
+            <td> Permite registrar nuevos usuarios al sistema</td>
         </tr>
         <tr>
             <td> Verbo HTTP </td>
@@ -47,72 +48,72 @@
             <td> Petición body-form-data </td>
             <td>
                 Json : 
-                {
-                    "fecha": "2024-02-12",
-                    "fk_analisis": 1,
-                    "fk_variables": 1,
-                    "valor": 1,
-                    "observaciones": "tus observaciones"
-                }
+                    {
+                        "identificacion": 1080934,
+                        "telefono": 3119547883,
+                        "nombre": "Aristobulo",
+                        "correo_electronico": "aristobulo@gmail.com",
+                        "tipo_usuario": 1,
+                        "password": "ari123",
+                        "estado": 1
+                    }
             </td>
         </tr>
         <tr>
             <td>Respuesta Json </td>
             <td>
                 Correcto: 
-                Status: 200
+                Status: 201
                 Json: 
                 {
-                    Status: 200,
-                    Message: 'Se realizo el registro con exito'
+                    "mensaje": "Usuario registrado con exito!!"
                 },
 
                 Incorrecto:
                 Status: 403
                 Body Json: 
                 {
-                    Status: 403
-                    Message: No se registro el resultado 
+                    "mensaje": "No se pudo registrar el usuario!"
                 },
 
                 Error:
                 Status: 500
                 Body Json:
                 {
-                    Status: 500
-                    Message: Error de servidor + error
+                    "mensaje": "Error del servidor" + error
                 }
             </td>
         </tr>
         <tr>
             <td> Programador </td>
-            <td> Luis Alfredo Ubaque Perdomo </td>
+            <td> Cesar David Carrillo </td>
         </tr>
     </table>
 
+
     <hr>
 
-    <h3> Requerimiento listar resultados: </h3>
+    <h3> Requerimiento listar usuarios: </h3>
     <table>
         <tr>
-            <td> Numero </td>
-            <td> 37 </td>
+            <td>Numero</td>
+            <td> 2 </td>
         </tr>
         <tr>
-            <td>Nombre del servicio </td>
-            <td>Listar resultados</td>
+            <td>Nombre del servicio</td>
+            <td>Listar usuarios</td>
         </tr>
         <tr>
-            <td>URL</td>
-            <td>/resultados/listar</td>
+            <td>Url</td>
+            <td>/usuarios/listar</td>
         </tr>
         <tr>
             <td>Descripción</td>
-            <td>Permite listar todos los resultados registrados en la base de datos</td>
+            <td>Permite listar todos los usuarios registrados en la base de datos</td>
         </tr>
         <tr>
-            <td>Verbo HTTP</td>
-            <td>GET</td>
+            <td>Verbo http</td>
+            <td>Get</td>
         </tr>
         <tr>
             <td>Header</td>
@@ -130,64 +131,64 @@
             <td>Respuesta json</td>
             <td>
                 Correcto :
-                Status: 200
+                Status: 201
                 Json : 
                 {
-                    [
+                    "usuarios": [                   
                         {
-                            "fecha": "2024-02-07T05:00:00.000Z",
-                            "analisis": 3,
-                            "variable": "Peso C.P.S (g)",
-                            "observaciones": "Peso acorde",
-                            "valor": "98",
+                            "identificacion": 1080934,
+                            "telefono": "3119547883",
+                            "nombre": "Aristobulo",
+                            "correo_electronico": "aristobulo@gmail.com",
+                            "tipo_usuario": "catador",
+                            "password": "ari123",
                             "estado": "activo"
                         }
-                    ]
+
                 },
 
                 Incorrecto : 
-                Statu: 404
+                Status : 404
                 Body Json : 
                 {
-                    Status: 404
-                    Message: 'No hay resultados registrados'
+                    "mensaje":"no hay usuarios registrados"
                 },
 
                 Error:
                 Status: 500
-                Body Json :
+                Body: Json :
                 {
-                    Status: 500
-                    Message: 'Error del servidor' + error
+                    "mensaje": "Error del servidor" + error
                 }
             </td>
         </tr>
         <tr>
             <td> Programador </td>
-            <td> Luis Alfredo Ubaque Perdomo </td>
+            <td> Cesar David Carrillo </td>
         </tr>
     </table>
     
+    
     <hr>
 
-    <h3> Requerimiento actualizar resultado </h3>
+    <h3> Requerimiento actualizar usuarios </h3>
 
     <table>
         <tr>
             <td> Numero </td>
-            <td> 38 </td>
+            <td> 3 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
-            <td> Actualizar resultados </td>
+            <td> Actualizar usuarios </td>
         </tr>
         <tr>
             <td> Url </td>
-            <td> /resultados/actualizar/1 </td>
+            <td> /usuarios/actualizar/1004083010 </td>
         </tr>
         <tr>
             <td> Descripción </td>
-            <td> Permite actualizar resultados registrados en la base de datos </td>
+            <td> Permite actualizar los usuarios registrados en la base de datos </td>
         </tr>
         <tr>
             <td> Verbo HTTP </td>
@@ -206,7 +207,13 @@
             <td>
                 Json : 
                 {
-                    "fecha": "2024-01-12"
+                    "identificacion": 1080934,
+                    "telefono": 3119547883,
+                    "nombre": "Aristobulo",
+                    "correo_electronico": "aristobulo@gmail.com",
+                    "tipo_usuario": 1,
+                    "password": "ari123",
+                    "estado": 1
                 }
             </td>
         </tr>
@@ -214,60 +221,57 @@
             <td> Respuestas Json </td>
             <td>
                 Correcto:
-                Status: 200
+                Status: 201
                 Body Json:
                 {
-                    Status: 200,
-                    Message: Se actualizó con exito el resultado
+                    "mensaje": "Usuario actualizado con exito!!"
                 },
 
                 Incorrecto:
                 Status: 403
                 Body json: 
                 {
-                    Status: 403,
-                    Message: No fue posible actualizar el resultado
+                    "mensaje": "No se pudo actualizar el usuario!"
                 },
 
                 Error:
                 Status: 500,
                 Body Json :
                 {
-                    Status: 500,
-                    Message: Error del servidor + error
+                    "mensaje": "Error del servidor" + error
                 }
             </td>
         </tr>
         <tr>
             <td> Programador </td>
-            <td> Luis Alfredo Ubaque Perdomo </td>
+            <td> Cesar David Carrillo </td>
         </tr>
     </table>
 
     <hr>
 
-    <h3> Requerimiento desactivar resultado </h3>
+    <h3> Requerimiento desactivar usuarios </h3>
 
     <table>
         <tr>
             <td> Numero </td>
-            <td> 39 </td>
+            <td> 4 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
-            <td> Desactivar resultado </td>
+            <td> Desactivar usuarios </td>
         </tr>
         <tr>
             <td> Url </td>
-            <td> /resultados/desactivar/1 </td>
+            <td> /usuarios/desactivar/1004083010 </td>
         </tr>
         <tr>
             <td> Descripción </td>
-            <td> Permite desactivar resultados de la base de datos </td>
+            <td> Permite desactivar los usuarios que estan activos en la base de datos </td>
         </tr>
         <tr>
             <td> Verbo HTTP </td>
-            <td> Put </td>
+            <td> put </td>
         </tr>
         <tr>
             <td> Header </td>
@@ -285,60 +289,57 @@
             <td> Respuestas Json </td>
             <td>
                 Correcto: 
-                Status: 200
+                Status: 201
                 Body Json: 
                 {
-                    Status: 200,
-                    Message: Se desactivó con exito el resultado
+                    "mensaje": "Usuario se desactivo con exito!!"
                 },
 
                 Incorrecto:
                 Status: 403
                 Body Json: 
                 {
-                    Status: 403,
-                    Message: Error al intentar desactivar el resultado
+                    "mensaje": "No se pudo desactivar el usuario!"
                 },
 
                 Error:
                 Status: 500
                 Body Json: 
                 {
-                    Status: 500
-                    Message: Error de servidor + error
+                    "mensaje": "Error del servidor" + error
                 }
             </td>
         </tr>
         <tr>
             <td> Programador </td>
-            <td> Luis Alfredo Ubaque Perdomo </td>
+            <td> Cesar David Carrillo </td>
         </tr>
     </table>
 
     <hr>
 
-    <h3> Requerimiento buscar resultados </h3>
+    <h3> Requerimiento buscar usuarios </h3>
 
     <table>
         <tr>
             <td> Numero </td>
-            <td> 40 </td>
+            <td> 5 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
-            <td> Buscar resultado </td>
+            <td> Buscar usuarios </td>
         </tr>
         <tr>
             <td> Url </td>
-            <td> /resultados/buscar/1 </td>
+            <td> /usuarios/buscar/1004083010 </td>
         </tr>
         <tr>
             <td> Descripción </td>
-            <td> Permite buscar un resultado en especifico por su id </td>
+            <td> Permite buscar un usuario en especifico por su identificacion </td>
         </tr>
         <tr>
             <td> Verbo HTTP </td>
-            <td> Get </td>
+            <td> get </td>
         </tr>
         <tr>
             <td> Header </td>
@@ -356,41 +357,36 @@
             <td> Respuestas Json </td>
             <td>
                 Correcto: 
-                Status: 200
+                Status: 201
                 Body Json:
                 {
-                    [
-                        {
-                            "fecha": "2024-02-07T05:00:00.000Z",
-                            "analisis": 3,
-                            "variable": "Peso C.P.S (g)",
-                            "observaciones": "Peso acorde",
-                            "valor": "98",
-                            "estado": "activo"
-                        }
-                    ]
+                    "identificacion": 1080934,
+                    "telefono": 3119547883,
+                    "nombre": "Aristobulo",
+                    "correo_electronico": "aristobulo@gmail.com",
+                    "tipo_usuario": 1,
+                    "password": "ari123",
+                    "estado": 1
                 },
 
                 Incorrecto:
                 Status: 404
                 Body Json:
                 {
-                    Status: 404,
-                    Message: No se encontró el resultado
+                    "mensaje":"el usuario no existe en la base de datos"
                 },
 
                 Error:
                 Status: 500
                 Body Json:
                 {
-                    Status: 500
-                    Message: Error del servidor + error
+                    "mensaje": "Error del servidor" + error
                 }
             </td>
         </tr>
         <tr>
             <td> Programador </td>
-            <td> Luis Alfredo Ubaque Perdomo </td>
+            <td> Cesar David Carrillo </td>
         </tr>
     </table>
 </body>

@@ -4,32 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Document API MADAC-Coffee </title>
-    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
+ 
     <hr>
-    <h2> Modulo resultados </h2>
+    <h2> Modulo analisis </h2>
+
     <hr>
 
-    <h3> Requerimiento registrar resultado </h3>
+    <h3> Requerimiento registrar analisis </h3>
 
     <table>
         <tr>
             <td> Numero </td>
-            <td> 36 </td>
+            <td> 26 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
-            <td> Registrar resultado </td>
+            <td> Registrar analisis </td>
         </tr>
         <tr>
             <td> Url </td>
-            <td> /resultados/registrar </td>
+            <td> /analisis/registrar </td>
         </tr>
         <tr>
             <td> Descripción </td>
-            <td> Permite registrar nuevos resultados</td>
+            <td> Permite registrar nuevos analisis</td>
         </tr>
         <tr>
             <td> Verbo HTTP </td>
@@ -48,11 +49,11 @@
             <td>
                 Json : 
                 {
-                    "fecha": "2024-02-12",
-                    "fk_analisis": 1,
-                    "fk_variables": 1,
-                    "valor": 1,
-                    "observaciones": "tus observaciones"
+                    "fecha": 
+                    "analisista"
+                    "fk_muestra"
+                    "fk_tipo_analisis"
+                    "estado":
                 }
             </td>
         </tr>
@@ -60,11 +61,11 @@
             <td>Respuesta Json </td>
             <td>
                 Correcto: 
-                Status: 200
+                Status: 201
                 Json: 
                 {
-                    Status: 200,
-                    Message: 'Se realizo el registro con exito'
+                    "Status": 200,
+                    "Message": "Analisis creado con exito!"
                 },
 
                 Incorrecto:
@@ -72,7 +73,7 @@
                 Body Json: 
                 {
                     Status: 403
-                    Message: No se registro el resultado 
+                    Message: No se pudo crear el analisis
                 },
 
                 Error:
@@ -86,33 +87,33 @@
         </tr>
         <tr>
             <td> Programador </td>
-            <td> Luis Alfredo Ubaque Perdomo </td>
+            <td> María de los Ángeles Torres </td>
         </tr>
     </table>
 
-    <hr>
 
-    <h3> Requerimiento listar resultados: </h3>
+    <hr> 
+    <h3> Requerimiento listar analisis</h3>
     <table>
         <tr>
-            <td> Numero </td>
-            <td> 37 </td>
+            <td>Numero</td>
+            <td> 27 </td>
         </tr>
         <tr>
-            <td>Nombre del servicio </td>
-            <td>Listar resultados</td>
+            <td>Nombre del servicio</td>
+            <td>Listar analisis</td>
         </tr>
         <tr>
-            <td>URL</td>
-            <td>/resultados/listar</td>
+            <td>Url</td>
+            <td>/analisis/listar</td>
         </tr>
         <tr>
             <td>Descripción</td>
-            <td>Permite listar todos los resultados registrados en la base de datos</td>
+            <td>Permite listar todos analisis registrados en la base de datos</td>
         </tr>
         <tr>
-            <td>Verbo HTTP</td>
-            <td>GET</td>
+            <td>Verbo http</td>
+            <td>Get</td>
         </tr>
         <tr>
             <td>Header</td>
@@ -129,65 +130,64 @@
         <tr>
             <td>Respuesta json</td>
             <td>
-                Correcto :
-                Status: 200
-                Json : 
+                correcto :
+                status: 200
+                json : 
                 {
-                    [
-                        {
-                            "fecha": "2024-02-07T05:00:00.000Z",
-                            "analisis": 3,
-                            "variable": "Peso C.P.S (g)",
-                            "observaciones": "Peso acorde",
-                            "valor": "98",
-                            "estado": "activo"
-                        }
-                    ]
+                    "fecha": "2024/12/03"
+                    "analisista" "Juan"
+                    "fk_muestra" "1"
+                    "fk_tipo_analisis" "1"
+                    "estado": "activo"
+
                 },
 
-                Incorrecto : 
-                Statu: 404
-                Body Json : 
+                incorrecto : 
+                status : 404
+                body json : 
                 {
-                    Status: 404
-                    Message: 'No hay resultados registrados'
+                    status: 404
+                    message: No hay analisis registrados
                 },
 
-                Error:
-                Status: 500
-                Body Json :
+                error:
+                status: 500
+                body: json :
                 {
-                    Status: 500
-                    Message: 'Error del servidor' + error
+                    status: 500
+                    message: error del servidor + error
                 }
+
             </td>
         </tr>
         <tr>
             <td> Programador </td>
-            <td> Luis Alfredo Ubaque Perdomo </td>
+            <td> María de los Ángeles Torres </td>
         </tr>
     </table>
+
+    
     
     <hr>
 
-    <h3> Requerimiento actualizar resultado </h3>
+    <h3> Requerimiento actualizar analisis </h3>
 
     <table>
         <tr>
             <td> Numero </td>
-            <td> 38 </td>
+            <td> 28 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
-            <td> Actualizar resultados </td>
+            <td> Actualizar analisis </td>
         </tr>
         <tr>
             <td> Url </td>
-            <td> /resultados/actualizar/1 </td>
+            <td> /analisis/actualizar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
-            <td> Permite actualizar resultados registrados en la base de datos </td>
+            <td> Permite actualizar analisis registrados en la base de datos </td>
         </tr>
         <tr>
             <td> Verbo HTTP </td>
@@ -206,7 +206,11 @@
             <td>
                 Json : 
                 {
-                    "fecha": "2024-01-12"
+                    "fecha": "2024/08/10"
+                    "analisista" "Juan"
+                    "fk_muestra" "1"
+                    "fk_tipo_analisis" "1"
+                    "estado": "activo"
                 }
             </td>
         </tr>
@@ -218,7 +222,7 @@
                 Body Json:
                 {
                     Status: 200,
-                    Message: Se actualizó con exito el resultado
+                    Message: Analisis actualizado con exito!
                 },
 
                 Incorrecto:
@@ -226,7 +230,7 @@
                 Body json: 
                 {
                     Status: 403,
-                    Message: No fue posible actualizar el resultado
+                    Message: No se pudo actualizar el analisis
                 },
 
                 Error:
@@ -240,30 +244,30 @@
         </tr>
         <tr>
             <td> Programador </td>
-            <td> Luis Alfredo Ubaque Perdomo </td>
+            <td> María de los Ángeles Torres </td>
         </tr>
     </table>
 
     <hr>
 
-    <h3> Requerimiento desactivar resultado </h3>
+    <h3> Requerimiento desactivar analisis </h3>
 
     <table>
         <tr>
             <td> Numero </td>
-            <td> 39 </td>
+            <td> 29 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
-            <td> Desactivar resultado </td>
+            <td> Desactivar analisis </td>
         </tr>
         <tr>
             <td> Url </td>
-            <td> /resultados/desactivar/1 </td>
+            <td> /analisis/desactivar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
-            <td> Permite desactivar resultados de la base de datos </td>
+            <td> Permite desactivar el analisis de la base de datos </td>
         </tr>
         <tr>
             <td> Verbo HTTP </td>
@@ -289,7 +293,7 @@
                 Body Json: 
                 {
                     Status: 200,
-                    Message: Se desactivó con exito el resultado
+                    Message: Analisis desactivado con exito!
                 },
 
                 Incorrecto:
@@ -297,7 +301,7 @@
                 Body Json: 
                 {
                     Status: 403,
-                    Message: Error al intentar desactivar el resultado
+                    Message: No se pudo desactivar el analisis
                 },
 
                 Error:
@@ -311,30 +315,30 @@
         </tr>
         <tr>
             <td> Programador </td>
-            <td> Luis Alfredo Ubaque Perdomo </td>
+            <td> María de los Ángeles Torres </td>
         </tr>
     </table>
 
     <hr>
 
-    <h3> Requerimiento buscar resultados </h3>
+    <h3> Requerimiento buscar analisis </h3>
 
     <table>
         <tr>
             <td> Numero </td>
-            <td> 40 </td>
+            <td> 30 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
-            <td> Buscar resultado </td>
+            <td> Buscar analisis </td>
         </tr>
         <tr>
             <td> Url </td>
-            <td> /resultados/buscar/1 </td>
+            <td> /analisis/buscar/1 </td>
         </tr>
         <tr>
             <td> Descripción </td>
-            <td> Permite buscar un resultado en especifico por su id </td>
+            <td> Permite buscar un analisis en especifico por su codigo</td>
         </tr>
         <tr>
             <td> Verbo HTTP </td>
@@ -359,16 +363,11 @@
                 Status: 200
                 Body Json:
                 {
-                    [
-                        {
-                            "fecha": "2024-02-07T05:00:00.000Z",
-                            "analisis": 3,
-                            "variable": "Peso C.P.S (g)",
-                            "observaciones": "Peso acorde",
-                            "valor": "98",
-                            "estado": "activo"
-                        }
-                    ]
+                    "fecha": "2023/12/03"
+                    "analisista" "Andres"
+                    "fk_muestra" "21"
+                    "fk_tipo_analisis" "11"
+                    "estado": "activo"
                 },
 
                 Incorrecto:
@@ -376,7 +375,7 @@
                 Body Json:
                 {
                     Status: 404,
-                    Message: No se encontró el resultado
+                    Message: El analisis no existe
                 },
 
                 Error:
@@ -390,7 +389,7 @@
         </tr>
         <tr>
             <td> Programador </td>
-            <td> Luis Alfredo Ubaque Perdomo </td>
+            <td> María de los Ángeles Torres </td>
         </tr>
     </table>
 </body>
