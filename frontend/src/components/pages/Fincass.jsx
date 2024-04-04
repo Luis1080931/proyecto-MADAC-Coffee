@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import DataTable from 'react-data-table-component'
-import { Header } from '../Header.jsx'
+import { Header } from '../molecules/Header.jsx'
 import { FaSistrix } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 

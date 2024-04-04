@@ -1,5 +1,5 @@
 import React from 'react'
-import { HeaderRegis } from '../HeaderRegis.jsx'
+import { HeaderRegis } from '../molecules/HeaderRegis.jsx'
 import LogoSena from '../../assets/Logosimbolo-SENA-PRINCIPAL.png'
 import LogoProyecto from '../../assets/logoProyeccto-removebg.png'
 

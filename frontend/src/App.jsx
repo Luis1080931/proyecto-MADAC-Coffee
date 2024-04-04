@@ -5,11 +5,12 @@ import { ActualizarFincas } from "./components/pages/ActualizarFincass.jsx"
 import { Lotes } from "./components/pages/Lotes.jsx"
 import { RegistrarLotes } from "./components/pages/RegistrarLotes.jsx"
 import { ActualizarLotes } from "./components/pages/ActualizarLotes.jsx"
+import {FormFincas} from "./components/molecules/FormFincas.jsx"
 function App() {
 
   return (
     <BrowserRouter>    
-     { <ActualizarLotes/>}
+     { <FormFincas/>}
     </BrowserRouter>
 
   )
