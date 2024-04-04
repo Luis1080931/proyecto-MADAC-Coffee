@@ -1,16 +1,6 @@
 import { query } from "express"
 import { pool } from '../database/conexion.js'
-import { validationResult } from "express-validator"
-
-
-
-// Usa validationResult según sea necesario en tu código
-
-/*
-    * X Registrar // POST
-    * X Editar // PUT
-    * X Desactivar // POST
-*/
+import { validationResult } from "express-validator"    
 
 //Registrar
 export const registrarAnalisis = async (req, res) => {
@@ -24,8 +14,6 @@ export const registrarAnalisis = async (req, res) => {
         const { fecha, analista, fk_muestra, fk_tipo_analisis, estado } = req.body
         const [ resultado ] = await pool.query("INSERT INTO analisis(fecha, fk_analista, fk_muestra, fk_tipo_analisis, estado) VALUES (?, ?, ?, ?, ?)", [fecha, analista, fk_muestra, fk_tipo_analisis, estado])
 
-        // 0 = No afecto nada
-        // 1, 2, 3 = Que hizo algo en la base de datos
         if (resultado.affectedRows > 0) {
             res.status(201).json({
                 "mensaje": "Analisis creado con exito!"
@@ -47,7 +35,7 @@ export const registrarAnalisis = async (req, res) => {
 export const actualizarAnalisis = async (req, res) => {
     try {
 
-        const errors = validationResult(req)
+        const errors = validationAnalisis(req)
         if(!errors.isEmpty()){
             return res.status(403).json(errors)
         }
@@ -97,13 +85,13 @@ export const desactivarAnalisis = async (req, res) => {
     }
 }
 //Listar
-export const listarAnalisis=async(req,res)=>{
+export const listarAnalisis = async (req,res) => {
     try {
 
-        const [analisis] = await pool.query("SELECT * FROM analisis")
+        const [analisis] = await pool.query(`SELECT codigo, fecha, nombre AS analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id`)
 
         if (analisis.length>0) {
-            res.status(200).json({analisis})
+            res.status(200).json(analisis)
         } else {
         res.status(404).json({
             "mensaje":"No hay analisis registrados"
@@ -123,7 +111,7 @@ export const buscarAnalisis=async(req,res)=>{
 
         const {codigo} =req.params
 
-        const [analisis] =await pool.query("SELECT * FROM analisis where codigo = ?",[codigo])
+        const [analisis] =await pool.query(`SELECT codigo, fecha, nombre AS analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id WHERE a.codigo = ?`, [codigo])
         
         if (analisis.length>0) {
             res.status(200).json(analisis)

@@ -2,8 +2,8 @@ import { check } from "express-validator";
 
 export const validarResultados = 
 [
-    check('fecha', 'El campo no puede estar vacio')
-        /* .matches(/^\d{4}-\d{2}-d{2}$/) */
+    check('fecha', 'El campo no puede estar vacio y debe ser en formato AAAA-MM-DD')
+        .matches(/^\d{4}-\d{2}-\d{2}$/)
         .not().isEmpty(),
 
     check('fk_analisis', 'Ingrese un código válido')

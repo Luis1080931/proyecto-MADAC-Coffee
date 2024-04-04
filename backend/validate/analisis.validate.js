@@ -5,7 +5,7 @@ export const validarAnalisis =
     check('fecha', 'Este campo no puede estar vacio')
         .not().isEmpty(),
 
-    check('fk_analista', 'Ingrese un código válido')
+    check('analista', 'Ingrese un código válido')
         .not().isEmpty()
         .isNumeric(),
 
