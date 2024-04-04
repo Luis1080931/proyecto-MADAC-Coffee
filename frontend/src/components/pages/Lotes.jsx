@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import DataTable from 'react-data-table-component'
+<<<<<<< HEAD
 import { Header } from './../molecules/Header.jsx'
+=======
+import { Header } from '../molecules/Header.jsx'
+>>>>>>> devsavr
 import { FaSistrix } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 
@@ -46,7 +50,11 @@ export function Lotes () {
             Variedad: 3,
 
             estado: "activo", 
+<<<<<<< HEAD
             acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to='/lotesactualizar'>Desactivar</Link></button> <button  type="button" ></button></div> ,
+=======
+            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button">Actualizar</button> <button  type="button" >Desactivar</button></div> ,
+>>>>>>> devsavr
         },
         {
             codigo: 1,
@@ -112,7 +120,12 @@ export function Lotes () {
                 <FaSistrix size={25} />
             </div>
             <button className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32' type="button">
+<<<<<<< HEAD
                 <Link to={`/lotesregistrar`}>Registrar</Link>
+=======
+                {/* <Link to={`/registrar`}>Registrar</Link> */}
+                Registrar
+>>>>>>> devsavr
             </button>
             <DataTable
                 columns={colums}

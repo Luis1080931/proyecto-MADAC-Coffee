@@ -1,6 +1,9 @@
 {
   "name": "maquetacion",
+<<<<<<< HEAD
   "name": "maquetacion",
+=======
+>>>>>>> devsavr
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -12,25 +15,40 @@
   },
   "dependencies": {
     "axios": "^1.6.8",
+<<<<<<< HEAD
+=======
+    "cors": "^2.8.5",
+>>>>>>> devsavr
     "react": "^18.2.0",
     "react-data-table-component": "^7.6.2",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
+<<<<<<< HEAD
     "react-router-dom": "^6.22.3"
+=======
+    "react-router-dom": "^6.22.2"
+>>>>>>> devsavr
   },
   "devDependencies": {
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react-swc": "^3.5.0",
+<<<<<<< HEAD
     "autoprefixer": "^10.4.18",
+=======
+    "autoprefixer": "^10.4.17",
+>>>>>>> devsavr
     "eslint": "^8.56.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
+<<<<<<< HEAD
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
+=======
+>>>>>>> devsavr
     "vite": "^5.1.4"
   }
 }
