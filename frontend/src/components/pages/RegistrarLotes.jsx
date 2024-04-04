@@ -1,22 +1,15 @@
 import React from 'react'
-<<<<<<< HEAD
 import { HeaderRegis } from './../molecules/HeaderRegis.jsx'
 import LogoSena from './../../assets/icons/Logosimbolo-SENA-PRINCIPAL.png'
 import LogoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
-=======
-import { HeaderRegis } from '../molecules/HeaderRegis.jsx'
-import LogoSena from '../../assets/Logosimbolo-SENA-PRINCIPAL.png'
-import LogoProyecto from '../../assets/logoProyeccto-removebg.png'
->>>>>>> devsavr
+
 
 export const RegistrarLotes = () => {
   return (
     <div>
-<<<<<<< HEAD
+
         <HeaderRegis title='Registrar Lotes' link='/lotes' />
-=======
-        <HeaderRegis title='Registrar Lotes' />
->>>>>>> devsavr
+
         <div className='flex'>
             <div className='bg-[#E6E6E6] flex items-center justify-center p-8 w-4/12 m-16 rounded-lg'>
                 <form action="#">

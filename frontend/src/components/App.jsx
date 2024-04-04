@@ -26,9 +26,6 @@ import { Resultados } from "./pages/Resultados.jsx"
 import { RegistrarResultados } from "./pages/RegistrarResultados.jsx"
 import { ActualizarResultado } from "./pages/ActualizarResultados.jsx"
 
-
-
-
 function App() {
 
   return (

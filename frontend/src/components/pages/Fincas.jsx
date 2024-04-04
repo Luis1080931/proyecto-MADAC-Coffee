@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import DataTable from 'react-data-table-component'
-import { Header } from './../molecules/Header.jsx'
+import { Header } from '../molecules/Header.jsx'
 import { FaSistrix } from "react-icons/fa6";
-import { Link } from 'react-router-dom';
+import FincasModal from '../templates/Fincas.jsx';
+import Buscador from '../atoms/Buscador.jsx';
+import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
+import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
 
-export function Fincas () {
+export function Fincas() {
 
-    const colums = [
+    const columns = [
         {
             name: 'Código',
             selector: row => row.codigo,
@@ -39,7 +42,8 @@ export function Fincas () {
         },
         {
             name: 'Acciones',
-            selector: row => row.acciones
+            selector: row => row.acciones,
+            wrap: true 
         }
     ]
 
@@ -51,52 +55,12 @@ export function Fincas () {
             municipio: "Huila",
             vereda: "Versalles",
             valor: "30 g",
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button">Actualizar</button> <button  type="button" >Desactivar</button></div> ,
-        },
-        {
-            codigo: 1,
-            dimension: "3000",
-            caficultor: 1,
-            municipio: "Huila",
-            vereda: "Versalles",
-            valor: "30 g",
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button">Actualizar</button> <button  type="button" >Desactivar</button></div> ,
-        },
-        {
-            codigo: 1,
-            dimension: "3000",
-            caficultor: 1,
-            municipio: "Huila",
-            vereda: "Versalles",
-            valor: "30 g",
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button">Actualizar</button> <button  type="button" >Desactivar</button></div> ,
-        },
-        {
-            codigo: 1,
-            dimension: "3000",
-            caficultor: 1,
-            municipio: "Huila",
-            vereda: "Versalles",
-            valor: "30 g",
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to='/fincasactualizar'> Actualizar </Link></button> <button  type="button" >Desactivar</button></div> ,
-        },
-        {
-            codigo: 1,
-            dimension: "3000",
-            caficultor: 1,
-            municipio: "Huila",
-            vereda: "Versalles",
-            valor: "30 g",
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button">Actualizar</button> <button  type="button" >Desactivar</button></div> ,
+            estado: "activo",
+            acciones: <div className="flex flex-col"><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold mb-2' type="button" onClick={() => handleToggle('update')}>Actualizar</button> <button className='bg-red-500 p-2 rounded-lg text-sm font-bold' type="button">Eliminar</button></div>,
         }
     ]
 
-    const paginaOpciones={
+    const paginaOpciones = {
         rowsPerPageText: 'Filas por página',
         rangeSeparatorText: 'de',
         selectAllRowsItem: true,
@@ -104,37 +68,65 @@ export function Fincas () {
     }
 
     const [records, setRecords] = useState(data)
-    
-    function handleFilter (event){
+
+    function handleFilter(event) {
         const newData = data.filter(row => {
             return row.variable.toLowerCase().includes(event.target.value.toLowerCase())
         })
         setRecords(newData)
     }
-  return (
-    
-    <div>
-        <Header title="Fincas" />
-        <div className='w-10/12 ml-28'>
-            
-            <div className='w-96 ml-80 bg-[#E5E5E5] flex justify-center items-center m-8 border-2 rounded-lg border-black'>
-                <input className='p-2 bg-[#E5E5E5] text-black rounded-lg w-96' type="text" onChange={handleFilter} placeholder='Buscar' />
-                <FaSistrix size={25} />
-            </div>
-            <button className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32' type="button">
-                <Link to={`/fincasregistrar`}>Registrar</Link>
-            </button>
-            <DataTable
-                columns={colums}
-                data={records}
-                title="Fincas registradas"
-                fixedHeader
-                pagination
-                paginationComponentOptions={paginaOpciones}
-            >
 
-            </DataTable>
+    const [modalOpen, setModalOpen] = useState(false)
+    const [mode, setMode] = useState('create')
+
+    const handleToggle = (mode) => {
+        setMode(mode)
+        setModalOpen(true)
+        if(mode === 'update'){
+            
+        }
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(mode === 'create'){
+            const baseURL = 'http://localhost:3000/resultados/registrar'
+
+            axios.post(baseURL).then((response) => {
+                console.log("Registrado con exito")
+                setModalOpen(false)
+            })
+        }else if(mode === 'update'){
+
+        }
+        setModalOpen(false)
+    }
+
+    return (
+
+        <div>
+            <Header title="Fincas" />
+            <div className='w-full flex flex-col justify-center items-center p-10'>
+                <Buscador handler={handleFilter} />
+                <ButtonRegister click={() => handleToggle('create')} />
+                <FincasModal 
+                    open={modalOpen}
+                    onClose={() => setModalOpen(false)}
+                    handleSubmit={handleSubmit}
+                    actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                />
+                <DataTable
+                    columns={columns}
+                    data={records}
+                    title="Fincas registradas"
+                    fixedHeader
+                    pagination
+                    paginationComponentOptions={paginaOpciones}
+                >
+                </DataTable>
+            </div>
+                
         </div>
-    </div>
-  )
+        
+    )
 }

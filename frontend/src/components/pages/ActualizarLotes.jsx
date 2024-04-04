@@ -1,22 +1,14 @@
 import React from 'react'
-<<<<<<< HEAD
 import { HeaderRegis } from './../molecules/HeaderRegis.jsx'
 import LogoSena from './../../assets/icons/Logosimbolo-SENA-PRINCIPAL.png'
 import LogoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
-=======
-import { HeaderRegis } from '../molecules/HeaderRegis.jsx'
-import LogoSena from '../../assets/Logosimbolo-SENA-PRINCIPAL.png'
-import LogoProyecto from '../../assets/logoProyeccto-removebg.png'
->>>>>>> devsavr
+
 
 export const ActualizarLotes = () => {
   return (
     <div>
-<<<<<<< HEAD
         <HeaderRegis title='Actualizar Lotes' link='/lotes' />
-=======
-        <HeaderRegis title='Actualizar Lotes' />
->>>>>>> devsavr
+
         <div className='flex'>
             <div className='w-5/12 flex justify-center items-center ml-20'>
                 <img src={LogoProyecto} alt="" />

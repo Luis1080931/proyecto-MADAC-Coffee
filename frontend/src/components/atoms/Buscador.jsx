@@ -10,9 +10,5 @@ export const Buscador = (props) => {
   )
 }
 
-<<<<<<< HEAD
 export default Buscador
 
-=======
-export default Buscador
->>>>>>> devsavr

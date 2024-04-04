@@ -8,8 +8,5 @@ export const Button = ({ actionLabel }) => {
       </button>
     </div>
   )
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> devsavr
+
