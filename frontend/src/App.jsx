@@ -6,11 +6,12 @@ import { Lotes } from "./components/pages/Lotes.jsx"
 import { RegistrarLotes } from "./components/pages/RegistrarLotes.jsx"
 import { ActualizarLotes } from "./components/pages/ActualizarLotes.jsx"
 import {FormFincass} from './components/molecules/FormFincass.jsx'
+import {FormLotes} from './components/molecules/FormLotes.jsx'
 function App() {
 
   return (
     <BrowserRouter>    
-    { <FormFincass/>}
+    { <FormLotes/>}
     </BrowserRouter>
 
   )
