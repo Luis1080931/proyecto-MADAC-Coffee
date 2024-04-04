@@ -114,7 +114,7 @@ export const desactivarVariable = async (req, res) => {
 export const buscarvariable = async (req, res) => {
     try {
         const { codigo } = req.params; 
-        const [result] = await pool.query("SELECT * FROM variables WHERE codigo = ?", [codigo]);
+        const [result] = await pool.query('SELECT v_codigo, nombre, fk_tipo_analisis AS tipo_analisis, tipo_analisis, v.estado FROM variables AS v JOIN tipo_analisis ON fk_tipo_analisis = id WHERE v_codigo = ?', [codigo]);
                                                         //nombre tabla
         if (result.length > 0) {
             res.status(200).json(result);

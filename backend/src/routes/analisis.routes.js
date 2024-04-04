@@ -9,7 +9,7 @@ const routeAnalisis = Router()
 routeAnalisis.post("/registrar",validarToken, validarAnalisis, registrarAnalisis)
 routeAnalisis.put("/actualizar/:codigo",validarToken, validarAnalisis, actualizarAnalisis)
 routeAnalisis.put("/desactivar/:codigo",validarToken, desactivarAnalisis)
-routeAnalisis.get('/listar', listarAnalisis)
+routeAnalisis.get('/listar', validarToken, listarAnalisis)
 routeAnalisis.get('/buscar/:codigo',validarToken, buscarAnalisis)
 
 export default routeAnalisis

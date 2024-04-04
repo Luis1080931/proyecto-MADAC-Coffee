@@ -27,7 +27,12 @@ export const getLotes = async (req, res) => {
 
 export const getLote=async(req,res)=>{
     try{
-        const [rows] =await pool.query('SELECT * FROM lotes WHERE codigo=?',[req.params.codigo])
+        const [rows] =await pool.query(`
+        SELECT l.codigo, l.numero_arboles, v.nombre AS fk_variedad, l.estado
+        FROM lotes l
+        JOIN variedades v ON l.fk_variedad = v.codigo
+        WHERE l.codigo = ?
+    `,[req.params.codigo])
         if(rows.length > 0){
             res.status(200).json(rows)
         }else{
