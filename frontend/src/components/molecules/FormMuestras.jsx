@@ -1,10 +1,11 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import LogoProyecto from '../../assets/icons/logoProyeccto-removebg.png'
+import { Button } from '../atoms/Button'
 
-const FormMuestras = () => {
+const FormMuestras = ({ handleSubmit, actionLabel }) => {
   return (
 <> 
+<form onSubmit={handleSubmit}>
     <div className='flex flex-col'>
         <div className='flex flex-col'>
             <label className='text-xl font-bold'> Fecha: </label>
@@ -38,13 +39,9 @@ const FormMuestras = () => {
             <label className='text-xl font-bold'>  Fk Lote: </label>
             <input className='p-2 rounded-lg w-80 h-12' type="Number" placeholder='Ingrese la fk del lote'/>
         </div>
-        <div className='flex-col md:flex justify-center mt-5 items-center'>
-        
-        </div>
+        <Button actionLabel={actionLabel} />
     </div>
-    <div className='flex justify-center items-center w-[60%] h-[60%] mt-24 '>
-    <img src={LogoProyecto} alt="" />
-    </div>
+</form>
 </>
   )
 }

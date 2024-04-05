@@ -1,9 +1,10 @@
-import { ButtonRegister } from '../atoms/ButtonRegister.jsx'
 import React from 'react'
-import logoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
-const FormVariables = () => {
+import {Button} from './../atoms/Button.jsx'
+
+const FormVariables = ({ handleSubmit, actionLabel }) => {
   return (
     <>
+    <form onSubmit={handleSubmit}></form>
     <div className='flex flex-col'>
         <div className='flex flex-col'>
             <label className='text-x1 font-bold'>Nombre: </label>
@@ -16,10 +17,9 @@ const FormVariables = () => {
             </select>
         </div>
         </div>
+        <Button actionLabel={actionLabel} />
     </div>
-    <div className='flex justify-center items-center w-[60%] h-[60%] mt-24'>
-      <img src={logoProyecto} alt="logo" />
-      </div>
+   
     </>
   )
 }
