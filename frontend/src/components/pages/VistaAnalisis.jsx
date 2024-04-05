@@ -1,11 +1,38 @@
 import React, { useState } from 'react'
 import DataTable from 'react-data-table-component'
-import { Header } from '../components/Header.jsx'
+import { Header } from '../../components/molecules/Header'
 import { FaSistrix } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
+import AnalisisModal from '../templates/AnalisisModal';
 
 export function VistaAnalisis () {
+    const [modalOpen, setModalOpen] = useState(false)
+    const [mode, setMode] = useState('create')
 
+    const handleToggle = (mode) => {
+        setMode(mode)
+        setModalOpen(true)
+        if(mode === 'update'){
+            
+        }
+    }
+
+    
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(mode === 'create'){
+            const baseURL = 'http://localhost:3000/resultados/registrar'
+
+            axios.post(baseURL).then((response) => {
+                console.log("Registrado con exito")
+                setModalOpen(false)
+            })
+        }else if(mode === 'update'){
+
+        }
+        setModalOpen(false)
+    }
     const colums = [
         {
             name: 'Código',
@@ -128,10 +155,18 @@ export function VistaAnalisis () {
                     <FaSistrix size={25} style={{ marginRight: 10 }}/>
                 </div>
             </div>
-            <button className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32' type="button">
-                <Link to={`/analisisregistrar`}>Registrar</Link>
+            <button onClick={handleToggle}  className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32' type="button">
+                Registrar
                 
             </button>
+
+            <AnalisisModal 
+                open={modalOpen} 
+                onClose={() => setModalOpen(false)} 
+                handleSubmit={handleSubmit}
+                actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                />
+
             <DataTable
                 columns={colums}
                 data={records}

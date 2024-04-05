@@ -1,12 +1,13 @@
 import React from 'react'
-import { HeaderRegis } from '../components/HeaderRegis.jsx'
-import LogoSena from './../assets/Logosimbolo-SENA-PRINCIPAL.png'
-import LogoProyecto from './../assets/logoProyeccto-removebg.png'
+
+import LogoSena from '../../assets/logoProyeccto-removebg.png'
+import LogoProyecto from '../../assets/logoProyeccto-removebg.png'
 
 export const VariedadesActualizar = () => {
   return (
     <div>
-        <HeaderRegis title='Actualizar las variedades' />
+        {/* <HeaderRegis title='Actualizar las variedades' /> */}
+        
         <div className='flex'>
             <div className='w-5/12 flex justify-center items-center ml-20'>
                 <img src={LogoProyecto} alt="" />

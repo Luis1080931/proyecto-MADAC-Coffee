@@ -1,11 +1,41 @@
 import React, { useState } from 'react'
 import DataTable from 'react-data-table-component'
-import { Header } from '../components/Header.jsx'
+
 import { FaSistrix } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
+import { Header } from '../molecules/Header';
+import VariedadesModal from '../templates/VariedadesModal';
+
+
 
 export function VistaVariedades () {
+    const [modalOpen, setModalOpen] = useState(false)
+    const [mode, setMode] = useState('create')
 
+    const handleToggle = (mode) => {
+        setMode(mode)
+        setModalOpen(true)
+        if(mode === 'update'){
+            
+        }
+    }
+
+    
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(mode === 'create'){
+            const baseURL = 'http://localhost:3000/resultados/registrar'
+
+            axios.post(baseURL).then((response) => {
+                console.log("Registrado con exito")
+                setModalOpen(false)
+            })
+        }else if(mode === 'update'){
+
+        }
+        setModalOpen(false)
+    }
     const colums = [
        
         {
@@ -73,10 +103,19 @@ export function VistaVariedades () {
                     <FaSistrix size={25} style={{ marginRight: 10 }}/>
                 </div>
             </div>
-            <button className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32' type="button">
-                <Link to={`/variedadesregistrar`}>Registrar</Link>
+            <button onClick={handleToggle} className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32' type="button">
+                registrar
                 
             </button>
+
+            <VariedadesModal 
+                open={modalOpen} 
+                onClose={() => setModalOpen(false)} 
+                handleSubmit={handleSubmit}
+                actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                />
+
+
             <DataTable
                 columns={colums}
                 data={records}

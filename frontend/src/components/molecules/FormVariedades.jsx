@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import LogoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
+import LogoProyecto from '../../assets/logoProyeccto-removebg.png'
 import axios from 'axios'
 
 
@@ -10,10 +10,10 @@ const FormVariedades = ({ handleSubmit, actionLabel }) => {
     <form method='post' onSubmit={handleSubmit}>
         <div className='flex flex-col'>
             <div className='flex flex-col'>
-                <label className='text-xl font-bold'> Fecha: </label>
+                <label className=' text-xl font-bold'> Fecha: </label>
                 <input className='p-2 rounded-lg w-80 h-12' type="date" value="" placeholder='Ingrese la fecha' />
             </div>
-        <div className='flex-col md:flex'  >
+        {/* <div className='flex-col md:flex'  >
             <label className='text-xl font-bold'> Analisis: </label>
             <select name="" id="" className='p-2 rounded-lg w-80 h-12'>
                 {analisis.map(anali => {
@@ -22,8 +22,8 @@ const FormVariedades = ({ handleSubmit, actionLabel }) => {
                     </option>
                 })}
             </select>
-        </div>
-        <div className='flex-col md:flex'>
+        </div> */}
+        {/* <div className='flex-col md:flex'>
             <label className='text-xl font-bold'> Variable: </label>
             <select name="" id="" className='p-2 rounded-lg w-80 h-12'>
                 {variables.map(varia => {
@@ -32,7 +32,7 @@ const FormVariedades = ({ handleSubmit, actionLabel }) => {
                     </option>
                 })}
             </select>
-        </div>
+        </div> */}
         <div className='flex-col md:flex'>
             <label className='text-xl font-bold'> Valor: </label>
             <input className='p-2 rounded-lg w-80 h-12' type="text" value="" placeholder='Ingrese la valor' />

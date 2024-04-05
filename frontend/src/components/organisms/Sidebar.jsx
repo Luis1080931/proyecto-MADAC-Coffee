@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { FaX } from "react-icons/fa6";
 import { IconContext } from 'react-icons';
 import './../../App.css'
-import LogoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
+import LogoProyecto from '../../assets/logoProyeccto-removebg.png'
 
 
 export const Sidebar = ({ children }) => {

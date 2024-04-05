@@ -1,29 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import LogoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
+import LogoProyecto from '../../assets/logoProyeccto-removebg.png'
 import axios from 'axios'
 
 
 const FormAnalisis = ({ handleSubmit, actionLabel }) => {
 
-    /* const [mode, setMode] = useState('create')
-
-    const fecha = useRef(null)
-    const 
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if(mode === 'create'){
-            const baseURL = 'http://localhost:3000/resultados/registrar'
-
-            axios.post(baseURL).then((response) => {
-                console.log("Registrado con exito")
-                setModalOpen(false)
-            })
-        }else if(mode === 'update'){
-
-        }
-        setModalOpen(false)
-    } */
 
     const [analisis, setAnalisis] = useState([])
 
