@@ -1,6 +1,6 @@
 import { space } from "postcss/lib/list";
 import { FaAlignJustify } from "react-icons/fa6";
-import { Sidebar } from "./Sidebar";
+import { Sidebar } from "../organisms/Sidebar";
 
 export function Header (props) {
     return(

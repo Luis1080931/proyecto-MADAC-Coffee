@@ -1,17 +1,78 @@
-import React, { useEffect, useState } from 'react';
-import DataTable from 'react-data-table-component';
-import { Header } from '../components/Header.jsx';
+import React, { useEffect, useState } from 'react'
+import DataTable from 'react-data-table-component'
+import { Header } from './../molecules/Header.jsx'
 import { FaSistrix } from "react-icons/fa6";
-import axios from 'axios';
-import { UsuariosModal } from './../templates/Usuarios.jsx';
 import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
+import UsuariosModal from '../templates/Usuarios.jsx';
 
 export function Usuarios () {
+
+    const columns = [
+        {
+            name: 'Identificacion',
+            selector: row => row.Identificacion,
+            sortable: true
+        },
+        {
+            name: 'Nombre',
+            selector: row => row.Nombre,
+            sortable: true
+        },
+        {
+            name: 'Telefono',
+            selector: row => row.Telefono,
+            sortable: true
+        },
+        {
+            name: 'correo',
+            selector: row => row.correo,
+            sortable: true
+        },
+        {
+            name: 'Rol',
+            selector: row => row.Rol,
+            sortable: true
+        },
+        {
+            name: 'Estado',
+            selector: row => row.estado,
+            sortable: true
+        },
+        {
+            name: 'Acciones',
+            selector: row => row.acciones 
+        },
+        {
+            name: 'AccionesDe',
+            selector: row => row.accionesDe 
+        },
+    ]
+
+    const data = [
+        {
+            Identificacion: 1,
+            Nombre: "Juan",
+            Telefono: 1,
+            correo: "juan@gmail.com",
+            Rol: "Usuario",
+            estado: "activo", 
+            acciones: <><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button" onClick={() => handleToggle('update')}>Actualizar</button> </> ,
+            accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> 
+        }
+    ]
 
     const baseURL = 'http://localhost:3000/usuarios/listar';
     const [records, setRecords] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [mode, setMode] = useState('create');
+
+    const handleToggle = (mode) => {
+        setMode(mode)
+        setModalOpen(true)
+        if(mode === 'update'){
+            
+        }
+    }
 
     useEffect(() => {
         try {
@@ -37,7 +98,6 @@ export function Usuarios () {
         selectAllRowsItem: true,
         selectAllRowsText: 'Todos'
     }
-
     const handleSubmit = (e) => {
         e.preventDefault()
         if (mode === 'create') {
@@ -63,7 +123,7 @@ export function Usuarios () {
                         <FaSistrix size={25} style={{ marginRight: 10 }} />
                     </div>
                 </div>
-                <ButtonRegister click={() => setModalOpen(true)} />
+                <ButtonRegister click={() => handleToggle('create')} />
                 <UsuariosModal
                     open={modalOpen}
                     onClose={() => setModalOpen(false)}
@@ -72,7 +132,7 @@ export function Usuarios () {
                 />
                 <DataTable
                     columns={columns}
-                    data={records}
+                    data={data}
                     title="Usuarios registrados"
                     fixedHeader
                     pagination
