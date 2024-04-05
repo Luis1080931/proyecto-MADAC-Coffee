@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import DataTable from 'react-data-table-component'
 import { Header } from './../molecules/Header.jsx'
 import { Buscador } from '../atoms/Buscador.jsx';
 import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
 import ResultadosModal from './../templates/Resultados.jsx';
 import axios from 'axios';
 import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
+import { Datatable } from '../organisms/Datatable.jsx';
 
 
 export function Resultados () {
@@ -76,13 +76,6 @@ export function Resultados () {
             </>
         }
     ] */
-
-    const paginaOpciones={
-        rowsPerPageText: 'Filas por página',
-        rangeSeparatorText: 'de',
-        selectAllRowsItem: true,
-        selectAllRowsText: 'Todos'
-    }
     
 /*     const [records, setRecords] = useState(acciones) */
 
@@ -136,16 +129,7 @@ export function Resultados () {
                 actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
                 />
 
-            <DataTable
-                columns={columns}
-                data={datos}
-                title="Resultados registrados"
-                fixedHeader 
-                pagination
-                paginationComponentOptions={paginaOpciones}
-            >
-
-            </DataTable>
+            <Datatable columns={columns} data={datos} title={'Resultados registrados'} />
             
         </div>
     </div>

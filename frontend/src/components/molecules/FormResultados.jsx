@@ -6,25 +6,6 @@ import { Button } from '../atoms/Button'
 
 const FormResultados = ({ handleSubmit, actionLabel }) => {
 
-    /* const [mode, setMode] = useState('create')
-
-    const fecha = useRef(null)
-    const 
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if(mode === 'create'){
-            const baseURL = 'http://localhost:3000/resultados/registrar'
-
-            axios.post(baseURL).then((response) => {
-                console.log("Registrado con exito")
-                setModalOpen(false)
-            })
-        }else if(mode === 'update'){
-
-        }
-        setModalOpen(false)
-    } */
     const token = localStorage.getItem('token')
 
     const [analisis, setAnalisis] = useState([])
@@ -41,7 +22,7 @@ const FormResultados = ({ handleSubmit, actionLabel }) => {
     const [variables, setVariables] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:3000/variables/listarvariable').then((response) => {
+        axios.get('http://localhost:3000/variables/listarvariable', {headers: {token:token}}).then((response) => {
             console.log(response.data)
 
             const variableFilter = response.data.filter(variable => variable.estado == 'activo')
@@ -60,21 +41,23 @@ const FormResultados = ({ handleSubmit, actionLabel }) => {
             <div className='flex-col md:flex'  >
                 <label className='text-xl font-bold'> Analisis: </label>
                 <select name="" id="" className='p-2 rounded-lg w-80 h-12'>
-                    {analisis.map(anali => {
+                    <option> Código del analisis </option>
+                    {analisis.map(anali => (
                         <option key={anali.codigo} value={anali.codigo}>
                             {anali.codigo}
                         </option>
-                    })}
+                    ))}
                 </select>
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Variable: </label>
                 <select name="" id="" className='p-2 rounded-lg w-80 h-12'>
-                    {variables.map(varia => {
+                    <option> Nombre variable </option>
+                    {variables.map(varia => (
                         <option key={varia.codigo} value={varia.codigo}>
                             {varia.nombre}
                         </option>
-                    })}
+                    ))}
                 </select>
             </div>
             <div className='flex-col md:flex'>
@@ -93,3 +76,23 @@ const FormResultados = ({ handleSubmit, actionLabel }) => {
 }
 
 export default FormResultados
+
+/* const [mode, setMode] = useState('create')
+
+    const fecha = useRef(null)
+    const 
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(mode === 'create'){
+            const baseURL = 'http://localhost:3000/resultados/registrar'
+
+            axios.post(baseURL).then((response) => {
+                console.log("Registrado con exito")
+                setModalOpen(false)
+            })
+        }else if(mode === 'update'){
+
+        }
+        setModalOpen(false)
+    } */
