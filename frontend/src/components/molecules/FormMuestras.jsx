@@ -1,5 +1,4 @@
 import React from 'react'
-import LogoProyecto from '../../assets/icons/logoProyeccto-removebg.png'
 import { Button } from '../atoms/Button'
 
 const FormMuestras = ({ handleSubmit, actionLabel }) => {
