@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react'
 import { HeaderLogin } from './../molecules/HeaderLogin.jsx'
 import LogoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
 import './../../App.css'
-import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 

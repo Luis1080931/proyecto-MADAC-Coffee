@@ -10,6 +10,7 @@ import { VistaVariedades } from "./pages/VistaVariedades.jsx"
 import { VistaAnalisis } from "./pages/VistaAnalisis.jsx"
 import { Resultados } from "./pages/Resultados.jsx"
 
+
 function App() {
 
   return (
@@ -33,3 +34,4 @@ function App() {
 }
 
 export default App;
+
