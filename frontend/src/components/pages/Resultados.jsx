@@ -104,8 +104,6 @@ export function Resultados () {
         }
     }
 
-    
-
     const handleSubmit = (e) => {
         e.preventDefault()
         if(mode === 'create'){
