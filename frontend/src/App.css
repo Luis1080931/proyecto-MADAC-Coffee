@@ -31,8 +31,6 @@
 
 .nav-menu-user{
   background-color: #39A900;
-  width: 250px;
-  height: 40vh;
   display: flex;
   justify-content: center;
   position: fixed;

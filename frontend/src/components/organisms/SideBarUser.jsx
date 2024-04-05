@@ -46,7 +46,7 @@ export const SideBarUser = ({ children }) => {
                 </li>
                 {menuItem.map((item, index) => {
                     return(
-                        <li className='flex justify-end align-center mt-5 list-none h-14 hover:bg-[#469C00] rounded-lg' key={index}>
+                        <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh hover:bg-[#469C00] rounded-lg p-2' key={index}>
                             <Link className='flex text-white text-xl w-full h-full items-center px-4 rounded-lg' to={item.path}>
                                 {item.icon}
                                 {item.name}
