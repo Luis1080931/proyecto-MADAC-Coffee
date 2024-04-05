@@ -4,9 +4,43 @@ import axios from 'axios'
 import { Button } from '../atoms/Button'
 
 
-const FormResultados = ({ handleSubmit, actionLabel }) => {
+const FormResultados = ({ actionLabel }) => {
 
+    const baseURL = 'http://localhost:3000/resultados/registrar'
     const token = localStorage.getItem('token')
+    const resultados = 'http://localhost:3000/resultados/registrar'
+
+    const fecha = useRef(null)
+    const fk_analisis = useRef(null)
+    const fk_variable = useRef(null)
+    const valor = useRef(null)
+    const observaciones = useRef(null)
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+
+            const data = {
+                fecha: fecha.current.value,
+                fk_analisis: parseInt(fk_analisis.current.value),
+                fk_variable: parseInt(fk_variable.current.value),
+                valor: valor.current.value,
+                observaciones: observaciones.current.value
+            }
+
+            axios.post(baseURL, {headers: {token:token}}, data).then((response) => {
+                console.log(response)
+                if(response.status == 201){
+                    alert('Resultado registrado')
+                }else{
+                    alert('Error de registro')
+                }
+            })
+        } catch (error) {
+            alert('Error de servidor' + error)
+        }
+    }
+
 
     const [analisis, setAnalisis] = useState([])
 
@@ -36,11 +70,11 @@ const FormResultados = ({ handleSubmit, actionLabel }) => {
         <div className='flex flex-col'>
             <div className='flex flex-col'>
                 <label className='text-xl font-bold'> Fecha: </label>
-                <input className='p-2 rounded-lg w-80 h-12' type="date" value="" placeholder='Ingrese la fecha' />
+                <input className='p-2 rounded-lg w-80 h-12' name='fecha' type="date" placeholder='Ingrese la fecha' ref={fecha} />
             </div>
             <div className='flex-col md:flex'  >
                 <label className='text-xl font-bold'> Analisis: </label>
-                <select name="" id="" className='p-2 rounded-lg w-80 h-12'>
+                <select name="" id="" className='p-2 rounded-lg w-80 h-12' ref={fk_analisis}>
                     <option> Código del analisis </option>
                     {analisis.map(anali => (
                         <option key={anali.codigo} value={anali.codigo}>
@@ -51,7 +85,7 @@ const FormResultados = ({ handleSubmit, actionLabel }) => {
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Variable: </label>
-                <select name="" id="" className='p-2 rounded-lg w-80 h-12'>
+                <select name="idvariable" id="" className='p-2 rounded-lg w-80 h-12' ref={fk_variable}>
                     <option> Nombre variable </option>
                     {variables.map(varia => (
                         <option key={varia.codigo} value={varia.codigo}>
@@ -62,11 +96,11 @@ const FormResultados = ({ handleSubmit, actionLabel }) => {
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Valor: </label>
-                <input className='p-2 rounded-lg w-80 h-12' type="text" value="" placeholder='Ingrese la valor' />
+                <input className='p-2 rounded-lg w-80 h-12' name='valor' type="text" placeholder='Ingrese la valor' ref={valor}/>
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Observaciones: </label>
-                <textarea className='p-2 rounded-lg w-80' ame="" id="" cols="30" rows="3" placeholder='Observaciones'></textarea>
+                <textarea className='p-2 rounded-lg w-80' name="observaciones" id="" cols="30" rows="3" placeholder='Observaciones' ref={observaciones}></textarea>
             </div>
             <Button actionLabel={actionLabel} />
         </div>

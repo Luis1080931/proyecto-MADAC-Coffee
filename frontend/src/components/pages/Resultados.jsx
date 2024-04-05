@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Header } from './../molecules/Header.jsx'
 import { Buscador } from '../atoms/Buscador.jsx';
 import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
@@ -24,60 +24,51 @@ export function Resultados () {
         } catch (error) {
             console.log('Error de servidor' + error)
         }
-    }, [])
+    }, [token])
 
     const columns = [
         {
             name:  'Id',
-           /*  selector: 'codigo', */
+            selector: 'codigo',
             sortable: true
         },
         {
             name: 'Fecha',
-    /*         selector: 'fecha', */
+            selector: 'fecha',
             sortable: true
         },
         {
             name: 'Análisis',
-          /*   selector: 'fk_analisis', */
+            selector: 'fk_analisis',
             sortable: true
         },
         {
             name: 'Variable',
-           /*  selector: 'fk_variables', */
-            sortable: true
-        },
-        {
-            name: 'Observaciones',
-            /* selector: 'observaciones', */
+            selector: 'fk_variable',
             sortable: true
         },
         {
             name: 'Valor',
-    /*         selector: 'valor', */
+            selector: 'valor',
+            sortable: true
+        },
+        {
+            name: 'Observaciones',
+            selector: 'observaciones',
             sortable: true
         },
         {
             name: 'Estado',
-     /*        selector: 'estado', */
+            selector: 'estado',
             sortable: true
         },
-     /*    {
-            name: 'Acciones',
-            selector: row => row.acciones
-        } */
-    ]
-
-    /* const acciones = [
         {
-            acciones: 
-            <>
-                <button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button" click={() => setModalOpen(true)}>Actualizar</button>
-            </>
+            name: 'Acciones',
+            cell: () => <button>Editar</button>, 
+            allowOverflow: true,
+            button: true,
         }
-    ] */
-    
-/*     const [records, setRecords] = useState(acciones) */
+    ]
 
     function handleFilter (event){
         const newData = data.filter(row => {
@@ -97,22 +88,6 @@ export function Resultados () {
         }
     }
 
-    
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if(mode === 'create'){
-            const baseURL = 'http://localhost:3000/resultados/registrar'
-
-            axios.post(baseURL).then((response) => {
-                console.log("Registrado con exito")
-                setModalOpen(false)
-            })
-        }else if(mode === 'update'){
-
-        }
-        setModalOpen(false)
-    }
   return (
     
     <div>
@@ -125,7 +100,6 @@ export function Resultados () {
             <ResultadosModal 
                 open={modalOpen} 
                 onClose={() => setModalOpen(false)} 
-                handleSubmit={handleSubmit}
                 actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
                 />
 
