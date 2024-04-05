@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { HeaderRegis } from '../molecules/HeaderRegis.jsx';
 import LogoSena from '../../assets/Logosimbolo-SENA-PRINCIPAL.png';
 import LogoProyecto from '../../assets/logoProyeccto-removebg.png';
 import axios from 'axios';
 
 const baseURL = "http://localhost:3000/lotes/registrar";
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZGVudGlmaWNhY2lvbiI6MTAyOTg4MDMwNiwibm9tYnJlIjoiU2VyZ2lvIENvcG8iLCJ0ZWxlZm9ubyI6IjMyMjc1ODIzODIiLCJ0aXBvX3VzdWFyaW8iOiJjYWZpY3VsdG9yIiwiZXN0YWRvIjoiYWN0aXZvIn1dLCJpYXQiOjE3MTE1NzE2OTcsImV4cCI6MTcxMTY1ODA5N30.vd35eg8d6tpVcWeGbrly5DwGZOrt4i90tV852YiwLYE"; // Tu token completo
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZGVudGlmaWNhY2lvbiI6MTAyOTg4MDMwNiwibm9tYnJlIjoiU2VyZ2lvIENvcG8iLCJ0ZWxlZm9ubyI6IjMyMjc1ODIzODIiLCJ0aXBvX3VzdWFyaW8iOiJjYWZpY3VsdG9yIiwiZXN0YWRvIjoiYWN0aXZvIn1dLCJpYXQiOjE3MTIyNzg0MDcsImV4cCI6MTcxMjM2NDgwN30.ijkzPDXYnOX_3q14jPu1N80Q8Xd7xQ1QrtP3UfDegVI";
 
 export const FormLotes = () => {
-    const [numeroArboles, setNumeroArboles] = useState('');
-    const [idFinca, setIdFinca] = useState('');
-    const [variedad, setVariedad] = useState('');
-    const [estado, setEstado] = useState('');
+    const numero_arboles = useRef(null);
+    const fk_finca = useRef(null);
+    const fk_variedad = useRef(null);
+    const estado = useRef(null);
 
-    const handleRegistro = async (e) => {
+    const handle = async (e) => {
         e.preventDefault();
         try {
             const data = {
-                numero_arboles: numeroArboles,
-                id_finca: idFinca,
-                variedad: variedad,
-                estado: estado
+                numero_arboles: parseInt(numero_arboles.current.value),
+                id_finca: parseInt(fk_finca.current.value),
+                fk_variedad:parseInt(fk_variedad.current.value),
+                estado: estado.current.value
             };
             const response = await axios.post(baseURL, data, {
                 headers: { Authorization: `Bearer ${token}` }
@@ -42,24 +42,24 @@ export const FormLotes = () => {
             <HeaderRegis title='Registrar Lotes' />
             <div className='flex'>
                 <div className='bg-[#E6E6E6] flex items-center justify-center p-8 w-4/12 m-16 rounded-lg'>
-                    <form method="post" onSubmit={handleRegistro}>
+                    <form method="post" onSubmit={handle}>
                         <div className='flex flex-col m-5'>
                             <label className='text-xl font-bold'> Numero de arboles: </label>
-                            <input className='p-2 rounded-lg w-80 h-12' type="number" value={numeroArboles} onChange={(e) => setNumeroArboles(e.target.value)} placeholder='Ingrese el número de árboles' />
+                            <input className='p-2 rounded-lg w-80 h-12' id='numero_arboles' type="number" name='numero_arboles' placeholder='Ingrese el número de árboles' ref={numero_arboles} />
                         </div>
                         <div className='flex flex-col m-5'  >
                             <label className='text-xl font-bold'> Finca: </label>
-                            <input className='p-2 rounded-lg w-80 h-12' type="number" value={idFinca} onChange={(e) => setIdFinca(e.target.value)} placeholder='Ingrese el ID de la finca' />
+                            <input className='p-2 rounded-lg w-80 h-12' id='fk_finca' type="number" name='fk_finca' placeholder='Ingrese el ID de la finca' ref={fk_finca} />
                         </div>
                         <div className='flex flex-col m-5'>
                             <label className='text-xl font-bold'> Variedad: </label>
-                            <input className='p-2 rounded-lg w-80 h-12' type="text" value={variedad} onChange={(e) => setVariedad(e.target.value)} placeholder='Ingrese la variedad' />
+                            <input className='p-2 rounded-lg w-80 h-12' id='fk_variedad' type="number" name='fk_variedad' placeholder='Ingrese la variedad' ref={fk_variedad} />
                         </div>
                         <div className='flex flex-col m-5'>
                             <label className='text-xl font-bold'> Estado: </label>
-                            <select name="estado" id="estado" value={estado} onChange={(e) => setEstado(e.target.value)}>
-                                <option value="Activo">Activo</option>
-                                <option value="Inactivo">Inactivo</option>
+                            <select name="estado" id="estado" ref={estado}>
+                                <option value="1">Activo</option>
+                                <option value="2">Inactivo</option>
                             </select>
                         </div>
                         <div className='flex flex-col m-5 justify-center items-center'>
@@ -76,4 +76,4 @@ export const FormLotes = () => {
             </div>
         </div>
     );
-};
+};    
