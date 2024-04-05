@@ -28,7 +28,7 @@ function App() {
     <Route path='/' element={<VistaVariedades/>} />
     <Route path='/analisis' element={<VistaAnalisis/>} />
       <Route path='/variedadesregistrar' element={<VariedadesRegistrar/>} />
-      <Route path='/variedadesactualizar' element={<VariedadesActualizar/>} />
+      {/* <Route path='/variedadesactualizar' element={<VariedadesActualizar/>} /> */}
      </Routes>
       {/* <VistaAnalisis/> */}
 

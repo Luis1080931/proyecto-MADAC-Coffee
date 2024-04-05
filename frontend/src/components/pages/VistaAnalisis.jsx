@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import DataTable from 'react-data-table-component'
 import { Header } from '../../components/molecules/Header'
-import { FaSistrix } from "react-icons/fa6";
-import { Link } from 'react-router-dom';
-import AnalisisModal from '../templates/AnalisisModal';
+import AnalisisModal from './../templates/Analisis.jsx';
+import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
+import {Buscador} from '../atoms/Buscador.jsx';
 
 export function VistaAnalisis () {
     const [modalOpen, setModalOpen] = useState(false)
@@ -83,48 +83,7 @@ export function VistaAnalisis () {
             muestra: 21,
             tipoanalisis: "Físico",
             estado: "Activo", 
-            acciones: <><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/analisisactualizar`}>Actualizar</Link></button> </> ,
-            accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> 
-        },
-        {
-            codigo: 2,
-            fecha: "2024-02-29",
-            analista: 55123,
-            muestra: 22,
-           tipoanalisis: "Sensorial",
-            estado: "Activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/analisisactualizar`}>Actualizar</Link></button> </div> ,
-            accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> 
-
-        },
-        {
-            codigo: 3,
-            fecha: "2024-02-29",
-            analista: 14624,
-            muestra: 23,
-            tipoanalisis: "Físico",
-            estado: "Activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/analisisactualizar`}>Actualizar</Link></button> </div> ,
-            accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> 
-        },
-        {
-            codigo: 4,
-            fecha: "2024-02-29",
-            analista: 15369,
-            muestra: 24,
-            tipoanalisis: "Sensorial",
-            estado: "Activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/analisisactualizar`}>Actualizar</Link></button> </div>,
-            accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> 
-        },
-        {
-            codigo: 5,
-            fecha: "2024-02-29",
-            analista: 13214,
-            muestra: 25,
-            tipoanalisis: "Físico",
-            estado: "Inactivo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/analisisactualizar`}>Actualizar</Link></button></div> ,
+            acciones: <><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button" onClick={() => handleToggle('update')}>Actualizar</button> </> ,
             accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> 
         }
     ]
@@ -148,18 +107,11 @@ export function VistaAnalisis () {
     
     <div>
         <Header title="Análisis" />
-        <div className='w-10/12 ml-28'>
-            <div className='flex justify-center items-center text-center'>
-                <div className='w-96 bg-[#E5E5E5] flex items-center m-8 rounded-lg border-black'>
-                    <input className='w-full p-2 bg-[#E5E5E5] text-black rounded-lg border' type="text" onChange={handleFilter} placeholder='Buscar' />
-                    <FaSistrix size={25} style={{ marginRight: 10 }}/>
-                </div>
-            </div>
-            <button onClick={handleToggle}  className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32' type="button">
-                Registrar
-                
-            </button>
+        
+        <div className='w-full flex flex-col justify-center items-center p-10'>
 
+            <Buscador handler={handleFilter} />
+            <ButtonRegister click={() => handleToggle('create')} />
             <AnalisisModal 
                 open={modalOpen} 
                 onClose={() => setModalOpen(false)} 
@@ -177,7 +129,7 @@ export function VistaAnalisis () {
             >
 
             </DataTable>
+            </div>
         </div>
-    </div>
   )
 }
