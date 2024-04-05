@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import DataTable from 'react-data-table-component'
 import { Header } from './../molecules/Header.jsx'
-import { FaSistrix } from "react-icons/fa6";
-import { Link } from 'react-router-dom';
+import Buscador from '../atoms/Buscador.jsx';
+import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
+import MuestrasModal from '../templates/MuestrasModal.jsx';
+import { Axios } from 'axios';
 
 export function Muestras () {
 
@@ -85,22 +87,8 @@ export function Muestras () {
             observaciones: "presento un buen nivel de humedad",
             fkLote: 1,
             estado: "activo", 
-            acciones: <><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/muestrasactualizar`}>Actualizar</Link></button> <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> ,
+            acciones: <><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button" onClick={() => handleToggle('update')}>Actualizar</button> <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> ,
             accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> 
-        },
-        {
-            codigo: 2,
-            fecha: "2024-02-29",
-            cantidad: 1,
-            quienRecibe: "Leonardo Alfonso",
-            procesoFermentacion: "alcoholica",
-            humedadCafe: 12.2,
-            alturaMSNM: 1.5,
-            tipoSecado: "seco",
-            observaciones: "presento un buen nivel de humedad",
-            fkLote: 1,
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/muestrasactualizar`}>Actualizar</Link></button> <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></div> 
         }
     ]
 
@@ -119,21 +107,49 @@ export function Muestras () {
         })
         setRecords(newData)
     }
+
+    const [modalOpen, setModalOpen] = useState(false)
+    const [mode, setMode] = useState('create')
+
+    const handleToggle = (mode) => {
+        setMode(mode)
+        setModalOpen(true)
+        if(mode === 'update'){
+            
+        }
+    }
+
+    
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(mode === 'create'){
+            const baseURL = 'http://localhost:3000/resultados/registrar'
+
+            axios.post(baseURL).then((response) => {
+                console.log("Registrado con exito")
+                setModalOpen(false)
+            })
+        }else if(mode === 'update'){
+
+        }
+        setModalOpen(false)
+    }
+
   return (
     
     <div>
         <Header title="Muestras" />
-        <div className='w-10/12 ml-28'>
-            <div className='flex justify-center items-center text-center'>
-                <div className='w-96 bg-[#E5E5E5] flex items-center m-8 rounded-lg border-black'>
-                    <input className='w-full p-2 bg-[#E5E5E5] text-black rounded-lg border' type="text" onChange={handleFilter} placeholder='Buscar' />
-                    <FaSistrix size={25} style={{ marginRight: 10 }}/>
-                </div>
-            </div>
-            <button className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32' type="button">
-                <Link to={`/muestrasregistrar`}>Registrar</Link>
-                
-            </button>
+        <div className='w-full flex flex-col justify-center items-center p-10'>
+            
+            <Buscador handler={handleFilter} />
+            <ButtonRegister click={() => handleToggle('create')} />
+            <MuestrasModal 
+                open={modalOpen} 
+                onClose={()=>setModalOpen(false)} 
+                handleSubmit={handleSubmit}
+                actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+            />
             <DataTable
                 columns={colums}
                 data={records}

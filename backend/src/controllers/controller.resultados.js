@@ -35,11 +35,11 @@ export const registrarResultados = async (req, res) => {
             return res.status(403).json(errors)
         }
         
-        const{fecha, fk_analisis, fk_variables, valor, observaciones, estado} = req.body
+        const{fecha, fk_analisis, fk_variables, valor, observaciones} = req.body
         
-        let sql = `INSERT INTO resultados (fecha, fk_analisis, fk_variables, observaciones, valor, estado) values (?, ?, ?, ?, ?, ?)`
+        let sql = `INSERT INTO resultados (fecha, fk_analisis, fk_variables, observaciones, valor, estado) values (?, ?, ?, ?, ?, 1)`
 
-        const[rows] = await pool.query(sql, [fecha, fk_analisis, fk_variables, observaciones, valor, estado])
+        const[rows] = await pool.query(sql, [fecha, fk_analisis, fk_variables, observaciones, valor])
 
         if(rows.affectedRows>0){
             res.status(200).json({

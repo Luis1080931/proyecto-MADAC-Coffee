@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { FaAngleLeft } from "react-icons/fa6";
+import { FaAlignJustify, FaAngleLeft, FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
 import { RxDotFilled } from 'react-icons/rx';
 import { Sidebar } from './../organisms/Sidebar.jsx';
 import { SideBarUser } from './../organisms/SideBarUser.jsx';
+
 
 export const Dashboard = () => {
 
@@ -39,16 +40,18 @@ export const Dashboard = () => {
             <h2 className="text-white text-2xl font-bold ml-auto mr-10">
                 Bienvenido Diego
             </h2>
+
             <SideBarUser />
+
         </div>
         <div className="max-w-[1400px] h-[780px] w-full m-auto py-16 px-4 relative group">
           <div style={{ backgroundImage: `url(${slides[currentIndex].url})` }} className='w-full h-full bg-center bg-cover duration-500'>
           </div>
           <div className="absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl      text-bold rounded-full p-2 bg-black/20 text-white cursor-pointer hidden group-hover:block">
-          <FaAngleLeft onClick={prevSlide} size={33} />
+          <FaAnglesLeft onClick={prevSlide} size={33} />
         </div>
         <div className="absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl text-bold rounded-full p-2 bg-black/20 text-white cursor-pointer hidden group-hover:block">
-          <FaAngleRight onClick={nextSlide} size={33} />
+          <FaAnglesRight onClick={nextSlide} size={33} />
         </div>
         <div className="flex justify-center items-center py-2 top-4">
         {slides.map((slide,index) => (
