@@ -20,8 +20,5 @@ export const validarResultados =
 
     check('observaciones', 'El campo no puede estar y con maximo 500 caracteres')
         .not().isEmpty()
-        .isLength({ max: 500}),
-
-    check('estado', 'Seleccione un estado')
-    .not().isEmpty()
+        .isLength({ max: 500})
 ]
