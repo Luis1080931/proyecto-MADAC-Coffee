@@ -12,19 +12,19 @@ const FormUsuarios = ({ handleSubmit, actionLabel }) => {
         <div className='flex flex-col'>
             <div className='flex flex-col'>
                 <label className='text-xl font-bold'> Numero de documento </label>
-                <input className='p-2 rounded-lg w-80 h-12' type="number" value="" placeholder='Ingrese su N° de identidad' />
+                <input className='p-2 rounded-lg w-80 h-12' type="number" placeholder='Ingrese su N° de identidad' />
             </div>
             <div className='flex-col md:flex'  >
                 <label className='text-xl font-bold'> Nombre: </label>
-                <input className='p-2 rounded-lg w-80 h-12' type="text" value="" placeholder='Ingrese su Nombre(s)' />
+                <input className='p-2 rounded-lg w-80 h-12' type="text" placeholder='Ingrese su Nombre(s)' />
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Telefono: </label>
-                <input className='p-2 rounded-lg w-80 h-12' type="text" value="" placeholder='Ingrese su N° de Telefono' />
+                <input className='p-2 rounded-lg w-80 h-12' type="text"  placeholder='Ingrese su N° de Telefono' />
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Contraseña: </label>
-                <input className='p-2 rounded-lg w-80 h-12' type="text" value="" placeholder='Ingrese la Contraseña' />
+                <input className='p-2 rounded-lg w-80 h-12' type="password"  placeholder='Ingrese la Contraseña' />
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Tipo de Usuario: </label>

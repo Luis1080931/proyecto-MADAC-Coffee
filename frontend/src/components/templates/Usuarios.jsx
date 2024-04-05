@@ -10,6 +10,7 @@ function UsuariosModal ({ open, onClose, handleSubmit, actionLabel }){
       <>
 
       <Modal open={open} onClose={onClose}> 
+      
         <FormUsuarios handleSubmit={handleSubmit} actionLabel={actionLabel} />
         <Logo/>
       </Modal>

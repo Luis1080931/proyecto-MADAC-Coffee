@@ -56,7 +56,7 @@ export function Usuarios () {
             correo: "juan@gmail.com",
             Rol: "Usuario",
             estado: "activo", 
-            acciones: <><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button" onClick={() => handleToggle('update')}>Actualizar</button> </> ,
+            acciones: <><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button" onClick={() => handleToggle('updat e')}>Actualizar</button> </> ,
             accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> 
         }
     ]
