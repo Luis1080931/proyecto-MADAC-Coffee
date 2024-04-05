@@ -1,5 +1,5 @@
 import React from 'react'
-import LogoProyecto from '../../assets/LogoProyeccto-removebg.png'
+import LogoProyecto from './../../assets/logoProyeccto-removebg.png'
 
 export const Logo = () => {
   return (

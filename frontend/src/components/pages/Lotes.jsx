@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import DataTable from 'react-data-table-component'
-import { Header } from '../molecules/Header.jsx'
-import { FaSistrix } from "react-icons/fa6";
+import { Header } from './../molecules/Header.jsx'
+import LotesModal from '../templates/Lotes.jsx';
 import { Link } from 'react-router-dom';
+import Buscador from '../atoms/Buscador.jsx';
+import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
+import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
 
 export function Lotes () {
 
@@ -44,45 +47,9 @@ export function Lotes () {
             arboles: "300",
             finca: 1,
             Variedad: 3,
-
             estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button">Actualizar</button> <button  type="button" >Desactivar</button></div> ,
-        },
-        {
-            codigo: 1,
-            arboles: "300",
-            finca: 1,
-            Variedad: 3,
+            acciones: <div className="flex flex-col"> <ButtonActualizar click={() => handleToggle('update')} /> <button className='bg-red-500 p-2 rounded-lg text-sm font-bold' type="button">Eliminar</button></div>,
 
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button">Actualizar</button> <button  type="button" >Desactivar</button></div> ,
-        },
-        {
-            codigo: 1,
-            arboles: "300",
-            finca: 1,
-            Variedad: 3,
-
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button">Actualizar</button> <button  type="button" >Desactivar</button></div> ,
-        },
-        {
-            codigo: 1,
-            arboles: "300",
-            finca: 1,
-            Variedad: 3,
-
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button">Actualizar</button> <button  type="button" >Desactivar</button></div> ,
-        },
-        {
-            codigo: 1,
-            arboles: "300",
-            finca: 1,
-            Variedad: 3,
-
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button">Actualizar</button> <button  type="button" >Desactivar</button></div> ,
         }
     ]
 
@@ -101,20 +68,46 @@ export function Lotes () {
         })
         setRecords(newData)
     }
+
+    const [modalOpen, setModalOpen] = useState(false)
+    const [mode, setMode] = useState('create')
+
+    const handleToggle = (mode) => {
+        setMode(mode)
+        setModalOpen(true)
+        if(mode === 'update'){
+            
+        }
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(mode === 'create'){
+            const baseURL = 'http://localhost:3000/resultados/registrar'
+
+            axios.post(baseURL).then((response) => {
+                console.log("Registrado con exito")
+                setModalOpen(false)
+            })
+        }else if(mode === 'update'){
+
+        }
+        setModalOpen(false)
+    }
+
   return (
     
     <div>
         <Header title="Lotes" />
-        <div className='w-10/12 ml-28'>
-            
-            <div className='w-96 ml-80 bg-[#E5E5E5] flex justify-center items-center m-8 border-2 rounded-lg border-black'>
-                <input className='p-2 bg-[#E5E5E5] text-black rounded-lg w-96' type="text" onChange={handleFilter} placeholder='Buscar' />
-                <FaSistrix size={25} />
-            </div>
-            <button className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32' type="button">
-                {/* <Link to={`/registrar`}>Registrar</Link> */}
-                Registrar
-            </button>
+        <div className='w-full flex flex-col justify-center items-center p-10'>
+            <Buscador handler={handleFilter} />
+            <ButtonRegister click={() => handleToggle('create')} />
+            <LotesModal 
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                handleSubmit={handleSubmit}
+                actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+            />
             <DataTable
                 columns={colums}
                 data={records}

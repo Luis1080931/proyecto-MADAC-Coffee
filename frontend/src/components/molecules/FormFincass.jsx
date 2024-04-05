@@ -42,9 +42,6 @@ export const FormFincass = () => {
 
     return (
         <div>
-            <HeaderRegis title='Registrar Fincas' />
-            <div className='flex'>
-                <div className='bg-[#E6E6E6] flex items-center justify-center p-8 w-4/12 m-16 rounded-lg'>
                     <form method='post' onSubmit={handle}>
                         <div className='flex flex-col m-5'>
                             <label className='text-xl font-bold'> Dimensiones de la finca: </label>
@@ -74,14 +71,7 @@ export const FormFincass = () => {
                         </div>
                     </form>
                 </div>
-                <div className='w-5/12 flex justify-center items-center ml-20'>
-                    <img src={LogoProyecto} alt="" />
-                </div>
-            </div>
-            <div className='w-32 flex justify-end items-end ml-auto h-12'>
-                <img src={LogoSena} alt="" />
-            </div>
-        </div>
+                
     );
 };
 
