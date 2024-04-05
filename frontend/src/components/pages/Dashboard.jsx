@@ -43,8 +43,6 @@ export const Dashboard = () => {
 
             <SideBarUser />
 
-            <FaAlignJustify size={30} className="flex mr-3 cursor-pointer"/>
-
         </div>
         <div className="max-w-[1400px] h-[780px] w-full m-auto py-16 px-4 relative group">
           <div style={{ backgroundImage: `url(${slides[currentIndex].url})` }} className='w-full h-full bg-center bg-cover duration-500'>
