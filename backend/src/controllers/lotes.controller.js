@@ -48,8 +48,8 @@ export const postLotes=async(req,res)=>{
         if(!errores.isEmpty()){
             return res.status(400).json(errores.array());
         }
-        const {numero_arboles,fk_finca,fk_variedad,estado}=req.body
-        const [rows]=await pool.query('INSERT INTO lotes (numero_arboles,fk_finca,fk_variedad,estado) VALUES(?,?,?,?)',[numero_arboles,fk_finca,fk_variedad,estado])
+        const {numero_arboles,fk_finca,fk_variedad}=req.body
+        const [rows]=await pool.query('INSERT INTO lotes (numero_arboles,fk_finca,fk_variedad,estado) VALUES(?,?,?,1)',[numero_arboles,fk_finca,fk_variedad])
         if(rows.affectedRows > 0){
             res.status(200).json({
                 message:"lote registrado Correctamente"

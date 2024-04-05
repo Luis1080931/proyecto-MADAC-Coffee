@@ -47,8 +47,8 @@ export const postFincas=async(req,res)=>{
         if(!errors.isEmpty()){
             return res.status(400).json(errors.array());
         }
-        const {dimension_mt2,fk_caficultor,municipio,vereda,estado}=req.body
-        const [rows]=await pool.query('INSERT INTO fincas (dimension_mt2,fk_caficultor,municipio,vereda,estado) VALUES (?,?,?,?,?)',[dimension_mt2,fk_caficultor,municipio,vereda,estado])
+        const {dimension_mt2,fk_caficultor,municipio,vereda}=req.body
+        const [rows]=await pool.query('INSERT INTO fincas (dimension_mt2,fk_caficultor,municipio,vereda,estado) VALUES (?,?,?,?,1)',[dimension_mt2,fk_caficultor,municipio,vereda])
         if(rows.affectedRows > 0){
             res.status(200).json({
                 message:"finca registrado correctamente"
