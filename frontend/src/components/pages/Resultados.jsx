@@ -29,38 +29,38 @@ export function Resultados () {
     const columns = [
         {
             name:  'Id',
-         /*   selector: 'codigo', */
-        sortable: true
+            selector: 'codigo',
+            sortable: true
         },
         {
             name: 'Fecha',
-            /* selector: 'fecha',
-        */     sortable: true
+            selector: 'fecha',
+            sortable: true
         },
         {
             name: 'Análisis',
-            /* selector: 'fk_analisis',
-  */           sortable: true
+            selector: 'analisis',
+            sortable: true
         },
         {
             name: 'Variable',
-            /* selector: 'fk_variable',
-  */           sortable: true
+            selector: 'variable',
+            sortable: true
         },
         {
             name: 'Valor',
-            /* selector: 'valor',
-        */     sortable: true
+            selector: 'valor',
+            sortable: true
         },
         {
             name: 'Observaciones',
-            /* selector: 'observaciones', */
+            selector: 'observaciones', 
             sortable: true
         },
         {
             name: 'Estado',
-            /* selector: 'estado',
-       */      sortable: true
+            selector: 'estado   ',
+            sortable: true
         },
         {
             name: 'Acciones',
