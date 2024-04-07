@@ -1,9 +1,8 @@
 import {Resultados} from "./pages/Resultados.jsx"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { RegistrarResultados } from "./pages/RegistrarResultados.jsx"
-import { ActualizarResultado } from "./pages/ActualizarResultado.jsx"
 import { Dashboard } from "./pages/Dashboard.jsx"
 import ResultadosModal from "./organisms/ResultadosModal.jsx"
+import Ejemplo from "./NextUI/TableNext.jsx"
 
 
 function App() {
@@ -15,9 +14,8 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/resultados" element={<Resultados />} />
-          <Route path="/resultadosregistrar" element={<RegistrarResultados />} />
-          <Route path="/resultadosactualizar" element={<ActualizarResultado />} />
           <Route path="/modal" element={<ResultadosModal />} />
+          <Route path="/table" element={<Ejemplo />} /> 
         </Routes>
 
     </BrowserRouter>

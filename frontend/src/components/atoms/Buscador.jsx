@@ -9,3 +9,5 @@ export const Buscador = (props) => {
     </div>
   )
 }
+
+export default Buscador

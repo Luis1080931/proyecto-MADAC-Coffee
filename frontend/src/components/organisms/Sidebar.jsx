@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { IoMdHome } from "react-icons/io";
 import { MdFindInPage, MdAssignmentAdd } from "react-icons/md";
 import { GrDocumentUpdate } from "react-icons/gr";
+import { FaAlignJustify } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import { FaX } from "react-icons/fa6";
 import { IconContext } from 'react-icons';
 import './../../App.css'
-import LogoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
+
 
 
 export const Sidebar = ({ children }) => {
@@ -17,26 +18,50 @@ export const Sidebar = ({ children }) => {
 
     const menuItem = [
         {
-            path: '/',
+            path: '/dashboard',
             name: "Dashboard",
             icon: <IoMdHome />
         },
         {
-            path: '/resultados',
-            name: "Resultados",
-            icon: <MdFindInPage />
-        },
-        {
-            path: '/resultadosregistrar',
-            name: "RegistrarResultados",
+            path: '/usuarios',
+            name: "Usuarios",
             icon: <MdAssignmentAdd />
         },
         {
-            path: '/resultadosactualizar',
-            name: 'ActualizarResultados',
+            path: '/fincas',
+            name: 'Fincas',
+            icon: <GrDocumentUpdate />
+        },
+        {
+            path: '/variedades',
+            name: 'Variedades',
+            icon: <GrDocumentUpdate />
+        },
+        {
+            path: '/lotes',
+            name: 'Lotes',
+            icon: <GrDocumentUpdate />
+        },
+        {
+            path: '/muestras',
+            name: 'Muestras',
+            icon: <GrDocumentUpdate />
+        },
+        {
+            path: '/analisis',
+            name: "Analisis",
+            icon: <MdFindInPage />
+        },
+        {
+            path: '/variables',
+            name: 'Variables',
+            icon: <GrDocumentUpdate />
+        },
+        {
+            path: '/resultados',
+            name: 'Resultados',
             icon: <GrDocumentUpdate />
         }
-        
 
     ]
   return (
@@ -44,18 +69,15 @@ export const Sidebar = ({ children }) => {
         
         <div className='bg-[#39A900] h-20 flex justify-start items-center'>
             <Link to='#'>
-                {/* <LogoProyecto size={30} className="ml-3 cursor-pointer" onClick={showSideBar}/> */}
-                <img src={LogoProyecto} onClick={showSideBar} className='w-28' />
+                <FaAlignJustify size={30} className="ml-3 cursor-pointer" onClick={showSideBar}/>
             </Link>
-            
         </div>
         <IconContext.Provider value={{ color: '#000' }}>
         <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-            <ul className='w-full mt-14' onClick={showSideBar}>
-                <li className='flex  ml-8 text-3xl bg-none'>
-                    <Link to='#' className='flex'>
+            <ul className='w-full mt-9' onClick={showSideBar}>
+                <li className='ml-4 text-3xl bg-none'>
+                    <Link to='#'>
                         <FaX />
-                        <h2 className='flex text-xl font-bold ml-5 mt-1'> MADAC-Coffee </h2>
                     </Link>
                 </li>
                 {menuItem.map((item, index) => {
