@@ -65,7 +65,7 @@ export function Resultados () {
         },
         {
             name: 'Acciones',
-            cell: () => <><ButtonActualizar click={() => handleToggle('update')} /> <ButtonDesactivar /></> 
+            cell: row => <><ButtonActualizar click={() => handleToggle('update')} /> <ButtonDesactivar click={() => handleDesactivar(row.codigo) } /></> 
         }
     ]
 
@@ -76,15 +76,33 @@ export function Resultados () {
         setData(newData)
     }
 
+
+    useEffect(() => {
+        handleDesactivar()
+    }, [])
+    const handleDesactivar = (idResultado) => {
+        try {
+            axios.put(`http://localhost:3000/resultados/desactivar/${idResultado}`, null, {headers: {token: token}}).then((response) => {
+            console.log(response.data)
+            if(response.status==200){
+                alert('Resultado desactivado con exito')
+            }else{
+                alert('Error')
+            }
+            
+        })
+        } catch (error) {
+            alert('Error de servidor' + error)
+        }
+        
+    }
+
     const [modalOpen, setModalOpen] = useState(false)
     const [mode, setMode] = useState('create')
 
     const handleToggle = (mode) => {
         setMode(mode)
         setModalOpen(true)
-        if(mode === 'update'){
-            
-        }
     }
 
   return (
