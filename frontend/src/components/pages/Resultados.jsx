@@ -6,6 +6,7 @@ import ResultadosModal from './../templates/Resultados.jsx';
 import axios from 'axios';
 import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
 import { Datatable } from '../organisms/Datatable.jsx';
+import { ButtonDesactivar } from '../atoms/ButtonDesactivar.jsx';
 
 
 export function Resultados () {
@@ -29,50 +30,71 @@ export function Resultados () {
     const columns = [
         {
             name:  'Id',
-            selector: 'codigo',
+            selector: row => row.codigo,
             sortable: true
         },
         {
             name: 'Fecha',
-            selector: 'fecha',
+            selector: row => row.fecha,
             sortable: true
         },
         {
             name: 'Análisis',
-            selector: 'analisis',
+            selector: row => row.analisis,
             sortable: true
         },
         {
             name: 'Variable',
-            selector: 'variable',
+            selector: row => row.variable,
             sortable: true
         },
         {
             name: 'Valor',
-            selector: 'valor',
+            selector: row => row.valor,
             sortable: true
         },
         {
             name: 'Observaciones',
-            selector: 'observaciones', 
+            selector: row => row.observaciones, 
             sortable: true
         },
         {
             name: 'Estado',
-            selector: 'estado   ',
+            selector: row => row.estado,
             sortable: true
         },
         {
             name: 'Acciones',
-            cell: () => <ButtonActualizar click={() => handleToggle('update')} /> 
+            cell: row => <><ButtonActualizar click={() => handleToggle('update')} /> <ButtonDesactivar click={() => handleDesactivar(row.codigo) } /></> 
         }
     ]
 
     function handleFilter (event){
-        const newData = data.filter(row => {
-            return row.variable.toLowerCase().includes(event.target.value.toLowerCase())
+        const newData = datos.filter(row => {
+            return row.valor.toLowerCase().includes(event.target.value.toLowerCase())
         })
-        setRecords(newData)
+        setData(newData)
+    }
+
+
+    useEffect(() => {
+        handleDesactivar()
+    }, [])
+    const handleDesactivar = (idResultado) => {
+        try {
+            axios.put(`http://localhost:3000/resultados/desactivar/${idResultado}`, null, {headers: {token: token}}).then((response) => {
+            console.log(response.data)
+            if(response.status==200){
+                alert('Resultado desactivado con exito')
+            }else{
+                alert('Error')
+            }
+            
+        })
+        } catch (error) {
+            alert('Error de servidor' + error)
+        }
+        
     }
 
     const [modalOpen, setModalOpen] = useState(false)
@@ -81,9 +103,6 @@ export function Resultados () {
     const handleToggle = (mode) => {
         setMode(mode)
         setModalOpen(true)
-        if(mode === 'update'){
-            
-        }
     }
 
   return (
@@ -94,7 +113,6 @@ export function Resultados () {
             
             <Buscador handler={handleFilter} />
             <ButtonRegister click={() => handleToggle('create')} />
-            {/* <ButtonActualizar click={() => handleToggle('update')} /> */}
             <ResultadosModal 
                 open={modalOpen} 
                 onClose={() => setModalOpen(false)} 
@@ -108,111 +126,3 @@ export function Resultados () {
     </div>
   )
 }
-
-
-    /* const [records, setRecords] = useState(data) */
-
-/* const colums = [
-        {
-            name: 'Código',
-            selector: row => row.codigo,
-            sortable: true
-        },
-        {
-            name: 'Fecha',
-            selector: row => row.fecha,
-            sortable: true
-        },
-        {
-            name: 'Analisis',
-            selector: row => row.analisis,
-            sortable: true
-        },
-        {
-            name: 'Variable',
-            selector: row => row.variable,
-            sortable: true
-        },
-        {
-            name: 'Observaciones',
-            selector: row => row.observaciones,
-            sortable: true
-        },
-        {
-            name: 'Valor',
-            selector: row => row.valor,
-            sortable: true
-        },
-        {
-            name: 'Estado',
-            selector: row => row.estado,
-            sortable: true
-        },
-        {
-            name: 'Acciones',
-            selector: row => row.acciones 
-        },
-        {
-            name: 'AccionesDe',
-            selector: row => row.accionesDe 
-        },
-    ]
-
-    const data = [
-        {
-            codigo: 1,
-            fecha: "2024-02-29",
-            analisis: 1,
-            variable: "Peso (g)",
-            observaciones: "Peso adecuado",
-            valor: "30 g",
-            estado: "activo", 
-            acciones: <>
-                <ButtonActualizar link={'/resultadosactualizar'} />
-                
-                <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> ,
-                accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button>
-            </> 
-        },
-        {
-            codigo: 2,
-            fecha: "2024-02-29",
-            analisis: 1,
-            variable: "Peso (g)",
-            observaciones: "Peso adecuado",
-            valor: "30 g",
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/resultadosactualizar`}>Actualizar</Link></button> <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></div> 
-        },
-        {
-            codigo: 3,
-            fecha: "2024-02-29",
-            analisis: 1,
-            variable: "Peso (g)",
-            observaciones: "Peso adecuado",
-            valor: "30 g",
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/resultadosactualizar`}>Actualizar</Link></button> <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></div> 
-        },
-        {
-            codigo: 4,
-            fecha: "2024-02-29",
-            analisis: 1,
-            variable: "Cantidad (g)",
-            observaciones: "Peso adecuado",
-            valor: "30 g",
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/resultadosactualizar`}>Actualizar</Link></button> <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></div> 
-        },
-        {
-            codigo: 5,
-            fecha: "2024-02-29",
-            analisis: 1,
-            variable: "Peso (g)",
-            observaciones: "Peso adecuado",
-            valor: "30 g",
-            estado: "inactivo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/resultadosactualizar`}>Actualizar</Link></button> <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></div> 
-        }
-    ] */
-

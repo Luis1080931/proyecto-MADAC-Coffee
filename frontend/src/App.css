@@ -1,6 +1,11 @@
 
+
 .nav-menu.active{
   left: 0;
+  transition: 550ms;
+  scroll-behavior: smooth;
+  z-index: 500;
+  overflow-x: hidden;
   transition: 550ms;
   scroll-behavior: smooth;
   z-index: 500;

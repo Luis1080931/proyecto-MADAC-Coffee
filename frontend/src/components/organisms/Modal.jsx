@@ -2,6 +2,7 @@ import React from 'react'
 import { FaX } from 'react-icons/fa6'
 
 export const Modal = ({ open, onClose, children }) => {
+
   return (
     <>
 
@@ -10,6 +11,7 @@ export const Modal = ({ open, onClose, children }) => {
           <div className='bg-[#E6E6E6] flex overflow-auto max-w-90vw max-h-90vh p-5 rounded-xl  justify-center gap-3 lg:w-1/2 z-50'>
             
             {children}
+
 
             <div>
               <FaX className='cursor-pointer' onClick={onClose} />
@@ -20,7 +22,7 @@ export const Modal = ({ open, onClose, children }) => {
 
       }
 
+
 </>
   )
 }
-
