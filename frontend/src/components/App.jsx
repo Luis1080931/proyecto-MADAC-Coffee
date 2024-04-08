@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Usuarios } from "./pages/Usuarios.jsx"
+import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions.js"
 
 
 
@@ -11,7 +12,7 @@ function App() {
     {/*   <Sidebar /> */}
         <Routes>
           
-          <Route path="/usuarios" element={<Usuarios />} />
+          <Route path="/" element={<Usuarios />} />
         </Routes>
 
     </BrowserRouter>

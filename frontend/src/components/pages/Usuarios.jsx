@@ -1,119 +1,112 @@
-import React, { useEffect, useState } from 'react'
-import DataTable from 'react-data-table-component'
-import { Header } from './../molecules/Header.jsx'
+import React, { useEffect, useState } from 'react';
+import { Header } from './../molecules/Header.jsx';
 import { FaSistrix } from "react-icons/fa6";
 import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
 import UsuariosModal from '../templates/Usuarios.jsx';
+import axios from 'axios';
+import { DataGrid } from '@mui/x-data-grid'; // Importa el componente DataGrid desde la biblioteca correspondiente
 
-export function Usuarios () {
+const columns = [
+    {
+        field: 'identificacion',
+        headerName: 'Identificacion',
+        flex: 1,
+        sortable: true
+    },
+    {
+        field: 'nombre',
+        headerName: 'Nombre',
+        flex: 1,
+        sortable: true
+    },
+    {
+        field: 'telefono',
+        headerName: 'telefono',
+        flex: 1,
+        sortable: true
+    },
+    {
+        field: 'correo_electronico',
+        headerName: 'Correo',
+        flex: 1,
+        sortable: true
+    },
+    {
+        field: 'tipo_usuario',
+        headerName: 'Rol',
+        flex: 1,
+        sortable: true
+    },
+    {
+        field: 'estado',
+        headerName: 'Estado',
+        flex: 1,
+        sortable: true
+    },
+];
 
-    const columns = [
-        {
-            name: 'Identificacion',
-            selector: row => row.Identificacion,
-            sortable: true
-        },
-        {
-            name: 'Nombre',
-            selector: row => row.Nombre,
-            sortable: true
-        },
-        {
-            name: 'Telefono',
-            selector: row => row.Telefono,
-            sortable: true
-        },
-        {
-            name: 'correo',
-            selector: row => row.correo,
-            sortable: true
-        },
-        {
-            name: 'Rol',
-            selector: row => row.Rol,
-            sortable: true
-        },
-        {
-            name: 'Estado',
-            selector: row => row.estado,
-            sortable: true
-        },
-        {
-            name: 'Acciones',
-            selector: row => row.acciones 
-        },
-        {
-            name: 'AccionesDe',
-            selector: row => row.accionesDe 
-        },
-    ]
-
-    const data = [
-        {
-            Identificacion: 1,
-            Nombre: "Juan",
-            Telefono: 1,
-            correo: "juan@gmail.com",
-            Rol: "Usuario",
-            estado: "activo", 
-            acciones: <><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button" onClick={() => handleToggle('updat e')}>Actualizar</button> </> ,
-            accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> 
-        }
-    ]
-
-    const baseURL = 'http://localhost:3000/usuarios/listar';
-    const [records, setRecords] = useState([]);
+export function Usuarios() {
+    const [originalData, setOriginalData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [mode, setMode] = useState('create');
 
+
+
     const handleToggle = (mode) => {
-        setMode(mode)
-        setModalOpen(true)
-        if(mode === 'update'){
-            
+        setMode(mode);
+        setModalOpen(true);
+        if (mode === 'update') {
+            // Lógica para manejar la actualización
         }
     }
+    const token = localStorage.getItem('token')
+    const baseURL = 'http://localhost:3000/usuarios/listar';
 
-    useEffect(() => {
+    const fetchData = async () => {
         try {
-            axios.get(baseURL).then((response) => {
-                console.log(response)
-                setRecords(response.data)
-            })
+            const response = await axios.get(baseURL, {headers: {token:token}});
+            const dataWithIds = response.data.usuarios.map((usuario, index) => ({
+                ...usuario,
+                id: index + 1 // Puedes usar el índice del array + 1 como id
+            }));
+            setOriginalData(dataWithIds);
+            setFilteredData(dataWithIds);
         } catch (error) {
-            console.log('Error de servidor' + error)
+            console.error('Error al obtener datos:', error);
         }
-    }, [])
+    };
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+
 
     function handleFilter(event) {
-        const newData = records.filter(row => {
-            return row.correo.toLowerCase().includes(event.target.value.toLowerCase())
-        })
-        setRecords(newData)
+        const newData = originalData.filter(row => {
+            return row.correo.toLowerCase().includes(event.target.value.toLowerCase());
+        });
+        setFilteredData(newData); // Actualizar los datos filtrados
     }
 
-    const paginaOpciones = {
-        rowsPerPageText: 'Filas por página',
-        rangeSeparatorText: 'de',
-        selectAllRowsItem: true,
-        selectAllRowsText: 'Todos'
-    }
     const handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         if (mode === 'create') {
-            const baseURL = 'http://localhost:3000/usuarios/registrar'
+            const createURL = 'http://localhost:3000/usuarios/registrar';
 
-            axios.post(baseURL).then((response) => {
-                console.log("Registrado con exito")
-                setModalOpen(false)
-            })
+            axios.post(createURL).then((response) => {
+                    console.log("Registrado con éxito");
+                    setModalOpen(false);
+                })
+                .catch(error => console.error('Error al registrar:', error));
         } else if (mode === 'update') {
-
+            // Lógica para manejar la actualización
         }
-        setModalOpen(false)
+        setModalOpen(false);
     }
 
     return (
+        <>
         <div>
             <Header title="Usuarios" />
             <div className='w-10/12 ml-28'>
@@ -130,15 +123,19 @@ export function Usuarios () {
                     handleSubmit={handleSubmit}
                     actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
                 />
-                <DataTable
-                    columns={columns}
-                    data={data}
-                    title="Usuarios registrados"
-                    fixedHeader
-                    pagination
-                    paginationComponentOptions={paginaOpciones}
-                />
+                <div style={{ height: '80vh', width: '100%' }}> 
+                    <DataGrid style={{ height: '100%', width: '100%' }}
+                        columns={columns}
+                        rows={Array.isArray(filteredData) ? filteredData : []}
+                        pageSize={5}
+                        checkboxSelection
+                        disableSelectionOnClick
+                    />
+                </div>
             </div>
         </div>
-    )
+        </>
+    );
 }
+
+
