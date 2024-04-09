@@ -48,7 +48,8 @@ export function Lotes () {
             finca: 1,
             Variedad: 3,
             estado: "activo", 
-            acciones: <div className="flex flex-col"> <ButtonActualizar click={() => handleToggle('update')} /> <button className='bg-red-500 p-2 rounded-lg text-sm font-bold' type="button">Eliminar</button></div>,
+            acciones: <div className="flex flex-col"> <ButtonActualizar click={() => handleToggle('update')} /> 
+            <button className='bg-red-500 p-2 rounded-lg text-sm font-bold' type="button">Eliminar</button></div>,
 
         }
     ]
@@ -116,7 +117,6 @@ export function Lotes () {
                 pagination
                 paginationComponentOptions={paginaOpciones}
             >
-
             </DataTable>
         </div>
     </div>

@@ -5,22 +5,21 @@ import LogoProyecto from '../../assets/logoProyeccto-removebg.png';
 import axios from 'axios';
 
 const baseURL = "http://localhost:3000/lotes/registrar";
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZGVudGlmaWNhY2lvbiI6MTAyOTg4MDMwNiwibm9tYnJlIjoiU2VyZ2lvIENvcG8iLCJ0ZWxlZm9ubyI6IjMyMjc1ODIzODIiLCJ0aXBvX3VzdWFyaW8iOiJjYWZpY3VsdG9yIiwiZXN0YWRvIjoiYWN0aXZvIn1dLCJpYXQiOjE3MTIyNzg0MDcsImV4cCI6MTcxMjM2NDgwN30.ijkzPDXYnOX_3q14jPu1N80Q8Xd7xQ1QrtP3UfDegVI";
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZGVudGlmaWNhY2lvbiI6MTAyOTg4MDMwNiwibm9tYnJlIjoiU2VyZ2lvIENvcG8iLCJ0ZWxlZm9ubyI6IjMyMjc1ODIzODIiLCJ0aXBvX3VzdWFyaW8iOiJjYWZpY3VsdG9yIiwiZXN0YWRvIjoiYWN0aXZvIn1dLCJpYXQiOjE3MTI2MzEyODQsImV4cCI6MTcxMjcxNzY4NH0.LmEiQ1EE5YtOI-Km3a_KHO1ib9aSw0BUboBnuZV35xw";
 
 export const FormLotes = () => {
     const numero_arboles = useRef(null);
     const fk_finca = useRef(null);
     const fk_variedad = useRef(null);
-    const estado = useRef(null);
+
 
     const handle = async (e) => {
         e.preventDefault();
         try {
             const data = {
-                numero_arboles: parseInt(numero_arboles.current.value),
-                id_finca: parseInt(fk_finca.current.value),
-                fk_variedad:parseInt(fk_variedad.current.value),
-                estado: estado.current.value
+                numero_arboles:numero_arboles.current.value,
+                fk_finca: fk_finca.current.value,
+                fk_variedad:fk_variedad.current.value
             };
             const response = await axios.post(baseURL, data, {
                 headers: { Authorization: `Bearer ${token}` }
@@ -39,7 +38,6 @@ export const FormLotes = () => {
 
     return (
         <div>
-          
                     <form method="post" onSubmit={handle}>
                         <div className='flex flex-col m-5'>
                             <label className='text-xl font-bold'> Numero de arboles: </label>
@@ -52,13 +50,6 @@ export const FormLotes = () => {
                         <div className='flex flex-col m-5'>
                             <label className='text-xl font-bold'> Variedad: </label>
                             <input className='p-2 rounded-lg w-80 h-12' id='fk_variedad' type="number" name='fk_variedad' placeholder='Ingrese la variedad' ref={fk_variedad} />
-                        </div>
-                        <div className='flex flex-col m-5'>
-                            <label className='text-xl font-bold'> Estado: </label>
-                            <select name="estado" id="estado" ref={estado}>
-                                <option value="1">Activo</option>
-                                <option value="2">Inactivo</option>
-                            </select>
                         </div>
                         <div className='flex flex-col m-5 justify-center items-center'>
                             <button className='bg-[#39A900] w-32 p-2 rounded-lg text-white font-bold text-xl' type="submit">Registrar</button>

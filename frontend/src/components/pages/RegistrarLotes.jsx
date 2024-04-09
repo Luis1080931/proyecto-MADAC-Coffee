@@ -25,8 +25,6 @@ export const RegistrarLotes = () => {
                     <div className='flex flex-col m-5 justify-center items-center'>
                         <button className='bg-[#39A900] w-32 p-2 rounded-lg text-white font-bold text-xl' type="button">Registrar</button>
                     </div>
-                    
-                    
                 </form>
                 
             </div>
