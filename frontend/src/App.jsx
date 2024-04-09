@@ -12,7 +12,7 @@ function App() {
 
   return (
     <BrowserRouter>    
-    { <Fincas/>}
+    { <Lotes/>}
     </BrowserRouter>
 
   )

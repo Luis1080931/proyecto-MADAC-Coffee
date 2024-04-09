@@ -38,9 +38,8 @@ const columns = [
         sortable: true
     },
 ];
-
+const baseUrl = 'http://localhost:3000/fincas/listar';
 export function Fincas() {
-    const baseUrl = 'http://localhost:3000/fincas/listar';
 
     const [originalData, setOriginalData] = useState([]);
     const [data,setData]=useState([]);
@@ -57,16 +56,18 @@ export function Fincas() {
 
     const peticionGet = async () => {
         try {
-               await axios.get(baseUrl)
-                .then(response=>{
-                    console.log(response.data);
-                    setData(response.data);
-                })
-              
+            const response = await axios.get(baseUrl, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            console.log(response.data);
+            setData(response.data);
         } catch (error) {
             console.error('Error al intentar traer los datos', error);
         }
     };
+    
 
     useEffect(() => {
         peticionGet();
