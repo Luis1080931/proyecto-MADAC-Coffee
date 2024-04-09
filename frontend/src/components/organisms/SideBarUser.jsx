@@ -6,12 +6,13 @@ import { FaX } from "react-icons/fa6";
 import { IconContext } from 'react-icons';
 import { FaRegUserCircle } from "react-icons/fa";
 import './../../App.css'
-
+import LogoutModal from './ModalLogout.jsx';
 
 
 export const SideBarUser = ({ children }) => {
 
     const [sidebar, setSiderBar] = useState(false)
+    const [modalOpen, setModalOpen ] = useState(false)
 
     const showSideBar = () => setSiderBar(!sidebar)
 
@@ -22,7 +23,7 @@ export const SideBarUser = ({ children }) => {
             icon: <IoMdHome />
         },
         {
-            path: '/',
+            onClick: () => setModalOpen(true),
             name: "Cerrar sesión",
             icon: <MdAssignmentAdd />
         }
@@ -30,7 +31,10 @@ export const SideBarUser = ({ children }) => {
     ]
   return (
     <div>
-        
+        <LogoutModal 
+            isOpen={modalOpen}
+            onClose={() => setModalOpen(false)}
+        />
         <div className='bg-[#39A900] h-20 flex justify-end items-center'>
             <Link to='#'>
                 <FaRegUserCircle size={40} className="cursor-pointer mr-8" onClick={showSideBar}/>

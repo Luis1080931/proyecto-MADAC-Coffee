@@ -1,13 +1,15 @@
 import React, { useState, useRef } from 'react'
 import { HeaderLogin } from './../molecules/HeaderLogin.jsx'
-import LogoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
 import './../../App.css'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input} from "@nextui-org/react";
+import {MailIcon} from './../atoms/IconEmail.jsx';
+import {LockIcon} from './../atoms/LockIcon.jsx';
 
 export const Login = () => {
 
-    const [login, setLogin] = useState(false)
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
     const baseURL = "http://localhost:3000/validacion"
 
@@ -44,46 +46,73 @@ try {
     
 }
 
-    const showLogin = () => setLogin(!login)
-
   return (
     <div className='fondo'>
         <HeaderLogin title="MADAC-Coffee" />
 
-        <div className='w-11/12 flex justify-end items-end mt-5'>
-            <button className='w-28 p-2 rounded-lg bg-[#39A900] text-white font-bold text-xl z-10' onClick={showLogin}>
+      <div className='w-11/12 flex justify-end items-end mt-5'>
+            <Button className='w-28 p-2 rounded-lg bg-[#39A900] text-white font-bold text-xl z-10' onPress={onOpen}>
                 Login
-            </button>
+            </Button>
         </div>
-        
-        <div className={login ? 'formLogin active' : 'formLogin'}>
-            <div className='bg-[#E6E6E6] flex items-center justify-center p-8 w-4/12 m-16 rounded-lg'>
-            <form method='post'>
-                    <div className='flex flex-col items-center justify-center m-5'>
-                        <label className='text-2xl font-bold'>Inicio de sesión</label>
-                    </div>
-
-                    <div className='flex flex-col m-5'>
-                        <label className='text-xl font-bold'> Correo: </label>
-                        <input className='p-2 rounded-lg w-60 h-12' type="text" placeholder='Ingrese su Correo' ref={correo_electronico}/>
-                    </div>
-                    <div className='flex flex-col m-5'>
-                        <label className='text-xl font-bold'> Contraseña: </label>
-                        <input className='p-2 rounded-lg w-60 h-12' type="password" placeholder='Ingrese su Contraseña' ref={password} />
-                    </div>
-                    <div className='flex flex-col m-5 justify-center items-center'>
-                        <button className='bg-[#39A900] w-36 p-2 rounded-lg text-white font-bold text-xl' type="button" onClick={handleSubmit}>Iniciar sesión</button>
-                    </div>
+      <Modal 
+        isOpen={isOpen} 
+        onOpenChange={onOpenChange}
+        placement="top-center"
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
+              <ModalBody>
+                <form method='post' onSubmit={handleSubmit}>
+                <Input
+                  autoFocus
+                  endContent={
+                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Email"
+                  placeholder="Enter your email"
+                  variant="bordered"
+                  ref={correo_electronico}
+                />
+                <Input
+                  endContent={
+                    <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Password"
+                  placeholder="Enter your password"
+                  type="password"
+                  variant="bordered"
+                  ref={password}
+                />
+                <ModalFooter>
+                <Button color="danger" variant="flat" onPress={onClose}>
+                  Close
+                </Button>
+                <Button type='submit' color="primary" onSubmit={handleSubmit}>
+                  Sign in
+                </Button>
+              </ModalFooter>
                 </form>
-
-                <div className='w-5/12 flex justify-center items-center'>
-                    <img src={LogoProyecto} alt="" />
-                </div>
                 
-            </div>
-            
-        </div>
-        
+                {/* <div className="flex py-2 px-1 justify-between">
+                  <Checkbox
+                    classNames={{
+                      label: "text-small",
+                    }}
+                  >
+                    Remember me
+                  </Checkbox>
+                  <Link color="primary" href="#" size="sm">
+                    Forgot password?
+                  </Link>
+                </div> */}
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   )
 }

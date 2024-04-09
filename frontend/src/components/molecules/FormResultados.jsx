@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { Button } from '../atoms/Button'
+import AccionesModal from '../organisms/ModalAcciones.jsx'
 
-
-const FormResultados = ({ actionLabel, mode, initialData, setModalOpen }) => {
+const FormResultados = ({ actionLabel, mode, initialData }) => {
 
     const token = localStorage.getItem('token')
 
@@ -42,8 +42,7 @@ const FormResultados = ({ actionLabel, mode, initialData, setModalOpen }) => {
                     console.log(response)
 
                     if(response.status == 200){
-                        alert("Registrado con exito")
-                        setModalOpen(false)
+                        setModalOpen(true)
                     }else{
                         alert('Error de registro')
                     }
@@ -56,8 +55,7 @@ const FormResultados = ({ actionLabel, mode, initialData, setModalOpen }) => {
                     console.log(response)
 
                     if(response.status == 200){
-                        alert('Se actualizo')
-                        setModalOpen(false)
+                        setModalOpen(true)
                     }else{
                         alert('Error de actualizar')
                     }
@@ -90,8 +88,17 @@ const FormResultados = ({ actionLabel, mode, initialData, setModalOpen }) => {
         })
     }, [])
 
+    const [modalOpen, setModalOpen ] = useState(false)
+
   return (
     <>
+
+    <AccionesModal 
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        label={mode === 'update' ? 'Resultado actualizado con éxito' : 'Resultado registrado con éxito'}
+    />
+
     <form method='post' onSubmit={handleSubmit}>
         <div className='flex flex-col'>
             <div className='flex flex-col'>
@@ -154,35 +161,4 @@ const FormResultados = ({ actionLabel, mode, initialData, setModalOpen }) => {
   )
 }
 
-export default FormResultados
-
-/* const [mode, setMode] = useState(initialData ? 'create' : 'update') */
-
-    /* const fecha = useRef(initialData ? initialData.fecha : null)
-    const fk_analisis = useRef(initialData ? initialData.fk_analisis : null)
-    const fk_variable = useRef(initialData ? initialData.fk_variable : null)
-    const valor = useRef(initialData ? initialData.valor : null)
-    const observaciones = useRef(initialData ? initialData.observaciones : null) */
-
-   /*  useEffect(() => {
-        if(initialData){
-            fecha.current.value = initialData.fecha;
-            fk_analisis.current.value = initialData.fk_analisis;
-            fk_variable.current.value = initialData.fk_variable;
-            valor.current.value = initialData.valor;
-            observaciones.current.value = initialData.observaciones
-        }
-    }, [initialData]) */
-
-    /* 
-    
-    const data = useRef({
-        fecha: '',
-        fk_analisis: '',
-        fk_variable: '',
-        valor: '',
-        observaciones: ''
-    })
-    */
-
-   
+export default FormResultados   

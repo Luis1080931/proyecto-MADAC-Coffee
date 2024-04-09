@@ -7,7 +7,8 @@ import axios from 'axios';
 import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
 import { Datatable } from '../organisms/Datatable.jsx';
 import { ButtonDesactivar } from '../atoms/ButtonDesactivar.jsx';
-
+import AccionesModal from '../organisms/ModalAcciones.jsx';
+import { useDisclosure } from "@nextui-org/react";
 
 export function Resultados () {
 
@@ -76,12 +77,17 @@ export function Resultados () {
         setData(newData)
     }
 
+    const [ modalAcciones, setModalAcciones ] = useState(false);
+
     const handleDesactivar = (idResultado) => {
+        
         try {
             axios.put(`http://localhost:3000/resultados/desactivar/${idResultado}`, null, {headers: {token: token}}).then((response) => {
             console.log(response.data)
             if(response.status==200){
-                alert('Resultado desactivado con exito')
+                
+                setModalAcciones(true)
+
             }else{
                 alert('Error')
             }
@@ -95,22 +101,22 @@ export function Resultados () {
 
     const [modalOpen, setModalOpen] = useState(false)
 
-    const handleSubmit = async (e, data) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         try {
             if(mode == 'create'){
-                axios.post('http://localhost:3000/resultados/registrar', data).then((response) => {
+                /* axios.post('http://localhost:3000/resultados/registrar', data).then((response) => {
                     console.log(response)
                     alert('Resulatdo registrado con exito')
                     setModalOpen(false)
-                })
+                }) */
             }else if(mode == 'update'){
-                axios.put(`http://localhost:3000/resultados/actualizar/${initialData.codigo}`,  data, {headers: {token: token}}).then((response) => {
+                /* axios.put(`http://localhost:3000/resultados/actualizar/${initialData.codigo}`,  data, {headers: {token: token}}).then((response) => {
                     console.log(response)
-                    alert('Resulatdo actualizado con exito')
+                    setModalAcciones(true)
                     setModalOpen(false);
-                })
+                }) */
             }
         } catch (error) {
             console.log('Error del servidor' + error)
@@ -133,6 +139,12 @@ export function Resultados () {
     <div>
         <Header title="Resultados" />
         <div className='w-full flex flex-col justify-center items-center p-10'>
+
+        <AccionesModal 
+            isOpen={modalAcciones}
+            onClose={() => setModalAcciones(false)}
+            label={mode === 'update' ? 'Se actualizo el resultado' : 'Se desactivó el resultado'}
+        />
             
             <Buscador handler={handleFilter} />
             <ButtonRegister click={() => handleToggle('create')} />
