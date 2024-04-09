@@ -65,7 +65,7 @@ export function Resultados () {
         },
         {
             name: 'Acciones',
-            cell: row => <><ButtonActualizar click={() => handleToggle('update')} /> <ButtonDesactivar click={() => handleDesactivar(row.codigo) } /></> 
+            cell: row => <><ButtonActualizar click={() => handleToggle('update', row)} /> <ButtonDesactivar click={() => handleDesactivar(row.codigo) } /></> 
         }
     ]
 
@@ -76,10 +76,6 @@ export function Resultados () {
         setData(newData)
     }
 
-
-    useEffect(() => {
-        handleDesactivar()
-    }, [])
     const handleDesactivar = (idResultado) => {
         try {
             axios.put(`http://localhost:3000/resultados/desactivar/${idResultado}`, null, {headers: {token: token}}).then((response) => {
@@ -98,11 +94,38 @@ export function Resultados () {
     }
 
     const [modalOpen, setModalOpen] = useState(false)
-    const [mode, setMode] = useState('create')
 
-    const handleToggle = (mode) => {
-        setMode(mode)
+    const handleSubmit = async (e, data) => {
+        e.preventDefault()
+
+        try {
+            if(mode == 'create'){
+                axios.post('http://localhost:3000/resultados/registrar', data).then((response) => {
+                    console.log(response)
+                    alert('Resulatdo registrado con exito')
+                    setModalOpen(false)
+                })
+            }else if(mode == 'update'){
+                axios.put(`http://localhost:3000/resultados/actualizar/${initialData.codigo}`,  data, {headers: {token: token}}).then((response) => {
+                    console.log(response)
+                    alert('Resulatdo actualizado con exito')
+                    setModalOpen(false);
+                })
+            }
+        } catch (error) {
+            console.log('Error del servidor' + error)
+            alert('Error del servidor')
+        }
+    }
+
+
+    const [mode, setMode] = useState('create')
+    const [initialData, setInitialData ] = useState(null)
+
+    const handleToggle = (mode, initialData) => {
+        setInitialData(initialData)
         setModalOpen(true)
+        setMode(mode)
     }
 
   return (
@@ -118,6 +141,10 @@ export function Resultados () {
                 onClose={() => setModalOpen(false)} 
                 title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
                 actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                initialData={initialData}
+                handleSubmit={handleSubmit}
+                mode={mode}
+                setModalOpen={false}
                 />
 
             <Datatable columns={columns} data={datos} title={'Resultados registrados'} />
