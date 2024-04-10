@@ -56,7 +56,7 @@ export function Fincas() {
             vereda: "Versalles",
             valor: "30 g",
             estado: "activo",
-            acciones: <div className="flex flex-col"><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold mb-2' type="button" onClick={() => handleToggle('update')}>Actualizar</button> <button className='bg-red-500 p-2 rounded-lg text-sm font-bold' type="button">Eliminar</button></div>,
+            acciones: <div className="flex flex-col"> <ButtonActualizar click={() => handleToggle('update')} /> <button className='bg-red-500 p-2 rounded-lg text-sm font-bold' type="button">Eliminar</button></div>,
         }
     ]
 

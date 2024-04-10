@@ -5,7 +5,7 @@ import TitleModal from './TitleModal'
 export const Logo = ({ title }) => {
   return (
     <>
-      <div className='flex flex-col justify-center items-center max-w-[60%] max-h-[60%]'>
+      <div className='flex flex-col justify-center items-center max-w-[60%] max-h-[60%] mt-10'>
         <TitleModal title={title} />
         <img src={LogoProyecto} alt="" />
       </div>

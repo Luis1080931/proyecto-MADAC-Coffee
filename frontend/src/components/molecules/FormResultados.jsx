@@ -67,7 +67,7 @@ const FormResultados = ({ actionLabel }) => {
   return (
     <>
     <form method='post' onSubmit={handleSubmit}>
-        <div className='flex flex-col'>
+        <div className='flex flex-col ml-10 mt-10'>
             <div className='flex flex-col'>
                 <label className='text-xl font-bold'> Fecha: </label>
                 <input className='p-2 rounded-lg w-80 h-12' name='fecha' type="date" placeholder='Ingrese la fecha' ref={fecha} />
