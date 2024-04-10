@@ -70,10 +70,10 @@ export const actualizarResultado = async (req, res) => {
             return res.status(403).json(errors)
         }
 
-        const{fecha, fk_analisis, fk_variable, observaciones, valor} = req.body
+        const{fecha, fk_analisis, fk_variables, observaciones, valor} = req.body
         const {id} = req.params
 
-        const[rows] = await pool.query(`UPDATE resultados SET fecha=IFNULL(?,fecha), fk_analisis=IFNULL(?,fk_analisis), fk_variables=IFNULL(?,fk_variables), observaciones=IFNULL(?,observaciones), valor=IFNULL(?,valor), estado=1 WHERE codigo= ?`,[fecha, fk_analisis, fk_variable, observaciones, valor, id]);
+        const[rows] = await pool.query(`UPDATE resultados SET fecha=IFNULL(?,fecha), fk_analisis=IFNULL(?,fk_analisis), fk_variables=IFNULL(?,fk_variables), observaciones=IFNULL(?,observaciones), valor=IFNULL(?,valor), estado=1 WHERE codigo= ?`,[fecha, fk_analisis, fk_variables, observaciones, valor, id]);
 
         if(rows.affectedRows>0){
             res.status(200).json({
