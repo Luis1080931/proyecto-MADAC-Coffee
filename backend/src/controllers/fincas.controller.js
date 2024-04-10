@@ -4,9 +4,10 @@ import {validationResult} from 'express-validator'
 export const getFincas = async (req, res) => {
     try {
         const query = `
-            SELECT f.codigo, f.dimension_mt2, u.nombre AS fk_caficultor, f.municipio, f.vereda, f.estado
+            SELECT f.codigo, f.dimension_mt2, u.nombre AS fk_caficultor, m.nombre AS municipio, f.vereda, f.estado
             FROM fincas f
             LEFT JOIN usuarios u ON f.fk_caficultor = u.identificacion
+            LEFT JOIN municipios m ON f.municipio = m.id_municipio
         `;
         const [rows] = await pool.query(query);
         if (rows.length > 0) {
@@ -22,6 +23,8 @@ export const getFincas = async (req, res) => {
         });
     }
 };
+
+
 
 
 export const getFinca = async (req,res)=>{

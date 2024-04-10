@@ -5,7 +5,7 @@ import { validationResult } from 'express-validator'
 export const getLotes = async (req, res) => {
     try {
         const query = `
-            SELECT l.codigo, l.numero_arboles, v.nombre AS fk_variedad, l.estado
+            SELECT l.codigo, l.numero_arboles, l.fk_finca, v.nombre AS fk_variedad, l.estado
             FROM lotes l
             LEFT JOIN variedades v ON l.fk_variedad = v.codigo
         `;
