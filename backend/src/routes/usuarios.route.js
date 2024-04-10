@@ -8,9 +8,9 @@ const routeUsuarios = Router()
 
 routeUsuarios.post("/registrar",  registrarUsuarios)
 
-routeUsuarios.put("/actualizar/:identificacion", validarToken,validarUsuarios, actualizarUsuarios)
+routeUsuarios.put("/actualizar/:identificacion", actualizarUsuarios)
 
-routeUsuarios.put("/desactivar/:identificacion", validarToken,desactivarUsuarios)
+routeUsuarios.put("/desactivar/:identificacion",desactivarUsuarios)
 
 routeUsuarios.get("/listar" ,listarUsuarios)
 
