@@ -6,7 +6,8 @@ import ResultadosModal from './../templates/Resultados.jsx';
 import axios from 'axios';
 import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
 import { Datatable } from '../organisms/Datatable.jsx';
-
+import { ButtonDesactivar } from '../atoms/ButtonDesactivar.jsx';
+import AccionesModal from '../organisms/ModalAcciones.jsx';
 
 export function Resultados () {
 
@@ -14,8 +15,19 @@ export function Resultados () {
     const token = localStorage.getItem('token')
 
     const [datos, setData] = useState([])
+    const [modalOpen, setModalOpen] = useState(false)
+    const [ modalAcciones, setModalAcciones ] = useState(false)
+    const [mode, setMode] = useState('create')
+    const [initialData, setInitialData ] = useState(null)
+    const [mensaje, setMensaje] = useState('')
 
     useEffect(() => {
+        
+        fetchData()
+
+    }, [token])
+
+    const fetchData = async () => {
         try {
             axios.get(baseURL, {headers: {token:token}}).then((response) => {
                 console.log(response)
@@ -24,107 +36,22 @@ export function Resultados () {
         } catch (error) {
             console.log('Error de servidor' + error)
         }
-    }, [token])
+    }
+
 
     const columns = [
         {
             name:  'Id',
-            cell: () => datos.codigo,
-            sortable: true
-        },
-        {
-            name: 'Fecha',
-            cell: () => datos.fecha,
-            sortable: true
-        },
-        {
-            name: 'Análisis',
-            cell: () => datos.analisis,
-            sortable: true
-        },
-        {
-            name: 'Variable',
-            cell: () => datos.variable,
-            sortable: true
-        },
-        {
-            name: 'Valor',
-            cell: () => datos.valor,
-            sortable: true
-        },
-        {
-            name: 'Observaciones',
-            cell: () => datos.observaciones,
-            sortable: true
-        },
-        {
-            name: 'Estado',
-            cell: () => datos.estado,
-            sortable: true
-        },
-        {
-            name: 'Acciones',
-            cell: () => <ButtonActualizar click={() => handleToggle('update')} /> 
-        }
-    ]
-
-    function handleFilter (event){
-        const newData = data.filter(row => {
-            return row.variable.toLowerCase().includes(event.target.value.toLowerCase())
-        })
-        setRecords(newData)
-    }
-
-    const [modalOpen, setModalOpen] = useState(false)
-    const [mode, setMode] = useState('create')
-
-    const handleToggle = (mode) => {
-        setMode(mode)
-        setModalOpen(true)
-        if(mode === 'update'){
-            
-        }
-    }
-
-  return (
-    
-    <div>
-        <Header title="Resultados" />
-        <div className='w-full flex flex-col justify-center items-center p-10'>
-            
-            <Buscador handler={handleFilter} />
-            <ButtonRegister click={() => handleToggle('create')} />
-            {/* <ButtonActualizar click={() => handleToggle('update')} /> */}
-            <ResultadosModal 
-                open={modalOpen} 
-                onClose={() => setModalOpen(false)} 
-                title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
-                actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                />
-
-            <Datatable columns={columns} data={datos} title={'Resultados registrados'} />
-            
-        </div>
-    </div>
-  )
-}
-
-
-    /* const [records, setRecords] = useState(data) */
-
-/* const colums = [
-        {
-            name: 'Código',
             selector: row => row.codigo,
             sortable: true
         },
         {
             name: 'Fecha',
-            selector: row => row.fecha,
+            selector: row => new Date(row.fecha).toLocaleDateString(),
             sortable: true
         },
         {
-            name: 'Analisis',
+            name: 'Análisis',
             selector: row => row.analisis,
             sortable: true
         },
@@ -134,13 +61,13 @@ export function Resultados () {
             sortable: true
         },
         {
-            name: 'Observaciones',
-            selector: row => row.observaciones,
+            name: 'Valor',
+            selector: row => row.valor,
             sortable: true
         },
         {
-            name: 'Valor',
-            selector: row => row.valor,
+            name: 'Observaciones',
+            selector: row => row.observaciones, 
             sortable: true
         },
         {
@@ -150,69 +77,114 @@ export function Resultados () {
         },
         {
             name: 'Acciones',
-            selector: row => row.acciones 
-        },
-        {
-            name: 'AccionesDe',
-            selector: row => row.accionesDe 
-        },
+            cell: row => <><ButtonActualizar click={() => handleToggle('update', row)} /> <ButtonDesactivar click={() => handleDesactivar(row.codigo) } /></> 
+        }
     ]
 
-    const data = [
-        {
-            codigo: 1,
-            fecha: "2024-02-29",
-            analisis: 1,
-            variable: "Peso (g)",
-            observaciones: "Peso adecuado",
-            valor: "30 g",
-            estado: "activo", 
-            acciones: <>
-                <ButtonActualizar link={'/resultadosactualizar'} />
-                
-                <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> ,
-                accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button>
-            </> 
-        },
-        {
-            codigo: 2,
-            fecha: "2024-02-29",
-            analisis: 1,
-            variable: "Peso (g)",
-            observaciones: "Peso adecuado",
-            valor: "30 g",
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/resultadosactualizar`}>Actualizar</Link></button> <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></div> 
-        },
-        {
-            codigo: 3,
-            fecha: "2024-02-29",
-            analisis: 1,
-            variable: "Peso (g)",
-            observaciones: "Peso adecuado",
-            valor: "30 g",
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/resultadosactualizar`}>Actualizar</Link></button> <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></div> 
-        },
-        {
-            codigo: 4,
-            fecha: "2024-02-29",
-            analisis: 1,
-            variable: "Cantidad (g)",
-            observaciones: "Peso adecuado",
-            valor: "30 g",
-            estado: "activo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/resultadosactualizar`}>Actualizar</Link></button> <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></div> 
-        },
-        {
-            codigo: 5,
-            fecha: "2024-02-29",
-            analisis: 1,
-            variable: "Peso (g)",
-            observaciones: "Peso adecuado",
-            valor: "30 g",
-            estado: "inactivo", 
-            acciones: <div><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button"><Link to={`/resultadosactualizar`}>Actualizar</Link></button> <button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></div> 
-        }
-    ] */
+    function handleFilter (event){
+        const newData = datos.filter(row => {
+            return row.valor.toLowerCase().includes(event.target.value.toLowerCase())
+        })
+        setData(newData)
+    }
 
+    const handleDesactivar = (idResultado) => {
+        
+        try {
+            axios.put(`http://localhost:3000/resultados/desactivar/${idResultado}`, null, {headers: {token: token}}).then((response) => {
+            console.log(response.data)
+            if(response.status==200){
+                setMensaje('Se desactivó con exito el resultado')
+                setModalAcciones(true)
+                fetchData()
+            }else{
+                alert('Error')
+            }
+            
+        })
+        } catch (error) {
+            alert('Error de servidor' + error)
+        }
+        
+    }
+
+    const handleSubmit = async (data, e) => {
+        e.preventDefault()
+
+        try {
+            if(mode === 'create'){
+                const baseURL = 'http://localhost:3000/resultados/registrar'
+    
+                await axios.post(baseURL, data).then((response) => {
+                    console.log(response)
+
+                    if(response.status == 200){
+                        setMensaje('Resultado registrado con éxito')
+                        setModalAcciones(true)
+                        setModalOpen(false)
+                        fetchData()
+                    }else{
+                        alert('Error de registro')
+                    }
+                    
+                })
+             } else if(mode === 'update'){
+                const updateURL = `http://localhost:3000/resultados/actualizar/${initialData.codigo}`
+
+                await axios.put(updateURL, data).then((response) => {
+                    console.log(response)
+
+                    if(response.status == 200){
+                        setMensaje('Se actualizó el resultado con éxito')
+                        setModalAcciones(true)
+                        setModalOpen(false)
+                        fetchData()
+                    }else{
+                        alert('Error de actualizar')
+                    }
+                })
+            } 
+            setModalOpen(false)
+        } catch (error) {
+            console.log('Error del servidor' + error)
+            alert('Error del servidor')
+        }
+    }
+
+    const handleToggle = (mode, initialData) => {
+        setInitialData(initialData)
+        setModalOpen(true)
+        setMode(mode)
+    }
+
+  return (
+    
+    <div>
+        <Header title="Resultados" />
+        <div className='w-full flex flex-col justify-center items-center p-10'>
+
+        <AccionesModal 
+            isOpen={modalAcciones}
+            onClose={() => setModalAcciones(false)}
+            label={mensaje}
+        />
+            
+            <Buscador handler={handleFilter} />
+            <ButtonRegister click={() => handleToggle('create')} />
+            <ResultadosModal 
+                open={modalOpen} 
+                onClose={() => setModalOpen(false)} 
+                title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
+                actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                initialData={initialData}
+                handleSubmit={handleSubmit}
+                mode={mode}
+                setModalOpen={setModalOpen}
+                />
+
+            <Datatable columns={columns} data={datos} title={'Resultados registrados'} />
+            
+        </div>
+    </div>
+  )
+}

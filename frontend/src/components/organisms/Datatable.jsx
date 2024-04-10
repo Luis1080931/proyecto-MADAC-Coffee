@@ -18,6 +18,9 @@ export const Datatable = (props) => {
         fixedHeader
         pagination
         paginationComponentOptions={paginaOpciones}
+        responsive
+        striped
+        highlightOnHover
     >
 
     </DataTable>

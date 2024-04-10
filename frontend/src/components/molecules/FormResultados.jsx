@@ -1,46 +1,47 @@
 import React, { useEffect, useRef, useState } from 'react'
-
 import axios from 'axios'
 import { Button } from '../atoms/Button'
+import AccionesModal from '../organisms/ModalAcciones.jsx'
 
+const FormResultados = ({ actionLabel, mode, initialData, handleSubmit }) => {
 
-const FormResultados = ({ actionLabel }) => {
-
-    const baseURL = 'http://localhost:3000/resultados/registrar'
     const token = localStorage.getItem('token')
-    const resultados = 'http://localhost:3000/resultados/registrar'
+    const [modalAccionesOpen, setModalAccionesOpen ] = useState(false)
 
     const fecha = useRef(null)
     const fk_analisis = useRef(null)
-    const fk_variable = useRef(null)
+    const fk_variables = useRef(null)
     const valor = useRef(null)
     const observaciones = useRef(null)
 
-    const handleSubmit = async (e) => {
+    useEffect(() => {
+        if(mode == 'update' && initialData){
+            const formatDate = initialData.fecha.substring(0,10)
+            fecha.current.value = formatDate
+            fk_analisis.current.value = initialData.fk_analisis
+            fk_variables.current.value = initialData.fk_variables
+            valor.current.value = initialData.valor
+            observaciones.current.value = initialData.observaciones
+        }
+    }, [mode, initialData])
+
+     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
 
             const data = {
-                fecha: fecha.current.value,
+                fecha: new Date(fecha.current.value),
                 fk_analisis: parseInt(fk_analisis.current.value),
-                fk_variable: parseInt(fk_variable.current.value),
+                fk_variables: parseInt(fk_variables.current.value),
                 valor: valor.current.value,
                 observaciones: observaciones.current.value
             }
+            handleSubmit(data, e)
 
-            axios.post(baseURL, {headers: {token:token}}, data).then((response) => {
-                console.log(response)
-                if(response.status == 201){
-                    alert('Resultado registrado')
-                }else{
-                    alert('Error de registro')
-                }
-            })
         } catch (error) {
             alert('Error de servidor' + error)
         }
     }
-
 
     const [analisis, setAnalisis] = useState([])
 
@@ -66,16 +67,28 @@ const FormResultados = ({ actionLabel }) => {
 
   return (
     <>
-    <form method='post' onSubmit={handleSubmit}>
-        <div className='flex flex-col ml-10 mt-10'>
+
+    <AccionesModal 
+        isOpen={modalAccionesOpen}
+        onClose={() => setModalAccionesOpen(false)}
+        label={mode === 'update' ? 'Resultado actualizado con éxito' : 'Resultado registrado con éxito'}
+    />
+
+    <form method='post' onSubmit={handleFormSubmit}>
+        <div className='flex flex-col'>
             <div className='flex flex-col'>
                 <label className='text-xl font-bold'> Fecha: </label>
-                <input className='p-2 rounded-lg w-80 h-12' name='fecha' type="date" placeholder='Ingrese la fecha' ref={fecha} />
+                <input className='p-2 rounded-lg w-80 h-12' 
+                name='fecha' 
+                type="date" 
+                placeholder='Ingrese la fecha' 
+                ref={fecha} 
+                required={true}
+                />
             </div>
             <div className='flex-col md:flex'  >
                 <label className='text-xl font-bold'> Analisis: </label>
-                <select name="" id="" className='p-2 rounded-lg w-80 h-12' ref={fk_analisis}>
-                    <option> Código del analisis </option>
+                <select name="" id="" className='p-2 rounded-lg w-80 h-12' ref={fk_analisis}  required={true} >
                     {analisis.map(anali => (
                         <option key={anali.codigo} value={anali.codigo}>
                             {anali.codigo}
@@ -85,10 +98,9 @@ const FormResultados = ({ actionLabel }) => {
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Variable: </label>
-                <select name="idvariable" id="" className='p-2 rounded-lg w-80 h-12' ref={fk_variable}>
-                    <option> Nombre variable </option>
+                <select name="idvariable" id="" className='p-2 rounded-lg w-80 h-12' ref={fk_variables} required={true} >
                     {variables.map(varia => (
-                        <option key={varia.codigo} value={varia.codigo}>
+                        <option key={varia.v_codigo} value={varia.v_codigo}>
                             {varia.nombre}
                         </option>
                     ))}
@@ -96,11 +108,26 @@ const FormResultados = ({ actionLabel }) => {
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Valor: </label>
-                <input className='p-2 rounded-lg w-80 h-12' name='valor' type="text" placeholder='Ingrese la valor' ref={valor}/>
+                <input 
+                className='p-2 rounded-lg w-80 h-12' 
+                name='valor' 
+                type="text" 
+                placeholder='Ingrese la valor' 
+                ref={valor} 
+                required={true}
+                />
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Observaciones: </label>
-                <textarea className='p-2 rounded-lg w-80' name="observaciones" id="" cols="30" rows="3" placeholder='Observaciones' ref={observaciones}></textarea>
+                <textarea 
+                className='p-2 rounded-lg w-80' 
+                name="observaciones" 
+                cols="30" 
+                rows="3" 
+                placeholder='Observaciones' 
+                ref={observaciones} 
+                required={true}
+                ></textarea>
             </div>
             <Button actionLabel={actionLabel} />
         </div>
@@ -109,24 +136,4 @@ const FormResultados = ({ actionLabel }) => {
   )
 }
 
-export default FormResultados
-
-/* const [mode, setMode] = useState('create')
-
-    const fecha = useRef(null)
-    const 
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if(mode === 'create'){
-            const baseURL = 'http://localhost:3000/resultados/registrar'
-
-            axios.post(baseURL).then((response) => {
-                console.log("Registrado con exito")
-                setModalOpen(false)
-            })
-        }else if(mode === 'update'){
-
-        }
-        setModalOpen(false)
-    } */
+export default FormResultados   

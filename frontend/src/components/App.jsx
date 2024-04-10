@@ -9,7 +9,8 @@ import { Variables } from "./pages/Variables.jsx"
 import { VistaVariedades } from "./pages/VistaVariedades.jsx"
 import { VistaAnalisis } from "./pages/VistaAnalisis.jsx"
 import { Resultados } from "./pages/Resultados.jsx"
-
+import Ejemplo from './NextUI/TableNext.jsx'
+import LoginModal from "./organisms/ModalLogin.jsx"
 
 function App() {
 
@@ -27,6 +28,8 @@ function App() {
           <Route path="/usuarios" element={<Usuarios />} />
           <Route path="/variedades" element={<VistaVariedades />} />
           <Route path="/analisis" element={<VistaAnalisis />} />
+          <Route path="/table" element={<Ejemplo />} />
+          <Route path="/modallogin" element={<LoginModal />} />
         </Routes>
 
     </BrowserRouter>
