@@ -3,9 +3,10 @@ import axios from 'axios'
 import { Button } from '../atoms/Button'
 import AccionesModal from '../organisms/ModalAcciones.jsx'
 
-const FormResultados = ({ actionLabel, mode, initialData }) => {
+const FormResultados = ({ actionLabel, mode, initialData, handleSubmit }) => {
 
     const token = localStorage.getItem('token')
+    const [modalAccionesOpen, setModalAccionesOpen ] = useState(false)
 
     const fecha = useRef(null)
     const fk_analisis = useRef(null)
@@ -23,44 +24,19 @@ const FormResultados = ({ actionLabel, mode, initialData }) => {
         }
     }, [mode, initialData])
 
-     const handleSubmit = async (e) => {
+     const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
 
             const data = {
-                fecha: Date(fecha.current.value),
+                fecha: new Date(fecha.current.value).toISOString(),
                 fk_analisis: parseInt(fk_analisis.current.value),
                 fk_variables: parseInt(fk_variables.current.value),
                 valor: valor.current.value,
                 observaciones: observaciones.current.value
             }
+            handleSubmit(data, e)
 
-            if(mode === 'create'){
-                const baseURL = 'http://localhost:3000/resultados/registrar'
-    
-                axios.post(baseURL, data).then((response) => {
-                    console.log(response)
-
-                    if(response.status == 200){
-                        setModalOpen(true)
-                    }else{
-                        alert('Error de registro')
-                    }
-                    
-                })
-             } else if(mode === 'update'){
-                const updateURL = `http://localhost:3000/resultados/actualizar/${initialData.codigo}`
-
-                axios.put(updateURL, {headers: {token:token}}, data).then((response) => {
-                    console.log(response)
-
-                    if(response.status == 200){
-                        setModalOpen(true)
-                    }else{
-                        alert('Error de actualizar')
-                    }
-                })
-            } 
         } catch (error) {
             alert('Error de servidor' + error)
         }
@@ -88,18 +64,16 @@ const FormResultados = ({ actionLabel, mode, initialData }) => {
         })
     }, [])
 
-    const [modalOpen, setModalOpen ] = useState(false)
-
   return (
     <>
 
     <AccionesModal 
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+        isOpen={modalAccionesOpen}
+        onClose={() => setModalAccionesOpen(false)}
         label={mode === 'update' ? 'Resultado actualizado con éxito' : 'Resultado registrado con éxito'}
     />
 
-    <form method='post' onSubmit={handleSubmit}>
+    <form method='post' onSubmit={handleFormSubmit}>
         <div className='flex flex-col'>
             <div className='flex flex-col'>
                 <label className='text-xl font-bold'> Fecha: </label>

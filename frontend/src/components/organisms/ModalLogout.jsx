@@ -8,7 +8,7 @@ export default function LogoutModal({ isOpen, onClose }) {
     <>
       <Modal isOpen={isOpen} onClose={onClose} placement="top-center" >
         <ModalContent>
-              <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Logout</ModalHeader>
               <ModalBody>
                 <label> ¿Estas seguro que quieres cerrar la sesión? </label>
               </ModalBody>

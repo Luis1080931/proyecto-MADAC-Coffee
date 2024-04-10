@@ -3,7 +3,7 @@ import FormResultados from '../molecules/FormResultados.jsx';
 import { Modal } from '../organisms/Modal.jsx';
 import { Logo } from '../atoms/LogoProyecto.jsx';
 
-function ResultadosModal ({ open, onClose, handleSubmit, actionLabel, title, initialData, mode,  setModalOpen}){
+function ResultadosModal ({ open, onClose, handleSubmit, actionLabel, title, initialData, mode,  setModalOpen }){
 
     return (
       <>

@@ -16,19 +16,6 @@ export const SideBarUser = ({ children }) => {
 
     const showSideBar = () => setSiderBar(!sidebar)
 
-    const menuItem = [
-        {
-            path: '/editar',
-            name: "Actualizar datos",
-            icon: <IoMdHome />
-        },
-        {
-            onClick: () => setModalOpen(true),
-            name: "Cerrar sesión",
-            icon: <MdAssignmentAdd />
-        }
-
-    ]
   return (
     <div>
         <LogoutModal 
@@ -48,16 +35,13 @@ export const SideBarUser = ({ children }) => {
                        { <FaX />}
                     </Link>
                 </li>
-                {menuItem.map((item, index) => {
-                    return(
-                        <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh hover:bg-[#469C00] rounded-lg p-2' key={index}>
-                            <Link className='flex text-white text-xl w-full h-full items-center px-4 rounded-lg' to={item.path}>
-                                {item.icon}
-                                {item.name}
-                            </Link>
-                        </li>
-                    )
-                })}
+               
+                <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh hover:bg-[#469C00] rounded-lg p-2'>
+                    <label className='flex text-white text-xl w-full h-full items-center px-4 rounded-lg' onClick={() => setModalOpen(true)}>
+                        Cerrar sesión
+                    </label>
+                </li>
+                    
             </ul>
         </nav>
         </IconContext.Provider>
