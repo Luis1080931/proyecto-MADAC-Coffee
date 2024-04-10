@@ -34,8 +34,11 @@ try {
       alert('Credenciales erroneas')
     }else{
       const {token} = response.data
+      const userData = response.data.user
+      const nombre = userData.nombre
+      alert('nombre: ' + nombre)
       localStorage.setItem('token', token)
-      navigate('/dashboard')
+      /* navigate('/dashboard') */
       alert('Logueado')
     }
   })

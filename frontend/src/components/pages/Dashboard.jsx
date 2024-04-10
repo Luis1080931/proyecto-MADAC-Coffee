@@ -33,12 +33,14 @@ export const Dashboard = () => {
   const gotoNextSlide = (id) => {
     setCurrentIndex(id)
   }
+
+  const name = localStorage.getItem('name')
   return (
     <div>
         <div className="bg-[#39A900] w-full h-20 flex items-center">
             <Sidebar />
             <h2 className="text-white text-2xl font-bold ml-auto mr-10">
-                Bienvenido Diego
+                Bienvenido {name}
             </h2>
 
             <SideBarUser />
