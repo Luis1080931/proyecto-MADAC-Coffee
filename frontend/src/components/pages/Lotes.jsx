@@ -25,17 +25,17 @@ const columns = [
         sortable:true
     },
     {
-      name:'numero_arboles',
+      name:'numero de arboles',
       selector:row=>row.numero_arboles,
       sortable:true
     },
     {
-      name:'fk_finca',
+      name:'finca',
       selector:row=>row.fk_finca,
       sortable:true
     },
     {
-        name:'fk_variedad',
+        name:'variedad',
         selector:row=>row.fk_variedad,
         sortable:true
     },

@@ -28,12 +28,12 @@ const columns = [
         sortable:true
     },
     {
-        name:'dimension_mt2',
+        name:'dimension en mt2',
         selector:row=>row.dimension_mt2,
         sortable:true
     },
     {
-       name:'fk_caficultor',
+       name:'caficultor',
        selector:row=>row.fk_caficultor,
        sortable:true
     },
