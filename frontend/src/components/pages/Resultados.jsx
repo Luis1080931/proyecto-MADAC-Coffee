@@ -47,7 +47,7 @@ export function Resultados () {
         },
         {
             name: 'Fecha',
-            selector: row => row.fecha,
+            selector: row => new Date(row.fecha).toLocaleDateString(),
             sortable: true
         },
         {
@@ -131,7 +131,7 @@ export function Resultados () {
              } else if(mode === 'update'){
                 const updateURL = `http://localhost:3000/resultados/actualizar/${initialData.codigo}`
 
-                await axios.put(updateURL, data, {headers: {token:token}}).then((response) => {
+                await axios.put(updateURL, data).then((response) => {
                     console.log(response)
 
                     if(response.status == 200){

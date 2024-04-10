@@ -16,9 +16,10 @@ const FormResultados = ({ actionLabel, mode, initialData, handleSubmit }) => {
 
     useEffect(() => {
         if(mode == 'update' && initialData){
-            fecha.current.value = initialData.fecha
+            const formatDate = initialData.fecha.substring(0,10)
+            fecha.current.value = formatDate
             fk_analisis.current.value = initialData.fk_analisis
-            fk_variables.current.value = initialData.fk_variable
+            fk_variables.current.value = initialData.fk_variables
             valor.current.value = initialData.valor
             observaciones.current.value = initialData.observaciones
         }
@@ -29,7 +30,7 @@ const FormResultados = ({ actionLabel, mode, initialData, handleSubmit }) => {
         try {
 
             const data = {
-                fecha: new Date(fecha.current.value).toISOString(),
+                fecha: new Date(fecha.current.value),
                 fk_analisis: parseInt(fk_analisis.current.value),
                 fk_variables: parseInt(fk_variables.current.value),
                 valor: valor.current.value,
@@ -99,7 +100,7 @@ const FormResultados = ({ actionLabel, mode, initialData, handleSubmit }) => {
                 <label className='text-xl font-bold'> Variable: </label>
                 <select name="idvariable" id="" className='p-2 rounded-lg w-80 h-12' ref={fk_variables} required={true} >
                     {variables.map(varia => (
-                        <option key={varia.codigo} value={varia.v_codigo}>
+                        <option key={varia.v_codigo} value={varia.v_codigo}>
                             {varia.nombre}
                         </option>
                     ))}
