@@ -141,6 +141,8 @@ export function Usuarios() {
                 await axios.post(baseURL, formData, { headers: { token: token } });
                 alert('Usuario registrado exitosamente');
                 fetchData();
+                setModalOpen(false);
+
             } else if (mode === 'update' && selectedUser) {
                 await actualizar(selectedUser.identificacion, formData);
             }
