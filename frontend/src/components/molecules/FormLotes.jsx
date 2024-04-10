@@ -3,11 +3,12 @@ import { HeaderRegis } from '../molecules/HeaderRegis.jsx';
 import LogoSena from '../../assets/Logosimbolo-SENA-PRINCIPAL.png';
 import LogoProyecto from '../../assets/logoProyeccto-removebg.png';
 import axios from 'axios';
+import { Button } from '../atoms/Button.jsx';
 
 const baseURL = "http://localhost:3000/lotes/registrar";
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZGVudGlmaWNhY2lvbiI6MTAyOTg4MDMwNiwibm9tYnJlIjoiU2VyZ2lvIENvcG8iLCJ0ZWxlZm9ubyI6IjMyMjc1ODIzODIiLCJ0aXBvX3VzdWFyaW8iOiJjYWZpY3VsdG9yIiwiZXN0YWRvIjoiYWN0aXZvIn1dLCJpYXQiOjE3MTI2MzEyODQsImV4cCI6MTcxMjcxNzY4NH0.LmEiQ1EE5YtOI-Km3a_KHO1ib9aSw0BUboBnuZV35xw";
 
-export const FormLotes = () => {
+export const FormLotes = ({ actionLabel }) => {
     const numero_arboles = useRef(null);
     const fk_finca = useRef(null);
     const fk_variedad = useRef(null);
@@ -51,12 +52,8 @@ export const FormLotes = () => {
                             <label className='text-xl font-bold'> Variedad: </label>
                             <input className='p-2 rounded-lg w-80 h-12' id='fk_variedad' type="number" name='fk_variedad' placeholder='Ingrese la variedad' ref={fk_variedad} />
                         </div>
-                        <div className='flex flex-col m-5 justify-center items-center'>
-                            <button className='bg-[#39A900] w-32 p-2 rounded-lg text-white font-bold text-xl' type="submit">Registrar</button>
-                        </div>
+                        <Button actionLabel={actionLabel}/>
                     </form>
                 </div>
-           
-       
     );
 };    

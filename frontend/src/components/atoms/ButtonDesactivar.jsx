@@ -1,12 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { RiDeleteBin5Fill } from 'react-icons/ri';
 
 export const ButtonDesactivar = (props) => {
   return (
-    <Link to={props.link}>
-      <button className='bg-[#ff0000] p-2 rounded-lg text-sm font-bold' type="button">
-        Desactivar
-      </button> 
-    </Link>
-  )
-}
+    <RiDeleteBin5Fill className='cursor-pointer text-2xl text-[#ED6158]' onClick={props.click} />
+  )}

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Header } from '../molecules/Header.jsx';
 import { FaSistrix } from 'react-icons/fa';
 import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
+import { ButtonDesactivar } from '../atoms/ButtonDesactivar.jsx';
+import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
 import FincasModal from '../templates/Fincas.jsx'; 
 import DataTable from 'react-data-table-component'
 import axios from 'axios';
@@ -14,7 +16,6 @@ export function Fincas() {
     const [data,setData]=useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [mode, setMode] = useState('create');
-    const [initialData,setInitialData] = useState(null);
     const [selectedFincas,setSelectedFincas]=useState(null);
 
     useEffect(()=>{
@@ -54,27 +55,14 @@ const columns = [
     },
     {
         name:'Acciones',
-        cell:row=>(
-            <button
-            className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' 
-            type="button" 
-            onClick={() => handleToggle('update', row)}
-            >
-            Actualizar
-            </button>
-        )
-    },
-    {
-        name: 'AccionesDesactivar',
-        cell: row => (
-            <button 
-                className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' 
-                type="button" 
-                onClick={() => handleUpdate(row.codigo)}
-            >
-                Desactivar
-            </button>
-        )
+        cell:row=><> 
+        <ButtonActualizar
+        click={()=>handleToggle('update',row)}
+        /> 
+        <ButtonDesactivar
+        click={()=>handleUpdate(row.codigo)}
+        />
+        </>
     }
 ];
 
@@ -127,10 +115,10 @@ const baseUrl = 'http://localhost:3000/fincas/listar';
             alert('Error al actualizar usuario');
         }
     };
-    const handleToggle = (mode,initialData) => {
-        setInitialData(initialData);
-        setModalOpen(true);
+    const handleToggle = (mode, selectedFincas) => {
+        setSelectedFincas(selectedFincas);
         setMode(mode);
+        setModalOpen(true);
     };
 
     const handleSubmit=async(formData,e)=>{

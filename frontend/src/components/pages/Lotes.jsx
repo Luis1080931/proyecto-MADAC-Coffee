@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Header } from './../molecules/Header.jsx'
 import { FaSistrix } from 'react-icons/fa6';
+import {ButtonActualizar} from '../atoms/ButtonActualizar.jsx'
+import {ButtonDesactivar} from '../atoms/ButtonDesactivar.jsx'
 import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
 import LotesModal from '../templates/Lotes.jsx';
 import DataTable from 'react-data-table-component'
 import axios from 'axios';
 
 export function Lotes () {
+    const baseUrl='http://localhost:3000/lotes/listar';
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZGVudGlmaWNhY2lvbiI6MTAyOTg4MDMwNiwibm9tYnJlIjoiU2VyZ2lvIENvcG8iLCJ0ZWxlZm9ubyI6IjMyMjc1ODIzODIiLCJ0aXBvX3VzdWFyaW8iOiJjYWZpY3VsdG9yIiwiZXN0YWRvIjoiYWN0aXZvIn1dLCJpYXQiOjE3MTI2MzEyODQsImV4cCI6MTcxMjcxNzY4NH0.LmEiQ1EE5YtOI-Km3a_KHO1ib9aSw0BUboBnuZV35xw";
     const [originalData,setOriginalData] =useState([])
     const [filteredData,setFilteredData]=useState([]);
     const [data,setData]=useState([]);
@@ -14,9 +18,11 @@ export function Lotes () {
     const [mode, setMode] = useState('create');
     const [selectedLotes, setSelectedLotes] = useState(null)
 
+
     useEffect(()=>{
         peticionGet()
     },[]);
+
 
 const columns = [
     {
@@ -46,31 +52,17 @@ const columns = [
     },
     {
         name:'Acciones',
-        cell:row=>( 
-            <button
-            className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' 
-            type='button'
-            onClick={()=>handleToggle('update',row)}
-            >
-            Actualizar
-            </button>
-        )
-    },
-    {
-        name:'AccionesDesactivar',
-        cell:row=>( 
-            <button
-            className='bg-red-500 p-2 rounded-lg text-sm font-bold' 
-            type='button'
-            onClick={()=>handleUpdate(row.codigo)}
-            >
-            Desactivar
-            </button>
-        )    
+        cell:row=><> 
+        <ButtonActualizar
+        click={()=>handleToggle('update',row)}
+        /> 
+        <ButtonDesactivar
+        click={()=>handleUpdate(row.codigo)}
+        />
+        </>
+          
     }  
 ];
-const baseUrl='http://localhost:3000/lotes/listar';
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZGVudGlmaWNhY2lvbiI6MTAyOTg4MDMwNiwibm9tYnJlIjoiU2VyZ2lvIENvcG8iLCJ0ZWxlZm9ubyI6IjMyMjc1ODIzODIiLCJ0aXBvX3VzdWFyaW8iOiJjYWZpY3VsdG9yIiwiZXN0YWRvIjoiYWN0aXZvIn1dLCJpYXQiOjE3MTI2MzEyODQsImV4cCI6MTcxMjcxNzY4NH0.LmEiQ1EE5YtOI-Km3a_KHO1ib9aSw0BUboBnuZV35xw";
 const peticionGet = async () => {
     try {
         const response = await axios.get(baseUrl, {
@@ -116,9 +108,9 @@ const peticionGet = async () => {
             alert('Error al actualizar usuario');
         }
     };
-    const handleToggle = (mode, lotes) => {
+    const handleToggle = (mode, selectedLotes) => {
         setMode(mode);
-        setSelectedLotes(lotes);
+        setSelectedLotes(selectedLotes);
         setModalOpen(true);
     };
     const handleSubmit=async(formData,e)=>{
@@ -130,7 +122,6 @@ const peticionGet = async () => {
                 alert('Usuario registrado exitosamente');
                 fetchData();
                 setModalOpen(false);
-
             } else if (mode === 'update' && selectedLotes) {
                 await actualizar(selectedLotes.identificacion, formData);
             }
@@ -150,7 +141,7 @@ const peticionGet = async () => {
                             <FaSistrix size={25} style={{ marginRight: 10 }} />
                         </div>
                     </div>
-                    <ButtonRegister  click={() => handleToggle('create')} />
+                    <ButtonRegister   click={() => handleToggle('create')} />
                     <LotesModal
                         open={modalOpen}
                         onClose={() => setModalOpen(false)}
