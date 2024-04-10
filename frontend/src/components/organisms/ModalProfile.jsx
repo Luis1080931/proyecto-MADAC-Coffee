@@ -3,22 +3,40 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDis
 import {MailIcon} from './../atoms/IconEmail.jsx';
 import {LockIcon} from './../atoms/LockIcon.jsx';
 
-export default function LoginModal() {
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+export default function ProfileModal({ isOpen, onClose }) {
 
   return (
     <>
-      <Button onPress={onOpen} color="primary">Open Modal</Button>
-      <Modal 
-        isOpen={isOpen} 
-        onOpenChange={onOpenChange}
-        placement="top-center"
-      >
+      <Modal isOpen={isOpen} onClose={onClose} placement="top-center" >
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Perfil del usuario</ModalHeader>
               <ModalBody>
+                <Input 
+                  autoFocus
+                  label='Identificacion'
+                  placeholder="Numero de identificacion"
+                  variant="bordered"
+                />
+                <Input 
+                    autoFocus
+                    label='Nombre del usuario'
+                    placeholder='Nombre del usuario'
+                    variant='bordered'
+                />
+                <Input 
+                    autoFocus
+                    label='Telefono del usuario'
+                    placeholder="Numero de telefono"
+                    variant='bordered'
+                />
+                <Input 
+                    autoFocus
+                    label='Rol del usuario'
+                    placeholder="Administrador o Usuario común"
+                    variant='bordered'
+                />
                 <Input
                   autoFocus
                   endContent={
@@ -37,25 +55,13 @@ export default function LoginModal() {
                   type="password"
                   variant="bordered"
                 />
-                <div className="flex py-2 px-1 justify-between">
-                  <Checkbox
-                    classNames={{
-                      label: "text-small",
-                    }}
-                  >
-                    Remember me
-                  </Checkbox>
-                  <Link color="primary" href="#" size="sm">
-                    Forgot password?
-                  </Link>
-                </div>
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Close
                 </Button>
                 <Button color="primary" onPress={onClose}>
-                  Sign in
+                  Actualizar
                 </Button>
               </ModalFooter>
             </>
