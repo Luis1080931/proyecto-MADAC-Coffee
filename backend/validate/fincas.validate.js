@@ -10,6 +10,6 @@ check('vereda','no dijitaste ningun dato valido en el campo de vereda').not().is
 export const validarActFincas=[
     check('dimension_mt2', 'no dijitaste ningun dato valido en el campo de dimension').not().isEmpty().isFloat(),
     check('fk_caficultor','no dijitaste ningun dato valido en el campo de caficultor').not().isEmpty().isNumeric(),
-    check('municipio','no dijitaste ningun dato valido en el campo de municipio').not().isEmpty().isString(),
+    check('municipio','no dijitaste ningun dato valido en el campo de municipio').not().isEmpty().isNumeric(),
     check('vereda','no dijitaste ningun dato valido en el campo de vereda').not().isEmpty().isString()
 ]

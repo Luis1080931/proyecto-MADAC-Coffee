@@ -24,9 +24,6 @@ export const getFincas = async (req, res) => {
     }
 };
 
-
-
-
 export const getFinca = async (req,res)=>{
     try{
         const [rows]=await pool.query('SELECT * FROM fincas WHERE codigo=?',[req.params.codigo])
