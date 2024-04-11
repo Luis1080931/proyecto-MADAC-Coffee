@@ -16,6 +16,8 @@ export const VistaVariedades = () => {
     const [page, setPage] = useState(1);
     const [filterValue, setFilterValue] = useState('');
 
+    const token = localStorage.getItem('token');
+
     const cambiarEstado = async (id) => {
 
         await axios.put(`http://localhost:3000/variedades/desactivar/${id}`).then((response) => {
@@ -29,7 +31,7 @@ export const VistaVariedades = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, {headers: {token: token}});
             console.log("variedades", response.data)
             setData(response.data);
             setFilteredData(response.data);
