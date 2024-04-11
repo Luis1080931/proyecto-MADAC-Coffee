@@ -7,7 +7,4 @@ export const validarVariedades =
         .not().isEmpty()
         .isLength({ max: 50 }),
 
-
-    check('estado', 'Seleccione un estado')
-    .not().isEmpty()
 ]

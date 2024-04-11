@@ -2,7 +2,7 @@ import { useState } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 
-import { VistaAnalisis } from './pages/VistaAnalisis.jsx';
+import  VistaAnalisis  from './pages/VistaAnalisis.jsx';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AnalisisRegistrar } from './pages/AnalisisRegistrar.jsx';
 import { AnalisisActualizar } from './pages/AnalisisActualizar.jsx';
@@ -25,7 +25,7 @@ function App() {
       <Route path='/analisisactualizar' element={<AnalisisActualizar/>} /> */}
 
       
-    <Route path='/' element={<VistaVariedades/>} />
+    <Route path='/variedades' element={<VistaVariedades/>} />
     <Route path='/analisis' element={<VistaAnalisis/>} />
       <Route path='/variedadesregistrar' element={<VariedadesRegistrar/>} />
       {/* <Route path='/variedadesactualizar' element={<VariedadesActualizar/>} /> */}

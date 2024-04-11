@@ -1,21 +1,28 @@
 import { query } from "express"
 import { pool } from '../database/conexion.js'
-import { validationAnalisis } from "express-validator"
+import { validationResult } from "express-validator"
 
 
 
+// Usa validationResult según sea necesario en tu código
+
+/*
+    * X Registrar // POST
+    * X Editar // PUT
+    * X Desactivar // POST
+*/
 
 //Registrar
 export const registrarAnalisis = async (req, res) => {
     try {
 
-        const errors = validationAnalisis(req)
+        const errors = validationResult(req)
         if(!errors.isEmpty()){
             return res.status(403).json(errors)
         }
 
-        const { fecha, analista, fk_muestra, fk_tipo_analisis, estado } = req.body
-        const [ resultado ] = await pool.query("INSERT INTO analisis(fecha, fk_analista, fk_muestra, fk_tipo_analisis, estado) VALUES (?, ?, ?, ?, ?)", [fecha, analista, fk_muestra, fk_tipo_analisis, estado])
+        const { fecha, analista, fk_muestra, fk_tipo_analisis } = req.body
+        const [ resultado ] = await pool.query("INSERT INTO analisis(fecha, analista, fk_muestra, fk_tipo_analisis) VALUES (?, ?, ?, ?)", [fecha, analista, fk_muestra, fk_tipo_analisis])
 
         // 0 = No afecto nada
         // 1, 2, 3 = Que hizo algo en la base de datos
@@ -40,15 +47,15 @@ export const registrarAnalisis = async (req, res) => {
 export const actualizarAnalisis = async (req, res) => {
     try {
 
-        const errors = validationAnalisis(req)
+        const errors = validationResult(req)
         if(!errors.isEmpty()){
             return res.status(403).json(errors)
         }
 
         const { codigo } = req.params
-        const { fecha, fk_analista, fk_muestra, fk_tipo_analisis, estado } = req.body
+        const { fecha, analista, fk_muestra, fk_tipo_analisis, estado } = req.body
         
-        const[resultado] = await pool.query(`UPDATE analisis SET fecha=IFNULL(?,fecha), fk_analista=IFNULL(?,fk_analista), fk_muestra=IFNULL(?,fk_muestra), fk_tipo_analisis=IFNULL(?,fk_tipo_analisis), estado=IFNULL(?,estado) WHERE codigo= ?`,[fecha, fk_analista, fk_muestra, fk_tipo_analisis, estado, codigo]);
+        const[resultado] = await pool.query(`UPDATE analisis SET fecha=IFNULL(?,fecha), analista=IFNULL(?,analista), fk_muestra=IFNULL(?,fk_muestra), fk_tipo_analisis=IFNULL(?,fk_tipo_analisis), estado=IFNULL(?,estado) WHERE codigo= ?`,[fecha, analista, fk_muestra, fk_tipo_analisis, estado, codigo]);
 
         if (resultado.affectedRows > 0) {
             res.status(201).json({
@@ -68,35 +75,81 @@ export const actualizarAnalisis = async (req, res) => {
 }
 
 //Desactivar
+// export const desactivarAnalisis = async (req, res) => {
+//     try {
+//         const { codigo } = req.params
+//         const [ resultado ] = await pool.query("update analisis set estado='inactivo' where codigo=?", [codigo])
+
+//         if (resultado.affectedRows > 0) {
+//             res.status(201).json({
+//                 "mensaje": "Analisis desactivado con exito!"
+//             })
+//         } else {
+//             res.status(403).json({
+//                 "mensaje": "No se pudo desactivar el analisis"
+//             })
+//         }
+
+//     } catch (error) {
+//         res.status(500).json({
+//             "mensaje": error
+//         })
+//     }
+// }
+
 export const desactivarAnalisis = async (req, res) => {
     try {
-        const { codigo } = req.params
-        const [ resultado ] = await pool.query("update analisis set estado='inactivo' where codigo=?", [codigo])
+        const { codigo } = req.params;
+
+        // Obtener el estado actual del análisis
+        const [analisis] = await pool.query("SELECT estado FROM analisis WHERE codigo = ?", [codigo]);
+
+        // Verificar si el análisis existe
+        if (analisis.length === 0) {
+            return res.status(404).json({
+                "mensaje": "El análisis no existe"
+            });
+        }
+
+        const estadoActual = analisis[0].estado;
+
+        // Determinar la acción a realizar según el estado actual
+        let nuevaEstado = '';
+        if (estadoActual === 'activo') {
+            nuevaEstado = 'inactivo';
+        } else if (estadoActual === 'inactivo') {
+            nuevaEstado = 'activo';
+        }
+
+        // Cambiar el estado del análisis
+        const [resultado] = await pool.query("UPDATE analisis SET estado = ? WHERE codigo = ?", [nuevaEstado, codigo]);
 
         if (resultado.affectedRows > 0) {
-            res.status(201).json({
-                "mensaje": "Analisis desactivado con exito!"
-            })
+            res.status(200).json({
+                "mensaje": `El análisis ha sido ${nuevaEstado === 'activo' ? 'activado' : 'desactivado'} exitosamente`
+            });
         } else {
             res.status(403).json({
-                "mensaje": "No se pudo desactivar el analisis"
-            })
+                "mensaje": "No se pudo cambiar el estado del análisis"
+            });
         }
 
     } catch (error) {
         res.status(500).json({
-            "mensaje": error
-        })
+            "mensaje": error.message || "Ocurrió un error interno"
+        });
     }
 }
+
+
 //Listar
 export const listarAnalisis=async(req,res)=>{
     try {
 
-        const [analisis] = await pool.query("SELECT a.codigo, a.fecha, a.fk_muestra, a.estado, u.nombre as nombre_analista, u.tipo_usuario as tipo_analista, t.tipo_analisis FROM analisis a JOIN usuarios u ON a.analista = u.identificacion JOIN tipo_analisis t ON a.fk_tipo_analisis = t.id")
+        const [analisis] = await pool.query("SELECT * FROM analisis")
 
         if (analisis.length>0) {
-            res.status(200).json({analisis})
+            res.status(200).json(analisis)
         } else {
         res.status(404).json({
             "mensaje":"No hay analisis registrados"

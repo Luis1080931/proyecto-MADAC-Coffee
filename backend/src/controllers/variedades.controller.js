@@ -1,18 +1,18 @@
 import { query } from "express"
 import { pool } from '../database/conexion.js'
-import { validationVariedades } from "express-validator"
+import { validationResult } from "express-validator"
 
 //Registrar
 export const registrarVariedades = async (req, res) => {
     try {
 
-        const errors = validationVariedades(req)
+        const errors = validationResult(req)
         if(!errors.isEmpty()){
             return res.status(403).json(errors)
         }
 
-        const { nombre, estado } = req.body
-        const [ resultado ] = await pool.query("INSERT INTO variedades(nombre, estado) VALUES (?, ?)", [nombre, estado])
+        const { nombre } = req.body
+        const [ resultado ] = await pool.query("INSERT INTO variedades(nombre) VALUES (?)", [nombre])
 
         
         if (resultado.affectedRows > 0) {
@@ -35,7 +35,7 @@ export const registrarVariedades = async (req, res) => {
 export const actualizarVariedades = async (req, res) => {
     try {
 
-        const errors = validationVariedades(req)
+        const errors = validationResult(req)
         if(!errors.isEmpty()){
             return res.status(403).json(errors)
         }
@@ -66,27 +66,73 @@ export const actualizarVariedades = async (req, res) => {
 }
 
 //Desactivar
+// export const desactivarVariedades = async (req, res) => {
+//     try {
+//         const { codigo } = req.params
+//         const [ resultado ] = await pool.query("update variedades set estado='inactivo' where codigo=?", [codigo])
+
+//         if (resultado.affectedRows > 0) {
+//             res.status(201).json({
+//                 "mensaje": "Variedad desactivada con exito"
+//             })
+//         } else {
+//             res.status(403).json({
+//                 "mensaje": "No se pudo desactivar la variedad"
+//             })
+//         }
+
+//     } catch (error) {
+//         res.status(500).json({
+//             "mensaje": error
+//         })
+//     }
+// }
+
+
 export const desactivarVariedades = async (req, res) => {
     try {
-        const { codigo } = req.params
-        const [ resultado ] = await pool.query("update variedades set estado='inactivo' where codigo=?", [codigo])
+        const { codigo } = req.params;
+
+        // Obtener el estado actual de la variedad
+        const [variedad] = await pool.query("SELECT estado FROM variedades WHERE codigo = ?", [codigo]);
+
+        // Verificar si la variedad existe
+        if (variedad.length === 0) {
+            return res.status(404).json({
+                "mensaje": "La variedad no existe"
+            });
+        }
+
+        const estadoActual = variedad[0].estado;
+
+        // Determinar la acción a realizar según el estado actual
+        let nuevaEstado = '';
+        if (estadoActual === 'activo') {
+            nuevaEstado = 'inactivo';
+        } else if (estadoActual === 'inactivo') {
+            nuevaEstado = 'activo';
+        }
+
+        // Cambiar el estado de la variedad
+        const [resultado] = await pool.query("UPDATE variedades SET estado = ? WHERE codigo = ?", [nuevaEstado, codigo]);
 
         if (resultado.affectedRows > 0) {
-            res.status(201).json({
-                "mensaje": "Variedad desactivada con exito"
-            })
+            res.status(200).json({
+                "mensaje": `La variedad ha sido ${nuevaEstado === 'activo' ? 'activada' : 'desactivada'} exitosamente`
+            });
         } else {
             res.status(403).json({
-                "mensaje": "No se pudo desactivar la variedad"
-            })
+                "mensaje": "No se pudo cambiar el estado de la variedad"
+            });
         }
 
     } catch (error) {
         res.status(500).json({
-            "mensaje": error
-        })
+            "mensaje": error.message || "Ocurrió un error interno"
+        });
     }
 }
+
 
 // Listar
 export const listarVariedades=async(req,res)=>{
@@ -95,7 +141,7 @@ export const listarVariedades=async(req,res)=>{
         const [variedades] = await pool.query("SELECT * FROM variedades")
 
         if (variedades.length>0) {
-            res.status(200).json({variedades})
+            res.status(200).json(variedades)
         } else {
         res.status(404).json({
             "mensaje":"No hay variedades registradas"
