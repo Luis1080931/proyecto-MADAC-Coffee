@@ -7,7 +7,6 @@ export const registrarAnalisis = async (req, res) => {
     try {
 
         const errors = validationResult(req)
-        const errors = validationResult(req)
         if(!errors.isEmpty()){
             return res.status(403).json(errors)
         }
@@ -138,7 +137,6 @@ export const listarAnalisis = async (req,res) => {
         const [analisis] = await pool.query(`SELECT codigo, fecha, nombre AS analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id`)
 
         if (analisis.length>0) {
-            res.status(200).json(analisis)
             res.status(200).json(analisis)
         } else {
         res.status(404).json({
