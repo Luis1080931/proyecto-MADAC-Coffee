@@ -66,7 +66,10 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser }) => {
                     </div>
                     <div className='flex-col md:flex'>
                         <label className='text-xl font-bold'> Tipo de Usuario: </label>
-                        <input className='p-2 rounded-lg w-80 h-12' name='tipo_usuario' id='tipo_usuario' type="text" placeholder='Ingrese el tipo de usuario' ref={tipoUsuarioRef} />
+                        <select className='p-2 rounded-lg w-80 h-12' name='tipo_usuario' id='tipo_usuario' type="text" placeholder='Ingrese el tipo de usuario' ref={tipoUsuarioRef}>
+                            <option value="catador"> Catador </option>
+                            <option value="caficultor"> Caficultor </option>
+                        </select>
                     </div>
                     <Button actionLabel={actionLabel} />
                 </div>
