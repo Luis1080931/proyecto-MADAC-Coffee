@@ -12,6 +12,7 @@ import rutaValidacion from "./src/routes/seguridad.route.js";
 import cors from 'cors'
 
 
+
 const servidor = express()
 
 servidor.use(cors())

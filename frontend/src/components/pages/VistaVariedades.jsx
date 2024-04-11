@@ -1,119 +1,158 @@
-import React, { useState } from 'react'
-import DataTable from 'react-data-table-component'
-import { FaSistrix } from "react-icons/fa6";
-import { Link } from 'react-router-dom';
-import { Header } from '../molecules/Header';
-import VariedadesModal from './../templates/Variedades.jsx';
-import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
-import Buscador from '../atoms/Buscador.jsx';
+import React, { useEffect, useState } from 'react';
+import Sidebar2 from '../organisms/Sidebar2';
+import Navbar2 from '../organisms/Navbar2';
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination, Input, Button, Switch } from "@nextui-org/react";
+import axios from 'axios';
+import { ModalRegistrarAnalisis } from '../NextUIMaria/ModalRegistrarAnalisis';
+import { ModalActualizarAnalisis } from '../NextUIMaria/ModalActualizarAnalisis';
+import { ModalRegistrarVariedades } from '../NextUIMaria/ModalRegistrarVariedades';
+import { ModalActualizarVariedades } from '../NextUIMaria/ModalActualizarVariedades';
 
 
+export const VistaVariedades = () => {
+    const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [page, setPage] = useState(1);
+    const [filterValue, setFilterValue] = useState('');
 
-export function VistaVariedades () {
-    const [modalOpen, setModalOpen] = useState(false)
-    const [mode, setMode] = useState('create')
+    const cambiarEstado = async (id) => {
 
-    const handleToggle = (mode) => {
-        setMode(mode)
-        setModalOpen(true)
-        if(mode === 'update'){
-            
-        }
-    }
+        await axios.put(`http://localhost:3000/variedades/desactivar/${id}`).then((response) => {
 
-    
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if(mode === 'create'){
-            const baseURL = 'http://localhost:3000/resultados/registrar'
-
-            axios.post(baseURL).then((response) => {
-                console.log("Registrado con exito")
-                setModalOpen(false)
-            })
-        }else if(mode === 'update'){
-
-        }
-        setModalOpen(false)
-    }
-    const colums = [
-       
-        {
-            name: 'Nombre',
-            selector: row => row.nombre,
-            sortable: true
-        },
-
-        {
-            name: 'Estado',
-            selector: row => row.estado,
-            sortable: true
-        },
-        {
-            name: 'Acciones',
-            selector: row => row.acciones 
-        },
-        {
-            name: '',
-            selector: row => row.accionesDe 
-        },
-    ]
-
-    const data = [
-        {
-           
-            nombre: "Borbon rosado",
-            estado: "Activo", 
-            acciones: <><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button" onClick={() => handleToggle('update')}>Actualizar</button> </> ,
-            accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> 
-        }
-        
-    ]
-
-    const paginaOpciones={
-        rowsPerPageText: 'Filas por página',
-        rangeSeparatorText: 'de',
-        selectAllRowsItem: true,
-        selectAllRowsText: 'Todos'
-    }
-
-    const [records, setRecords] = useState(data)
-    
-    function handleFilter (event){
-        const newData = data.filter(row => {
-            return row.variable.toLowerCase().includes(event.target.value.toLowerCase())
+            console.log(response.data)
+            fetchData()
         })
-        setRecords(newData)
     }
-  return (
-    
-    <div>
-        <Header title="Variedades" />
-        <div className='w-full flex flex-col justify-center items-center p-10'>
-            
-            <Buscador handler={handleFilter} />
-            <ButtonRegister click={() => handleToggle('create')} />
-            <VariedadesModal 
-                open={modalOpen} 
-                onClose={() => setModalOpen(false)} 
-                handleSubmit={handleSubmit}
-                title={mode === 'create' ? 'Registrar variables' : 'Actualizar variables'}
-                actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                />
+
+    const url = 'http://localhost:3000/variedades/listar';
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(url);
+            console.log("variedades", response.data)
+            setData(response.data);
+            setFilteredData(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const onSearchChange = (value) => {
+        setFilterValue(value);
+        setPage(1); // Reset page number when changing search filter
+        filterData(value);
+    };
+
+    const onPageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
+
+    const onRowsPerPageChange = (e) => {
+        setRowsPerPage(Number(e.target.value));
+        setPage(1); // Reset page number when changing rows per page
+    };
+
+    const filterData = (value) => {
+        const filtered = data.filter(item =>
+            Object.values(item).some(val =>
+                typeof val === 'string' && val.toLowerCase().includes(value.toLowerCase())
+            )
+        );
+        setFilteredData(filtered);
+    };
+
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const paginatedData = filteredData.slice(start, end);
+
+    const columns = [
+        { key: "id", label: "ID" },
+        { key: "nombre", label: "NOMBRE" },
+        { key: "codigo", label: "CODIGO" },
+        { key: "estado", label: "ESTADO" },
+        { key: "acciones", label: "ACCIONES" },
+    ];
+
+    return (
+        <div className='bg-gray-100 w-full h-screen flex'>
+            <Sidebar2 />
+            <div className='w-full flex flex-col overflow-auto'>
+                <div className='h-16'>
+                    <Navbar2 />
+                </div>
+
+                <div className='p-8 border w-full overflow-y-auto' style={{ height: 'calc(100vh - 16px)' }}>
+                    <div className='flex justify-start gap-3 my-10'>
+                        <Input
+                            isClearable
+                            className="w-full sm:max-w-[44%]"
+                            placeholder="Search..."
+                            // startContent={<SearchIcon />}
+                            value={filterValue}
+                            onClear={() => onSearchChange('')}
+                            onValueChange={onSearchChange}
+                        />
+                        <select
+                            className='rounded-lg'
+                            value={rowsPerPage}
+                            onChange={onRowsPerPageChange}
+                        >
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <ModalRegistrarVariedades fetchData={fetchData} />
+                    </div>
+
+                    <Table aria-label="Example table with dynamic content">
+                        <TableHeader columns={columns}>
+                            {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+                        </TableHeader>
+                        <TableBody>
+                            {paginatedData.map((item, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{index}</TableCell>
+                                    <TableCell>{item.nombre}</TableCell>
+                                    <TableCell>{item.codigo}</TableCell>
+                                    <TableCell><div className='w-14 inline-block'>
+                                        {item.estado}
+                                    </div>
+                                        <Switch
+                                            defaultSelected={item.estado === 'activo'}
+                                            color="success"
+                                            onChange={() => cambiarEstado(item.codigo)}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                       
+                                        <ModalActualizarVariedades item={item} fetchData={fetchData} />
+                                        {/* Add more actions as needed */}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    <Pagination
+
+                        className='my-4'
+                        showControls
+                        page={page}
+                        total={filteredData.length}
+                        onChange={onPageChange}
+                    />
+
+                </div>
+            </div>
 
 
-            <DataTable
-                columns={colums}
-                data={records}
-                title="Variedades registradas"
-                fixedHeader
-                pagination
-                paginationComponentOptions={paginaOpciones}
-            >
-
-            </DataTable>
         </div>
-    </div>
-  )
+    )
 }
