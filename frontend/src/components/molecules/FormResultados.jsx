@@ -88,7 +88,7 @@ const FormResultados = ({ actionLabel, mode, initialData, handleSubmit }) => {
             </div>
             <div className='flex-col md:flex'  >
                 <label className='text-xl font-bold'> Analisis: </label>
-                <select name="" id="" className='p-2 rounded-lg w-80 h-12' ref={fk_analisis}  required={true} >
+                <select name="" id="" className='p-2 rounded-lg w-80 h-12' ref={fk_analisis} required={true} >
                     {analisis.map(anali => (
                         <option key={anali.codigo} value={anali.codigo}>
                             {anali.codigo}

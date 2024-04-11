@@ -180,7 +180,7 @@ export function Resultados () {
                 handleSubmit={handleSubmit}
                 mode={mode}
                 setModalOpen={setModalOpen}
-                />
+            />
 
             <Datatable columns={columns} data={datos} title={'Resultados registrados'} />
             
