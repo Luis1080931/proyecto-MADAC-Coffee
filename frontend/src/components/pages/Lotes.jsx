@@ -28,7 +28,7 @@ export function Lotes () {
 
     },[token]);
 
-    //PETICION GET PARA TRAER LOS DATOS REGISTRADOS
+    //PETICION GET PARA TRAER LOS DATOS DE LOS LOTES REGISTRADOS
     const peticionGet = async () => {
       try{
         axios.get(baseUrl,{headers: {token:token}}).then((response)=>{
@@ -40,7 +40,7 @@ export function Lotes () {
       }
     };
 
-//COLUMNAS DEL DATATABLE
+//COLUMNAS DEL DATA_TABLE
 const columns = [
     {
         name:'codigo',
@@ -91,7 +91,7 @@ function handleFilter(event) {
     setData(newData);
 }
 
-//PETICION PARA DESACTIVAR FINCAS
+//PETICION PARA DESACTIVAR LOTES
 
 const peticionDesactivar = async (codigo) => {
 
@@ -142,7 +142,7 @@ const peticionDesactivar = async (codigo) => {
                 console.log(response); 
 
                 if(response.status==200){
-                    setMensaje('Se actualizo la finca con exito')
+                    setMensaje('Se actualizo el lote con exito')
                     setModalAcciones(true)
                     setModalOpen(false)
                     peticionGet()
@@ -159,6 +159,10 @@ const peticionDesactivar = async (codigo) => {
         }
     }
 
+
+
+
+    
     const handleToggle = (mode,initialData) => {
         setInitialData(initialData)
         setModalOpen(true)

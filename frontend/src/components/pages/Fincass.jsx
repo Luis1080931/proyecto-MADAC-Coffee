@@ -1,26 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from '../molecules/Header.jsx';
-import { FaSistrix } from 'react-icons/fa';
+import {Buscador} from '../atoms/Buscador.jsx'
 import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
-import { ButtonDesactivar } from '../atoms/ButtonDesactivar.jsx';
 import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
+import { ButtonDesactivar } from '../atoms/ButtonDesactivar.jsx';
 import FincasModal from '../templates/Fincas.jsx'; 
 import DataTable from 'react-data-table-component'
+import AccionesModal from '../organisms/ModalAcciones.jsx';
 import axios from 'axios';
 
 
 export function Fincas() {
+    //URL LISTAR LOTES
+    const baseUrl='http://localhost:3000/fincas/listar';
+    //TOKEN
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZGVudGlmaWNhY2lvbiI6MTAyOTg4MDMwNiwibm9tYnJlIjoiU2VyZ2lvIENvcG8iLCJ0ZWxlZm9ubyI6IjMyMjc1ODIzODIiLCJ0aXBvX3VzdWFyaW8iOiJjYWZpY3VsdG9yIiwiZXN0YWRvIjoiYWN0aXZvIn1dLCJpYXQiOjE3MTI2MzEyODQsImV4cCI6MTcxMjcxNzY4NH0.LmEiQ1EE5YtOI-Km3a_KHO1ib9aSw0BUboBnuZV35xw";
 
-    const [originalData, setOriginalData] = useState([]);
-    const [filteredData, setFilteredData] = useState([]);
     const [data,setData]=useState([]);
     const [modalOpen, setModalOpen] = useState(false);
+    const [modalAcciones, setModalAcciones] = useState(false)
     const [mode, setMode] = useState('create');
-    const [selectedFincas,setSelectedFincas]=useState(null);
+    const [initialData, setInitialData] = useState(null)
+    const [mensaje, setMensaje] = useState('')
 
     useEffect(()=>{
+        
         peticionGet();
-    },[]);
+
+    },[token]);
+
+    //PETICION GET PARA TRAER LOS DATOS DE LAS FINCAS REGISTRADAS
+
+    const peticionGet = async () => {
+        try{
+            axios.get(baseUrl,{headers: {token:token}}).then((response)=>{
+                console.log(response.data)
+                setData(response.data)
+            })
+          }catch (error){
+            console.log('Error en el servidor '+error)
+          }
+    };
+
+//COLUMNAS DEL DATA_TABLE
 
 const columns = [
     {
@@ -60,28 +82,13 @@ const columns = [
         click={()=>handleToggle('update',row)}
         /> 
         <ButtonDesactivar
-        click={()=>handleUpdate(row.codigo)}
+        click={()=>peticionDesactivar(row.codigo)}
         />
         </>
     }
 ];
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZGVudGlmaWNhY2lvbiI6MTAyOTg4MDMwNiwibm9tYnJlIjoiU2VyZ2lvIENvcG8iLCJ0ZWxlZm9ubyI6IjMyMjc1ODIzODIiLCJ0aXBvX3VzdWFyaW8iOiJjYWZpY3VsdG9yIiwiZXN0YWRvIjoiYWN0aXZvIn1dLCJpYXQiOjE3MTI2MzEyODQsImV4cCI6MTcxMjcxNzY4NH0.LmEiQ1EE5YtOI-Km3a_KHO1ib9aSw0BUboBnuZV35xw";
-const baseUrl = 'http://localhost:3000/fincas/listar';
-
-    const peticionGet = async () => {
-        try {
-            const response = await axios.get(baseUrl, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            console.log(response.data);
-            setData(response.data);
-        } catch (error) {
-            console.error('Error al intentar traer los datos', error);
-        }
-    };
+   
     
     function handleFilter(event) {
         const newData = originalData.filter(row => {
@@ -89,90 +96,111 @@ const baseUrl = 'http://localhost:3000/fincas/listar';
         });
         setFilteredData(newData);
     }
-    const actualizar =async (codigo,formData)=>{
-        console.log(codigo)
-        try{
-            const baseURL=`http://localhost:3000/fincas/actualizar/${codigo}`
-            await axios.put(baseURL, formData);
-            alert('Fincas actualizado exitosamente');
-            setModalOpen(false);
-            peticionGet();
-        }catch(error){
-            console.error('Error al actualizar',error)
-        }
-    }
-    const handleUpdate = async (codigo) => {
-        console.log("ID de la finca a actualizar:", codigo);
+
+
+    //PETICION PARA DESACTIVAR FINCAS
+
+    const peticionDesactivar = async (codigo) => {
         try {
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZGVudGlmaWNhY2lvbiI6MTAyOTg4MDMwNiwibm9tYnJlIjoiU2VyZ2lvIENvcG8iLCJ0ZWxlZm9ubyI6IjMyMjc1ODIzODIiLCJ0aXBvX3VzdWFyaW8iOiJjYWZpY3VsdG9yIiwiZXN0YWRvIjoiYWN0aXZvIn1dLCJpYXQiOjE3MTI2MzEyODQsImV4cCI6MTcxMjcxNzY4NH0.LmEiQ1EE5YtOI-Km3a_KHO1ib9aSw0BUboBnuZV35xw";
-            const baseURL = `http://localhost:3000/fincas/desactivar/${codigo}`;
-            await axios.put(baseURL, { headers: { token: token } });
-            console.log("se desactivo correctamente el usuario");
-            alert('Usuario desactivado con éxito');
-            fetchData();
-        } catch (error) {
-            console.error('Error al actualizar usuario:', error);
-            alert('Error al actualizar usuario');
-        }
-    };
-    const handleToggle = (mode, selectedFincas) => {
-        setSelectedFincas(selectedFincas);
-        setMode(mode);
-        setModalOpen(true);
-    };
-
-    const handleSubmit=async(formData,e)=>{
-        console.log(formData);
-        try{
-            if (mode === 'create') {
-                const baseURL = 'http://localhost:3000/fincas/registrar';
-                await axios.post(baseURL, formData, { headers: { token: token } });
-                alert('Usuario registrado exitosamente');
-                fetchData();
-                setModalOpen(false);
-
-            } else if (mode === 'update' && selectedFincas) {
-                await actualizar(selectedFincas.codigo, formData);
-            }
+            axios.put(`http://localhost:3000/fincas/desactivar/${codigo}`,null,{headers:{token:token}}).then((response)=>{
+                console.log(response.data)
+                if(response.status==200){
+                    setMensaje('Se desactivo con exito la finca')
+                    setModalAcciones(true)
+                    peticionGet()
+                }else{
+                    alert('Error')
+                }
+            });
         }catch(error){
-            console.error('Error al procesa la solicitud',error)
+            alert('Error del servidor '+error)
         }
     }
+
+    const handleSubmit=async(data,e)=>{
+
+        e.preventDefault()
+
+        try{
+        
+        if(mode === 'create'){
+            const baseURL = 'http://localhost:3000/fincas/registrar'
+            
+            await axios.post(baseURL, data).then((response)=>{
+            
+                console.log(response.data)
+
+                if(response.status == 200){
+                    setMensaje('Finca registrada con exito')
+                    setModalAcciones(true)
+                    setModalOpen(false)
+                    peticionGet()
+                }else{
+                    alert('Error en el registro')
+                }
+            })
+        }else if(mode==='update'){
+            const updateURL = `http://localhost:3000/fincas/actualizar/${initialData.codigo}`
+
+            await axios.put(updateURL,data).then((response)=>{
+                console.log(response); 
+
+                if(response.status==200){
+                    setMensaje('Se actualizo la finca con exito')
+                    setModalAcciones(true)
+                    setModalOpen(false)
+                    peticionGet()
+                }else{
+                    alert('Error al actualizar')
+                }
+            })
+        }
+        setModalOpen(false)
+
+        }catch(error){
+            console.log('Error en el servidor ',error)
+            alert('Error en el servidor')
+        }
+    }
+
+
+
+    const handleToggle = (mode, initialData) => {
+        setInitialData(initialData);
+        setModalOpen(true);
+        setMode(mode);
+    };
+
     return (
-        <>
-            <div><Header title="Fincas"/></div>        
-            <div>
-                
-                <div className='w-10/12 ml-28'>
-                    <div className='flex justify-center items-center text-center'>
-                        <div className='w-96 bg-[#E5E5E5] flex items-center m-8 rounded-lg border-black'>
-                            <input className='w-full p-2 bg-[#E5E5E5] text-black rounded-lg border' type="text" onChange={handleFilter} placeholder='Buscar' />
-                            <FaSistrix size={25} style={{ marginRight: 10 }} />
-                        </div>
-                    </div>
-                    <ButtonRegister  click={() => handleToggle('create')} />
-                    <FincasModal
-                        open={modalOpen}
-                        onClose={() => setModalOpen(false)}
-                        handleSubmit={handleSubmit}
-                        selectedFincas={selectedFincas}
-                        actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                    />
-
-                    <div style={{ height: '80vh', width: '100%' }}> 
-                        <DataTable
-                            columns={columns}
-                            data={data}
-                            title="Usuarios registrados"
-                            fixedHeader
-                            pagination
-                            paginationPerPage={5}
-                            paginationRowsPerPageOptions={[5, 10, 15]}
-                        />
-                    </div>
-                </div>
+        <div>
+            <Header title="Fincas"/>
+            <div className='w-full flex flex-col justify-center items-center p-10'>
+                <AccionesModal
+                isOpen={modalAcciones}
+                onClose={()=>setModalAcciones(false)}
+                label={mensaje}
+                />
+                <Buscador handler={handleFilter} />
+                <ButtonRegister click={() => handleToggle('create')} />
+                <FincasModal 
+                open={modalOpen}
+                onClose={()=> setModalOpen(false)}
+                title={mode === 'create' ? 'Registrar lotes' : 'Actualizar lotes'}
+                actionLabel={mode==='create' ? 'Registrar' : 'Actualizar'}
+                initialData={initialData}
+                handleSubmit={handleSubmit}
+                mode={mode}
+                setModalOpen={setModalOpen}
+                />
+                <DataTable
+                columns={columns}
+                data={data}
+                title={'Fincas registrados'}
+                pagination
+                paginationPerPage={5}
+                paginationRowsPerPageOptions={[5, 10, 15]}
+                />
             </div>
-        </>
+        </div>
     );
-
 }

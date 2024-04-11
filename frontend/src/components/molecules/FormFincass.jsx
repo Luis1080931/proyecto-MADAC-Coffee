@@ -15,6 +15,8 @@ export const FormFincass = ({actionLabel,mode,initialData,handleSubmit}) => {
 
     useEffect(()=>{
         if(mode == 'update' && initialData){
+            console.log("ESTA MANDANDO ESTO ",initialData);
+
             dimension_mt2.current.value=initialData.dimension_mt2
             fk_caficultor.current.value=initialData.fk_caficultor
             municipio.current.value=initialData.municipio
@@ -25,7 +27,6 @@ export const FormFincass = ({actionLabel,mode,initialData,handleSubmit}) => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-
             const data = {
                 dimension_mt2: parseInt(dimension_mt2.current.value),
                 fk_caficultor: parseInt(fk_caficultor.current.value),
@@ -38,42 +39,37 @@ export const FormFincass = ({actionLabel,mode,initialData,handleSubmit}) => {
             alert('Hay un error en el sistema ' + error);
         }
     };
-    const [fincas,setFincas]=useState([])
-    useEffect(()=>{
-        axios.get('http://localhost:3000/fincas/listar',{headers:{token:token}}).then((response)=>{
-            console.log(response.data);
 
-            const fincasFilter = response.data.filter(finca=>finca.estado=='activo')
-            setFincas(fincasFilter)
-        })
-    },[])
+
     return (
         <>
 
         <AccionesModal 
             isOpen={modalAccionesOpen}
             onClose={() => setModalAccionesOpen(false)}
-            label={mode === 'update' ? 'Fincas actualizada con éxito' : 'Resultado registrado con éxito'}
+            label={mode === 'update' ? 'Fincas actualizada con éxito' : 'Fincas registrado con éxito'}
         />
+    <div>
         <form method='post' onSubmit={handleFormSubmit}>
         <div className='flex flex-col m-5'>
         <label className='text-xl font-bold'> Dimensiones de la finca: </label>
-        <input className='p-2 rounded-lg w-80 h-12' id='dimension_mt2' name='dimension_mt2' type="number" placeholder='Ingrese las dimensiones de la finca' ref={dimension_mt2} />
+        <input className='p-2 rounded-lg w-80 h-12' id='dimension_mt2' name='dimension_mt2' type="number" placeholder='Ingrese las dimensiones de la finca' ref={dimension_mt2} required={true}/>
         </div>
         <div className='flex flex-col m-5'  >
         <label className='text-xl font-bold'> Caficultor: </label>
-        <input className='p-2 rounded-lg w-80 h-12' id='fk_caficultor' type="number" name='fk_caficultor'  placeholder='Ingrese la identificacion del caficultor' ref={fk_caficultor}/>
+        <input className='p-2 rounded-lg w-80 h-12' id='fk_caficultor' type="number" name='fk_caficultor'  placeholder='Ingrese la identificacion del caficultor' ref={fk_caficultor} required={true}/>
         </div>
          <div className='flex flex-col m-5'>
         <label className='text-xl font-bold'> Municipio: </label>
-        <input className='p-2 rounded-lg w-80 h-12' id='municipio' type="number" name='municipio'placeholder='Ingrese el municipio' ref={municipio}/>
+        <input className='p-2 rounded-lg w-80 h-12' id='municipio' type="number" name='municipio'placeholder='Ingrese el municipio' ref={municipio} required={true}/>
         </div>
          <div className='flex flex-col m-5'>
         <label className='text-xl font-bold'> Vereda: </label>
-        <input className='p-2 rounded-lg w-80 h-12' id='vereda' type="text" name='vereda' placeholder='Ingrese la vereda' ref={vereda}/>
+        <input className='p-2 rounded-lg w-80 h-12' id='vereda' type="text" name='vereda' placeholder='Ingrese la vereda' ref={vereda} required={true}/>
          </div>
     <Button actionLabel={actionLabel} />
         </form>
+    </div>
         </>
         )
 };

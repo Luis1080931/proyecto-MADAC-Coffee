@@ -4,10 +4,10 @@ import { FaX } from 'react-icons/fa6'
 import { Modal } from '../organisms/Modal.jsx'
 import { Logo } from '../atoms/LogoProyecto.jsx'
 
-function FincasModal({ open, onClose, handleSubmit, actionLabel,selectedFincas }){
+function FincasModal({ open, onClose, handleSubmit, actionLabel,initialData,mode}){
   return (
     <Modal open={open}  onClose={onClose}>
-        <FormFincass handleSubmit={handleSubmit} actionLabel={actionLabel} />        
+        <FormFincass handleSubmit={handleSubmit} actionLabel={actionLabel} initialData={initialData} mode={mode}/>        
         <Logo />
     </Modal>
   )
