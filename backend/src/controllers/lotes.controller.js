@@ -5,7 +5,7 @@ import { validationResult } from 'express-validator'
 export const getLotes = async (req, res) => {
     try {
         const query = `
-            SELECT l.codigo, l.numero_arboles, v.nombre AS fk_variedad, l.estado
+            SELECT l.codigo, l.numero_arboles, l.fk_finca, v.nombre AS fk_variedad, l.estado
             FROM lotes l
             LEFT JOIN variedades v ON l.fk_variedad = v.codigo
         `;
@@ -53,8 +53,8 @@ export const postLotes=async(req,res)=>{
         if(!errores.isEmpty()){
             return res.status(400).json(errores.array());
         }
-        const {numero_arboles,fk_finca,fk_variedad,estado}=req.body
-        const [rows]=await pool.query('INSERT INTO lotes (numero_arboles,fk_finca,fk_variedad,estado) VALUES(?,?,?,?)',[numero_arboles,fk_finca,fk_variedad,estado])
+        const {numero_arboles,fk_finca,fk_variedad}=req.body
+        const [rows]=await pool.query('INSERT INTO lotes (numero_arboles,fk_finca,fk_variedad,estado) VALUES(?,?,?,1)',[numero_arboles,fk_finca,fk_variedad])
         if(rows.affectedRows > 0){
             res.status(200).json({
                 message:"Lote registrado correctamente"

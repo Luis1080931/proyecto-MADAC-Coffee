@@ -8,6 +8,7 @@ export const getFincas = async (req, res) => {
             FROM fincas f
             JOIN usuarios u ON f.fk_caficultor = u.identificacion
             JOIN municipios AS m ON municipio = id_municipio
+
         `;
         const [rows] = await pool.query(query);
         if (rows.length > 0) {
@@ -23,7 +24,6 @@ export const getFincas = async (req, res) => {
         });
     }
 };
-
 
 export const getFinca = async (req,res)=>{
     try{
@@ -54,8 +54,8 @@ export const postFincas=async(req,res)=>{
         if(!errors.isEmpty()){
             return res.status(400).json(errors.array());
         }
-        const {dimension_mt2,fk_caficultor,municipio,vereda,estado}=req.body
-        const [rows]=await pool.query('INSERT INTO fincas (dimension_mt2,fk_caficultor,municipio,vereda,estado) VALUES (?,?,?,?,?)',[dimension_mt2,fk_caficultor,municipio,vereda,estado])
+        const {dimension_mt2,fk_caficultor,municipio,vereda}=req.body
+        const [rows]=await pool.query('INSERT INTO fincas (dimension_mt2,fk_caficultor,municipio,vereda,estado) VALUES (?,?,?,?,1)',[dimension_mt2,fk_caficultor,municipio,vereda])
         if(rows.affectedRows > 0){
             res.status(200).json({
                 message:"finca registrado correctamente"
