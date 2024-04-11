@@ -1,36 +1,47 @@
-import React, { useEffect, useState } from 'react'
-import DataTable from 'react-data-table-component'
-import { Header } from './../molecules/Header.jsx'
+import React, { useEffect, useState } from 'react';
+import { Header } from './../molecules/Header.jsx';
 import { FaSistrix } from "react-icons/fa6";
 import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
 import UsuariosModal from '../templates/Usuarios.jsx';
+import DataTable from 'react-data-table-component';
+import axios from 'axios';
 
-export function Usuarios () {
+export function Usuarios() {
+    const [originalData, setOriginalData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [mode, setMode] = useState('create');
+    const [selectedUser, setSelectedUser] = useState(null);
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+    
 
     const columns = [
         {
             name: 'Identificacion',
-            selector: row => row.Identificacion,
+            selector: row => row.identificacion,
             sortable: true
         },
         {
             name: 'Nombre',
-            selector: row => row.Nombre,
+            selector: row => row.nombre,
             sortable: true
         },
         {
             name: 'Telefono',
-            selector: row => row.Telefono,
+            selector: row => row.telefono,
             sortable: true
         },
         {
-            name: 'correo',
-            selector: row => row.correo,
+            name: 'Correo',
+            selector: row => row.correo_electronico,
             sortable: true
         },
         {
             name: 'Rol',
-            selector: row => row.Rol,
+            selector: row => row.tipo_usuario,
             sortable: true
         },
         {
@@ -40,106 +51,141 @@ export function Usuarios () {
         },
         {
             name: 'Acciones',
-            selector: row => row.acciones 
-        },
+            cell: row => (
+                <button 
+                    className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' 
+                    type="button" 
+                    onClick={() => handleToggle('update', row)}
+                >
+                    Actualizar
+                </button>
+            )
+        },        
         {
             name: 'AccionesDe',
-            selector: row => row.accionesDe 
-        },
-    ]
-
-    const data = [
-        {
-            Identificacion: 1,
-            Nombre: "Juan",
-            Telefono: 1,
-            correo: "juan@gmail.com",
-            Rol: "Usuario",
-            estado: "activo", 
-            acciones: <><button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button" onClick={() => handleToggle('update')}>Actualizar</button> </> ,
-            accionesDe: <><button className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' type="button">Desactivar</button></> 
+            cell: row => (
+                <button 
+                    className='bg-[#ED6158] p-2 rounded-lg text-sm font-bold' 
+                    type="button" 
+                    onClick={() => handleUpdate(row.identificacion)}
+                >
+                    Desactivar
+                </button>
+            )
         }
-    ]
+    ];
 
-    const baseURL = 'http://localhost:3000/usuarios/listar';
-    const [records, setRecords] = useState([]);
-    const [modalOpen, setModalOpen] = useState(false);
-    const [mode, setMode] = useState('create');
-
-    const handleToggle = (mode) => {
-        setMode(mode)
-        setModalOpen(true)
-        if(mode === 'update'){
-            
-        }
-    }
-
-    useEffect(() => {
+    const fetchData = async () => {
         try {
-            axios.get(baseURL).then((response) => {
-                console.log(response)
-                setRecords(response.data)
-            })
+            const token = localStorage.getItem('token');
+            const baseURL = 'http://localhost:3000/usuarios/listar';
+            const response = await axios.get(baseURL, { headers: { token: token } });
+            const dataWithIds = response.data.usuarios.map((usuario, index) => ({
+                ...usuario,
+                id: index + 1 // Puedes usar el índice del array + 1 como id
+            }));
+            setOriginalData(dataWithIds);
+            setFilteredData(dataWithIds);
         } catch (error) {
-            console.log('Error de servidor' + error)
+            console.error('Error al obtener datos:', error);
         }
-    }, [])
+    };
 
-    function handleFilter(event) {
-        const newData = records.filter(row => {
-            return row.correo.toLowerCase().includes(event.target.value.toLowerCase())
-        })
-        setRecords(newData)
+    const handleFilter = (event) => {
+        const newData = originalData.filter(row => {
+            return row.correo_electronico.toLowerCase().includes(event.target.value.toLowerCase());
+        });
+        setFilteredData(newData); // Actualizar los datos filtrados
     }
 
-    const paginaOpciones = {
-        rowsPerPageText: 'Filas por página',
-        rangeSeparatorText: 'de',
-        selectAllRowsItem: true,
-        selectAllRowsText: 'Todos'
-    }
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if (mode === 'create') {
-            const baseURL = 'http://localhost:3000/usuarios/registrar'
-
-            axios.post(baseURL).then((response) => {
-                console.log("Registrado con exito")
-                setModalOpen(false)
-            })
-        } else if (mode === 'update') {
-
+    const actualizar = async (userId, formData) => {
+        console.log(userId)
+        try {
+            const baseURL = `http://localhost:3000/usuarios/actualizar/${userId}`;
+            await axios.put(baseURL, formData);
+            alert('Usuario actualizado exitosamente');
+            setModalOpen(false);
+            fetchData();
+        } catch (error) {
+            console.error('Error al actualizar usuario:', error);
         }
-        setModalOpen(false)
     }
+
+    const handleUpdate = async (userId) => {
+        console.log("ID del usuario a actualizar:", userId);
+        try {
+            const token = localStorage.getItem('token');
+            const baseURL = `http://localhost:3000/usuarios/desactivar/${userId}`;
+            await axios.put(baseURL, { headers: { token: token } });
+            console.log("se desactivo correctamente el usuario");
+            alert('Usuario desactivado con éxito');
+            fetchData();
+        } catch (error) {
+            console.error('Error al actualizar usuario:', error);
+            alert('Error al actualizar usuario');
+        }
+    };
+
+    const handleToggle = (mode, user) => {
+        setMode(mode);
+        setSelectedUser(user);
+        setModalOpen(true);
+    };
+    
+    const handleSubmit = async (formData, e) => {
+        console.log(formData)
+        try {
+            const token = localStorage.getItem('token');
+            if (mode === 'create') {
+                const baseURL = 'http://localhost:3000/usuarios/registrar';
+                await axios.post(baseURL, formData, { headers: { token: token } });
+                alert('Usuario registrado exitosamente');
+                fetchData();
+                setModalOpen(false);
+
+            } else if (mode === 'update' && selectedUser) {
+                await actualizar(selectedUser.identificacion, formData);
+            }
+        } catch (error) {
+            console.error('Error al procesar la solicitud:', error);
+        }
+    };
 
     return (
-        <div>
-            <Header title="Usuarios" />
-            <div className='w-10/12 ml-28'>
-                <div className='flex justify-center items-center text-center'>
-                    <div className='w-96 bg-[#E5E5E5] flex items-center m-8 rounded-lg border-black'>
-                        <input className='w-full p-2 bg-[#E5E5E5] text-black rounded-lg border' type="text" onChange={handleFilter} placeholder='Buscar' />
-                        <FaSistrix size={25} style={{ marginRight: 10 }} />
+        <>
+            <div><Header title="Usuarios"/></div>        
+            <div>
+                
+                <div className='w-10/12 ml-28'>
+                    <div className='flex justify-center items-center text-center'>
+                        <div className='w-96 bg-[#E5E5E5] flex items-center m-8 rounded-lg border-black'>
+                            <input className='w-full p-2 bg-[#E5E5E5] text-black rounded-lg border' type="text" onChange={handleFilter} placeholder='Buscar' />
+                            <FaSistrix size={25} style={{ marginRight: 10 }} />
+                        </div>
+                    </div>
+                    <ButtonRegister  click={() => handleToggle('create')} />
+                    <UsuariosModal
+                        open={modalOpen}
+                        onClose={() => setModalOpen(false)}
+                        handleSubmit={handleSubmit}
+                        selectedUser={selectedUser}
+                        actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                    />
+
+                    <div style={{ height: '80vh', width: '100%' }}> 
+                        <DataTable
+                            columns={columns}
+                            data={Array.isArray(filteredData) ? filteredData : []}
+                            title="Usuarios registrados"
+                            fixedHeader
+                            pagination
+                            paginationPerPage={5}
+                            paginationRowsPerPageOptions={[5, 10, 15]}
+                        />
                     </div>
                 </div>
-                <ButtonRegister click={() => handleToggle('create')} />
-                <UsuariosModal
-                    open={modalOpen}
-                    onClose={() => setModalOpen(false)}
-                    handleSubmit={handleSubmit}
-                    actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                />
-                <DataTable
-                    columns={columns}
-                    data={data}
-                    title="Usuarios registrados"
-                    fixedHeader
-                    pagination
-                    paginationComponentOptions={paginaOpciones}
-                />
             </div>
-        </div>
-    )
+        </>
+    );
 }
 
