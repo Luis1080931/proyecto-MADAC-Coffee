@@ -112,7 +112,7 @@ export function Muestras () {
         try {
             axios.put(`http://localhost:3000/muestra/desactivar/${codigo}`, null).then((response) => {
                 console.log(response.data);
-                })
+                
 
                 if(response.status == 200) { 
                     setMensaje('Se desactivo con éxito la Muestra')
@@ -121,6 +121,7 @@ export function Muestras () {
                 } else {
                     alert('Error' + error)
                 }
+            })
             } catch (error) {
                 alert('Error con el servidor')
             }
@@ -164,12 +165,10 @@ export function Muestras () {
     }
     
 
-    const handleToggle = (mode) => {
-        setMode(mode)
+    const handleToggle = (mode, initialData) => {
+        setInitialData(initialData)
         setModalOpen(true)
-        if(mode === 'update'){
-            
-        }
+        setMode(mode)
     }
 
   return (

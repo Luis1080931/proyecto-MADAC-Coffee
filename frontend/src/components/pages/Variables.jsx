@@ -22,7 +22,6 @@ export function Variables () {
 
     useEffect(() => {
         fetchData()
-
     },[])
 
     const fetchData = async () => {
@@ -33,7 +32,7 @@ export function Variables () {
             })
 
         } catch (error) {
-            console.log('Error en el server' + error);
+            console.log('Error en el servidor' + error);
         }
     }
 
@@ -79,15 +78,16 @@ export function Variables () {
         try {
             axios.put(`http://localhost:3000/variable/desactivar/${codigo}`, null).then((response) => {
                 console.log(response.data);
-            })
+            
 
-            if(response.status ==200) {
+            if(response.status == 200) {
                 setMensaje('Se desactivo con exito la varible')
                 setModalAcciones(true)
                 fetchData()
             }else{
                 alert('Error' + error)
             }
+        })
         } catch (error) {
             alert('Error con el servidor')
         }
@@ -101,7 +101,7 @@ export function Variables () {
 
                 await axios.post(baseURL, data).then((response) => {
                     console.log(response)
-                    if(response.status ==200 ){
+                    if(response.status == 200 ){
                         setMensaje('Variable registrada con éxito')
                         setModalAcciones(true)
                         setModalOpen(false)

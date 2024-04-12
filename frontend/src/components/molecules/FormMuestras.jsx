@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Button } from './../atoms/Button.jsx';
 
-const FormMuestras = ({ actionLabel, handleSubmit, initialdata, mode }) => {
+const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode }) => {
     const fecha = useRef(null)
     const cantidad = useRef(null)
     const quien_recibe = useRef(null)
@@ -15,19 +15,19 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialdata, mode }) => {
 
   
     useEffect (()=>{
-      if(mode == 'update' && initialdata) {
-        const formatDate = initialdata.fecha.substring(0,10)
+      if(mode == 'update' && initialData) {
+        const formatDate = initialData.fecha.substring(0,10)
         fecha.current.value = formatDate
-        cantidad.current.value = initialdata.cantidad
-        quien_recibe.current.value = initialdata.quien_recibe
-        proceso_fermentacion.current.value = initialdata.proceso_fermentacion
-        humedad_cafe.current.value = initialdata.humedad_cafe
-        altura_MSNM.current.value = initialdata.altura_MSNM
-        tipo_secado.current.value = initialdata.tipo_secado
-        observaciones.current.value = initialdata.observaciones
-        fk_lote.current.value = initialdata.fk_lote
+        cantidad.current.value = initialData.cantidad
+        quien_recibe.current.value = initialData.quien_recibe
+        proceso_fermentacion.current.value = initialData.proceso_fermentacion
+        humedad_cafe.current.value = initialData.humedad_cafe
+        altura_MSNM.current.value = initialData.altura_MSNM
+        tipo_secado.current.value = initialData.tipo_secado
+        observaciones.current.value = initialData.observaciones
+        fk_lote.current.value = initialData.fk_lote
       }
-    }, [mode, initialdata])
+    }, [mode, initialData])
   
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -96,6 +96,17 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialdata, mode }) => {
                         required= {true}
                         ref={proceso_fermentacion}
                         placeholder='Ingrese el proceso de fermentación'
+                    />
+                </div>
+                <div className='flex-col md:flex'>
+                    <label className='text-xl font-bold'> humedad del cafe</label>
+                    <input
+                        className='p-2 rounded-lg w-80 h-12'
+                        type="text"
+                        name="Humedad del cafe"
+                        required= {true}
+                        ref={humedad_cafe}
+                        placeholder='Ingrese la humedad del cafe '
                     />
                 </div>
                 <div className='flex-col md:flex'>

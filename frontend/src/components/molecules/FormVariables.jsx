@@ -30,7 +30,7 @@ const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode}) => {
 
   return (
     <>
-      <form onSubmit={handleFormSubmit}>
+      <form method='post' onSubmit={handleFormSubmit}>
         <div className='flex flex-col'>
           <div className='flex flex-col'>
             <label className='text-x1 font-bold'>Nombre: </label>
