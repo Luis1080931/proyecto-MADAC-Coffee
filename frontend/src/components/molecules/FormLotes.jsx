@@ -1,6 +1,6 @@
 import React, { useRef,useEffect,useState } from 'react';
 import axios from 'axios';
-import { Button } from '../atoms/Button.jsx';
+/* import { Button } from '../atoms/Button.jsx'; */
 import AccionesModal from '../organisms/ModalAcciones.jsx';
 
 export const FormLotes = ({ actionLabel,mode,initialData,handleSubmit }) => {
@@ -60,7 +60,7 @@ export const FormLotes = ({ actionLabel,mode,initialData,handleSubmit }) => {
                             <label className='text-xl font-bold'> Variedad: </label>
                             <input className='p-2 rounded-lg w-80 h-12' id='fk_variedad' type="number" name='fk_variedad' placeholder='Ingrese la variedad' ref={fk_variedad} required={true}/>
                         </div>
-                        <Button actionLabel={actionLabel}/>
+                       {/*  <Button actionLabel={actionLabel}/> */}
                     </form>
 
             </div>

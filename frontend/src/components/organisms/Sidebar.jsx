@@ -11,6 +11,9 @@ export const Sidebar = () => {
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
 
+  const stored = localStorage.getItem('user')
+  const user = stored ? JSON.parse(stored) : null
+
   const Menus = [
     { title: "Dashboard", link: "/dashboard", icon: AiOutlineUser },
     { title: "Usuarios", link: "/usuarios", icon: AiOutlineUser },
@@ -21,6 +24,16 @@ export const Sidebar = () => {
     { title: "Análisis", link: "/analisis", icon: RiSettings4Line},
     { title: "Variables", link: "/variables", icon: RiSettings4Line},
     { title: "Resultados", link: "/resultados", icon: RiSettings4Line}
+];
+const MenusCatador = [
+  { title: "Dashboard", link: "/dashboard", icon: AiOutlineUser },
+  { title: "Fincas", link: "/fincas", icon: AiOutlineHeart, gap: true },
+  { title: "Variedades", link: "/variedades", icon: AiOutlineHeart, gap: true },
+  { title: "Lotes", link: "/lotes", icon: RiSettings4Line },
+  { title: "Muestras", link: "/muestras", icon: RiSettings4Line},
+  { title: "Análisis", link: "/analisis", icon: RiSettings4Line},
+  { title: "Variables", link: "/variables", icon: RiSettings4Line},
+  { title: "Resultados", link: "/resultados", icon: RiSettings4Line}
 ];
 
   return (
@@ -42,7 +55,23 @@ export const Sidebar = () => {
             <FaX to="/subcoffee" color="cafeOscuroLogo" text="Coffee" className={`${!open && "scale-0"}`} />
           </div>}
           <ul className="pt-6">
-            {Menus.map((Menu, index) => (
+            { user.tipo_usuario == 'admin' ? Menus.map((Menu, index) => (
+              <Link
+                to={Menu?.link}
+                key={index}
+                onClick={() => setActiveLink(Menu.link)}
+                className={`flex rounded-md p-2 cursor-pointer hover:bg-green-500 text-gray-300 text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
+                  } ${activeLink === Menu.link ? "bg-green-500" : ""}`}
+              >
+                <div>{React.createElement(Menu?.icon, { size: "20" })}</div>
+                <span
+                  className={`${!open && "hidden"}
+                         origin-left duration-200`}
+                >
+                  {Menu.title}
+                </span>
+              </Link>
+            )) : MenusCatador.map((Menu, index) => (
               <Link
                 to={Menu?.link}
                 key={index}

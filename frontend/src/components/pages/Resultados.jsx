@@ -1,13 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Header } from './../molecules/Header.jsx'
-import { Buscador } from '../atoms/Buscador.jsx';
-import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
-import ResultadosModal from './../templates/Resultados.jsx';
 import axios from 'axios';
-import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
-import { Datatable } from '../organisms/Datatable.jsx';
-import { ButtonDesactivar } from '../atoms/ButtonDesactivar.jsx';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
+import Ejemplo from '../organisms/Table.jsx';
+import ResultadosModal from './../templates/Resultados.jsx';
 
 export function Resultados () {
 
@@ -38,55 +34,18 @@ export function Resultados () {
         }
     }
 
+    const data = [
+        { uid: "codigo", name: "Código", sortable: true },
+        { uid: "fecha", name: "Fecha", sortable: true },
+        { uid: "analisis", name: "Análisis", sortable: true },
+        { uid: "variable", name: "Variable", sortable: true },
+        { uid: "valor", name: "Valor", sortable: true },
+        { uid: "observaciones", name: "Observaciones", sortable: false },
+        { uid: "estado", name: "Estado", sortable: true },
+        { uid: "actions", name: "Acciones", sortable: false },
+      ];
+    
 
-    const columns = [
-        {
-            name:  'Id',
-            selector: row => row.codigo,
-            sortable: true
-        },
-        {
-            name: 'Fecha',
-            selector: row => new Date(row.fecha).toLocaleDateString(),
-            sortable: true
-        },
-        {
-            name: 'Análisis',
-            selector: row => row.analisis,
-            sortable: true
-        },
-        {
-            name: 'Variable',
-            selector: row => row.variable,
-            sortable: true
-        },
-        {
-            name: 'Valor',
-            selector: row => row.valor,
-            sortable: true
-        },
-        {
-            name: 'Observaciones',
-            selector: row => row.observaciones, 
-            sortable: true
-        },
-        {
-            name: 'Estado',
-            selector: row => row.estado,
-            sortable: true
-        },
-        {
-            name: 'Acciones',
-            cell: row => <><ButtonActualizar click={() => handleToggle('update', row)} /> <ButtonDesactivar click={() => handleDesactivar(row.codigo) } /></> 
-        }
-    ]
-
-    function handleFilter (event){
-        const newData = datos.filter(row => {
-            return row.valor.toLowerCase().includes(event.target.value.toLowerCase())
-        })
-        setData(newData)
-    }
 
     const handleDesactivar = (idResultado) => {
         
@@ -161,16 +120,14 @@ export function Resultados () {
     
     <div>
         <Header title="Resultados" />
-        <div className='w-full flex flex-col justify-center items-center p-10'>
+        <div className='w-full max-w-[90%] ml-28 items-center p-10'>
 
         <AccionesModal 
             isOpen={modalAcciones}
             onClose={() => setModalAcciones(false)}
             label={mensaje}
         />
-            
-            <Buscador handler={handleFilter} />
-            <ButtonRegister click={() => handleToggle('create')} />
+        
             <ResultadosModal 
                 open={modalOpen} 
                 onClose={() => setModalOpen(false)} 
@@ -182,7 +139,13 @@ export function Resultados () {
                 setModalOpen={setModalOpen}
             />
 
-            <Datatable columns={columns} data={datos} title={'Resultados registrados'} />
+           {/*  <Datatable columns={columns} data={datos} title={'Resultados registrados'} /> */}
+           <Ejemplo 
+            clickDesactivar={handleDesactivar()}
+            clickEditar={() => handleToggle('update')}
+            clickRegistrar={() => handleToggle('create')}
+            data={data}
+           />
             
         </div>
     </div>

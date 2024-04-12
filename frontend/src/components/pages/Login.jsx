@@ -35,7 +35,7 @@ try {
     }else{
       const {token} = response.data
       localStorage.setItem('token', token)
-      localStorage.setItem('user', JSON.stringify(response.data.user))
+      localStorage.setItem('user', JSON.stringify(response.data.user[0]))
       navigate('/dashboard')
       alert('Logueado')
     }

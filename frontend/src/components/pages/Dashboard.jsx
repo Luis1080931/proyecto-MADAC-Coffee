@@ -34,14 +34,17 @@ export const Dashboard = () => {
     setCurrentIndex(id)
   }
 
-  const name = localStorage.getItem('user')
+
+  const stored = localStorage.getItem('user')
+  const user = stored ? JSON.parse(stored) : null
+  console.log(user);
 
   return (
     <div>
         <div className="bg-[#39A900] w-full h-20 flex">
             <Sidebar />
             <h2 className="text-white text-2xl font-bold ml-auto mr-10 flex items-center">
-                Bienvenido {name.nombre}
+                Bienvenido {user.nombre}
             </h2>
 
             <SideBarUser />

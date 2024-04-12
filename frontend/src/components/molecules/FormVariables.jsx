@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Button } from './../atoms/Button.jsx';
+/* import { Button } from './../atoms/Button.jsx'; */
 
 const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode}) => {
 
@@ -54,7 +54,7 @@ const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode}) => {
             />
             </div>
           </div>
-          <Button actionLabel={actionLabel} />
+          {/* <Button actionLabel={actionLabel} /> */}
         </div>
       </form>
     </>

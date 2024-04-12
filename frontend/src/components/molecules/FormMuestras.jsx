@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Button } from './../atoms/Button.jsx';
+/* import { Button } from './../atoms/Button.jsx'; */
 
 const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode }) => {
 
@@ -155,7 +155,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode }) => {
                         required= {true}
                     />
                 </div>
-                <Button actionLabel={actionLabel} />
+                {/* <Button actionLabel={actionLabel} /> */}
             </div>
         </form>
         </>

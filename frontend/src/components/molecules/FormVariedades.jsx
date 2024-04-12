@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button } from '../atoms/Button'
+/* import { Button } from '../atoms/Button' */
 import TitleModal from '../atoms/TitleModal'
 
 const FormVariedades = ({ handleSubmit, actionLabel, title }) => {
@@ -14,7 +14,7 @@ const FormVariedades = ({ handleSubmit, actionLabel, title }) => {
                 <label className=' text-xl font-bold'> Nombre: </label>
                 <input className='p-2 rounded-lg w-80 h-12' type="text" value="" placeholder='Ingrese el nombre de la variedad' />
             </div>
-            <Button actionLabel={actionLabel} />
+           {/*  <Button actionLabel={actionLabel} /> */}
         </div>
     </form>
     </>   

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Button } from '../atoms/Button';
+/* import { Button } from '../atoms/Button'; */
 import axios from 'axios';
 
 const baseURL = "http://localhost:3000/usuarios/registrar";
@@ -71,7 +71,7 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser }) => {
                             <option value="caficultor"> Caficultor </option>
                         </select>
                     </div>
-                    <Button actionLabel={actionLabel} />
+                   {/*  <Button actionLabel={actionLabel} /> */}
                 </div>
             </form>
         </>

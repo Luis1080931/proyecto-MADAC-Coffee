@@ -15,26 +15,25 @@ import {
   Chip,
   Pagination,
 } from "@nextui-org/react";
-import { PlusIcon } from "./PlusIcon";
-import { VerticalDotsIcon } from "./VerticalDotsIcon.jsx";
-import { SearchIcon } from "./SearchIcon";
-import { ChevronDownIcon } from "./ChevronDownIcon";
+import { PlusIcon } from "./../NextUI/PlusIcon.jsx";
+import { VerticalDotsIcon } from "./../NextUI/VerticalDotsIcon.jsx";
+import { SearchIcon } from "./../NextUI/SearchIcon.jsx";
+import { ChevronDownIcon } from "./../NextUI/ChevronDownIcon.jsx";
 import axios from "axios";
 import ResultadosModal from "../templates/Resultados.jsx";
-import { Header } from "../molecules/Header.jsx";
 
 const statusColorMap = {
   activo: "success",
   inactivo: "danger",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["codigo", "fecha", "analisis", "variable", "valor", "observaciones", "estado", "actions"];
+/* const INITIAL_VISIBLE_COLUMNS = ["codigo", "fecha", "analisis", "variable", "valor", "observaciones", "estado", "actions"]; */
 
-export default function Ejemplo() {
+export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, data }) {
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
-  const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
+ /*  const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS)); */
   const [statusFilter, setStatusFilter] = React.useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [sortDescriptor, setSortDescriptor] = React.useState({
@@ -43,38 +42,63 @@ export default function Ejemplo() {
   });
   const [page, setPage] = React.useState(1);
   const [results, setResults] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState('create')
-
-    const handleToggle = (mode) => {
-        setMode(mode)
-        setOpen(true)
-    }
 
   useEffect(() => {
     fetchData();
   }, []);
 
+  const token = localStorage.getItem('token')
+
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/resultados/listar');
+      const response = await axios.get('http://localhost:3000/resultados/listar', {headers: {token: token}});
       setResults(response.data);
     } catch (error) {
       console.error('Error al obtener los datos:', error);
     }
   };
-
-  const data = [
-    { uid: "codigo", name: "Código", sortable: true },
-    { uid: "fecha", name: "Fecha", sortable: true },
-    { uid: "analisis", name: "Análisis", sortable: true },
-    { uid: "variable", name: "Variable", sortable: true },
-    { uid: "valor", name: "Valor", sortable: true },
-    { uid: "observaciones", name: "Observaciones", sortable: false },
-    { uid: "estado", name: "Estado", sortable: true },
-    { uid: "actions", name: "Acciones", sortable: false },
-  ];
-
+ /*  const columns = [
+    {
+        uid: row => row.codigo,
+        name:  'Id',
+        sortable: true
+    },
+    {
+        name: 'Fecha',
+        selector: row => new Date(row.fecha).toLocaleDateString(),
+        sortable: true
+    },
+    {
+        name: 'Análisis',
+        selector: row => row.analisis,
+        sortable: true
+    },
+    {
+        name: 'Variable',
+        selector: row => row.variable,
+        sortable: true
+    },
+    {
+        name: 'Valor',
+        selector: row => row.valor,
+        sortable: true
+    },
+    {
+        name: 'Observaciones',
+        selector: row => row.observaciones, 
+        sortable: true
+    },
+    {
+        name: 'Estado',
+        selector: row => row.estado,
+        sortable: true
+    },
+    {
+        name: 'Acciones',
+        cell: row => <><ButtonActualizar click={() => handleToggle('update', row)} /> <ButtonDesactivar click={() => handleDesactivar(row.codigo) } /></> 
+    }
+]
+ */
   const statusOptions = [
     {name: "Activo", uid: "activo"},
     {name: "Inactivo", uid: "inactivo"},
@@ -145,8 +169,8 @@ export default function Ejemplo() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem onClick={() => handleToggle('update')}>Editar</DropdownItem>
-                <DropdownItem>Desactivar</DropdownItem>
+                <DropdownItem onClick={clickEditar}>Editar</DropdownItem>
+                <DropdownItem onClick={clickDesactivar}>Desactivar</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -194,7 +218,6 @@ export default function Ejemplo() {
   const topContent = React.useMemo(() => {
     return (
       <>
-       <Header title='Resultados' />
       <div className="flex flex-col gap-4">
         <div className="flex justify-between gap-3 items-end">
           <Input
@@ -229,7 +252,7 @@ export default function Ejemplo() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />} onClick={() => setOpen(true)}>
+            <Button color="primary" endContent={<PlusIcon />} onClick={clickRegistrar}>
               Registrar
             </Button>
           </div>
@@ -291,21 +314,14 @@ export default function Ejemplo() {
 
   return (
     <div className="flex items-center justify-center">
-    <ResultadosModal 
-      open={open}
-      onClose={()=> setOpen(false)}
-      title={mode == 'create' ? 'Registro' : 'Actualizar'}
-      actionLabel={mode == 'create' ? 'Crear' : 'Guardar'}
-    />
 <Table
   aria-label="Example table with custom cells, pagination and sorting"
   isHeaderSticky
   bottomContent={bottomContent}
   bottomContentPlacement="outside"
   classNames={{
-    wrapper: "max-h-[382px] max-w-[95%]" ,
+    wrapper: "max-h-[95%] max-w-[95%]" ,
   }}
-  className="flex "
   selectedKeys={selectedKeys}
   selectionMode="multiple"
   sortDescriptor={sortDescriptor}

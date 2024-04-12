@@ -1,7 +1,7 @@
 
 import React, { useRef,useEffect,useState } from 'react';
 import axios from 'axios';
-import { Button } from '../atoms/Button.jsx';
+/* import { Button } from '../atoms/Button.jsx'; */
 import AccionesModal from  '../organisms/ModalAcciones.jsx'
 
 export const FormFincass = ({actionLabel,mode,initialData,handleSubmit}) => {
@@ -67,7 +67,7 @@ export const FormFincass = ({actionLabel,mode,initialData,handleSubmit}) => {
         <label className='text-xl font-bold'> Vereda: </label>
         <input className='p-2 rounded-lg w-80 h-12' id='vereda' type="text" name='vereda' placeholder='Ingrese la vereda' ref={vereda} required={true}/>
          </div>
-    <Button actionLabel={actionLabel} />
+    {/* <Button actionLabel={actionLabel} /> */}
         </form>
     </div>
         </>

@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-import { Button } from '../atoms/Button'
-import AccionesModal from '../organisms/ModalAcciones.jsx'
+/* import AccionesModal from '../organisms/ModalAcciones.jsx' */
+/* import { ButtonAcciones } from '../atoms/Button.jsx' */
 
-const FormResultados = ({ actionLabel, mode, initialData, handleSubmit }) => {
+const FormResultados = ({ mode, initialData, handleSubmit }) => {
 
     const token = localStorage.getItem('token')
-    const [modalAccionesOpen, setModalAccionesOpen ] = useState(false)
 
     const fecha = useRef(null)
     const fk_analisis = useRef(null)
@@ -68,12 +67,6 @@ const FormResultados = ({ actionLabel, mode, initialData, handleSubmit }) => {
   return (
     <>
 
-    <AccionesModal 
-        isOpen={modalAccionesOpen}
-        onClose={() => setModalAccionesOpen(false)}
-        label={mode === 'update' ? 'Resultado actualizado con éxito' : 'Resultado registrado con éxito'}
-    />
-
     <form method='post' onSubmit={handleFormSubmit}>
         <div className='flex flex-col'>
             <div className='flex flex-col'>
@@ -129,9 +122,9 @@ const FormResultados = ({ actionLabel, mode, initialData, handleSubmit }) => {
                 required={true}
                 ></textarea>
             </div>
-            <Button actionLabel={actionLabel} />
+           {/*  <ButtonAcciones actionLabel={actionLabel} /> */}
         </div>
-    </form>
+        </form>
     </>
   )
 }
