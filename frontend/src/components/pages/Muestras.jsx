@@ -11,7 +11,7 @@ import axios from 'axios';
 
 export function Muestras () {
 
-    const baseURL = 'http://localhost:3000/muestra/listar'
+    const baseURL = 'http://localhost:3000/muestras/listarMuestra'
 
     const [datos, setData] = useState([])
     const [modalOpen, setModalOpen] = useState(false)
@@ -110,19 +110,21 @@ export function Muestras () {
 
     const handleDesactivar = (codigo) => {
         try {
-            axios.put(`http://localhost:3000/muestra/desactivar/${codigo}`, null).then((response) => {
+            axios.put(`http://localhost:3000/muestras/desactivarMuestra/${codigo}`, null).then((response) => {
                 console.log(response.data);
-                })
 
-                if(response.status == 200) { 
+                if(response.status === 200) { 
                     setMensaje('Se desactivo con éxito la Muestra')
                     setModalAcciones(true)
                     fetchData()
                 } else {
                     alert('Error' + error)
                 }
+            })
+
+                
             } catch (error) {
-                alert('Error con el servidor')
+                console.log('Erorr' + error)
             }
     }
     
@@ -131,9 +133,9 @@ export function Muestras () {
 
         try {
             if (mode === 'create') {
-                const BaseURL = 'http://localhost:3000/muestra/crearmuestra'
+                const BaseURL = 'http://localhost:3000/muestras/crearMuestra'
 
-                await axios.post(BaseURL, data).then((response) => {
+                axios.post(BaseURL, data).then((response) => {
                     console.log(response);
                     if (response.status == 200) {
                         setMensaje('Muestra registrada con éxito')
@@ -143,8 +145,8 @@ export function Muestras () {
                     }
                 })
             } else if (mode === 'update') {
-                const UpdateURL = `http://localhost:3000/muestra/actualizar/${initialData.codigo}`
-                await axios.put(UpdateURL, data).then((response) => {
+                const UpdateURL = `http://localhost:3000/muestras/actualizarMuestra/${initialData.codigo}`
+                axios.put(UpdateURL, data).then((response) => {
                     console.log(response);
                     if (response.status == 200) {
                         setMensaje('Se actualizó La Muestra con éxito')
@@ -164,12 +166,10 @@ export function Muestras () {
     }
     
 
-    const handleToggle = (mode) => {
-        setMode(mode)
+    const handleToggle = (mode, initialData) => {
+        setInitialData(initialData)
         setModalOpen(true)
-        if(mode === 'update'){
-            
-        }
+        setMode(mode)
     }
 
   return (
@@ -192,7 +192,6 @@ export function Muestras () {
                 initialData={initialData}
                 handleSubmit={handleSubmit}
                 mode={mode}
-                setModalOpen={setModalOpen}
             />
             <DataTable columns={columns} data={datos} title={'Muestras registradas'} />
         </div>

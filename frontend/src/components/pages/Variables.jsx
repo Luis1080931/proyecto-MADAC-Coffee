@@ -11,7 +11,7 @@ import  axios from 'axios';
 
 export function Variables () {
 
-    const baseURL = 'http://localhost:3000/variable/listar'
+    const baseURL = 'http://localhost:3000/variables/listarvariable'
 
     const [datos, setData] = useState([])
     const [modalOpen, setModalOpen] = useState(false)
@@ -20,7 +20,7 @@ export function Variables () {
     const [initialData, setInitialData ] = useState(null)
     const [mensaje, setMensaje] = useState('')
 
-    useEffect(() => {
+    useEffect(() => {   
         fetchData()
 
     },[])
@@ -77,7 +77,7 @@ export function Variables () {
 
     const handleDesactivar = (codigo) => {
         try {
-            axios.put(`http://localhost:3000/variable/desactivar/${codigo}`, null).then((response) => {
+            axios.put(`http://localhost:3000/variables/desactivarVariable/${codigo}`, null).then((response) => {
                 console.log(response.data);
             })
 
@@ -97,7 +97,7 @@ export function Variables () {
 
         try {
             if(mode === 'create') {
-                const baseURL = 'http://localhost:3000/variable/crear'
+                const baseURL = 'http://localhost:3000/variables/crearvariable'
 
                 await axios.post(baseURL, data).then((response) => {
                     console.log(response)
@@ -109,7 +109,7 @@ export function Variables () {
                     }
                 })
             }else if (mode === 'update'){
-                const UpdateURL = `http://localhost:3000/variable/actualizar/${initialData.v_codigo}`
+                const UpdateURL = `http://localhost:3000/variables/actualizarvariable/${initialData.v_codigo}`
                 await axios.put(UpdateURL, data).then((response) => {
                     console.log(response);
                     if(response.status == 200){
@@ -125,7 +125,6 @@ export function Variables () {
             setModalOpen(false)
         } catch (error) {
             console.log('Error en el servidor ' + error)
-            alert('Se desactivo la variable con exito')
         }
     }
     const handleToggle = (mode, initialData) => {
