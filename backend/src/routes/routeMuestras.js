@@ -1,22 +1,18 @@
 import { Router } from "express";
 import { listarMuestras, CrearMuestra, actualizarMuestra, desactivarMuestras, BuscarMuestra } from "../controllers/controllerMuestras.js";
-<<<<<<< HEAD
-import { validacionMuestra } from '../../validate/muestra.js'
-=======
-import { validacionMuestra } from '../validate/muestra.js'
-import { validarToken } from "../controllers/seguridad.controller.js";
->>>>>>> a94e0472c33e01f00941344681f9cbb4448a8cfe
+/* import { validacionMuestra } from '../validate/muestra.js'
+import { validarToken } from "../controllers/seguridad.controller.js"; */
 
 
 const RouteMuestras = Router();
 
 //localhost:3000/actualizarMuestra
 
-RouteMuestras.get("/listarMuestra",validarToken, listarMuestras);
+RouteMuestras.get("/listarMuestra",/* validarToken, */ listarMuestras);
 //validation datos 
-RouteMuestras.post("/crearMuestra",validarToken, validacionMuestra,CrearMuestra);
-RouteMuestras.put("/actualizarMuestra/:codigo",validarToken,validacionMuestra,actualizarMuestra);
-RouteMuestras.put("/desactivarMuestra/:codigo",validarToken, desactivarMuestras);
-RouteMuestras.get("/buscarmuestra/:codigo",validarToken, BuscarMuestra);
+RouteMuestras.post("/crearMuestra",/* validarToken, */ /* validacionMuestra, */CrearMuestra);
+RouteMuestras.put("/actualizarMuestra/:codigo",/* validarToken, *//* validacionMuestra, */actualizarMuestra);
+RouteMuestras.put("/desactivarMuestra/:codigo",/* validarToken, */ desactivarMuestras);
+RouteMuestras.get("/buscarmuestra/:codigo",/* validarToken, */ BuscarMuestra);
 
 export default RouteMuestras;
