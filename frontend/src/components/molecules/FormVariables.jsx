@@ -1,27 +1,64 @@
-import { ButtonRegister } from '../atoms/ButtonRegister.jsx'
-import React from 'react'
-import logoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
-const FormVariables = () => {
+import React, { useEffect, useRef } from 'react';
+import { Button } from './../atoms/Button.jsx';
+
+const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode}) => {
+
+  const nombre = useRef(null)
+  const fk_tipo_analisis = useRef(null)
+
+  useEffect (()=>{
+    if(mode == 'update' && initialdata) {
+      nombre.current.value = initialdata.nombre 
+      fk_tipo_analisis.current.value = initialdata.fk_tipo_analisis
+    }
+  }, [mode, initialdata])
+
+  const handleFormSubmit  = async (e) => {
+    e.preventDefault();
+
+    try {
+      const data = {
+        nombre: nombre.current.value ,
+        fk_tipo_analisis: fk_tipo_analisis.current.value
+      }
+      handleSubmit(data, e)
+    } catch (error) {
+      console.log('no paila');
+    }
+
+  };
+
   return (
     <>
-    <div className='flex flex-col'>
+      <form onSubmit={handleFormSubmit}>
         <div className='flex flex-col'>
+          <div className='flex flex-col'>
             <label className='text-x1 font-bold'>Nombre: </label>
-            <input className='p-2 rounded-lg w-80 h-12' type="text" placeholder='Ingrese el nombre de la variable' />
-        <div className='flex-col md:flex'>
-            <label className='text-xl font-bold'>fk tipo analisis</label>
-            <select className='p-2 rounded-lg w-80 h-12'>
-                <option value="">fisico</option>
-                <option value="">sensorial</option>
-            </select>
+            <input
+              className='p-2 rounded-lg w-80 h-12'
+              type="text"
+              placeholder='Ingrese el nombre de la variable'
+              name="nombre"
+              ref={nombre}
+              required={true}
+            />
+            <div className='flex-col md:flex'>
+              <label className='text-xl font-bold'>tipo de análisis</label>
+              <input
+              className='p-2 rounded-lg w-80 h-12'
+              type="number"
+              placeholder='Ingrese Tipo de analisis'
+              name="fk_tipo_analisis"
+              ref={fk_tipo_analisis}
+              required= {true}
+            />
+            </div>
+          </div>
+          <Button actionLabel={actionLabel} />
         </div>
-        </div>
-    </div>
-    <div className='flex justify-center items-center w-[60%] h-[60%] mt-24'>
-      <img src={logoProyecto} alt="logo" />
-      </div>
+      </form>
     </>
-  )
-}
+  );
+};
 
-export default FormVariables
+export default FormVariables;
