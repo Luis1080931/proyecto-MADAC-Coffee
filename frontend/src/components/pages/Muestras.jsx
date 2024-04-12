@@ -163,11 +163,15 @@ export function Muestras () {
         }
     }
     
-    const handleToggle = (mode, initialData) => {
-        setInitialData(initialData)
-        setModalOpen(true)
+
+    const handleToggle = (mode) => {
         setMode(mode)
+        setModalOpen(true)
+        if(mode === 'update'){
+            
+        }
     }
+
   return (
     
     <div>
