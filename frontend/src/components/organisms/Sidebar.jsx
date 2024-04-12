@@ -28,7 +28,7 @@ export const Sidebar = () => {
       <div className="flex min-h-screen z-10">
         <div
           className={`${open ? "w-64" : "w-20"
-            } bg-[#39A900] max-h-full p-5 pt-5 relative duration-300`}
+            } bg-[#39A900] max-h-full p-5 pt-5 h-full duration-300 fixed`}
         >
           <img
             src={Control}

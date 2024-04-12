@@ -15,6 +15,7 @@ export const listarVariables = async (req, res) => {
             })
         }
     } catch (error) {
+    } catch (error) {
         res.status(500).json({
             status:500,
             message: "Error del servidor" + error
@@ -33,8 +34,8 @@ export const CrearVariable = async (req, res) => {
             return res.status(400).json(errors);
         }
 
-        const { nombre, fk_tipo_analisis, estado } = req.body
-        const [result] = await pool.query("INSERT INTO variables (nombre, fk_tipo_analisis, estado) VALUES (? , ? , ? )", [nombre, fk_tipo_analisis, estado])
+        const { nombre, fk_tipo_analisis } = req.body
+        const [result] = await pool.query("INSERT INTO variables (nombre, fk_tipo_analisis, estado) VALUES (? , ? , 1 )", [nombre, fk_tipo_analisis ])
         
 
         if (result.affectedRows > 0 ) {
@@ -68,7 +69,7 @@ export const ActualizarVariable = async (req, res) => {
 
         const { codigo } = req.params;
         const { nombre, fk_tipo_analisis } = req.body;
-        const [result] = await pool.query('UPDATE variables SET nombre = IFNULL(?, nombre), fk_tipo_analisis = IFNULL(?, fk_tipo_analisis) WHERE codigo = ?', [nombre, fk_tipo_analisis, codigo]);
+        const [result] = await pool.query('UPDATE variables SET nombre = IFNULL(?, nombre), fk_tipo_analisis = IFNULL(?, fk_tipo_analisis) , estado = 1 WHERE v_codigo = ?', [nombre, fk_tipo_analisis, codigo]);
 
         if (result.affectedRows > 0) {
             res.status(200).json({ message: 'La variable ha sido actualizada correctamente.' });
@@ -89,7 +90,7 @@ export const ActualizarVariable = async (req, res) => {
 export const desactivarVariable = async (req, res) => {
     try {
         const {codigo} = req.params; // Cambiado de 'codigo' a 'codigo'
-        const [result] = await pool.query("UPDATE variables  SET estado= 2 WHERE codigo = ?", [ codigo]);
+        const [result] = await pool.query("UPDATE variables  SET estado= 2 WHERE v_codigo = ?", [ codigo]);
 
         if (result.affectedRows > 0) {
             res.status(200).json({

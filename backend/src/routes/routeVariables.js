@@ -7,7 +7,7 @@ const routeVariables = Router()
 
 routeVariables.get("/listarvariable", validarToken, listarVariables)
 
-routeVariables.post("/crearvariable",validarToken, validacionVariable,CrearVariable)
+routeVariables.post("/crearvariable",/* validarToken, */ /* validacionVariable, */CrearVariable)
 
 routeVariables.put("/actualizarvariable/:codigo",validarToken, ActualizarVariable)
 routeVariables.put("/desactivarVariable/:codigo",validarToken, desactivarVariable)

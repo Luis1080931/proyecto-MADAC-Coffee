@@ -21,6 +21,7 @@ export const Datatable = (props) => {
         responsive
         striped
         highlightOnHover
+        className='flex max-w-[80%]'
     >
 
     </DataTable>

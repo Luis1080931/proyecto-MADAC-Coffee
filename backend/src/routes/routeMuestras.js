@@ -8,7 +8,7 @@ const RouteMuestras = Router();
 
 //localhost:3000/actualizarMuestra
 
-RouteMuestras.get("/listarMuestra",validarToken, listarMuestras);
+RouteMuestras.get("/listarMuestra",/* validarToken, */ listarMuestras);
 //validation datos 
 RouteMuestras.post("/crearMuestra",validarToken, validacionMuestra,CrearMuestra);
 

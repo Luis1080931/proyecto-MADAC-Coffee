@@ -18,8 +18,8 @@ export const Modal = ({ open, onClose, children }) => {
           </div>
         </div>
       )
+    }
 
-      }
 </>
   )
 }
