@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-
 import axios from 'axios'
-import { Button } from '../atoms/Button'
+
 
 
 const FormResultados = ({ actionLabel }) => {
@@ -104,7 +103,7 @@ const FormResultados = ({ actionLabel }) => {
                 <label className='text-xl font-bold'> Observaciones: </label>
                 <textarea className='p-2 rounded-lg w-80' name="observaciones" id="" cols="30" rows="3" placeholder='Observaciones' ref={observaciones} ></textarea>
             </div>
-            <Button actionLabel={actionLabel} />
+            
         </div>
     </form>
     </>

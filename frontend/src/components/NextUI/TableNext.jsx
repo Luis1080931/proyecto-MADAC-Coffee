@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -13,60 +13,98 @@ import {
   DropdownMenu,
   DropdownItem,
   Chip,
-  User,
   Pagination,
 } from "@nextui-org/react";
-import {PlusIcon} from "./PlusIcon";
-import {VerticalDotsIcon} from "./VerticalDotsIcon.jsx";
-import {SearchIcon} from "./SearchIcon";
-import {ChevronDownIcon} from "./ChevronDownIcon";
-import {columns, users, statusOptions} from "./Data.jsx";
-import {capitalize} from "./Utils.jsx";
+import { PlusIcon } from "./PlusIcon";
+import { VerticalDotsIcon } from "./VerticalDotsIcon.jsx";
+import { SearchIcon } from "./SearchIcon";
+import { ChevronDownIcon } from "./ChevronDownIcon";
+import axios from "axios";
+import ResultadosModal from "../templates/Resultados.jsx";
+import { Header } from "../molecules/Header.jsx";
 
 const statusColorMap = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
+  activo: "success",
+  inactivo: "danger",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
+const INITIAL_VISIBLE_COLUMNS = ["codigo", "fecha", "analisis", "variable", "valor", "observaciones", "estado", "actions"];
 
 export default function Ejemplo() {
+
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
   const [statusFilter, setStatusFilter] = React.useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [sortDescriptor, setSortDescriptor] = React.useState({
-    column: "age",
+    column: "fecha",
     direction: "ascending",
   });
   const [page, setPage] = React.useState(1);
+  const [results, setResults] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState('create')
+
+    const handleToggle = (mode) => {
+        setMode(mode)
+        setOpen(true)
+    }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/resultados/listar');
+      setResults(response.data);
+    } catch (error) {
+      console.error('Error al obtener los datos:', error);
+    }
+  };
+
+  const data = [
+    { uid: "codigo", name: "Código", sortable: true },
+    { uid: "fecha", name: "Fecha", sortable: true },
+    { uid: "analisis", name: "Análisis", sortable: true },
+    { uid: "variable", name: "Variable", sortable: true },
+    { uid: "valor", name: "Valor", sortable: true },
+    { uid: "observaciones", name: "Observaciones", sortable: false },
+    { uid: "estado", name: "Estado", sortable: true },
+    { uid: "actions", name: "Acciones", sortable: false },
+  ];
+
+  const statusOptions = [
+    {name: "Activo", uid: "activo"},
+    {name: "Inactivo", uid: "inactivo"},
+  ];
 
   const hasSearchFilter = Boolean(filterValue);
 
-  const headerColumns = React.useMemo(() => {
-    if (visibleColumns === "all") return columns;
-
-    return columns.filter((column) => Array.from(visibleColumns).includes(column.uid));
-  }, [visibleColumns]);
-
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...users];
+    let filteredResults = results;
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase()),
-      );
-    }
-    if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-      filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.status),
+      filteredResults = filteredResults.filter(result =>
+        String(result.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
+        result.fecha.toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(result.analisis).toLowerCase().includes(filterValue.toLowerCase()) ||
+        result.variable.toLowerCase().includes(filterValue.toLowerCase()) ||
+        result.valor.toLowerCase().includes(filterValue.toLowerCase()) ||
+        result.observaciones.toLowerCase().includes(filterValue.toLowerCase()) ||
+        result.estado.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
 
-    return filteredUsers;
-  }, [users, filterValue, statusFilter]);
+    if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
+      filteredResults = filteredResults.filter(result =>
+        Array.from(statusFilter).includes(result.estado)
+      );
+    }
+
+    return filteredResults;
+  }, [results, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -87,30 +125,13 @@ export default function Ejemplo() {
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
+  const renderCell = React.useCallback((result, columnKey) => {
+    const cellValue = result[columnKey];
 
     switch (columnKey) {
-      case "name":
+      case "estado":
         return (
-          <User
-            avatarProps={{radius: "lg", src: user.avatar}}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-400">{user.team}</p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip className="capitalize" color={statusColorMap[user.status]} size="sm" variant="flat">
+          <Chip className="capitalize" color={statusColorMap[result.estado]} size="sm" variant="flat">
             {cellValue}
           </Chip>
         );
@@ -124,9 +145,8 @@ export default function Ejemplo() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
-                <DropdownItem>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
+                <DropdownItem onClick={() => handleToggle('update')}>Editar</DropdownItem>
+                <DropdownItem>Desactivar</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -162,29 +182,36 @@ export default function Ejemplo() {
     }
   }, []);
 
-  const onClear = React.useCallback(()=>{
-    setFilterValue("")
-    setPage(1)
-  },[])
+  const onClear = React.useCallback(() => {
+    setFilterValue("");
+    setPage(1);
+  }, []);
+
+  const onStatusFilter = (selectedKeys) => {
+    setStatusFilter(selectedKeys)
+  }
 
   const topContent = React.useMemo(() => {
     return (
+      <>
+       <Header title='Resultados' />
       <div className="flex flex-col gap-4">
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
-            placeholder="Search by name..."
+            placeholder="Buscar..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
           <div className="flex gap-3">
+  
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
-                  Status
+                  Estado
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -193,45 +220,24 @@ export default function Ejemplo() {
                 closeOnSelect={false}
                 selectedKeys={statusFilter}
                 selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
+                onSelectionChange={onStatusFilter}
               >
                 {statusOptions.map((status) => (
                   <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
+                    {status.name}
                   </DropdownItem>
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
-                  Columns
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
-              >
-                {columns.map((column) => (
-                  <DropdownItem key={column.uid} className="capitalize">
-                    {capitalize(column.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />}>
-              Add New
+            <Button color="primary" endContent={<PlusIcon />} onClick={() => setOpen(true)}>
+              Registrar
             </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {users.length} users</span>
+          <span className="text-default-400 text-small">Total {results.length} resultados</span>
           <label className="flex items-center text-default-400 text-small">
-            Rows per page:
+            Columnas por página:
             <select
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
@@ -243,14 +249,14 @@ export default function Ejemplo() {
           </label>
         </div>
       </div>
+      </>
+     
     );
   }, [
     filterValue,
-    statusFilter,
-    visibleColumns,
     onRowsPerPageChange,
-    users.length,
     onSearchChange,
+    onClear,
     hasSearchFilter,
   ]);
 
@@ -260,7 +266,7 @@ export default function Ejemplo() {
         <span className="w-[30%] text-small text-default-400">
           {selectedKeys === "all"
             ? "All items selected"
-            : `${selectedKeys.size} of ${filteredItems.length} selected`}
+            : `${selectedKeys.size} de ${filteredItems.length} seleccionados`}
         </span>
         <Pagination
           isCompact
@@ -273,10 +279,10 @@ export default function Ejemplo() {
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
           <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
-            Previous
+            Atras
           </Button>
           <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
-            Next
+            Siguiente
           </Button>
         </div>
       </div>
@@ -284,40 +290,50 @@ export default function Ejemplo() {
   }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
 
   return (
-    <Table
-      aria-label="Example table with custom cells, pagination and sorting"
-      isHeaderSticky
-      bottomContent={bottomContent}
-      bottomContentPlacement="outside"
-      classNames={{
-        wrapper: "max-h-[382px]",
-      }}
-      selectedKeys={selectedKeys}
-      selectionMode="multiple"
-      sortDescriptor={sortDescriptor}
-      topContent={topContent}
-      topContentPlacement="outside"
-      onSelectionChange={setSelectedKeys}
-      onSortChange={setSortDescriptor}
-    >
-      <TableHeader columns={headerColumns}>
-        {(column) => (
-          <TableColumn
-            key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
-            allowsSorting={column.sortable}
-          >
-            {column.name}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody emptyContent={"No users found"} items={sortedItems}>
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <div className="flex items-center justify-center">
+    <ResultadosModal 
+      open={open}
+      onClose={()=> setOpen(false)}
+      title={mode == 'create' ? 'Registro' : 'Actualizar'}
+      actionLabel={mode == 'create' ? 'Crear' : 'Guardar'}
+    />
+<Table
+  aria-label="Example table with custom cells, pagination and sorting"
+  isHeaderSticky
+  bottomContent={bottomContent}
+  bottomContentPlacement="outside"
+  classNames={{
+    wrapper: "max-h-[382px] max-w-[95%]" ,
+  }}
+  className="flex "
+  selectedKeys={selectedKeys}
+  selectionMode="multiple"
+  sortDescriptor={sortDescriptor}
+  topContent={topContent}
+  topContentPlacement="outside"
+  onSelectionChange={setSelectedKeys}
+  onSortChange={setSortDescriptor}
+>
+  <TableHeader columns={data}>
+    {(column) => (
+      <TableColumn
+        key={column.uid}
+        align={column.uid === "actions" ? "center" : "start"}
+        allowsSorting={column.sortable}
+      >
+        {column.name}
+      </TableColumn>
+    )}
+  </TableHeader>
+  <TableBody emptyContent={"No hay resultados registrados"} items={sortedItems}>
+    {(item) => (
+      <TableRow key={item.codigo}>
+        {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+      </TableRow>
+    )}
+  </TableBody>
+</Table>
+    </div>
+    
   );
 }

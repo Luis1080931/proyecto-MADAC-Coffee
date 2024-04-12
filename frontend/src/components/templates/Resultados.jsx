@@ -1,17 +1,15 @@
 import React from 'react'
 import FormResultados from '../molecules/FormResultados.jsx';
-import { Modal } from '../organisms/Modal.jsx';
-import { Logo } from '../atoms/LogoProyecto.jsx';
+import { ModalAcciones } from '../organisms/Modal.jsx';
 
-function ResultadosModal ({ open, onClose, handleSubmit, actionLabel, title}){
+function ResultadosModal ({ open, onClose, handleSubmit, actionLabel, title }){
 
     return (
       <>
 
-      <Modal open={open} onClose={onClose}> 
-        <FormResultados handleSubmit={handleSubmit} actionLabel={actionLabel} />
-        <Logo title={title} />
-      </Modal>
+      <ModalAcciones open={open} onClose={onClose} actionLabel={actionLabel} title={title}> 
+        <FormResultados handleSubmit={handleSubmit} />
+      </ModalAcciones>
       
       </>
     )
