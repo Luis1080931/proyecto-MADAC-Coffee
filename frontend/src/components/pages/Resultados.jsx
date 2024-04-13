@@ -4,6 +4,8 @@ import axios from 'axios';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
 import Ejemplo from '../organisms/Table.jsx';
 import ResultadosModal from './../templates/Resultados.jsx';
+import { ButtonDesactivar } from '../atoms/ButtonDesactivar.jsx';
+import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
 
 export function Resultados () {
 
@@ -35,14 +37,47 @@ export function Resultados () {
     }
 
     const data = [
-        { uid: "codigo", name: "Código", sortable: true },
-        { uid: "fecha", name: "Fecha", sortable: true },
-        { uid: "analisis", name: "Análisis", sortable: true },
-        { uid: "variable", name: "Variable", sortable: true },
-        { uid: "valor", name: "Valor", sortable: true },
-        { uid: "observaciones", name: "Observaciones", sortable: false },
-        { uid: "estado", name: "Estado", sortable: true },
-        { uid: "actions", name: "Acciones", sortable: false },
+        { 
+            uid: "codigo",
+            name: "Código",
+            sortable: true 
+        },
+        { 
+            uid: "fecha",
+            name: "Fecha",
+            sortable: true,
+            format: (value) => new Date(value).toLocaleDateString('es-ES')
+        },
+        { 
+            uid: "analisis",
+            name: "Análisis", 
+            sortable: true 
+        },
+        { 
+            uid: "variable",
+            name: "Variable",
+            sortable: true 
+        },
+        { 
+            uid: "valor",
+            name: "Valor",
+            sortable: true 
+        },
+        { 
+            uid: "observaciones",
+            name: "Observaciones",
+            sortable: false 
+        },
+        { 
+            uid: "estado",
+            name: "Estado",
+            sortable: true 
+        },
+        { 
+            uid: 'actions',
+            name: "Acciones",
+            sortable: true 
+        },
       ];
     
 
@@ -67,8 +102,7 @@ export function Resultados () {
         
     }
 
-    const handleSubmit = async (data, e) => {
-        e.preventDefault()
+    const handleSubmit = async (data) => {
 
         try {
             if(mode === 'create'){
@@ -106,7 +140,7 @@ export function Resultados () {
             setModalOpen(false)
         } catch (error) {
             console.log('Error del servidor' + error)
-            alert('Error del servidor')
+            alert('Error del servidor' + error)
         }
     }
 
@@ -141,10 +175,11 @@ export function Resultados () {
 
            {/*  <Datatable columns={columns} data={datos} title={'Resultados registrados'} /> */}
            <Ejemplo 
-            clickDesactivar={handleDesactivar()}
+            clickDesactivar={handleDesactivar}
             clickEditar={() => handleToggle('update')}
             clickRegistrar={() => handleToggle('create')}
             data={data}
+            
            />
             
         </div>

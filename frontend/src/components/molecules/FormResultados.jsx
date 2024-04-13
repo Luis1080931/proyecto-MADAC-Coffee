@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-/* import AccionesModal from '../organisms/ModalAcciones.jsx' */
 /* import { ButtonAcciones } from '../atoms/Button.jsx' */
 
-const FormResultados = ({ mode, initialData, handleSubmit }) => {
+const FormResultados = ({ mode, initialData, handleSubmit, actionLabel }) => {
 
     const token = localStorage.getItem('token')
 
@@ -35,6 +34,7 @@ const FormResultados = ({ mode, initialData, handleSubmit }) => {
                 valor: valor.current.value,
                 observaciones: observaciones.current.value
             }
+            console.log('Datos:', data);
             handleSubmit(data, e)
 
         } catch (error) {
@@ -122,7 +122,7 @@ const FormResultados = ({ mode, initialData, handleSubmit }) => {
                 required={true}
                 ></textarea>
             </div>
-           {/*  <ButtonAcciones actionLabel={actionLabel} /> */}
+            {/* <ButtonAcciones actionLabel={actionLabel} /> */}
         </div>
         </form>
     </>

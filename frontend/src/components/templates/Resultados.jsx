@@ -7,8 +7,8 @@ function ResultadosModal ({ open, onClose, handleSubmit, actionLabel, title, ini
     return (
       <>
 
-      <ModalAcciones open={open} onClose={onClose} actionLabel={actionLabel} title={title} > 
-        <FormResultados handleSubmit={handleSubmit} initialData={initialData} mode={mode} />
+      <ModalAcciones open={open} onClose={onClose} actionLabel={actionLabel} title={title} handleSubmit={handleSubmit} > 
+        <FormResultados initialData={initialData} mode={mode} actionLabel={actionLabel} handleSubmit={handleSubmit} />
       </ModalAcciones>
       
       </>

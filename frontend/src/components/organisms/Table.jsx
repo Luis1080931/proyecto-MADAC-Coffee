@@ -57,48 +57,7 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
       console.error('Error al obtener los datos:', error);
     }
   };
- /*  const columns = [
-    {
-        uid: row => row.codigo,
-        name:  'Id',
-        sortable: true
-    },
-    {
-        name: 'Fecha',
-        selector: row => new Date(row.fecha).toLocaleDateString(),
-        sortable: true
-    },
-    {
-        name: 'Análisis',
-        selector: row => row.analisis,
-        sortable: true
-    },
-    {
-        name: 'Variable',
-        selector: row => row.variable,
-        sortable: true
-    },
-    {
-        name: 'Valor',
-        selector: row => row.valor,
-        sortable: true
-    },
-    {
-        name: 'Observaciones',
-        selector: row => row.observaciones, 
-        sortable: true
-    },
-    {
-        name: 'Estado',
-        selector: row => row.estado,
-        sortable: true
-    },
-    {
-        name: 'Acciones',
-        cell: row => <><ButtonActualizar click={() => handleToggle('update', row)} /> <ButtonDesactivar click={() => handleDesactivar(row.codigo) } /></> 
-    }
-]
- */
+ 
   const statusOptions = [
     {name: "Activo", uid: "activo"},
     {name: "Inactivo", uid: "inactivo"},
@@ -169,8 +128,8 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem onClick={clickEditar}>Editar</DropdownItem>
-                <DropdownItem onClick={clickDesactivar}>Desactivar</DropdownItem>
+                <DropdownItem onClick={() => clickEditar(result)}>Editar</DropdownItem>
+                <DropdownItem onClick={() => clickDesactivar(result.codigo)}>Desactivar</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
