@@ -19,6 +19,7 @@ export function Resultados () {
     const [initialData, setInitialData ] = useState(null)
     const [mensaje, setMensaje] = useState('')
     const [results, setResults] = useState([]);
+    const [selectedResultId, setSelectedResultId] = useState(null);
 
   useEffect(() => {
     fetchData();
@@ -99,7 +100,28 @@ export function Resultados () {
         
     }
 
+    const handleUpdate = async (id, datosForm) => {
+        
+        console.log('Codigo', id)
+
+        const updateURL = `http://localhost:3000/resultados/actualizar/${id}`
+
+                await axios.put(updateURL, datosForm).then((response) => {
+                    console.log(response)
+
+                    if(response.status == 200){
+                        setMensaje('Se actualizó el resultado con éxito')
+                        setModalAcciones(true)
+                        setModalOpen(false)
+                        fetchData()
+                    }else{
+                        alert('Error de actualizar')
+                    }
+                })
+    }
+
     const handleSubmit = async (datosForm, e) => {
+        console.log(datosForm);
         e.preventDefault()
         try {
             if(mode === 'create'){
@@ -118,21 +140,27 @@ export function Resultados () {
                     }
                     
                 })
-             } else if(mode === 'update'){
-                const updateURL = `http://localhost:3000/resultados/actualizar/${initialData.codigo}`
+             } else if(mode === 'update' && initialData){
 
-                await axios.put(updateURL, datosForm).then((response) => {
-                    console.log(response)
+                /* console.log('Datos ha actualizar', selectedResultId);
 
-                    if(response.status == 200){
-                        setMensaje('Se actualizó el resultado con éxito')
-                        setModalAcciones(true)
-                        setModalOpen(false)
-                        fetchData()
-                    }else{
-                        alert('Error de actualizar')
-                    }
-                })
+                    const updateURL = `http://localhost:3000/resultados/actualizar/${initialData.codigo}`
+
+                    axios.put(updateURL, datosForm).then((response) => {
+                        console.log(response)
+    
+                        if(response.status == 200){
+                            setMensaje('Se actualizó el resultado con éxito')
+                            setModalAcciones(true)
+                            setModalOpen(false)
+                            fetchData()
+                        }else{
+                            alert('Error de actualizar')
+                        }
+                    }) */
+    
+                    await handleUpdate(initialData.codigo, datosForm)
+                
             } 
             setModalOpen(false)
         } catch (error) {
@@ -172,10 +200,11 @@ export function Resultados () {
 
            <Ejemplo 
                 clickDesactivar={handleDesactivar}
-                clickEditar={() => handleToggle('update', results)}
+                clickEditar={() => handleToggle('update', results.codigo)}
                 clickRegistrar={() => handleToggle('create')}
                 data={data}
                 results={results}
+               /*  onUpdate={handleUpdate} */
            />
             
         </div>

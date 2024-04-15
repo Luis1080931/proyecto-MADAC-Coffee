@@ -41,22 +41,6 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
     direction: "ascending",
   });
   const [page, setPage] = React.useState(1);
-  /* const [results, setResults] = useState([]);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const token = localStorage.getItem('token')
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/resultados/listar', {headers: {token: token}});
-      setResults(response.data);
-    } catch (error) {
-      console.error('Error al obtener los datos:', error);
-    }
-  }; */
  
   const statusOptions = [
     {name: "Activo", uid: "activo"},
@@ -110,6 +94,15 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
 
   const renderCell = React.useCallback((result, columnKey) => {
     const cellValue = result[columnKey];
+
+  
+/* const handleUpdateClick = (id) => {
+ 
+  onUpdate(id);
+};
+
+
+{<ButtonActualizar onClick={() => handleUpdateClick(result.id)} />} */
 
     switch (columnKey) {
       case "estado":
