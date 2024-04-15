@@ -12,29 +12,26 @@ export function Resultados () {
     const baseURL = 'http://localhost:3000/resultados/listar'
     const token = localStorage.getItem('token')
 
-    const [datos, setData] = useState([])
+    /* const [datos, setData] = useState([]) */
     const [modalOpen, setModalOpen] = useState(false)
     const [ modalAcciones, setModalAcciones ] = useState(false)
     const [mode, setMode] = useState('create')
     const [initialData, setInitialData ] = useState(null)
     const [mensaje, setMensaje] = useState('')
+    const [results, setResults] = useState([]);
 
-    useEffect(() => {
-        
-        fetchData()
+  useEffect(() => {
+    fetchData();
+  }, [token]);
 
-    }, [token])
-
-    const fetchData = async () => {
-        try {
-            axios.get(baseURL, {headers: {token:token}}).then((response) => {
-                console.log(response)
-                setData(response.data)
-            })
-        } catch (error) {
-            console.log('Error de servidor' + error)
-        }
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(baseURL, {headers: {token: token}});
+      setResults(response.data);
+    } catch (error) {
+      console.error('Error al obtener los datos:', error);
     }
+  };
 
     const data = [
         { 
@@ -102,13 +99,13 @@ export function Resultados () {
         
     }
 
-    const handleSubmit = async (data) => {
-
+    const handleSubmit = async (datosForm, e) => {
+        e.preventDefault()
         try {
             if(mode === 'create'){
                 const baseURL = 'http://localhost:3000/resultados/registrar'
     
-                await axios.post(baseURL, data).then((response) => {
+                await axios.post(baseURL, datosForm).then((response) => {
                     console.log(response)
 
                     if(response.status == 200){
@@ -124,7 +121,7 @@ export function Resultados () {
              } else if(mode === 'update'){
                 const updateURL = `http://localhost:3000/resultados/actualizar/${initialData.codigo}`
 
-                await axios.put(updateURL, data).then((response) => {
+                await axios.put(updateURL, datosForm).then((response) => {
                     console.log(response)
 
                     if(response.status == 200){
@@ -167,19 +164,18 @@ export function Resultados () {
                 onClose={() => setModalOpen(false)} 
                 title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
                 actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                mode={mode}
                 initialData={initialData}
                 handleSubmit={handleSubmit}
-                mode={mode}
                 setModalOpen={setModalOpen}
             />
 
-           {/*  <Datatable columns={columns} data={datos} title={'Resultados registrados'} /> */}
            <Ejemplo 
-            clickDesactivar={handleDesactivar}
-            clickEditar={() => handleToggle('update')}
-            clickRegistrar={() => handleToggle('create')}
-            data={data}
-            
+                clickDesactivar={handleDesactivar}
+                clickEditar={() => handleToggle('update', results)}
+                clickRegistrar={() => handleToggle('create')}
+                data={data}
+                results={results}
            />
             
         </div>

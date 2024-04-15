@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-/* import { ButtonAcciones } from '../atoms/Button.jsx' */
+import {ModalFooter, Button } from "@nextui-org/react";
 
-const FormResultados = ({ mode, initialData, handleSubmit, actionLabel }) => {
+const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel }) => {
 
     const token = localStorage.getItem('token')
 
@@ -14,8 +14,8 @@ const FormResultados = ({ mode, initialData, handleSubmit, actionLabel }) => {
 
     useEffect(() => {
         if(mode == 'update' && initialData){
-            const formatDate = initialData.fecha.substring(0,10)
-            fecha.current.value = formatDate
+            /* const formatDate = initialData.fecha.substring(0,10) */
+            fecha.current.value = initialData.fecha
             fk_analisis.current.value = initialData.fk_analisis
             fk_variables.current.value = initialData.fk_variables
             valor.current.value = initialData.valor
@@ -27,15 +27,15 @@ const FormResultados = ({ mode, initialData, handleSubmit, actionLabel }) => {
         e.preventDefault()
         try {
 
-            const data = {
+            const datosForm = {
                 fecha: new Date(fecha.current.value),
                 fk_analisis: parseInt(fk_analisis.current.value),
                 fk_variables: parseInt(fk_variables.current.value),
                 valor: valor.current.value,
                 observaciones: observaciones.current.value
             }
-            console.log('Datos:', data);
-            handleSubmit(data, e)
+            /* console.log('Datos:', data); */
+            handleSubmit(datosForm, e)
 
         } catch (error) {
             alert('Error de servidor' + error)
@@ -122,7 +122,15 @@ const FormResultados = ({ mode, initialData, handleSubmit, actionLabel }) => {
                 required={true}
                 ></textarea>
             </div>
-            {/* <ButtonAcciones actionLabel={actionLabel} /> */}
+            <ModalFooter>
+                <Button color="danger" variant="flat" onPress={onClose}>
+                  Close
+                </Button>
+                <Button type='submit' color="primary">
+                  {actionLabel}
+                </Button>
+                
+            </ModalFooter>
         </div>
         </form>
     </>

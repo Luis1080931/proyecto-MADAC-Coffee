@@ -11,6 +11,7 @@ import { VistaAnalisis } from "./pages/VistaAnalisis.jsx"
 import { Resultados } from "./pages/Resultados.jsx"
 import Ejemplo from './NextUI/TableNext.jsx'
 import LoginModal from "./organisms/ModalLogin.jsx"
+import ModalResultados from "./organisms/ModalResultados.jsx"
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/analisis" element={<VistaAnalisis />} />
           <Route path="/table" element={<Ejemplo />} />
           <Route path="/modallogin" element={<LoginModal />} />
+          <Route path="/modalresultados" element={<ModalResultados />} />
         </Routes>
 
     </BrowserRouter>

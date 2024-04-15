@@ -29,7 +29,7 @@ const statusColorMap = {
 
 /* const INITIAL_VISIBLE_COLUMNS = ["codigo", "fecha", "analisis", "variable", "valor", "observaciones", "estado", "actions"]; */
 
-export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, data }) {
+export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, data, results }) {
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
@@ -41,7 +41,7 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
     direction: "ascending",
   });
   const [page, setPage] = React.useState(1);
-  const [results, setResults] = useState([]);
+  /* const [results, setResults] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -56,7 +56,7 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
     } catch (error) {
       console.error('Error al obtener los datos:', error);
     }
-  };
+  }; */
  
   const statusOptions = [
     {name: "Activo", uid: "activo"},
@@ -128,7 +128,7 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem onClick={() => clickEditar(result)}>Editar</DropdownItem>
+                <DropdownItem onClick={() => clickEditar(result.codigo)}>Editar</DropdownItem>
                 <DropdownItem onClick={() => clickDesactivar(result.codigo)}>Desactivar</DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -198,7 +198,8 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
               </DropdownTrigger>
               <DropdownMenu
                 disallowEmptySelection
-                aria-label="Table Columns"
+                aria-label="Menu de acciones"
+                aria-labelledby="Acciones"
                 closeOnSelect={false}
                 selectedKeys={statusFilter}
                 selectionMode="multiple"
@@ -274,7 +275,7 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
   return (
     <div className="flex items-center justify-center">
 <Table
-  aria-label="Example table with custom cells, pagination and sorting"
+  aria-label="Tabla"
   isHeaderSticky
   bottomContent={bottomContent}
   bottomContentPlacement="outside"
