@@ -96,7 +96,7 @@ function RegistroResultadosModal({ isOpen, onClose }) {
             </form>
           </Tab>
           <Tab key="music" title="Music">
-            if()
+            
           </Tab>
           <Tab key="videos" title="Videos"/>
         </Tabs>
