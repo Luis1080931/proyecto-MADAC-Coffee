@@ -3,13 +3,10 @@ import {validationResult} from 'express-validator'
 
 export const getFincas = async (req, res) => {
     try {
-        const query = `
-            SELECT f.codigo, f.dimension_mt2, u.nombre AS fk_caficultor, m.nombre AS municipio, f.vereda, f.estado
-            FROM fincas f
-            LEFT JOIN usuarios u ON f.fk_caficultor = u.identificacion
-            LEFT JOIN municipios m ON f.municipio = m.id_municipio
-        `;
-        const [rows] = await pool.query(query);
+        const [rows]=await pool.query(` SELECT f.codigo, f.dimension_mt2, u.nombre AS fk_caficultor, m.nombre AS municipio, f.vereda, f.estado
+        FROM fincas f
+        LEFT JOIN usuarios u ON f.fk_caficultor = u.identificacion
+        LEFT JOIN municipios m ON f.municipio = m.id_municipio`) 
         if (rows.length > 0) {
             res.status(200).json(rows);
         } else {
@@ -25,21 +22,26 @@ export const getFincas = async (req, res) => {
 };
 
 export const getFinca = async (req,res)=>{
-    try{
-        const [rows]=await pool.query('SELECT * FROM fincas WHERE codigo=?',[req.params.codigo])
-        if(rows.length > 0){
-            res.status(200).json(rows)
-        }else{
+    try {
+        const [rows]=await pool.query(` SELECT f.codigo, f.dimension_mt2, u.nombre AS fk_caficultor, m.nombre AS municipio, f.vereda, f.estado
+        FROM fincas f
+        LEFT JOIN usuarios u ON f.fk_caficultor = u.identificacion
+        LEFT JOIN municipios m ON f.municipio = m.id_municipio WHERE codigo=?`,[req.params.codigo]) 
+        if (rows.length > 0) {
+            res.status(200).json(rows);
+        } else {
             res.status(404).json({
-                message:"no encontramos a la finca"
-            })
+                message: "No se encontraron fincas"
+            });
         }
-    }catch(error){
+    } catch (error) {
         res.status(500).json({
-            message:"error en el servidor"+error
-        })
+            message: "Error en el servidor: " + error
+        });
     }
-}
+};
+
+
 export const postFincas=async(req,res)=>{
     try{
 
