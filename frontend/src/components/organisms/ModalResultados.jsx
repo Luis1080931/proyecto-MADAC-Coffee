@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Modal, Button, ModalHeader, ModalContent, ModalFooter } from '@nextui-org/react';
+import {Tabs, Tab} from "@nextui-org/react"; 
 
 // Componente para el modal de registro de resultados
 function RegistroResultadosModal({ isOpen, onClose }) {
-  const [analisisSeleccionado, setAnalisisSeleccionado] = useState([]);
+  const [analisis, setAnalisis] = useState([]);
   const [variables, setVariables] = useState([]);
   const [paginaActual, setPaginaActual] = useState(0);
   const [valoresVariables, setValoresVariables] = useState({});
 
   const token = localStorage.getItem('token');
 
-  // Función para cargar las variables del análisis físico seleccionado
   const cargarVariables = async () => {
     try {
       await axios.get(`http://localhost:3000/variables/listarvariable`, {headers: {token: token}}).then((response) => {
@@ -25,33 +25,26 @@ function RegistroResultadosModal({ isOpen, onClose }) {
 
   axios.get('http://localhost:3000/analisis/listar', {headers: {token: token}}).then((response) => {
     const analisisFilter = response.data.filter(analisi => analisi.estado == 'activo')
-    setAnalisisSeleccionado(analisisFilter);
-    cargarVariables(response.data);
+    setAnalisis(analisisFilter);
   })
 
-  // Función para manejar el cambio en la selección del análisis físico
   const handleChangeAnalisis = (event) => {
     const { value } = event.target;
     setAnalisisSeleccionado(value);
     cargarVariables(value);
   };
 
-  // Función para manejar el cambio en el valor de una variable
   const handleChangeValorVariable = (event, variableId) => {
     const { value } = event.target;
     setValoresVariables({ ...valoresVariables, [variableId]: value });
   };
 
-  // Función para manejar el clic en el botón "Siguiente"
   const handleClickSiguiente = () => {
     setPaginaActual(paginaActual + 1);
   };
 
-  // Función para manejar el clic en el botón "Registrar"
   const handleClickRegistrar = async () => {
     try {
-      // Aquí puedes enviar los valores de las variables a tu servidor para registrarlos en la base de datos
-      // Por ejemplo:
       await axios.post('http://localhost:3000/resultados/registrar', {
         analisis: analisisSeleccionado,
         valores: valoresVariables
@@ -62,14 +55,55 @@ function RegistroResultadosModal({ isOpen, onClose }) {
     }
   };
 
+  const variants = [
+    "solid",
+    /* "underlined",
+    "bordered",
+    "light", */
+  ];
+
   // Obtener las variables de la página actual
   const variablesPagina = variables.slice(paginaActual * 5, (paginaActual + 1) * 5);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalContent>
-      <ModalHeader>Registrar resultados</ModalHeader>
-      <form method='post'>
+      <ModalHeader>
+      <div className="flex flex-wrap gap-4">
+      {variants.map((variant) => (
+        <Tabs key={variant} variant={variant} aria-label="Tabs variants">
+          <Tab key="photos" title="Photos">
+            <form action="#">
+            <div className='flex flex-col'>
+                <label className='text-xl font-bold'> Fecha: </label>
+                <input className='p-2 rounded-lg w-80 h-12' 
+                name='fecha' 
+                type="date" 
+                placeholder='Ingrese la fecha'  
+                required={true}
+                />
+            </div>
+              <div className='flex flex-col'>
+                <label className='text-xl font-bold'> Codigo del analisis </label>
+                <select className='p-2 rounded-lg w-80 h-12'>
+                  {analisis.map(anali => (
+                    <option value={anali.codigo}>
+                      {anali.codigo}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </form>
+          </Tab>
+          <Tab key="music" title="Music">
+            if()
+          </Tab>
+          <Tab key="videos" title="Videos"/>
+        </Tabs>
+      ))}
+    </div>
+      </ModalHeader>
+      {/* <form method='post'>
       <div>
           <label htmlFor="analisis">Seleccionar análisis físico:</label>
           <select id="analisis" value={analisisSeleccionado} onChange={handleChangeAnalisis}>  
@@ -93,7 +127,7 @@ function RegistroResultadosModal({ isOpen, onClose }) {
             </div>
           ))}
         </div>
-      </form>
+      </form> */}
         
         <div>
           {paginaActual > 0 && <Button onClick={() => setPaginaActual(paginaActual - 1)}>Anterior</Button>}

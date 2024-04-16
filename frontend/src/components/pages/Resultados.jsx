@@ -100,7 +100,7 @@ export function Resultados () {
         
     }
 
-    const handleUpdate = async (id, datosForm) => {
+   /*  const handleUpdate = async (id, datosForm) => {
         
         console.log('Codigo', id)
 
@@ -118,7 +118,9 @@ export function Resultados () {
                         alert('Error de actualizar')
                     }
                 })
-    }
+    } */
+
+    const id = localStorage.getItem('ideUser')
 
     const handleSubmit = async (datosForm, e) => {
         console.log(datosForm);
@@ -140,11 +142,9 @@ export function Resultados () {
                     }
                     
                 })
-             } else if(mode === 'update' && initialData){
+             } else if(mode === 'update'){
 
-                /* console.log('Datos ha actualizar', selectedResultId);
-
-                    const updateURL = `http://localhost:3000/resultados/actualizar/${initialData.codigo}`
+                    const updateURL = `http://localhost:3000/resultados/actualizar/${id}`
 
                     axios.put(updateURL, datosForm).then((response) => {
                         console.log(response)
@@ -157,10 +157,7 @@ export function Resultados () {
                         }else{
                             alert('Error de actualizar')
                         }
-                    }) */
-    
-                    await handleUpdate(initialData.codigo, datosForm)
-                
+                    })
             } 
             setModalOpen(false)
         } catch (error) {
@@ -200,7 +197,7 @@ export function Resultados () {
 
            <Ejemplo 
                 clickDesactivar={handleDesactivar}
-                clickEditar={() => handleToggle('update', results.codigo)}
+                clickEditar={() => handleToggle('update', id)}
                 clickRegistrar={() => handleToggle('create')}
                 data={data}
                 results={results}

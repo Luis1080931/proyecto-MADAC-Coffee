@@ -96,13 +96,14 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
     const cellValue = result[columnKey];
 
   
-/* const handleUpdateClick = (id) => {
+const handleUpdateClick = (id) => {
  
-  onUpdate(id);
+  localStorage.setItem('idUser', id)
+  clickEditar(id)
 };
 
 
-{<ButtonActualizar onClick={() => handleUpdateClick(result.id)} />} */
+/* {<ButtonActualizar onClick={() => handleUpdateClick(result.id)} />} */
 
     switch (columnKey) {
       case "estado":
@@ -121,7 +122,7 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem onClick={() => clickEditar(result.codigo)}>Editar</DropdownItem>
+                <DropdownItem onClick={() => handleUpdateClick(result.codigo)}>Editar</DropdownItem>
                 <DropdownItem onClick={() => clickDesactivar(result.codigo)}>Desactivar</DropdownItem>
               </DropdownMenu>
             </Dropdown>
