@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { View,Alert, TextInput, StyleSheet, Image } from 'react-native';
 import BotonRegistrar from './Botton';
+import axios from 'axios';
 
 
 
