@@ -129,7 +129,7 @@ export const buscarResultados = async (req, res) => {
     try {
         
         let idResultado = req.params.idResultado
-        let sql = `SELECT fecha, fk_analisis AS analisis, fk_variables AS variable, observaciones, valor FROM resultados JOIN variables ON fk_variables = codigo`
+        let sql = `SELECT fecha, fk_analisis AS analisis, fk_variables AS variable, observaciones, valor FROM resultados JOIN variables ON fk_variables = v_codigo where codigo = ?`
 
         const[result] = await pool.query(sql, [idResultado])
 
