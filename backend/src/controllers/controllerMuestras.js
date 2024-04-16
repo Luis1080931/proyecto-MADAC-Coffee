@@ -27,8 +27,8 @@ export const CrearMuestra = async (req, res) => {
         return res.status(400).json(errors.array());
     }
 
-        const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado } = req.body;
-        const [resultado] = await pool.query("INSERT INTO muestras (fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado]);
+        const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote } = req.body;
+        const [resultado] = await pool.query("INSERT INTO muestras (fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)", [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote]);
 
         if (resultado.affectedRows > 0) {
             res.status(200).json({ mensaje: "Se creó una muestra" });
@@ -74,7 +74,7 @@ export const actualizarMuestra = async (req, res) => {
 
 export const desactivarMuestras = async (req, res) => {
     try {
-        const { codigo } = req.params; // Corregido de 'codigo' a 'codigo'
+        const { codigo } = req.params;
         const [result] = await pool.query("UPDATE muestras SET estado = 2 WHERE codigo = ?", [codigo]);
 
         if (result.affectedRows >  0) {
@@ -92,6 +92,28 @@ export const desactivarMuestras = async (req, res) => {
         res.status(500).json({message:"Error en el servidor" + error})
     }
 };
+
+export const activarMuestras = async (req, res) => {
+    try {
+        const { codigo } = req.params;
+        const [result] = await pool.query("UPDATE muestras SET estado = 1 WHERE codigo = ?", [codigo]);
+
+        if (result.affectedRows > 0) {
+            res.status(200).json({
+                status: 200,
+                message: 'Se activó con éxito',
+            });
+        } else {
+            res.status(403).json({
+                status: 403,
+                message: 'No se pudo activar la muestra'
+            });
+        }
+    } catch (error) {
+        res.status(500).json({message: "Error en el servidor" + error})
+    }
+};
+
 
 export const BuscarMuestra = async (req, res) => {
     try {
