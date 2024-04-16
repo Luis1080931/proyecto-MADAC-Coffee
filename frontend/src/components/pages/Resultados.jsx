@@ -7,7 +7,7 @@ import axios from 'axios';
 import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
 import { Datatable } from '../organisms/Datatable.jsx';
 import { ButtonDesactivar } from '../atoms/ButtonDesactivar.jsx';
-
+import AccionesModal from '../organisms/ModalAcciones.jsx';
 
 export function Resultados () {
 
@@ -15,8 +15,15 @@ export function Resultados () {
     const token = localStorage.getItem('token')
 
     const [datos, setData] = useState([])
+    const [mensaje, setMensaje] = useState('')
+    const [modalAcciones, setModalAcciones] = useState(false)
+    const [initialData, setInitialData] = useState([])
 
     useEffect(() => {
+       fetchData()
+    }, [token])
+
+    const fetchData = () => {
         try {
             axios.get(baseURL, {headers: {token:token}}).then((response) => {
                 console.log(response)
@@ -25,7 +32,7 @@ export function Resultados () {
         } catch (error) {
             console.log('Error de servidor' + error)
         }
-    }, [token])
+    }
 
     const columns = [
         {
@@ -65,7 +72,7 @@ export function Resultados () {
         },
         {
             name: 'Acciones',
-            cell: row => <><ButtonActualizar click={() => handleToggle('update')} /> <ButtonDesactivar click={() => handleDesactivar(row.codigo) } /></> 
+            cell: row => <><ButtonActualizar click={() => handleToggle('update', row)} /> <ButtonDesactivar click={() => handleDesactivar(row.codigo) } /></> 
         }
     ]
 
@@ -76,18 +83,17 @@ export function Resultados () {
         setData(newData)
     }
 
-
-    useEffect(() => {
-        handleDesactivar()
-    }, [])
     const handleDesactivar = (idResultado) => {
         try {
             axios.put(`http://localhost:3000/resultados/desactivar/${idResultado}`, null, {headers: {token: token}}).then((response) => {
             console.log(response.data)
             if(response.status==200){
-                alert('Resultado desactivado con exito')
+                setMensaje('Resultado desactivado con exito')
+                setModalAcciones(true)
+                fetchData()
             }else{
-                alert('Error')
+                setMensaje('Error al desactivar el resultado')
+                setModalAcciones(true)
             }
             
         })
@@ -100,14 +106,51 @@ export function Resultados () {
     const [modalOpen, setModalOpen] = useState(false)
     const [mode, setMode] = useState('create')
 
-    const handleToggle = (mode) => {
+    const handleToggle = (mode, initialData) => {
+        setInitialData(initialData)
         setMode(mode)
         setModalOpen(true)
+    }
+
+    const handleSubmit = (datosForm, e) => {
+        e.preventDefault()
+        if(mode === 'create'){
+            const baseURL = 'http://localhost:3000/resultados/registrar'
+            axios.post(baseURL , datosForm).then((response)=>{
+                console.log(response.data)
+                if(response.status==200){
+                    setMensaje('Resultado registrado con exito')
+                    setModalAcciones(true)
+                    setModalOpen(false)
+                    fetchData()
+                }else{
+                    alert('Error de registro')
+                }
+
+            })
+        }else if(mode === 'update'){
+            const baseURL = `http://localhost:3000/resultados/actualizar/${initialData.codigo}`
+            axios.put(baseURL , datosForm).then((response)=>{
+                console.log(response.data)
+                if(response.status==200){
+                    setMensaje('Resultado actualizado con exito')
+                    setModalAcciones(true)
+                    setModalOpen(false)
+                    fetchData()
+                }else{
+                    alert('Error de actualizar')
+                }
+        })}
     }
 
   return (
     
     <div>
+        <AccionesModal 
+            isOpen={modalAcciones}
+            onClose={()=>setModalAcciones(false)}
+            label={mensaje}
+        />
         <Header title="Resultados" />
         <div className='w-full flex flex-col justify-center items-center p-10'>
             
@@ -118,6 +161,8 @@ export function Resultados () {
                 onClose={() => setModalOpen(false)} 
                 title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
                 actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                handleSubmit={handleSubmit}
+                initialData={initialData}
                 />
 
             <Datatable columns={columns} data={datos} title={'Resultados registrados'} />

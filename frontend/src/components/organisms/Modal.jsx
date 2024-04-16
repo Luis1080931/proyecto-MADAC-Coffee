@@ -7,7 +7,7 @@ export const ModalAcciones = ({ open, onClose, children, actionLabel, title }) =
   return (
     <>
 
-      {/* {open && (
+      {open && (
         <div className='fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50'>
           <div className='bg-[#E6E6E6] flex overflow-auto max-w-90vw max-h-90vh p-5 rounded-xl  justify-center gap-3 lg:w-1/2 z-50'>
             
@@ -20,9 +20,9 @@ export const ModalAcciones = ({ open, onClose, children, actionLabel, title }) =
         </div>
       )
 
-      } */}
+      }
 
-<Modal isOpen={open} onClose={onClose}placement="top-center">
+{/* <Modal isOpen={open} onClose={onClose}placement="top-center">
         <ModalContent>
           {(onClose) => (
             <>
@@ -43,7 +43,7 @@ export const ModalAcciones = ({ open, onClose, children, actionLabel, title }) =
             </>
           )}
         </ModalContent>
-      </Modal>
+      </Modal> */}
 
 </>
   )
