@@ -4,22 +4,18 @@ import axios from 'axios';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
 import Ejemplo from '../organisms/Table.jsx';
 import ResultadosModal from './../templates/Resultados.jsx';
-import { ButtonDesactivar } from '../atoms/ButtonDesactivar.jsx';
-import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
 
 export function Resultados () {
 
     const baseURL = 'http://localhost:3000/resultados/listar'
     const token = localStorage.getItem('token')
 
-    /* const [datos, setData] = useState([]) */
     const [modalOpen, setModalOpen] = useState(false)
     const [ modalAcciones, setModalAcciones ] = useState(false)
     const [mode, setMode] = useState('create')
     const [initialData, setInitialData ] = useState(null)
     const [mensaje, setMensaje] = useState('')
     const [results, setResults] = useState([]);
-    const [selectedResultId, setSelectedResultId] = useState(null);
 
   useEffect(() => {
     fetchData();
@@ -27,11 +23,20 @@ export function Resultados () {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(baseURL, {headers: {token: token}});
-      setResults(response.data);
+      const response = await axios.get(baseURL, { headers: { token: token } });
+      const formattedResults = response.data.map((result) => ({
+        ...result,
+        fecha: formatDate(result.fecha),
+      }));
+      setResults(formattedResults);
     } catch (error) {
       console.error('Error al obtener los datos:', error);
     }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES'); // Puedes ajustar el idioma según tu preferencia
   };
 
     const data = [
@@ -44,7 +49,7 @@ export function Resultados () {
             uid: "fecha",
             name: "Fecha",
             sortable: true,
-            format: (value) => new Date(value).toLocaleDateString('es-ES')
+            render: (fecha) => formatDate(fecha)
         },
         { 
             uid: "analisis",
@@ -100,27 +105,7 @@ export function Resultados () {
         
     }
 
-   /*  const handleUpdate = async (id, datosForm) => {
-        
-        console.log('Codigo', id)
-
-        const updateURL = `http://localhost:3000/resultados/actualizar/${id}`
-
-                await axios.put(updateURL, datosForm).then((response) => {
-                    console.log(response)
-
-                    if(response.status == 200){
-                        setMensaje('Se actualizó el resultado con éxito')
-                        setModalAcciones(true)
-                        setModalOpen(false)
-                        fetchData()
-                    }else{
-                        alert('Error de actualizar')
-                    }
-                })
-    } */
-
-    const id = localStorage.getItem('ideUser')
+    const id = localStorage.getItem('idUser')
 
     const handleSubmit = async (datosForm, e) => {
         console.log(datosForm);
@@ -189,10 +174,9 @@ export function Resultados () {
                 onClose={() => setModalOpen(false)} 
                 title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
                 actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                mode={mode}
                 initialData={initialData}
                 handleSubmit={handleSubmit}
-                setModalOpen={setModalOpen}
+                mode={mode}
             />
 
            <Ejemplo 

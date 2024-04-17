@@ -72,7 +72,7 @@ function RegistroResultadosModal({ isOpen, onClose }) {
       <div className="flex flex-wrap gap-4">
       {variants.map((variant) => (
         <Tabs key={variant} variant={variant} aria-label="Tabs variants">
-          <Tab key="photos" title="Photos">
+          <Tab key="photos" title="Resultados">
             <form action="#">
             <div className='flex flex-col'>
                 <label className='text-xl font-bold'> Fecha: </label>
@@ -95,10 +95,22 @@ function RegistroResultadosModal({ isOpen, onClose }) {
               </div>
             </form>
           </Tab>
-          <Tab key="music" title="Music">
-            
+          <Tab key="music" title="1">
+            <div>
+              <label htmlFor=""> Hola </label>
+              {/* {variables.map(vari => (
+                <label key={vari.v_codigo}>
+                  Nombre variable: {vari.nombre}
+                </label>
+              ))} */}
+            </div>
           </Tab>
-          <Tab key="videos" title="Videos"/>
+          <Tab key="videos" title="2">
+
+          </Tab>
+          <Tab key='more' title='3'>
+
+          </Tab>
         </Tabs>
       ))}
     </div>

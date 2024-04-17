@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Table,
   TableHeader,
@@ -19,21 +19,16 @@ import { PlusIcon } from "./../NextUI/PlusIcon.jsx";
 import { VerticalDotsIcon } from "./../NextUI/VerticalDotsIcon.jsx";
 import { SearchIcon } from "./../NextUI/SearchIcon.jsx";
 import { ChevronDownIcon } from "./../NextUI/ChevronDownIcon.jsx";
-import axios from "axios";
-import ResultadosModal from "../templates/Resultados.jsx";
 
 const statusColorMap = {
   activo: "success",
   inactivo: "danger",
 };
 
-/* const INITIAL_VISIBLE_COLUMNS = ["codigo", "fecha", "analisis", "variable", "valor", "observaciones", "estado", "actions"]; */
-
 export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, data, results }) {
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
- /*  const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS)); */
   const [statusFilter, setStatusFilter] = React.useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [sortDescriptor, setSortDescriptor] = React.useState({
@@ -102,9 +97,6 @@ const handleUpdateClick = (id) => {
   clickEditar(id)
 };
 
-
-/* {<ButtonActualizar onClick={() => handleUpdateClick(result.id)} />} */
-
     switch (columnKey) {
       case "estado":
         return (
@@ -121,7 +113,7 @@ const handleUpdateClick = (id) => {
                   <VerticalDotsIcon className="text-default-300" />
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu>
+              <DropdownMenu aria-label="Menu de acciones">
                 <DropdownItem onClick={() => handleUpdateClick(result.codigo)}>Editar</DropdownItem>
                 <DropdownItem onClick={() => clickDesactivar(result.codigo)}>Desactivar</DropdownItem>
               </DropdownMenu>
@@ -276,6 +268,7 @@ const handleUpdateClick = (id) => {
   classNames={{
     wrapper: "max-h-[95%] max-w-[95%]" ,
   }}
+  className="flex"
   selectedKeys={selectedKeys}
   selectionMode="multiple"
   sortDescriptor={sortDescriptor}
