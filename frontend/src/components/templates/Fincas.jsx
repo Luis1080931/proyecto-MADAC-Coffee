@@ -6,7 +6,6 @@ function ResultadosModal ({ open, onClose, handleSubmit, actionLabel, title, ini
 
     return (
       <>
-
       <ModalAcciones open={open} title={title} > 
         <FormFincass initialData={initialData} mode={mode} handleSubmit={handleSubmit} onClose={onClose} actionLabel={actionLabel} />
       </ModalAcciones>

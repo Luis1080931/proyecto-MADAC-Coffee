@@ -15,7 +15,7 @@ import {
   Chip,
   Pagination,
 } from "@nextui-org/react";
-import { PlusIcon } from "./../NextUiSergio/PlusIcon.jsx"
+import { PlusIcon } from "../NextUiSergio/PlusIcon.jsx"
 import { VerticalDotsIcon } from "../NextUiSergio/VerticalDotsIcon.jsx";
 import { SearchIcon } from "../NextUiSergio/SearchIcon.jsx";
 import { ChevronDownIcon } from "../NextUiSergio/ChevronIcon.jsx";
@@ -51,7 +51,7 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
     if (hasSearchFilter) {
       filteredFincas = filteredFincas.filter(finca =>
         String(finca.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
-        finca.dimension_mt2.toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(finca.dimension_mt2).toLowerCase().includes(filterValue.toLowerCase()) ||
         String(finca.fk_caficultor).toLowerCase().includes(filterValue.toLowerCase()) ||
         String(finca.municipio).toLowerCase().includes(filterValue.toLowerCase()) ||
         finca.vereda.toLowerCase().includes(filterValue.toLowerCase()) ||

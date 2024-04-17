@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Header } from '../molecules/Header.jsx';
 import axios from 'axios';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
-import Ejemplo from '../organisms/Table.jsx'
+import Ejemplo from '../organisms/TableFinca.jsx'
 import FincasModal from '../templates/Fincas.jsx'; 
 
 export function Fincas() {
@@ -28,9 +28,11 @@ export function Fincas() {
 
     const peticionGet = async () => {
         try {
-            const response = await axios.get(baseURL, { headers: { token: token } });
-        
-            setFincas(response.data);
+            await axios.get(baseURL,{headers:{token: token}}).then((response)=>{
+                console.log(response.data)
+                setFincas(response.data)
+            })        
+
           } catch (error) {
             console.error('Error al obtener los datos:', error);
           }
@@ -126,7 +128,7 @@ const data = [
         }else if(mode==='update'){
             const updateURL = `http://localhost:3000/fincas/actualizar/${id}`
 
-            await axios.put(updateURL,data).then((response)=>{
+            await axios.put(updateURL,datosForm).then((response)=>{
                 console.log(response); 
 
                 if(response.status==200){
@@ -167,7 +169,7 @@ const data = [
                  <FincasModal
                 open={modalOpen} 
                 onClose={() => setModalOpen(false)} 
-                title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
+                title={mode === 'create' ? 'Registrar resultados' : 'Actualizar fincas'}
                 actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
                 initialData={initialData}
                 handleSubmit={handleSubmit}
