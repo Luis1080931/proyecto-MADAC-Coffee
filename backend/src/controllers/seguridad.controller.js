@@ -7,7 +7,7 @@ export const validar = async (req, res) => {
     try {
 
         let {correo_electronico, password} = req.body
-        let sql = `SELECT identificacion, nombre, telefono, tipo_usuario, estado FROM usuarios WHERE correo_electronico='${correo_electronico}' and password='${password}'`
+        let sql = `SELECT identificacion, nombre, telefono, tipo_usuario, correo_electronico, password, estado FROM usuarios WHERE correo_electronico='${correo_electronico}' and password='${password}'`
 
         const [user] = await pool.query(sql)
 
@@ -16,7 +16,7 @@ export const validar = async (req, res) => {
 
             return res.status(200).json({ 'user':user,'token':token})
         }else{
-            return res.status(404).json({'status': 404, 'message': 'Usuario no autorizado'})
+            res.status(404).json({'status': 404, 'message': 'Usuario no autorizado'})
         }
 
     } catch (error) {
