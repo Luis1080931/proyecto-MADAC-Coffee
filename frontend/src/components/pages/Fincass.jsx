@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from '../molecules/Header.jsx';
-import {Buscador} from '../atoms/Buscador.jsx'
-import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
-import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
-import { ButtonDesactivar } from '../atoms/ButtonDesactivar.jsx';
-import FincasModal from '../templates/Fincas.jsx'; 
-import DataTable from 'react-data-table-component'
-import AccionesModal from '../organisms/ModalAcciones.jsx';
 import axios from 'axios';
-
+import AccionesModal from '../organisms/ModalAcciones.jsx';
+import Ejemplo from '../organisms/Table.jsx'
+import FincasModal from '../templates/Fincas.jsx'; 
 
 export function Fincas() {
     //URL LISTAR LOTES
-    const baseUrl='http://localhost:3000/fincas/listar';
+    const baseURL='http://localhost:3000/fincas/listar';
     //TOKEN
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3dzIjpbeyJpZGVudGlmaWNhY2lvbiI6MTAyOTg4MDMwNiwibm9tYnJlIjoiU2VyZ2lvIENvcG8iLCJ0ZWxlZm9ubyI6IjMyMjc1ODIzODIiLCJ0aXBvX3VzdWFyaW8iOiJjYWZpY3VsdG9yIiwiZXN0YWRvIjoiYWN0aXZvIn1dLCJpYXQiOjE3MTI2MzEyODQsImV4cCI6MTcxMjcxNzY4NH0.LmEiQ1EE5YtOI-Km3a_KHO1ib9aSw0BUboBnuZV35xw";
 
-    const [data,setData]=useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalAcciones, setModalAcciones] = useState(false)
     const [mode, setMode] = useState('create');
     const [initialData, setInitialData] = useState(null)
     const [mensaje, setMensaje] = useState('')
+    const [fincas,setFincas] = useState([]);
 
     useEffect(()=>{
         
@@ -32,73 +27,59 @@ export function Fincas() {
     //PETICION GET PARA TRAER LOS DATOS DE LAS FINCAS REGISTRADAS
 
     const peticionGet = async () => {
-        try{
-            axios.get(baseUrl,{headers: {token:token}}).then((response)=>{
-                console.log(response.data)
-                setData(response.data)
-            })
-          }catch (error){
-            console.log('Error en el servidor '+error)
+        try {
+            const response = await axios.get(baseURL, { headers: { token: token } });
+        
+            setFincas(response.data);
+          } catch (error) {
+            console.error('Error al obtener los datos:', error);
           }
-    };
+        };
+      
 
 //COLUMNAS DEL DATA_TABLE
 
-const columns = [
+const data = [
     {
+        uid:'codigo',
         name:'codigo',
-        selector:row=>row.codigo,
         sortable:true
     },
     {
+        uid: 'dimension_mt2',
         name:'dimension en mt2',
-        selector:row=>row.dimension_mt2,
         sortable:true
     },
     {
+       uid:'fk_caficultor',
        name:'caficultor',
-       selector:row=>row.fk_caficultor,
        sortable:true
     },
     {
+        uid:'municipio',
         name:'municipio',
-        selector:row=>row.municipio,
         sortable:true
     },
     {
+        uid:'vereda',
         name:'vereda',
-        selector:row=>row.vereda,
         sortable:true
     },
     {
+        uid:'estado',
         name:'estado',
-        selector:row=>row.estado,
         sortable:true
     },
     {
-        name:'Acciones',
-        cell:row=><> 
-        <ButtonActualizar
-        click={()=>handleToggle('update',row)}
-        /> 
-        <ButtonDesactivar
-        click={()=>peticionDesactivar(row.codigo)}
-        />
-        </>
+        uid:'actions',
+        name: "Acciones",
+        sortable:true
     }
 ];
 
-   
-    
-    function handleFilter(event) {
-        const newData = originalData.filter(row => {
-            return row.codigo.toLowerCase().includes(event.target.value.toLowerCase())
-        });
-        setFilteredData(newData);
-    }
-
-
     //PETICION PARA DESACTIVAR FINCAS
+    const id = localStorage.getItem('idUser')
+    
 
     const peticionDesactivar = async (codigo) => {
         try {
@@ -117,8 +98,12 @@ const columns = [
         }
     }
 
-    const handleSubmit=async(data,e)=>{
 
+
+
+     //PETICION PARA ACTIVAR FINCAS
+    const handleSubmit=async(datosForm,e)=>{
+        console.log(datosForm);
         e.preventDefault()
 
         try{
@@ -126,9 +111,8 @@ const columns = [
         if(mode === 'create'){
             const baseURL = 'http://localhost:3000/fincas/registrar'
             
-            await axios.post(baseURL, data).then((response)=>{
-            
-                console.log(response.data)
+            await axios.post(baseURL, datosForm).then((response)=>{
+                console.log(response)
 
                 if(response.status == 200){
                     setMensaje('Finca registrada con exito')
@@ -140,7 +124,7 @@ const columns = [
                 }
             })
         }else if(mode==='update'){
-            const updateURL = `http://localhost:3000/fincas/actualizar/${initialData.codigo}`
+            const updateURL = `http://localhost:3000/fincas/actualizar/${id}`
 
             await axios.put(updateURL,data).then((response)=>{
                 console.log(response); 
@@ -158,11 +142,10 @@ const columns = [
         setModalOpen(false)
 
         }catch(error){
-            console.log('Error en el servidor ',error)
-            alert('Error en el servidor')
+            console.log('Error en el servidor '+error)
+            alert('Error en el servidor'+error)
         }
     }
-
 
 
     const handleToggle = (mode, initialData) => {
@@ -174,32 +157,30 @@ const columns = [
     return (
         <div>
             <Header title="Fincas"/>
-            <div className='w-full flex flex-col justify-center items-center p-10'>
+            <div className='w-full max-w-[90%] ml-28 items-center p-10'>
+
                 <AccionesModal
                 isOpen={modalAcciones}
                 onClose={()=>setModalAcciones(false)}
                 label={mensaje}
                 />
-                <Buscador handler={handleFilter} />
-                <ButtonRegister click={() => handleToggle('create')} />
-                <FincasModal 
-                open={modalOpen}
-                onClose={()=> setModalOpen(false)}
-                title={mode === 'create' ? 'Registrar lotes' : 'Actualizar lotes'}
-                actionLabel={mode==='create' ? 'Registrar' : 'Actualizar'}
+                 <FincasModal
+                open={modalOpen} 
+                onClose={() => setModalOpen(false)} 
+                title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
+                actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
                 initialData={initialData}
                 handleSubmit={handleSubmit}
                 mode={mode}
-                setModalOpen={setModalOpen}
-                />
-                <DataTable
-                columns={columns}
+            />
+
+                <Ejemplo 
+                clickDesactivar={peticionDesactivar}
+                clickEditar={() => handleToggle('update', id)}
+                clickRegistrar={() => handleToggle('create')}
                 data={data}
-                title={'Fincas registrados'}
-                pagination
-                paginationPerPage={5}
-                paginationRowsPerPageOptions={[5, 10, 15]}
-                />
+                fincas={fincas}
+           />
             </div>
         </div>
     );
