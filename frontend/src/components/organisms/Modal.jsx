@@ -1,5 +1,5 @@
 import React from 'react'
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
+import {Modal, ModalContent, ModalHeader, ModalBody } from "@nextui-org/react";
 
 export const ModalAcciones = ({ open, onClose, children, title }) => {
 
