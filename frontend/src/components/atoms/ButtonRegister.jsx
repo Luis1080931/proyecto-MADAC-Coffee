@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom'
 
 export const ButtonRegister = (props) => {
   return (
-    <button className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32' type="button" onClick={props.click}>
+<div style={{ position: 'relative' }}>
+  <button className='bg-[#39A900] p-2 rounded-lg text-white font-bold w-32' type="button" onClick={props.click}>
     <Link to={props.link}>Registrar</Link>
-    </button>
+  </button>
+</div>
+
   )
 }
