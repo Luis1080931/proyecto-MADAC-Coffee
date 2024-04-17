@@ -44,6 +44,16 @@ const FormMuestra = () => {
         .then(response => {
           Alert.alert('Registro exitoso');
           console.log(response.data);
+
+          setFecha ('');
+          setCantidad('');
+          setQuien_recibe('')
+          setProceso_fermentacion('')
+          setHumedad_cafe('')
+          setAltura_MSNM('')
+          setTipo_secado('')
+          setObservaciones('')
+          setFk_lote('')
         })
         .catch(error => {
           Alert.alert('Error al registrar');
