@@ -1,16 +1,16 @@
 import React from 'react'
-import { FormFincass } from '../molecules/FormFincass.jsx'
-import { ModalAcciones } from '../organisms/Modal.jsx'
-import { Logo } from '../atoms/LogoProyecto.jsx'
+import {FormFincass} from '../molecules/FormFincass.jsx';
+import { ModalAcciones } from '../organisms/Modal.jsx';
 
-function FincasModal({ open, onClose, handleSubmit, actionLabel,initialData,mode}){
-  return (
-    <ModalAcciones open={open}  onClose={onClose}>
-        <FormFincass handleSubmit={handleSubmit} actionLabel={actionLabel} initialData={initialData} mode={mode}/>        
-        <Logo />
-    </ModalAcciones>
-  )
-}
+function ResultadosModal ({ open, onClose, handleSubmit, actionLabel, title, initialData, mode}){
 
-export default FincasModal
+    return (
+      <>
+      <ModalAcciones open={open} title={title} > 
+        <FormFincass initialData={initialData} mode={mode} handleSubmit={handleSubmit} onClose={onClose} actionLabel={actionLabel} />
+      </ModalAcciones>
+      </>
+    )
+} 
 
+export default ResultadosModal

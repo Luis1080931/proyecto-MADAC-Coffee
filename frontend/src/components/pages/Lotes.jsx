@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { Header } from './../molecules/Header.jsx'
-import {Buscador} from '../atoms/Buscador.jsx'
-import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
-import {ButtonActualizar} from '../atoms/ButtonActualizar.jsx'
-import {ButtonDesactivar} from '../atoms/ButtonDesactivar.jsx'
-import LotesModal from '../templates/Lotes.jsx';
-import DataTable from 'react-data-table-component'
-import AccionesModal from '../organisms/ModalAcciones.jsx'
 import axios from 'axios';
+import AccionesModal from '../organisms/ModalAcciones.jsx'
+import Ejemplo from '../organisms/TableLotes.jsx'
+import LotesModal from '../templates/Lotes.jsx';
 
 export function Lotes () {
     //URL LISTAR FINCAS
-    const baseUrl='http://localhost:3000/lotes/listar';
+    const baseURL='http://localhost:3000/lotes/listar';
     //TOKEN
     const token = localStorage.getItem('token');
  
-    const [data,setData]=useState([]);   
     const [modalOpen, setModalOpen] = useState(false);
     const [modalAcciones,setModalAcciones]=useState(false);
     const [mode, setMode] = useState('create');
     const [initialData,setInitialData]=useState(null);
     const [mensaje, setMensaje] = useState('')
+    const [lotes,setLotes]=useState([]);
 
     useEffect(()=>{
 
@@ -31,9 +27,9 @@ export function Lotes () {
     //PETICION GET PARA TRAER LOS DATOS DE LOS LOTES REGISTRADOS
     const peticionGet = async () => {
       try{
-        axios.get(baseUrl,{headers: {token:token}}).then((response)=>{
+        await axios.get(baseURL,{headers:{token: token}}).then((response)=>{
             console.log(response.data)
-            setData(response.data)
+            setLotes(response.data)
         })
       }catch (error){
         console.log('Error en el servidor '+error)
@@ -41,55 +37,41 @@ export function Lotes () {
     };
 
 //COLUMNAS DEL DATA_TABLE
-const columns = [
+const data = [
     {
+        uid:'codigo',
         name:'codigo',
-        selector:row=>row.codigo,
         sortable:true
     },
     {
+      uid:'numero_arboles',
       name:'numero de arboles',
-      selector:row=>row.numero_arboles,
       sortable:true
     },
     {
+      uid:'fk_finca',
       name:'finca',
-      selector:row=>row.fk_finca,
       sortable:true
     },
-    {
+    {   
+        uid:'fk_variedad',
         name:'variedad',
-        selector:row=>row.fk_variedad,
         sortable:true
     },
     {
+        uid:'estado',
         name:'estado',
-        selector:row=>row.estado,
         sortable:true
     },
     {
-        //Reutilizar los atomos de los buttons de Actualizar y Desactivar
-        name:'Acciones',
-        cell:row=><> 
-        <ButtonActualizar
-        click={()=>handleToggle('update',row)}
-        /> 
-        <ButtonDesactivar
-        click={()=>peticionDesactivar(row.codigo)}
-        />
-        </>
-          
+    uid:'actions',
+    name:"Acciones",
+    sortable:true
     }  
 ];
 
 
-
-function handleFilter(event) {
-    const newData = data.filter(row => {
-        return row.codigo.toLowerCase().includes(event.target.value.toLowerCase())
-    });
-    setData(newData);
-}
+const id =localStorage.getItem('idUser')
 
 //PETICION PARA DESACTIVAR LOTES
 
@@ -113,8 +95,15 @@ const peticionDesactivar = async (codigo) => {
     }
 }
 
-    const handleSubmit =async (data,e)=>{
-        
+
+
+
+
+
+//PETICION PARA ACTIVAR LOTES
+
+    const handleSubmit =async (datosForm,e)=>{
+        console.log(datosForm);
         e.preventDefault()
 
         try{
@@ -122,9 +111,8 @@ const peticionDesactivar = async (codigo) => {
         if(mode === 'create'){
             const baseURL = 'http://localhost:3000/lotes/registrar'
             
-            await axios.post(baseURL, data).then((response)=>{
-            
-                console.log(response.data)
+            await axios.post(baseURL, datosForm).then((response)=>{
+                console.log(response)
 
                 if(response.status == 200){
                     setMensaje('Lote registrado con exito')
@@ -136,7 +124,7 @@ const peticionDesactivar = async (codigo) => {
                 }
             })
         }else if(mode==='update'){
-            const updateURL = `http://localhost:3000/lotes/actualizar/${initialData.codigo}`
+            const updateURL = `http://localhost:3000/lotes/actualizar/${id}`
 
             await axios.put(updateURL,data).then((response)=>{
                 console.log(response); 
@@ -178,8 +166,6 @@ const peticionDesactivar = async (codigo) => {
                 onClose={()=>setModalAcciones(false)}
                 label={mensaje}
                 />
-                <Buscador handler={handleFilter} />
-                <ButtonRegister click={() => handleToggle('create')} />
                 <LotesModal 
                 open={modalOpen}
                 onClose={()=> setModalOpen(false)}
@@ -188,15 +174,13 @@ const peticionDesactivar = async (codigo) => {
                 initialData={initialData}
                 handleSubmit={handleSubmit}
                 mode={mode}
-                setModalOpen={setModalOpen}
                 />
-                <DataTable
-                columns={columns}
+                <Ejemplo
+                clickDesactivar={peticionDesactivar}
+                clickEditar={() => handleToggle('update', id)}
+                clickRegistrar={() => handleToggle('create')}
                 data={data}
-                title={'Lotes registrados'}
-                pagination
-                paginationPerPage={5}
-                paginationRowsPerPageOptions={[5, 10, 15]}
+                lotes={lotes}
                 />
             </div>
         </div>

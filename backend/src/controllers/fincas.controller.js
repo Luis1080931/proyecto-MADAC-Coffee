@@ -38,15 +38,17 @@ export const getFinca = async (req,res)=>{
             res.status(200).json(rows)
         }else{
             res.status(404).json({
-                message:"no encontramos a la finca"
-            })
+                message: "No se encontraron fincas"
+            });
         }
-    }catch(error){
+    } catch (error) {
         res.status(500).json({
-            message:"error en el servidor"+error
-        })
+            message: "Error en el servidor: " + error
+        });
     }
-}
+};
+
+
 export const postFincas=async(req,res)=>{
     try{
 

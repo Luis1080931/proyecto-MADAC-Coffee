@@ -122,7 +122,7 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                 required={true}
                 ></textarea>
             </div>
-            <ModalFooter>
+            {<ModalFooter>
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Close
                 </Button>
@@ -130,7 +130,7 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                   {actionLabel}
                 </Button>
                 
-            </ModalFooter>
+            </ModalFooter>}
         </div>
         </form>
     </>
