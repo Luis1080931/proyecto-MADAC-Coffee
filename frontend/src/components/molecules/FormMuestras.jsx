@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button } from './../atoms/Button.jsx';
-import axios from 'axios'
-import { ModalFooter } from '@nextui-org/react';
+import { ModalFooter, Button } from '@nextui-org/react';
 
 
-const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, Onclose}) => {
+const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) => {
     const fecha = useRef(null);
     const cantidad = useRef(null);
     const quien_recibe = useRef(null);
@@ -29,8 +27,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, Onclose}) 
 
     useEffect(() => {
       if(mode === 'update' && initialData) {
-/*         const formatDate = initialData.fecha.substring(0,10); */
-        fecha.current.value = formatDate;
+        fecha.current.value = initialData.fecha;
         cantidad.current.value = initialData.cantidad;
         quien_recibe.current.value = initialData.quien_recibe;
         proceso_fermentacion.current.value = initialData.proceso_fermentacion;
@@ -105,7 +102,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, Onclose}) 
         }
     };
 
-    
+
 
     return (
         <form method='post' onSubmit={handleFormSubmit}>
@@ -233,7 +230,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, Onclose}) 
                 <Button 
                 color='danger' 
                 variant='flat' 
-                onPress={Onclose}
+                onPress={onClose}
               >
                 Close
                 </Button>

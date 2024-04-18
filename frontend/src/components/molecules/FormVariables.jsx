@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button } from './../atoms/Button.jsx';
+import { ModalFooter, Button } from '@nextui-org/react';
 
-const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode}) => {
+const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode, onClose}) => {
 
   const nombre = useRef(null)
   const fk_tipo_analisis = useRef(null)
@@ -22,19 +22,19 @@ const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode}) => {
     e.preventDefault();
 
    
-      const data = {
+      const datosForm = {
         nombre: nombre.current.value ,
-        fk_tipo_analisis: fk_tipo_analisis.current.value
+        fk_tipo_analisis: parseInt(fk_tipo_analisis.current.value)
       }
       let hasErrors = false;
       const newErrors = { ...errors};
 
       //Validación de Campos correctos 
-      if(!data.nombre || !/^[a-zA-Z\s]+$/.test(data.nombre)) {
+      if(!datosForm.nombre || !/^[a-zA-Z\s]+$/.test(datosForm.nombre)) {
         newErrors.nombre = 'El nombre de la variable debe contener solo letras';
         hasErrors = true
       }
-      if ( !data.fk_tipo_analisis || isNaN(data.fk_tipo_analisis) || data.fk_tipo_analisis <= 0) {
+      if ( !datosForm.fk_tipo_analisis || isNaN(datosForm.fk_tipo_analisis) || datosForm.fk_tipo_analisis <= 0) {
         newErrors.hasErrors = 'El valor de fk debe ser de numerico entero positivo';
         hasErrors = true
       }
@@ -44,7 +44,7 @@ const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode}) => {
         return;
       }
       try {
-      handleSubmit(data, e)
+      handleSubmit(datosForm, e)
     } catch (error) {
       console.log('Error al conectar con el server ' + error);
     }
@@ -60,6 +60,7 @@ const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode}) => {
               className='p-2 rounded-lg w-80 h-12'
               type="text"
               placeholder='Ingrese el nombre de la variable'
+              id='nombre'
               name="nombre"
               ref={nombre}
               required={true}
@@ -72,13 +73,27 @@ const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode}) => {
               className='p-2 rounded-lg w-80 h-12'
               type="number"
               placeholder='Ingrese Tipo de analisis'
+              id='fk_tipo_analisis'
               name="fk_tipo_analisis"
               ref={fk_tipo_analisis}
               required= {true}
             />
             {errors.fk_tipo_analisis && <span className='text-red-500'>{errors.fk_tipo_analisis}</span>}
             </div>
-          <Button actionLabel={actionLabel} />
+            <ModalFooter>
+                <Button 
+                color='danger' 
+                variant='flat' 
+                onPress={onClose}
+              >
+                Close
+                </Button>
+                <Button
+                type='submit' color='primary'
+                >
+                {actionLabel}
+                </Button>
+            </ModalFooter>
       </form>
     </>
   );

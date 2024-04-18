@@ -5,11 +5,11 @@ import AccionesModal from '../organisms/ModalAcciones.jsx';
 import axios from 'axios';
 import Ejemplo from '../organisms/TableMuestras.jsx';
 
+
 export function Muestras () {
 
     const baseURL = 'http://localhost:3000/muestra/listar'
-/* 
-    const [datos, setData] = useState([]) */
+
     const [modalOpen, setModalOpen] = useState(false)
     const [ modalAcciones, setModalAcciones ] = useState(false)
     const [mode, setMode] = useState('create')
@@ -23,15 +23,21 @@ export function Muestras () {
 
     const fetchData = async () => {
         try {
-            axios.get(baseURL).then((response) => {
-                console.log(response)
-                setData(response.data)
-            })
+            const response = await axios.get(baseURL)
+            const formattedMuestras = response.data.map((result) => ({
+                ...result,
+                fecha: formatDate(result.fecha),
+            }));
+            setMuestras(formattedMuestras)
 
         } catch (error) {
             console.log('Error en el servidor' + error);
         }
     }
+    const formatDate = (dateString) => {
+        const date = new Date(dateString)
+        return date.toLocaleDateString('es-ES')
+    };
     const data = [
         {
             uid : 'codigo',
@@ -41,7 +47,7 @@ export function Muestras () {
         {
             uid: 'fecha',
             name: 'Fecha',
-            selector: row => new Date(row.fecha).toLocaleDateString(),
+            render: (fecha) => formatDate(fecha),
             sortable: true
         },
         {
@@ -135,7 +141,7 @@ export function Muestras () {
                 })
 
             } else if (mode === 'update') {
-                const UpdateURL = `http://localhost:3000/muestra/actualizar/${initialData.codigo}`
+                const UpdateURL = `http://localhost:3000/muestra/actualizar/${id}`
                 await axios.put(UpdateURL, datosForm).then((response) => {
                     console.log(response);
 
@@ -188,7 +194,7 @@ export function Muestras () {
                 clickEditar={() => handleToggle('update', id)}
                 clickRegistrar={() => handleToggle('create')}
                 data={data}
-                results={muestras}
+                muestras={muestras}
            />
         </div>
     </div>

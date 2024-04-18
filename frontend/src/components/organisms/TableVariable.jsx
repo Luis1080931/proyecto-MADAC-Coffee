@@ -25,7 +25,7 @@ const statusColorMap = {
   inactivo: "danger",
 };
 
-export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, data, muestras }) {
+export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, data, variables }) {
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
@@ -45,31 +45,24 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
   const hasSearchFilter = Boolean(filterValue);
 
   const filteredItems = React.useMemo(() => {
-    let filteredMuestras = muestras;
+    let filteredvariables = variables;
 
     if (hasSearchFilter) {
-      filteredMuestras = filteredMuestras.filter(muestra =>
-        String(muestra.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
-        muestra.fecha.toLowerCase().includes(filterValue.toLowerCase()) ||
-        String(muestra.cantidad).toLowerCase().includes(filterValue.toLowerCase()) ||
-        muestra.quien_recibe.toLowerCase().includes(filterValue.toLowerCase()) ||
-        muestra.proceso_fermentacion.toLowerCase().includes(filterValue.toLowerCase()) ||
-        muestra.humedad_cafe.toLowerCase().includes(filterValue.toLowerCase()) ||
-        muestra.altura_MSNM.toLowerCase().includes(filterValue.toLowerCase()) ||
-        muestra.tipo_secado.toLowerCase().includes(filterValue.toLowerCase()) ||
-        muestra.observaciones.toLowerCase().includes(filterValue.toLowerCase()) ||
-        String (muestra.fk_lote).toLowerCase().includes(filterValue.toLowerCase()) 
+      filteredvariables = filteredvariables.filter(variable =>
+        String(variable.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
+        variable.nombre.toLowerCase().includes(filterValue.toLowerCase()) ||
+        String (variable.fk_tipo_analisis).toLowerCase().includes(filterValue.toLowerCase()) 
       );
     }
 
     if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-      filteredMuestras = filteredMuestras.filter(muestra =>
-        Array.from(statusFilter).includes(muestra.estado)
+      filteredvariables = filteredvariables.filter(variable =>
+        Array.from(statusFilter).includes(variable.estado)
       );
     }
 
-    return filteredMuestras;
-  }, [muestras, filterValue, statusFilter]);
+    return filteredvariables;
+  }, [variables, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -90,8 +83,8 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((muestra, columnKey) => {
-    const cellValue = muestra[columnKey];
+  const renderCell = React.useCallback((variable, columnKey) => {
+    const cellValue = variable[columnKey];
 
   
 const handleUpdateClick = (id) => {
@@ -103,7 +96,7 @@ const handleUpdateClick = (id) => {
     switch (columnKey) {
       case "estado":
         return (
-          <Chip className="capitalize" color={statusColorMap[muestra.estado]} size="sm" variant="flat">
+          <Chip className="capitalize" color={statusColorMap[variable.estado]} size="sm" variant="flat">
             {cellValue}
           </Chip>
         );
@@ -117,8 +110,8 @@ const handleUpdateClick = (id) => {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Menu de acciones">
-                <DropdownItem onClick={() => handleUpdateClick(muestra.codigo)}>Editar</DropdownItem>
-                <DropdownItem onClick={() => clickDesactivar(muestra.codigo)}>Desactivar</DropdownItem>
+                <DropdownItem onClick={() => handleUpdateClick(variable.codigo)}>Editar</DropdownItem>
+                <DropdownItem onClick={() => clickDesactivar(variable.codigo)}>Desactivar</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -207,7 +200,7 @@ const handleUpdateClick = (id) => {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {muestras.length} Resultados</span>
+          <span className="text-default-400 text-small">Total {variables.length} Resultados</span>
           <label className="flex items-center text-default-400 text-small">
             Columnas por página:
             <select
@@ -293,7 +286,7 @@ const handleUpdateClick = (id) => {
   </TableHeader>
   <TableBody emptyContent={"No hay resultados registrados"} items={sortedItems}>
     {(item) => (
-      <TableRow key={item.codigo}>
+      <TableRow key={item.v_codigo}>
         {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
       </TableRow>
     )}
