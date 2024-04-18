@@ -7,15 +7,14 @@ import  axios from "axios";
 import SweetAlertComponent from "./SweetAlertComponent";
 
 
-
-
-
 export const ModalRegistrarAnalisis = ({fetchData}) => {
 
     const [isSuccess, setIsSuccess] = useState(null);
     const [message, setMessage] = useState(null);
     const [data, setData] = useState([]);
     const [data2, setData2] = useState([]);
+    const [catadores, setCatadores] = useState([])
+    const [muestras, setMuestras] = useState([])
 
     const [formData, setFormData] = useState({
         analista: '',
@@ -25,33 +24,25 @@ export const ModalRegistrarAnalisis = ({fetchData}) => {
         fk_tipo_analisis: ''
     });
 
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://localhost:3000/analisis/listarUsuario');
-                setData(response.data);
-                console.log("admin", response.data)
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchData();
-    }, []);
+        axios.get('http://localhost:3000/usuarios/listar', {headers: {token: token}}).then((response) => {
+            console.log(response.data)
+            
+            const catadoresFilter = response.data.usuarios.filter(catador => catador.tipo_usuario == 'catador' && catador.estado == 'activo')
+            setCatadores(catadoresFilter)
+        })
+    }, [])
 
     useEffect(() => {
-        const fetchData2 = async () => {
-            try {
-                const response = await axios.get('http://localhost:3000/analisis/listarMuestras');
-                setData2(response.data);
-                console.log("muestras", response.data)
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchData2();
-    }, []);
-
+        axios.get('http://localhost:3000/muestras/listarMuestra', {headers: {token: token}}).then((response) => {
+            console.log(response.data)
+            
+            const muestrasFilter = response.data.filter(muestra => muestra.estado == 'activo')
+            setMuestras(muestrasFilter)
+        })
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -104,11 +95,11 @@ export const ModalRegistrarAnalisis = ({fetchData}) => {
                                     value={formData.analista}
                                     onChange={handleChange}
                                 >
-                                    <SelectItem>
+                                    <SelectItem textValue="Seleccionar un catador">
                                         Seleccionar un administrador
                                     </SelectItem>
-                                    {data.map((item, index) => (
-                                        <SelectItem key={item.identificacion } value={item.identificacion }>
+                                    {catadores.map(item => (
+                                        <SelectItem key={item.identificacion } value={item.identificacion } textValue="Seleccionar una catador">
                                             {item.nombre}
                                         </SelectItem>
                                     ))}
@@ -136,12 +127,12 @@ export const ModalRegistrarAnalisis = ({fetchData}) => {
         label="Muestra"
         placeholder="Ingrese el código de la muestra"
     >
-        <SelectItem textValue="Seleccionar un administrador">
+        <SelectItem textValue="Seleccionar una muestra">
             Seleccionar un administrador
         </SelectItem>
-        {data2.map((item, index) => (
-            <SelectItem key={item.fk_muestra} value={item.fk_muestra} textValue={item.fk_muestra}>
-                {item.fk_muestra}
+        {muestras.map(mues => (
+            <SelectItem key={mues.codigo} value={mues.codigo} textValue={mues.codigo} >
+                {mues.codigo}
             </SelectItem>
         ))}
     </Select>

@@ -14,6 +14,7 @@ function VistaAnalisis() {
     const [filterValue, setFilterValue] = useState('');
     const [filtroActivo, setFiltroActivo] = useState(false);
     const [filtroInactivo, setFiltroInactivo] = useState(false);
+    const [catadores, setCatadores] = useState([])
 
     function formatDate(dateString) {
         const date = new Date(dateString);
@@ -24,7 +25,7 @@ function VistaAnalisis() {
     const token = localStorage.getItem('token');
 
     const cambiarEstado = async (id) => {
-        await axios.put(`http://localhost:3000/analisis/desactivar/${id}`).then((response) => {
+        await axios.put(`http://localhost:3000/analisis/desactivar/${id}`, null, {headers: {token: token}}).then((response) => {
             console.log(response.data)
             fetchData();
         });
@@ -34,7 +35,7 @@ function VistaAnalisis() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, {headers: {token: token}});
             setData(response.data);
             setFilteredData(response.data);
             console.log(response.data);

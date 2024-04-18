@@ -18,7 +18,7 @@ const VistaVariedades = () => {
     const token = localStorage.getItem('token');
 
     const cambiarEstado = async (id) => {
-        await axios.put(`http://localhost:3000/variedades/desactivar/${id}`).then((response) => {
+        await axios.put(`http://localhost:3000/variedades/desactivar/${id}`, null, {headers: {token: token}}).then((response) => {
             console.log(response.data);
             fetchData();
         });
@@ -28,7 +28,7 @@ const VistaVariedades = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, {headers: {token: token}});
             console.log("variedades", response.data);
             setData(response.data);
             setFilteredData(response.data);
