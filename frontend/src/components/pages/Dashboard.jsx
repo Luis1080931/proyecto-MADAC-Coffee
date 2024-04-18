@@ -57,7 +57,7 @@ export const Dashboard = () => {
 
   return (
     <div>
-      <div className="bg-[#39A900] w-full h-20 flex">
+      <div className="bg-[#336699]/75 w-full h-20 flex">
         <Sidebar />
         <h2 className="text-white text-2xl font-bold ml-auto mr-10 flex items-center">
           Bienvenido {user.nombre}

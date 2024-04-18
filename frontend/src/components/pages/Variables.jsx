@@ -20,9 +20,11 @@ export function Variables () {
         fetchData()
     },[])
 
+    const token = localStorage.getItem('token')
+
     const fetchData = async () => {
         try {
-            axios.get(baseURL).then((response) => {
+            axios.get(baseURL, {headers: {token: token}}).then((response) => {
                 console.log(response.data)
                 setVariables(response.data)
             })
@@ -44,8 +46,8 @@ export function Variables () {
             sortable: true
         },
         {
-            uid: 'fk_tipo_analisis',
-            name: 'fk Tipo analisis',
+            uid: 'tipo_analisis',
+            name: 'Tipo analisis',
             sortable: true
         },
         {
@@ -60,9 +62,9 @@ export function Variables () {
         }
     ];
 
-    const handleDesactivar = (v_codigo) => {
+    const handleDesactivar = (codigo) => {
         try {
-            axios.put(`http://localhost:3000/variable/desactivar/${v_codigo}`, null).then((response) => {
+            axios.put(`http://localhost:3000/variables/desactivarVariable/${codigo}`, null, {headers: {token: token}}).then((response) => {
                 console.log(response.data);
             
 
@@ -127,7 +129,7 @@ export function Variables () {
     
     <div>
         <Header title="Variables" />
-        <div className='w-full flex flex-col justify-center items-center p-10'>
+        <div className='w-full max-w-[90%] ml-28 items-center p-10'>
 
            <AccionesModal
             isOpen={modalAcciones}

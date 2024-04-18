@@ -126,7 +126,7 @@ const peticionDesactivar = async (codigo) => {
         }else if(mode==='update'){
             const updateURL = `http://localhost:3000/lotes/actualizar/${id}`
 
-            await axios.put(updateURL,data).then((response)=>{
+            await axios.put(updateURL,datosForm).then((response)=>{
                 console.log(response); 
 
                 if(response.status==200){

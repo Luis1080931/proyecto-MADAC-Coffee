@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import { IoMdHome } from "react-icons/io";
-import { MdFindInPage, MdAssignmentAdd } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { FaX } from "react-icons/fa6";
 import { IconContext } from 'react-icons';
@@ -43,12 +41,12 @@ export const SideBarUser = ({ children }) => {
                 </li>
                
                 <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh bg-[#336699]/75 rounded-lg p-2'>
-                    <label className='flex text-white text-xl w-full h-full items-center px-4 rounded-lg' onClick={() => setModalUser(true)}>
+                    <label className='flex text-white text-xl w-full h-full items-center px-4 rounded-lg cursor-pointer' onClick={() => setModalUser(true)}>
                         Perfil de usuario
                     </label>
                 </li>
                 <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh bg-[#336699]/75 rounded-lg p-2'>
-                    <label className='flex text-white text-xl w-full h-full items-center px-4 rounded-lg' onClick={() => setModalOpen(true)}>
+                    <label className='flex text-white text-xl w-full h-full items-center px-4 rounded-lg cursor-pointer' onClick={() => setModalOpen(true)}>
                         Cerrar sesión
                     </label>
                 </li>

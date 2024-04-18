@@ -79,7 +79,8 @@ export function Resultados () {
         { 
             uid: 'actions',
             name: "Acciones",
-            sortable: true 
+            sortable: true,
+            
         },
       ];
     

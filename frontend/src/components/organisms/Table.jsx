@@ -19,6 +19,8 @@ import { PlusIcon } from "./../NextUI/PlusIcon.jsx";
 import { VerticalDotsIcon } from "./../NextUI/VerticalDotsIcon.jsx";
 import { SearchIcon } from "./../NextUI/SearchIcon.jsx";
 import { ChevronDownIcon } from "./../NextUI/ChevronDownIcon.jsx";
+import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
+import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
 
 const statusColorMap = {
   activo: "success",
@@ -106,19 +108,11 @@ const handleUpdateClick = (id) => {
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Menu de acciones">
-                <DropdownItem onClick={() => handleUpdateClick(result.codigo)}>Editar</DropdownItem>
-                <DropdownItem onClick={() => clickDesactivar(result.codigo)}>Desactivar</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+          <div className="flex flex-row">
+            <ButtonActualizar click={() =>  handleUpdateClick(result.codigo)} /> 
+            <ButtonDesactivar click={() => clickDesactivar(result.codigo)} />
           </div>
+          
         );
       default:
         return cellValue;
@@ -232,11 +226,11 @@ const handleUpdateClick = (id) => {
   const bottomContent = React.useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-between items-center">
-        <span className="w-[30%] text-small text-default-400">
+        {<span className="w-[30%] text-small text-default-400">
           {selectedKeys === "all"
             ? "All items selected"
             : `${selectedKeys.size} de ${filteredItems.length} seleccionados`}
-        </span>
+        </span>}
         <Pagination
           isCompact
           showControls
@@ -270,11 +264,12 @@ const handleUpdateClick = (id) => {
   }}
   className="flex"
   selectedKeys={selectedKeys}
-  selectionMode="multiple"
+  // selectionMode="multiple"
   sortDescriptor={sortDescriptor}
   topContent={topContent}
   topContentPlacement="outside"
   onSelectionChange={setSelectedKeys}
+
   onSortChange={setSortDescriptor}
 >
   <TableHeader columns={data}>

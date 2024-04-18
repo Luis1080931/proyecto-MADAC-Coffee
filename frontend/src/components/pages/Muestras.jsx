@@ -21,9 +21,11 @@ export function Muestras () {
         fetchData()
     }, [])
 
+    const token = localStorage.getItem('token')
+
     const fetchData = async () => {
         try {
-            const response = await axios.get(baseURL)
+            const response = await axios.get(baseURL, {headers: {token: token}})
             const formattedMuestras = response.data.map((result) => ({
                 ...result,
                 fecha: formatDate(result.fecha),
@@ -105,7 +107,7 @@ export function Muestras () {
 
     const handleDesactivar = (codigo) => {
         try {
-            axios.put(`http://localhost:3000/muestras/desactivarMuestra/${codigo}`, null).then((response) => {
+            axios.put(`http://localhost:3000/muestras/desactivarMuestra/${codigo}`, null, {headers:{token: token}}).then((response) => {
                 console.log(response.data);
             
                 if(response.status == 200) { 
