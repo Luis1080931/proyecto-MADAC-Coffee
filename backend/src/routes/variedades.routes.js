@@ -6,7 +6,7 @@ import { validarToken } from '../controllers/seguridad.controller.js'
 const routeVariedades = Router()
 
 // localhost:3333/variedades/#
-routeVariedades.post("/registrar",validarToken, validarVariedades, registrarVariedades)
+routeVariedades.post("/registrar", validarVariedades, registrarVariedades)
 routeVariedades.put("/actualizar/:codigo",validarToken, validarVariedades, actualizarVariedades)
 routeVariedades.put("/desactivar/:codigo",validarToken, desactivarVariedades)
 routeVariedades.get('/listar',validarToken, listarVariedades)
