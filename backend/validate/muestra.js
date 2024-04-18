@@ -9,6 +9,5 @@ export const validacionMuestra = [
     check('altura_MSNM', 'La altura MSNM es obligatoria y debe ser un número decimal').not().isEmpty().isDecimal(),
     check('tipo_secado', 'El tipo de secado es obligatorio, debe tener máximo 200 caracteres, y solo puede contener letras y espacios').not().isEmpty().isLength({max:200}).matches(/^[a-zA-Z\s]+$/),
     check('observaciones', 'Las observaciones son obligatorias, deben tener máximo 200 caracteres, y solo pueden contener letras y espacios').not().isEmpty().isLength({max:200}).matches(/^[a-zA-Z\s]+$/),
-    check('fk_lote', 'El campo fk lote es obligatorio y debe contener solo números').not().isEmpty().isNumeric(),
-    check('estado', 'El estado es obligatorio y debe ser "activo(1)" o "inactivo(2)"').not().isEmpty()/* .isIn(['activo', 'inactivo']) */
+    check('fk_lote', 'El campo fk lote es obligatorio y debe contener solo números').not().isEmpty().isNumeric(), 
 ];

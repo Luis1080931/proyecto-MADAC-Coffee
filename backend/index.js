@@ -13,7 +13,9 @@ import cors from 'cors'
 
 
 
-const servidor = express()
+const servidor = express();
+
+servidor.use(cors());
 
 servidor.use(cors())
 

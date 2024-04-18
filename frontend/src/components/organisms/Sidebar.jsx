@@ -46,7 +46,7 @@ const MenusCatador = [
       <div className="flex min-h-screen z-10">
         <div
           className={`${open ? "w-64" : "w-20"
-            } bg-[#39A900] max-h-full p-5 pt-5 h-full fixed duration-300`}
+            } bg-[#336699]/75 max-h-full p-5 pt-5 h-full fixed duration-300`}
         >
           <img
             src={Control}
@@ -54,11 +54,11 @@ const MenusCatador = [
                 border-2 rounded-full  ${!open && "rotate-180"}`}
             onClick={() => setOpen(!open)}
           />
-          {<div className={`flex items-center`}>
+          <div className={`flex items-center`}>
             <FaX img="isotipo-SubCoffee.png" className={`${open && "rotate-[360deg]"}`} />
-            <FaX to="/subcoffee" color="cafeClaroLogo" text="Sub" className={`${!open && "scale-0"}`} />
-            <FaX to="/subcoffee" color="cafeOscuroLogo" text="Coffee" className={`${!open && "scale-0"}`} />
-          </div>}
+           {/*  <FaX to="/subcoffee" color="cafeClaroLogo" text="Sub" className={`${!open && "scale-0"}`} />
+            <FaX to="/subcoffee" color="cafeOscuroLogo" text="Coffee" className={`${!open && "scale-0"}`} /> */}
+          </div>
           <ul className="pt-6">
             { user.tipo_usuario == 'admin' ? Menus.map((Menu, index) => (
               <Link

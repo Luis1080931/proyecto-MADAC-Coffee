@@ -72,6 +72,7 @@ export const actualizarResultado = async (req, res) => {
 
         const{fecha, fk_analisis, fk_variables, observaciones, valor} = req.body
         const {id} = req.params
+        console.log(id);
 
         const[rows] = await pool.query(`UPDATE resultados SET fecha=IFNULL(?,fecha), fk_analisis=IFNULL(?,fk_analisis), fk_variables=IFNULL(?,fk_variables), observaciones=IFNULL(?,observaciones), valor=IFNULL(?,valor), estado=1 WHERE codigo= ?`,[fecha, fk_analisis, fk_variables, observaciones, valor, id]);
 

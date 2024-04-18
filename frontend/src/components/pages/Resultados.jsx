@@ -106,6 +106,7 @@ export function Resultados () {
     }
 
     const id = localStorage.getItem('idUser')
+    
 
     const handleSubmit = async (datosForm, e) => {
         console.log(datosForm);

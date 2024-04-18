@@ -28,7 +28,7 @@ export const SideBarUser = ({ children }) => {
             isOpen={modalUser}
             onClose={() => setModalUser(false)}
         />
-        <div className='bg-[#39A900] h-20 flex justify-end items-center'>
+        <div className='h-20 flex justify-end items-center'>
             <Link to='#'>
                 <FaRegUserCircle size={40} className="cursor-pointer mr-8" onClick={showSideBar}/>
             </Link>
@@ -42,12 +42,12 @@ export const SideBarUser = ({ children }) => {
                     </Link>
                 </li>
                
-                <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh hover:bg-[#469C00] rounded-lg p-2'>
+                <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh bg-[#336699]/75 rounded-lg p-2'>
                     <label className='flex text-white text-xl w-full h-full items-center px-4 rounded-lg' onClick={() => setModalUser(true)}>
                         Perfil de usuario
                     </label>
                 </li>
-                <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh hover:bg-[#469C00] rounded-lg p-2'>
+                <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh bg-[#336699]/75 rounded-lg p-2'>
                     <label className='flex text-white text-xl w-full h-full items-center px-4 rounded-lg' onClick={() => setModalOpen(true)}>
                         Cerrar sesión
                     </label>

@@ -23,5 +23,4 @@ export const ModalAcciones = ({ open, onClose, children, title }) => {
 
 </>
   ) 
-  
 }
