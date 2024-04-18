@@ -25,7 +25,7 @@ function Sidebar2() {
                 <div className='lg:hidden absolute -right-10 top-5 text-3xl' onClick={toggleMenu}>
                     <Icon name="menu-outline" />
                 </div>
-                <div className='bg-[#38A800]/75 h-screen'>
+                <div className='bg-[#336699]/75 h-screen'>
                     <div className='absolute w-full h-full bg-black opacity-30 -z-10'></div>
                     <div className='w-full h-16 flex items-center justify-center border-b px-3 border-white font-medium text-lg'>
                         <span className='uppercase text-gray-200 text-xl scale-110 font-black'>MADAC COFFEE</span>
@@ -38,7 +38,7 @@ function Sidebar2() {
                             <MenuItem icon="albums-outline" text="Fincas" onClick={closeSidebar} />
                             <MenuItem icon="bag-remove-outline" text="Variedades" url="/variedades" onClick={closeSidebar} />
                             <MenuItem icon="bag-remove-outline" text="Lotes" onClick={closeSidebar} />
-                            <MenuItem icon="expand-outline" text="Muetras" onClick={closeSidebar} />
+                            <MenuItem icon="expand-outline" text="Muestras" onClick={closeSidebar} />
                             <MenuItem icon="albums-outline" text="Analisis" url="/analisis" onClick={closeSidebar} />
                             <MenuItem icon="albums-outline" text="Variables" onClick={closeSidebar} />
                             <MenuItem icon="albums-outline" text="Resultados" onClick={closeSidebar} />

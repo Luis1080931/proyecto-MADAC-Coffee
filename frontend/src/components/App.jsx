@@ -8,7 +8,7 @@ import { AnalisisRegistrar } from './pages/AnalisisRegistrar.jsx';
 import { AnalisisActualizar } from './pages/AnalisisActualizar.jsx';
 
 
-import { VistaVariedades } from './pages/VistaVariedades.jsx';
+import  VistaVariedades  from './pages/VistaVariedades.jsx';
 import { VariedadesRegistrar } from './pages/VariedadesRegistrar.jsx';
 import { VariedadesActualizar } from './pages/VariedadesActualizar.jsx';
 

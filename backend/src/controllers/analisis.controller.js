@@ -22,7 +22,7 @@ export const registrarAnalisis = async (req, res) => {
         }
 
         const { fecha, analista, fk_muestra, fk_tipo_analisis } = req.body
-        const [ resultado ] = await pool.query("INSERT INTO analisis(fecha, analista, fk_muestra, fk_tipo_analisis) VALUES (?, ?, ?, ?)", [fecha, analista, fk_muestra, fk_tipo_analisis])
+        const [ resultado ] = await pool.query("INSERT INTO analisis(fecha, fk_analista, fk_muestra, fk_tipo_analisis, estado) VALUES (?, ?, ?, ?, 1)", [fecha, analista, fk_muestra, fk_tipo_analisis])
 
         // 0 = No afecto nada
         // 1, 2, 3 = Que hizo algo en la base de datos
@@ -56,6 +56,7 @@ export const actualizarAnalisis = async (req, res) => {
         const { fecha, analista, fk_muestra, fk_tipo_analisis, estado } = req.body
         
         const[resultado] = await pool.query(`UPDATE analisis SET fecha=IFNULL(?,fecha), analista=IFNULL(?,analista), fk_muestra=IFNULL(?,fk_muestra), fk_tipo_analisis=IFNULL(?,fk_tipo_analisis), estado=IFNULL(?,estado) WHERE codigo= ?`,[fecha, analista, fk_muestra, fk_tipo_analisis, estado, codigo]);
+
 
         if (resultado.affectedRows > 0) {
             res.status(201).json({
@@ -146,7 +147,7 @@ export const desactivarAnalisis = async (req, res) => {
 export const listarAnalisis=async(req,res)=>{
     try {
 
-        const [analisis] = await pool.query("SELECT * FROM analisis")
+        const [analisis] = await pool.query(`SELECT codigo, fecha, fk_analista as analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id`)
 
         if (analisis.length>0) {
             res.status(200).json(analisis)
@@ -169,7 +170,7 @@ export const buscarAnalisis=async(req,res)=>{
 
         const {codigo} =req.params
 
-        const [analisis] =await pool.query("SELECT * FROM analisis where codigo = ?",[codigo])
+        const [analisis] =await pool.query(`SELECT codigo, fecha, nombre AS analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id WHERE a.codigo = ?`, [codigo])
         
         if (analisis.length>0) {
             res.status(200).json(analisis)
@@ -183,4 +184,54 @@ export const buscarAnalisis=async(req,res)=>{
             "mensaje":error
         })
     }
+}
+
+
+
+
+/// listar usuarios  ------------------------------------------------------------------------
+
+
+export const listarUsuarios=async(req,res)=>{
+    try {
+
+        const [usuarios] = await pool.query(`SELECT * from usuarios WHERE tipo_usuario = 'catador'`)
+
+        if (usuarios.length>0) {
+            res.status(200).json(usuarios)
+        } else {
+        res.status(404).json({
+            "mensaje":"No hay muestras registrados"
+        })
+        }
+        
+        
+    } catch (error) {
+        res.status(500).json({
+            message: "Error del servidor" + error
+        })
+    }
+}
+
+/// listar muestras  ------------------------------------------------------------------------
+export const listarMuestras=async(req,res)=>{
+try {
+
+    const [muestras] = await pool.query(`SELECT *, codigo as fk_muestra from muestras`)
+
+    if (muestras.length>0) {
+        res.status(200).json(muestras)
+    } else {
+    res.status(404).json({
+        "mensaje":"No hay muestras registradas"
+    })
+    }
+    
+    
+} catch (error) {
+    res.status(500).json({
+        message: "Error del servidor" + error
+    })
+}
+
 }
