@@ -160,7 +160,7 @@ const peticionDesactivar = async (codigo) => {
 
         <div>
             <Header title="Lotes"/>
-            <div className='w-full flex flex-col justify-center items-center p-10'>
+            <div className='w-full max-w-[90%] ml-28 items-center p-10'>
                 <AccionesModal
                 isOpen={modalAcciones}
                 onClose={()=>setModalAcciones(false)}

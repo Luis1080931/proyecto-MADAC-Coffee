@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-import {ModalFooter, Button } from "@nextui-org/react";
+import {ModalFooter, Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 
 const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel }) => {
 
@@ -68,59 +68,67 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
     <>
 
     <form method='post' onSubmit={handleFormSubmit}>
-        <div className='flex flex-col'>
-            <div className='flex flex-col'>
-                <label className='text-xl font-bold'> Fecha: </label>
-                <input className='p-2 rounded-lg w-80 h-12' 
-                name='fecha' 
-                type="date" 
-                placeholder='Ingrese la fecha' 
-                ref={fecha} 
-                required={true}
+        <div>
+            <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
+                <Input 
+                    label='Fecha' 
+                    name='fecha' 
+                    type="date" 
+                    placeholder='Ingrese la fecha' 
+                    ref={fecha} 
+                    required={true}
                 />
             </div>
-            <div className='flex-col md:flex'  >
-                <label className='text-xl font-bold'> Analisis: </label>
-                <select name="" id="" className='p-2 rounded-lg w-80 h-12' ref={fk_analisis} required={true} >
-                    {analisis.map(anali => (
-                        <option key={anali.codigo} value={anali.codigo}>
-                            {anali.codigo}
-                        </option>
-                    ))}
-                </select>
+            <div className='flex w-full flex-wrap md:flex-nowrap mb-4'  >
+                <Select 
+                    label='Código de análisis'
+                    name="" 
+                    id="" 
+                    ref={fk_analisis} 
+                    required={true} 
+                >
+                        {analisis.map(anali => (
+                            <SelectItem key={anali.codigo} value={anali.codigo}>
+                                {anali.codigo}
+                            </SelectItem>
+                        ))}
+                </Select>
             </div>
-            <div className='flex-col md:flex'>
-                <label className='text-xl font-bold'> Variable: </label>
-                <select name="idvariable" id="" className='p-2 rounded-lg w-80 h-12' ref={fk_variables} required={true} >
-                    {variables.map(varia => (
-                        <option key={varia.v_codigo} value={varia.v_codigo}>
-                            {varia.nombre}
-                        </option>
-                    ))}
-                </select>
+            <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
+                <Select 
+                    label='Variable'
+                    name="idvariable"
+                    id=""
+                    ref={fk_variables}
+                    required={true} 
+                >
+                        {variables.map(varia => (
+                            <SelectItem key={varia.v_codigo} value={varia.v_codigo}>
+                                {varia.nombre}
+                            </SelectItem>
+                        ))}
+                </Select>
             </div>
-            <div className='flex-col md:flex'>
-                <label className='text-xl font-bold'> Valor: </label>
-                <input 
-                className='p-2 rounded-lg w-80 h-12' 
-                name='valor' 
-                type="text" 
-                placeholder='Ingrese la valor' 
-                ref={valor} 
-                required={true}
+            <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
+                <Input 
+                    label='Valor:'
+                    name='valor' 
+                    type="text" 
+                    placeholder='Ingrese la valor' 
+                    ref={valor} 
+                    required={true}
                 />
             </div>
-            <div className='flex-col md:flex'>
-                <label className='text-xl font-bold'> Observaciones: </label>
-                <textarea 
-                className='p-2 rounded-lg w-80' 
-                name="observaciones" 
-                cols="30" 
-                rows="3" 
-                placeholder='Observaciones' 
-                ref={observaciones} 
-                required={true}
-                ></textarea>
+            <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
+                <Textarea 
+                    label='Observaciones'
+                    name="observaciones" 
+                    cols="30" 
+                    rows="3" 
+                    placeholder='Observaciones' 
+                    ref={observaciones} 
+                    required={true}
+                ></Textarea>
             </div>
             {<ModalFooter>
                 <Button color="danger" variant="flat" onPress={onClose}>

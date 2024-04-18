@@ -4,17 +4,22 @@ import { Input } from "@nextui-org/react";
 import { Select, SelectItem } from "@nextui-org/react";
 import { useEffect, useState } from 'react';
 import axios from "axios";
+import SweetAlertComponent from "./SweetAlertComponent";
+
 
 
 
 
 export const ModalActualizarAnalisis = ({ item, fetchData }) => {
 
+    const [isSuccess, setIsSuccess] = useState(null);
+    const [message, setMessage] = useState(null);
+
     const [formData, setFormData] = useState({
         analista: item.analista,
         estado: item.estado,
         fecha: item.fecha,
-        fk_muestra: item.fk_muestra,
+        fk_muestra: item.muestra,
         fk_tipo_analisis: item.fk_tipo_analisis
     });
 
@@ -23,7 +28,6 @@ export const ModalActualizarAnalisis = ({ item, fetchData }) => {
         e.preventDefault();
         try {
             let response = await axios.put(`http://localhost:3000/analisis/actualizar/${item.codigo}`, formData);
-            alert(response.data);
             fetchData();
             setFormData({
                 analista: '',
@@ -32,7 +36,12 @@ export const ModalActualizarAnalisis = ({ item, fetchData }) => {
                 fk_muestra: '',
                 fk_tipo_analisis: ''
             });
+            setIsSuccess(true);
+            setMessage('Analisis actualizado');
         } catch (error) {
+            console.error('Error al enviar datos:', error);
+            setIsSuccess(false);
+            setMessage('Analisis No actualizado');
             console.error('Error al enviar datos:', error);
         }
     };
@@ -48,24 +57,25 @@ export const ModalActualizarAnalisis = ({ item, fetchData }) => {
 
     return (
         <>
+             <SweetAlertComponent type={isSuccess ? 'success' : 'error'} message={message} />
             <Button color="success" className="my-3" onPress={onOpen}>Actualizar</Button>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1 text-center">Modal Actualizar Analisis</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1 text-center"> Actualizar Analisis</ModalHeader>
                             <ModalBody>
                                 <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
                                     <Input name="analista"
                                         value={formData.analista}
-                                        onChange={handleChange} label="analista" placeholder="Enter your analista" />
+                                        onChange={handleChange} label="Analista" placeholder="Nombre del analista" />
 
                                 </div>
 
                                 <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
                                     <Input type="text" name="fecha"
                                         value={formData.fecha}
-                                        onChange={handleChange} label="Email" placeholder="Enter your date" />
+                                        onChange={handleChange} label="Fecha" placeholder="Ingrese la fecha" />
 
                                 </div>
 
@@ -74,14 +84,14 @@ export const ModalActualizarAnalisis = ({ item, fetchData }) => {
                                     <Input type="text"
                                         name="fk_muestra"
                                         value={formData.fk_muestra}
-                                        onChange={handleChange} label="muestra" placeholder="Enter your muestra" />
+                                        onChange={handleChange} label="Muestra" placeholder="Ingrese el código de la muestra" />
 
                                 </div>
 
                                 <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
                                     <Select
-                                        label="Favorite fk_tipo_analisis"
-                                        placeholder="Select an fk_tipo_analisis"
+                                        label="Tipo de análisis"
+                                        placeholder="Seleccione el tipo de análisis "
                                         name="fk_tipo_analisis"
                                         value={formData.fk_tipo_analisis}
                                         onChange={handleChange}
