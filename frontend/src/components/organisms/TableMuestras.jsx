@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Table,
   TableHeader,
@@ -15,26 +15,20 @@ import {
   Chip,
   Pagination,
 } from "@nextui-org/react";
-import { PlusIcon } from "./PlusIcon";
-import { VerticalDotsIcon } from "./VerticalDotsIcon.jsx";
-import { SearchIcon } from "./SearchIcon";
-import { ChevronDownIcon } from "./ChevronDownIcon";
-import axios from "axios";
-import ResultadosModal from "../templates/Resultados.jsx";
-import { Header } from "../molecules/Header.jsx";
+import { PlusIcon } from "./../NextUIAlejandro/PlusIcon.jsx";
+import { VerticalDotsIcon } from "./../NextUIAlejandro/VerticalDotsIcon.jsx";
+import { SearchIcon } from "./../NextUIAlejandro/SearchIcon.jsx";
+import { ChevronDownIcon } from "./../NextUIAlejandro/ChevronDownIcon.jsx";
 
 const statusColorMap = {
   activo: "success",
   inactivo: "danger",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["codigo", "fecha", "analisis", "variable", "valor", "observaciones", "estado", "actions"];
-
-export default function Ejemplo() {
+export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, data, muestras }) {
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
-  const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
   const [statusFilter, setStatusFilter] = React.useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [sortDescriptor, setSortDescriptor] = React.useState({
@@ -42,39 +36,7 @@ export default function Ejemplo() {
     direction: "ascending",
   });
   const [page, setPage] = React.useState(1);
-  const [results, setResults] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState('create')
-
-    const handleToggle = (mode) => {
-        setMode(mode)
-        setOpen(true)
-    }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/resultados/listar');
-      setResults(response.data);
-    } catch (error) {
-      console.error('Error al obtener los datos:', error);
-    }
-  };
-
-  const data = [
-    { uid: "codigo", name: "Código", sortable: true },
-    { uid: "fecha", name: "Fecha", sortable: true },
-    { uid: "analisis", name: "Análisis", sortable: true },
-    { uid: "variable", name: "Variable", sortable: true },
-    { uid: "valor", name: "Valor", sortable: true },
-    { uid: "observaciones", name: "Observaciones", sortable: false },
-    { uid: "estado", name: "Estado", sortable: true },
-    { uid: "actions", name: "Acciones", sortable: false },
-  ];
-
+ 
   const statusOptions = [
     {name: "Activo", uid: "activo"},
     {name: "Inactivo", uid: "inactivo"},
@@ -83,28 +45,31 @@ export default function Ejemplo() {
   const hasSearchFilter = Boolean(filterValue);
 
   const filteredItems = React.useMemo(() => {
-    let filteredResults = results;
+    let filteredMuestras = muestras;
 
     if (hasSearchFilter) {
-      filteredResults = filteredResults.filter(result =>
-        String(result.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
-        result.fecha.toLowerCase().includes(filterValue.toLowerCase()) ||
-        String(result.analisis).toLowerCase().includes(filterValue.toLowerCase()) ||
-        result.variable.toLowerCase().includes(filterValue.toLowerCase()) ||
-        result.valor.toLowerCase().includes(filterValue.toLowerCase()) ||
-        result.observaciones.toLowerCase().includes(filterValue.toLowerCase()) ||
-        result.estado.toLowerCase().includes(filterValue.toLowerCase())
+      filteredMuestras = filteredMuestras.filter(muestra =>
+        String(muestra.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
+        muestra.fecha.toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(muestra.cantidad).toLowerCase().includes(filterValue.toLowerCase()) ||
+        muestra.quien_recibe.toLowerCase().includes(filterValue.toLowerCase()) ||
+        muestra.proceso_fermentacion.toLowerCase().includes(filterValue.toLowerCase()) ||
+        muestra.humedad_cafe.toLowerCase().includes(filterValue.toLowerCase()) ||
+        muestra.altura_MSNM.toLowerCase().includes(filterValue.toLowerCase()) ||
+        muestra.tipo_secado.toLowerCase().includes(filterValue.toLowerCase()) ||
+        muestra.observaciones.toLowerCase().includes(filterValue.toLowerCase()) ||
+        muestra.fk_lote.toLowerCase().includes(filterValue.toLowerCase()) 
       );
     }
 
     if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-      filteredResults = filteredResults.filter(result =>
-        Array.from(statusFilter).includes(result.estado)
+      filteredMuestras = filteredMuestras.filter(muestra =>
+        Array.from(statusFilter).includes(muestra.estado)
       );
     }
 
-    return filteredResults;
-  }, [results, filterValue, statusFilter]);
+    return filteredMuestras;
+  }, [muestras, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -125,13 +90,20 @@ export default function Ejemplo() {
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((result, columnKey) => {
-    const cellValue = result[columnKey];
+  const renderCell = React.useCallback((muestra, columnKey) => {
+    const cellValue = muestra[columnKey];
+
+  
+const handleUpdateClick = (id) => {
+ 
+  localStorage.setItem('idUser', id)
+  clickEditar(id)
+};
 
     switch (columnKey) {
       case "estado":
         return (
-          <Chip className="capitalize" color={statusColorMap[result.estado]} size="sm" variant="flat">
+          <Chip className="capitalize" color={statusColorMap[muestra.estado]} size="sm" variant="flat">
             {cellValue}
           </Chip>
         );
@@ -144,9 +116,9 @@ export default function Ejemplo() {
                   <VerticalDotsIcon className="text-default-300" />
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem onClick={() => handleToggle('update')}>Editar</DropdownItem>
-                <DropdownItem>Desactivar</DropdownItem>
+              <DropdownMenu aria-label="Menu de acciones">
+                <DropdownItem onClick={() => handleUpdateClick(muestra.codigo)}>Editar</DropdownItem>
+                <DropdownItem onClick={() => clickDesactivar(muestra.codigo)}>Desactivar</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -194,7 +166,6 @@ export default function Ejemplo() {
   const topContent = React.useMemo(() => {
     return (
       <>
-       <Header title='Resultados' />
       <div className="flex flex-col gap-4">
         <div className="flex justify-between gap-3 items-end">
           <Input
@@ -216,7 +187,8 @@ export default function Ejemplo() {
               </DropdownTrigger>
               <DropdownMenu
                 disallowEmptySelection
-                aria-label="Table Columns"
+                aria-label="Menu de acciones"
+                aria-labelledby="Acciones"
                 closeOnSelect={false}
                 selectedKeys={statusFilter}
                 selectionMode="multiple"
@@ -229,13 +201,13 @@ export default function Ejemplo() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />} onClick={() => setOpen(true)}>
+            <Button color="primary" endContent={<PlusIcon />} onClick={clickRegistrar}>
               Registrar
             </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {results.length} resultados</span>
+          <span className="text-default-400 text-small">Total {muestras.length} Resultados</span>
           <label className="flex items-center text-default-400 text-small">
             Columnas por página:
             <select
@@ -291,21 +263,15 @@ export default function Ejemplo() {
 
   return (
     <div className="flex items-center justify-center">
-    <ResultadosModal 
-      open={open}
-      onClose={()=> setOpen(false)}
-      title={mode == 'create' ? 'Registro' : 'Actualizar'}
-      actionLabel={mode == 'create' ? 'Crear' : 'Guardar'}
-    />
 <Table
-  aria-label="Example table with custom cells, pagination and sorting"
+  aria-label="Tabla"
   isHeaderSticky
   bottomContent={bottomContent}
   bottomContentPlacement="outside"
   classNames={{
-    wrapper: "max-h-[382px] max-w-[95%]" ,
+    wrapper: "max-h-[95%] max-w-[95%]" ,
   }}
-  className="flex "
+  className="flex"
   selectedKeys={selectedKeys}
   selectionMode="multiple"
   sortDescriptor={sortDescriptor}

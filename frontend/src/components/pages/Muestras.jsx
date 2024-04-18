@@ -1,24 +1,21 @@
 import React, { useState, useEffect} from 'react'
-import DataTable from 'react-data-table-component'
 import { Header } from './../molecules/Header.jsx'
-import Buscador from '../atoms/Buscador.jsx';
-import { ButtonRegister } from '../atoms/ButtonRegister.jsx';
-import { ButtonActualizar } from '../atoms/ButtonActualizar.jsx';
-import { ButtonDesactivar } from '../atoms/ButtonDesactivar.jsx';
 import MuestrasModal from '../templates/MuestrasModal.jsx';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
 import axios from 'axios';
+import Ejemplo from '../organisms/TableMuestras.jsx';
 
 export function Muestras () {
 
     const baseURL = 'http://localhost:3000/muestra/listar'
-
-    const [datos, setData] = useState([])
+/* 
+    const [datos, setData] = useState([]) */
     const [modalOpen, setModalOpen] = useState(false)
     const [ modalAcciones, setModalAcciones ] = useState(false)
     const [mode, setMode] = useState('create')
     const [initialData, setInitialData ] = useState(null)
     const [mensaje, setMensaje] = useState('')
+    const [muestras, setMuestras] = useState([])
 
     useEffect(() => {
         fetchData()
@@ -35,85 +32,76 @@ export function Muestras () {
             console.log('Error en el servidor' + error);
         }
     }
-    const columns = [
+    const data = [
         {
+            uid : 'codigo',
             name: 'Código',
-            selector: row => row.codigo,
             sortable: true
         },
         {
+            uid: 'fecha',
             name: 'Fecha',
             selector: row => new Date(row.fecha).toLocaleDateString(),
             sortable: true
         },
         {
+            uid: 'cantidad',
             name: 'Cantidad',
-            selector: row => row.cantidad,
             sortable: true
         },
         {
+            uid: 'quien_recibe',
             name: 'Quien Recibe',
-            selector: row => row.quien_recibe, 
             sortable: true
         },
         {
+            uid: 'proceso_fermentacion',
             name: 'Proceso de Fermentación',
-            selector: row => row.proceso_fermentacion, 
             sortable: true
         },
         {
+            uid: 'humedad_cafe',
             name: 'Humedad Café',
-            selector: row => row.humedad_cafe, 
             sortable: true
         },
         {
+            uid: 'altura_MSNM',
             name: 'Altura MSNM',
-            selector: row => row.altura_MSNM, 
             sortable: true
         },
         {
+            uid: 'tipo_secado',
             name: 'Tipo de Secado',
-            selector: row => row.tipo_secado, 
             sortable: true
         },
         {
+            uid: 'observaciones',
             name: 'Observaciones',
-            selector: row => row.observaciones,
             sortable: true
         },
         {
+            uid: 'fk_lote',
             name: 'fk Lote',
-            selector: row => row.fk_lote, 
             sortable: true
         },
         {
+            uid: 'estado',
             name: 'Estado',
-            selector: row => row.estado,
             sortable: true
         },
         {
-            name: 'Acciones',
-            cell: row => 
-            <>
-            <ButtonActualizar click={() => handleToggle('update', row)}/>
-            <ButtonDesactivar click={() => handleDesactivar(row.codigo)}/>
-            </>
+            uid:'actions',
+            name: "Acciones",
+            sortable:true
         }
-    ]
+    ];
 
-    function handleFilter (event){
-        const newData = datos.filter(row => {
-            return row.valor.toLowerCase().includes(event.target.value.toLowerCase())
-        })
-        setData(newData)
-    }
 
     const handleDesactivar = (codigo) => {
         try {
             axios.put(`http://localhost:3000/muestra/desactivar/${codigo}`, null).then((response) => {
                 console.log(response.data);
-                
-
+            
                 if(response.status == 200) { 
                     setMensaje('Se desactivo con éxito la Muestra')
                     setModalAcciones(true)
@@ -126,15 +114,17 @@ export function Muestras () {
                 alert('Error con el servidor')
             }
     }
+    const id = localStorage.getItem('idUser')
     
-    const handleSubmit = async (data, e) => {
+    const handleSubmit = async (datosForm, e) => {
+        console.log(datosForm);
         e.preventDefault()
 
         try {
             if (mode === 'create') {
                 const BaseURL = 'http://localhost:3000/muestra/crearmuestra'
 
-                await axios.post(BaseURL, data).then((response) => {
+                await axios.post(BaseURL, datosForm).then((response) => {
                     console.log(response);
                     if (response.status == 200) {
                         setMensaje('Muestra registrada con éxito')
@@ -143,10 +133,12 @@ export function Muestras () {
                         fetchData()
                     }
                 })
+
             } else if (mode === 'update') {
                 const UpdateURL = `http://localhost:3000/muestra/actualizar/${initialData.codigo}`
-                await axios.put(UpdateURL, data).then((response) => {
+                await axios.put(UpdateURL, datosForm).then((response) => {
                     console.log(response);
+
                     if (response.status == 200) {
                         setMensaje('Se actualizó La Muestra con éxito')
                         setModalAcciones(true)
@@ -160,7 +152,7 @@ export function Muestras () {
             setModalOpen(false)
         } catch (error) {
             console.log('Error en el servidor' + error)
-            alert('Se desactivo la muestra con exito ')
+            alert('Error en el servidor ' + error)
         }
     }
     
@@ -181,8 +173,6 @@ export function Muestras () {
             onClose={() => setModalAcciones(false)}
             label={mensaje}
             />
-            <Buscador handler={handleFilter} />
-            <ButtonRegister click={() => handleToggle('create')} />
             <MuestrasModal 
                 open={modalOpen} 
                 onClose={()=>setModalOpen(false)} 
@@ -191,9 +181,15 @@ export function Muestras () {
                 initialData={initialData}
                 handleSubmit={handleSubmit}
                 mode={mode}
-                setModalOpen={setModalOpen}
+
             />
-            <DataTable columns={columns} data={datos} title={'Muestras registradas'} />
+           <Ejemplo
+                clickDesactivar={handleDesactivar}
+                clickEditar={() => handleToggle('update', id)}
+                clickRegistrar={() => handleToggle('create')}
+                data={data}
+                results={muestras}
+           />
         </div>
     </div>
   )
