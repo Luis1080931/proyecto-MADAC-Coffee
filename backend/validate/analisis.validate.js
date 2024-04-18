@@ -15,8 +15,5 @@ export const validarAnalisis =
 
     check('fk_tipo_analisis', 'Ingrese un código válido')
         .not().isEmpty()
-        .isNumeric(),
-
-    check('estado', 'Seleccione un estado')
-    .not().isEmpty()
+        .isNumeric()
 ]
