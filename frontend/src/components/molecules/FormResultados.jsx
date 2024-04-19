@@ -88,7 +88,7 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                     required={true} 
                 >
                         {analisis.map(anali => (
-                            <SelectItem key={anali.codigo} value={anali.codigo}>
+                            <SelectItem key={anali.codigo} value={anali.codigo} textValue={anali.codigo}>
                                 {anali.codigo}
                             </SelectItem>
                         ))}

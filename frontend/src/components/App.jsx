@@ -12,29 +12,35 @@ import { Resultados } from "./pages/Resultados.jsx"
 import Ejemplo from './NextUI/TableNext.jsx'
 import LoginModal from "./organisms/ModalLogin.jsx"
 import ModalResultados from "./organisms/ModalResultados.jsx"
+import { AuthProvider } from "../context/authContext.jsx"
+import { NextUIProvider } from "@nextui-org/react"
 
 function App() {
 
   return (
-    <BrowserRouter>    
-    {/*   <Sidebar /> */}
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/fincas" element={<Fincas />} />
-          <Route path="/lotes" element={<Lotes />} />
-          <Route path="/resultados" element={<Resultados />} />
-          <Route path="/variables" element={<Variables />} />
-          <Route path="/muestras" element={<Muestras />} />
-          <Route path="/usuarios" element={<Usuarios />} />
-          <Route path="/variedades" element={<VistaVariedades />} />
-          <Route path="/analisis" element={<VistaAnalisis />} />
-          <Route path="/table" element={<Ejemplo />} />
-          <Route path="/modallogin" element={<LoginModal />} />
-          <Route path="/modalresultados" element={<ModalResultados />} />
-        </Routes>
+    <NextUIProvider>
+      <AuthProvider>
+        <BrowserRouter>    
+        {/*   <Sidebar /> */}
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/fincas" element={<Fincas />} />
+              <Route path="/lotes" element={<Lotes />} />
+              <Route path="/resultados" element={<Resultados />} />
+              <Route path="/variables" element={<Variables />} />
+              <Route path="/muestras" element={<Muestras />} />
+              <Route path="/usuarios" element={<Usuarios />} />
+              <Route path="/variedades" element={<VistaVariedades />} />
+              <Route path="/analisis" element={<VistaAnalisis />} />
+              <Route path="/table" element={<Ejemplo />} />
+              <Route path="/modallogin" element={<LoginModal />} />
+              <Route path="/modalresultados" element={<ModalResultados />} />
+            </Routes>
 
-    </BrowserRouter>
+        </BrowserRouter>
+      </AuthProvider>
+    </NextUIProvider>
   )
 }
 

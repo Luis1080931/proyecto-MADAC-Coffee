@@ -4,8 +4,14 @@ import axios from 'axios';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
 import Ejemplo from '../organisms/Table.jsx';
 import ResultadosModal from './../templates/Resultados.jsx';
+import { useResultado } from '../../context/ResultadosContext.jsx';
+import { ResultadoProvider } from '../../context/ResultadosContext.jsx';
+
+
 
 export function Resultados () {
+
+    /* const { setResultadoSeleccionado } = useResultado() */
 
     const baseURL = 'http://localhost:3000/resultados/listar'
     const token = localStorage.getItem('token')
@@ -16,6 +22,7 @@ export function Resultados () {
     const [initialData, setInitialData ] = useState(null)
     const [mensaje, setMensaje] = useState('')
     const [results, setResults] = useState([]);
+    
 
   useEffect(() => {
     fetchData();
@@ -116,7 +123,7 @@ export function Resultados () {
             if(mode === 'create'){
                 const baseURL = 'http://localhost:3000/resultados/registrar'
     
-                await axios.post(baseURL, datosForm).then((response) => {
+                await axios.post(baseURL, datosForm, {headers: {token: token}}).then((response) => {
                     console.log(response)
 
                     if(response.status == 200){
@@ -133,7 +140,7 @@ export function Resultados () {
 
                     const updateURL = `http://localhost:3000/resultados/actualizar/${id}`
 
-                    axios.put(updateURL, datosForm).then((response) => {
+                    axios.put(updateURL, datosForm, {headers: {token: token}} ).then((response) => {
                         console.log(response)
     
                         if(response.status == 200){
@@ -155,12 +162,13 @@ export function Resultados () {
 
     const handleToggle = (mode, initialData) => {
         setInitialData(initialData)
+        /* setResultadoSeleccionado(initialData) */
         setModalOpen(true)
         setMode(mode)
     }
 
   return (
-    
+    <ResultadoProvider>
     <div>
         <Header title="Resultados" />
         <div className='w-full max-w-[90%] ml-28 items-center p-10'>
@@ -192,5 +200,6 @@ export function Resultados () {
             
         </div>
     </div>
+    </ResultadoProvider>
   )
 }

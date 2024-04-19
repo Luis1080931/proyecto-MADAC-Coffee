@@ -1,11 +1,65 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { Modal, ModalBody, Input, Button, ModalContent, ModalHeader } from '@nextui-org/react';
+
+const VariableInputModal = () => {
+  const [variables, setVariables] = useState(Array(30).fill('')); // Inicializamos 30 variables con valores vacíos
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleChange = (e, index) => {
+    const newVariables = [...variables];
+    newVariables[index] = e.target.value;
+    setVariables(newVariables);
+  };
+
+  const handleNext = () => {
+    setCurrentIndex(currentIndex + 1);
+  };
+
+  const handleSubmit = () => {
+    console.log(variables);
+    setModalOpen(false);
+  };
+
+  return (
+    <>    
+    <button onClick={() => setModalOpen(true)}> Abrir </button>
+    <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+      <ModalContent>
+        <ModalHeader> Registro de resultados de los analisis </ModalHeader>
+      <ModalBody>
+        {currentIndex < variables.length ? (
+          <>
+            <h2>{`Variable ${currentIndex + 1}`}</h2>
+            <Input
+              placeholder="Ingrese el valor"
+              value={variables[currentIndex]}
+              onChange={(e) => handleChange(e, currentIndex)}
+            />
+            <Button onClick={handleNext}>Next</Button>
+          </>
+        ) : (
+          <>
+            <h2>Registro completo</h2>
+            <Button onClick={handleSubmit}>Registrar</Button>
+          </>
+        )}
+      </ModalBody>
+      </ModalContent>
+    </Modal>
+    </>
+
+  );
+};
+
+export default VariableInputModal;
+
+
+/* import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Modal, Button, ModalHeader, ModalContent, ModalFooter } from '@nextui-org/react';
 import {Tabs, Tab} from "@nextui-org/react"; 
 
-// Componente para el modal de registro de resultados
-// Componente para el modal de registro de resultados
-// Componente para el modal de registro de resultados
 function ModalResultados() {
   const [analisisSeleccionado, setAnalisisSeleccionado] = useState('');
   const [analisis, setAnalisis] = useState([]);
@@ -19,14 +73,12 @@ function ModalResultados() {
 
   useEffect(() => {
     cargarAnalisis();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (analisisSeleccionado) {
       cargarVariables(analisisSeleccionado);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [analisisSeleccionado]);
 
   const cargarAnalisis = async () => {
@@ -48,7 +100,7 @@ function ModalResultados() {
       });
       const variablesFilter = response.data.filter(variable => variable.estado === 'activo');
       setVariables(variablesFilter);
-      // Inicializar los valores de las variables
+
       const initialValues = {};
       variablesFilter.forEach(variable => {
         initialValues[variable._id] = '';
@@ -66,7 +118,7 @@ function ModalResultados() {
 
   const handleChangeValorVariable = (event, variableId) => {
     const { value } = event.target;
-    // Actualizar el estado solo para la variable específica
+
     setValoresVariables(prevState => ({
       ...prevState,
       [variableId]: value
@@ -90,7 +142,6 @@ function ModalResultados() {
     }
   };
 
-  // Obtener las variables de la página actual
   const variablesPagina = variables.slice(paginaActual * 5, (paginaActual + 1) * 5);
 
   return (
@@ -167,3 +218,4 @@ function ModalResultados() {
 
 export default ModalResultados;
 
+ */

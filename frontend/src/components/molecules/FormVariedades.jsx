@@ -1,21 +1,48 @@
 import React, { useEffect, useRef, useState } from 'react'
-/* import { Button } from '../atoms/Button' */
-import TitleModal from '../atoms/TitleModal'
+import { Button, Input, ModalFooter } from '@nextui-org/react'
 
-const FormVariedades = ({ handleSubmit, actionLabel, title }) => {
+const FormVariedades = ({ handleSubmit, actionLabel, mode, initialData, onClose }) => {
+
+  const nombre = useRef(null)
+
+  useEffect(() => {
+      if(mode == 'update' && initialData){
+        nombre.current.value = initialData.nombre
+      }
+  }, [mode, initialData])
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const data = {
+        nombre: nombre.current.value
+      }
+      handleSubmit(data, e)
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <>
     
-    <form method='post' onSubmit={handleSubmit}>
-        <div className='flex flex-col'>
-        <TitleModal title={title} />
-            <div className='flex flex-col mt-12'>
-                <label className=' text-xl font-bold'> Nombre: </label>
-                <input className='p-2 rounded-lg w-80 h-12' type="text" value="" placeholder='Ingrese el nombre de la variedad' />
-            </div>
-           {/*  <Button actionLabel={actionLabel} /> */}
+    <form method='post' onSubmit={handleFormSubmit}>
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+          <Input 
+            name="nombre"
+            ref={nombre}
+            required={true}
+            label="Ingrese nombre de variedad"
+          />
         </div>
+        <ModalFooter>
+          <Button color="danger" variant="light" onPress={onClose}>
+            Cerrar
+          </Button>
+          <Button type='submit' color="primary">
+            {actionLabel}
+          </Button>
+        </ModalFooter>
     </form>
     </>   
   )

@@ -1,15 +1,9 @@
 import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default function LogoutModal({ isOpen, onClose }) {
+export default function Protected({ isOpen, onClose }) {
 
-  const navigate = useNavigate()
-
-  const Logout = () => {
-    localStorage.clear();
-    navigate('/')
-  }
 
   return (
     <>
@@ -17,14 +11,13 @@ export default function LogoutModal({ isOpen, onClose }) {
         <ModalContent>
               <ModalHeader className="flex flex-col gap-1">Logout</ModalHeader>
               <ModalBody>
-                <label> ¿Estas seguro que quieres cerrar la sesión? </label>
+                <label> ¿No has iniciado sesión? </label>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="flat" onPress={onClose}>
-                  Close
-                </Button>
                 <Button color="primary" onPress={onClose} onClick={Logout}>
-                  Confirmar
+                  <Link to={'/'}>
+                    Iniciar sesión
+                  </Link>
                 </Button>
               </ModalFooter>
         </ModalContent>

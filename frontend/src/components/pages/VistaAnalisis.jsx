@@ -1,33 +1,77 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar2 from '../organisms/Sidebar2';
-import Navbar2 from '../organisms/Navbar2';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination, Input, Button, Switch } from "@nextui-org/react";
 import axios from 'axios';
-import { ModalRegistrarAnalisis } from '../NextUIMaria/ModalRegistrarAnalisis';
-import { ModalActualizarAnalisis } from '../NextUIMaria/ModalActualizarAnalisis';
+import { Header } from '../molecules/Header.jsx';
+import AccionesModal from '../organisms/ModalAcciones.jsx';
+import AnalisisModal from '../templates/Analisis.jsx';
+import Ejemplo from '../organisms/TableAnalisis.jsx';
+import { render } from 'react-dom';
 
 function VistaAnalisis() {
-    const [data, setData] = useState([]);
-    const [filteredData, setFilteredData] = useState([]);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [page, setPage] = useState(1);
-    const [filterValue, setFilterValue] = useState('');
-    const [filtroActivo, setFiltroActivo] = useState(false);
-    const [filtroInactivo, setFiltroInactivo] = useState(false);
-    const [catadores, setCatadores] = useState([])
+    const [results, setResults] = useState([]);
+    const [modalAccionesOpen, setModalAccionesOpen] = useState(false)
+    const [modalOpen, setModalOpen] = useState(false)
+    const [mensaje, setMensaje] = useState('')
+    const [mode, setMode] = useState('create')
+    const [initialData, setInitialData] = useState(null)
 
-    function formatDate(dateString) {
+    const data = [
+        { 
+            uid: "codigo",
+            name: "CÓDIGO",
+            sortable: true 
+        },
+        { 
+            uid: "analista",
+            name: "ANALISTA" ,
+            sortable: true 
+        },
+        { 
+            uid: "fecha",
+            name: "FECHA", 
+            sortable: true,
+            render: (fecha) => formatDate(fecha)
+        },
+        { 
+            uid: "muestra",
+            name: "MUESTRA",
+            sortable: true
+        },
+        { 
+            uid: "tipo_analisis",
+            name: "TIPO ANALISIS",
+            sortable: true
+        },
+        { 
+            uid: "estado",
+            name: "ESTADO",
+            sortable: true
+        },
+        { 
+            uid: "actions",
+            name: "ACCIONES",
+            sortable: true
+        },
+    ];
+
+    const formatDate = (dateString) => {
         const date = new Date(dateString);
-        const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-        return formattedDate;
-    }
+        return date.toLocaleDateString('es-ES'); // Puedes ajustar el idioma según tu preferencia
+      };
 
     const token = localStorage.getItem('token');
 
-    const cambiarEstado = async (id) => {
+    const handleDesactivar = async (id) => {
         await axios.put(`http://localhost:3000/analisis/desactivar/${id}`, null, {headers: {token: token}}).then((response) => {
             console.log(response.data)
-            fetchData();
+            if(response.status==200){
+                setMensaje('Se desactivó con exito el análisis')
+                setModalAccionesOpen(true)
+                setModalOpen(false)
+                fetchData();
+            }else{
+                alert('Error')
+            }
+            
         });
     };
 
@@ -35,10 +79,13 @@ function VistaAnalisis() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(url, {headers: {token: token}});
-            setData(response.data);
-            setFilteredData(response.data);
-            console.log(response.data);
+            const response = await axios.get(url, {headers: {token: token}})
+
+            const formattedResults = response.data.map((result) => ({
+                ...result,
+                fecha: formatDate(result.fecha),
+              }));
+              setResults(formattedResults);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -48,160 +95,77 @@ function VistaAnalisis() {
         fetchData();
     }, [token]);
 
-    const onSearchChange = (value) => {
-        setFilterValue(value);
-        setPage(1); // Reset page number when changing search filter
-        // filterData();
-    };
-    
-    const onPageChange = (pageNumber) => {
-        setPage(pageNumber);
-    };
+    const handleToggle = (mode, initialData) => {
+        setInitialData(initialData)
+        setModalOpen(true)
+        setMode(mode)
+    }
 
-    const onRowsPerPageChange = (e) => {
-        setRowsPerPage(Number(e.target.value));
-        setPage(1); // Reset page number when changing rows per page
-    };
+    const id = localStorage.getItem('idUser')
 
-    const filterData = () => {
-        let filtered = data;
-        filtered = filtered.filter(item => {
-            if (!filtroActivo && !filtroInactivo) return true;
-            if (filtroActivo && item.estado === 'activo') return true;
-            if (filtroInactivo && item.estado === 'inactivo') return true;
-            return false;
-        });
-        if (filterValue.trim() !== '') {
-            filtered = filtered.filter(item => Object.values(item).some(val => typeof val === 'string' && val.toLowerCase().includes(filterValue.toLowerCase())));
+    const handleSubmit = (data, e) => {
+        e.preventDefault()
+        try {
+            if(mode == 'create'){
+                const baseURL = 'http://localhost:3000/analisis/registrar';
+                axios.post(baseURL, data, {headers: {token: token}}).then((response) => {
+                    if(response.status == 200){
+                        console.log(response.data)
+                        setMensaje(response.data.message)
+                        setModalAccionesOpen(true)
+                        setModalOpen(false)
+                        fetchData();
+                    }else{
+                        alert('Error en el registro')
+                    }
+                    
+                });
+            }else if(mode == 'update'){
+                const updateURL = `http://localhost:3000/analisis/actualizar/${id}`
+                axios.put(updateURL,data, {headers: {token: token}}).then((response) => {
+                    if(response.status == 200){
+                        console.log(response.data)
+                        setMensaje(response.data.message)
+                        setModalAccionesOpen(true)
+                        setModalOpen(false)
+                        fetchData();
+                    }else{
+                        alert('Error en el registro')
+                    }
+                    
+                });
+            }
+        } catch (error) {
+           console.log('Error de servidor' + error); 
         }
-        setFilteredData(filtered);
-    };
-    
-
-    useEffect(() => {
-        filterData();
-    }, [filtroActivo, filtroInactivo, filterValue]);
-
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    const paginatedData = filteredData.slice(start, end);
-
-    const columns = [
-        { key: "id", label: "ID" },
-        { key: "analista", label: "ANALISTA" },
-        { key: "codigo", label: "CODIGO" },
-        { key: "fecha", label: "FECHA" },
-        { key: "muestra", label: "MUESTRA" },
-        { key: "tipo_analisis", label: "TIPO ANALISIS" },
-        { key: "estado", label: "ESTADO" },
-        { key: "acciones", label: "ACCIONES" },
-    ];
+    }
 
     return (
-        <div className='bg-gray-100 w-full h-screen flex'>
-            <Sidebar2 />
-            <div className='w-full flex flex-col overflow-auto'>
-                <div className='h-16'>
-                    <Navbar2 />
-                </div>
-
-                <div className='p-8 border w-full overflow-y-auto' style={{ height: 'calc(100vh - 16px)' }}>
-                    <div className='flex justify-start gap-3 my-10'>
-                        <Input
-                            isClearable
-                            className="w-full sm:max-w-[44%]"
-                            placeholder="Search..."
-                            value={filterValue}
-                            onClear={() => onSearchChange('')}
-                            onValueChange={onSearchChange}
-                        />
-                        <select
-                            className='rounded-lg'
-                            value={rowsPerPage}
-                            onChange={onRowsPerPageChange}
-                        >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <ModalRegistrarAnalisis fetchData={fetchData} />
-                    </div>
-
-                    <div className='my-2 flex gap-x-2'>
-
-                        <Button
-                            onClick={() => {
-                                setFiltroActivo(false);
-                                setFiltroInactivo(false);
-                            }}
-                            color={!filtroActivo && !filtroInactivo ? 'secondary' : 'default'}
-                        >
-                            Todos
-                        </Button>
-
-
-                        <Button
-                            onClick={() => {
-                                setFiltroActivo(true);
-                                setFiltroInactivo(false);
-                            }}
-                            color={filtroActivo ? 'secondary' : 'default'}
-                        >
-                            Activos
-                        </Button>
-                        <Button
-                            onClick={() => {
-                                setFiltroActivo(false);
-                                setFiltroInactivo(true);
-                            }}
-                            color={filtroInactivo ? 'secondary' : 'default'}
-                        >
-                            Inactivos
-                        </Button>
-
-                    </div>
-
-                    <Table aria-label="Example table with dynamic content">
-                        <TableHeader columns={columns}>
-                            {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-                        </TableHeader>
-                        <TableBody>
-                            {paginatedData.map((item, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{index}</TableCell>
-                                    <TableCell>{item.analista}</TableCell>
-                                    <TableCell>{item.codigo}</TableCell>
-                                    <TableCell>{formatDate(item.fecha)}</TableCell>
-                                    <TableCell>{item.muestra}</TableCell>
-                                    <TableCell>{item.tipo_analisis}</TableCell>
-                                    <TableCell>
-                                        <div className='w-14 inline-block'>
-                                            {item.estado}
-                                        </div>
-                                        <Switch
-                                            defaultSelected={item.estado === 'activo'}
-                                            color="success"
-                                            onChange={() => cambiarEstado(item.codigo)}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <ModalActualizarAnalisis item={item} fetchData={fetchData} />
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                    <Pagination
-                        className='my-4'
-                        showControls
-                        page={page}
-                        total={filteredData.length}
-                        onChange={onPageChange}
-                    />
-                </div>
+        <div>
+            <Header title='Análisis' />
+            <div className='w-full max-w-[90%] ml-28 items-center p-10'>
+                <AccionesModal 
+                    isOpen={modalAccionesOpen}
+                    onClose={() => setModalAccionesOpen(false)}
+                    label={mensaje}
+                />
+                
+                <AnalisisModal 
+                    open={modalOpen}
+                    onClose={() => setModalOpen(false)}
+                    title={mode === 'create' ? 'Registrar Análisis' : 'Actualizar Análisis'}
+                    actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                    mode={mode}
+                    initialData={initialData}
+                    handleSubmit={handleSubmit}
+                />
+                <Ejemplo 
+                    clickDesactivar={handleDesactivar}
+                    clickEditar={() => handleToggle('update', id)}
+                    clickRegistrar={() => handleToggle('create')}
+                    data={data}
+                    results={results}
+                />
             </div>
         </div>
     );

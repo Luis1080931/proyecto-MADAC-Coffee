@@ -1,11 +1,12 @@
 
 import React, { useRef,useEffect,useState } from 'react';
 import axios from 'axios';
-import {ModalFooter, Button } from "@nextui-org/react";
+import {ModalFooter, Button, SelectItem, Select, Input } from "@nextui-org/react";
 
 export const FormFincass = ({mode,initialData,handleSubmit,onClose,actionLabel}) => {
 
     const [caficultor, setCaficultor] = useState([])
+    const [municipios, setMunicipios] = useState([]);
 
     const dimension_mt2 = useRef(null);
     const fk_caficultor = useRef(null);
@@ -20,6 +21,13 @@ export const FormFincass = ({mode,initialData,handleSubmit,onClose,actionLabel})
 
             const caficultorFilter = response.data.usuarios.filter(caficultor => caficultor.tipo_usuario == 'caficultor')
             setCaficultor(caficultorFilter)
+        })
+    }, [])
+
+    useEffect(() => {
+        axios.get('http://localhost:3000/municipios/listar').then((response) => {
+            console.log(response.data)
+            setMunicipios(response.data)
         })
     }, [])
 
@@ -58,25 +66,31 @@ export const FormFincass = ({mode,initialData,handleSubmit,onClose,actionLabel})
             <div className='flex flex-col'>
                 <div className='flex flex-col m-5'>
                     <label className='text-xl font-bold'> Dimensiones de la finca: </label>
-                    <input className='p-2 rounded-lg w-80 h-12' id='dimension_mt2' name='dimension_mt2' type="number" placeholder='Ingrese las dimensiones de la finca' ref={dimension_mt2} required={true}/>
+                    <Input className='p-2 rounded-lg w-80 h-12' id='dimension_mt2' name='dimension_mt2' type="number" placeholder='Ingrese las dimensiones de la finca' ref={dimension_mt2} required={true}/>
                 </div>
                 <div className='flex flex-col m-5'  >
                     <label className='text-xl font-bold'> Caficultor: </label>
-                    <select className='p-2 rounded-lg w-80 h-12' ref={fk_caficultor} required= {true}>
+                    <Select ref={fk_caficultor} required= {true} label='Seleccione el caficultor'>
                         {caficultor.map(cafi => (
-                            <option key={cafi.identificacion} value={cafi.identificacion}>
+                            <SelectItem key={cafi.identificacion} value={cafi.identificacion}>
                                 {cafi.nombre}
-                            </option>
+                            </SelectItem>
                         ))}
-                    </select>
+                    </Select>
                 </div>
                 <div className='flex flex-col m-5'>
                     <label className='text-xl font-bold'> Municipio: </label>
-                    <input className='p-2 rounded-lg w-80 h-12' id='municipio' type="number" name='municipio'placeholder='Ingrese el municipio' ref={municipio} required={true}/>
+                    <Select ref={municipio} required={true} label='Seleccione el municipio'>
+                        {municipios.map(municipio => (
+                            <SelectItem key={municipio.id_municipio} value={municipio.id_municipio}>
+                                {municipio.nombre}
+                            </SelectItem>
+                        ))}
+                    </Select>
                 </div>
                 <div className='flex flex-col m-5'>
                     <label className='text-xl font-bold'> Vereda: </label>
-                    <input className='p-2 rounded-lg w-80 h-12' id='vereda' type="text" name='vereda' placeholder='Ingrese la vereda' ref={vereda} required={true}/>
+                    <Input className='p-2 rounded-lg w-80 h-12' id='vereda' type="text" name='vereda' label='Ingrese la vereda' ref={vereda} required={true}/>
                 </div>
                 <ModalFooter>
                     <Button 

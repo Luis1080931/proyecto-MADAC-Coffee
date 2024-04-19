@@ -273,7 +273,7 @@ const handleUpdateClick = (id) => {
   }}
   className="flex"
   selectedKeys={selectedKeys}
-  selectionMode="multiple"
+  /* selectionMode="multiple" */
   sortDescriptor={sortDescriptor}
   topContent={topContent}
   topContentPlacement="outside"

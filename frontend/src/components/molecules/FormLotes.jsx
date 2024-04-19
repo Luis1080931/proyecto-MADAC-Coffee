@@ -1,6 +1,6 @@
 import React, { useRef,useEffect,useState } from 'react';
 import axios from 'axios';
-import { ModalFooter,Button } from '@nextui-org/react';
+import { ModalFooter,Button, Input, Select, SelectItem } from '@nextui-org/react';
 
 export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel }) => {
 
@@ -64,27 +64,27 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
                 <div className='flex flex-col'>
                     <div className='flex flex-col m-5'>
                         <label className='text-xl font-bold'> Numero de arboles: </label>
-                        <input className='p-2 rounded-lg w-80 h-12' id='numero_arboles' type="number" name='numero_arboles' placeholder='Ingrese el número de árboles' ref={numero_arboles} required={true} />
+                        <Input className='p-2 rounded-lg w-80 h-12' id='numero_arboles' type="number" name='numero_arboles' label='Ingrese el número de árboles' ref={numero_arboles} required={true} />
                     </div>
                     <div className='flex flex-col m-5'  >
                         <label className='text-xl font-bold'> Finca: </label>
-                        <select className='p-2 rounded-lg w-80 h-12' ref={fk_finca} required={true} >
+                        <Select className='p-2 rounded-lg w-80 h-12' label='Seleccione la finca' ref={fk_finca} required={true} >
                             {fincas.map(finca => (
-                                <option key={finca.codigo} value={finca.codigo}>
+                                <SelectItem key={finca.codigo} value={finca.codigo} textValue={finca.codigo}>
                                     {finca.codigo} - {finca.fk_caficultor}
-                                </option>
+                                </SelectItem>
                             ))}
-                        </select>
+                        </Select>
                     </div>
                     <div className='flex flex-col m-5'>
                         <label className='text-xl font-bold'> Variedad: </label>
-                        <select className='p-2 rounded-lg w-80 h-12' ref={fk_variedad} required={true} >
+                        <Select className='p-2 rounded-lg w-80 h-12' label='Seleccione la variedad' ref={fk_variedad} required={true} >
                             {variedades.map(variedad => (
-                                <option key={variedad.codigo} value={variedad.codigo}>
+                                <SelectItem key={variedad.codigo} value={variedad.codigo}>
                                     {variedad.nombre}
-                                </option>
+                                </SelectItem>
                             ))}
-                        </select>
+                        </Select>
                     </div>
                     <ModalFooter>
                         <Button

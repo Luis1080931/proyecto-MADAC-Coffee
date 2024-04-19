@@ -15,18 +15,19 @@ import {
   Chip,
   Pagination,
 } from "@nextui-org/react";
-import { PlusIcon } from "../NextUiSergio/PlusIcon.jsx"
-import { VerticalDotsIcon } from "../NextUiSergio/VerticalDotsIcon.jsx";
-import { SearchIcon } from "../NextUiSergio/SearchIcon.jsx";
-import { ChevronDownIcon } from "../NextUiSergio/ChevronIcon.jsx";
+import { PlusIcon } from "./../NextUI/PlusIcon.jsx";
+import { VerticalDotsIcon } from "./../NextUI/VerticalDotsIcon.jsx";
+import { SearchIcon } from "./../NextUI/SearchIcon.jsx";
+import { ChevronDownIcon } from "./../NextUI/ChevronDownIcon.jsx";
+import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
+import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
 
 const statusColorMap = {
   activo: "success",
   inactivo: "danger",
 };
 
-export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, data, lotes }) {
-
+export default function TableVariedades({ clickEditar, clickDesactivar, clickRegistrar, data, results }) {
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
@@ -46,26 +47,24 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
   const hasSearchFilter = Boolean(filterValue);
 
   const filteredItems = React.useMemo(() => {
-    let filteredLotes = lotes;
+    let filteredResults = results;
 
     if (hasSearchFilter) {
-      filteredLotes = filteredLotes.filter(lotes =>
-        String(lotes.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
-        String(lotes.numero_arboles).toLowerCase().includes(filterValue.toLowerCase()) ||
-        String(lotes.fk_finca).toLowerCase().includes(filterValue.toLowerCase()) ||
-        String(lotes.fk_variedad).toLowerCase().includes(filterValue.toLowerCase()) ||
-        lotes.estado.toLowerCase().includes(filterValue.toLowerCase())
+      filteredResults = filteredResults.filter(result =>
+        String(result.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
+        result.nombre.toLowerCase().includes(filterValue.toLowerCase()) ||
+        result.estado.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
 
     if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-      filteredLotes = filteredLotes.filter(lotes =>
-        Array.from(statusFilter).includes(lotes.estado)
+      filteredResults = filteredResults.filter(result =>
+        Array.from(statusFilter).includes(result.estado)
       );
     }
 
-    return filteredLotes;
-  }, [lotes, filterValue, statusFilter]);
+    return filteredResults;
+  }, [results, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -86,8 +85,8 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((lotes, columnKey) => {
-    const cellValue = lotes[columnKey];
+  const renderCell = React.useCallback((result, columnKey) => {
+    const cellValue = result[columnKey];
 
   
 const handleUpdateClick = (id) => {
@@ -99,25 +98,17 @@ const handleUpdateClick = (id) => {
     switch (columnKey) {
       case "estado":
         return (
-          <Chip className="capitalize" color={statusColorMap[lotes.estado]} size="sm" variant="flat">
+          <Chip className="capitalize" color={statusColorMap[result.estado]} size="sm" variant="flat">
             {cellValue}
           </Chip>
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Menu de acciones">
-                <DropdownItem onClick={() => handleUpdateClick(lotes.codigo)}>Editar</DropdownItem>
-                <DropdownItem onClick={() => clickDesactivar(lotes.codigo)}>Desactivar</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+          <div className="flex flex-row">
+            <ButtonActualizar click={() =>  handleUpdateClick(result.codigo)} /> 
+            <ButtonDesactivar click={() => clickDesactivar(result.codigo)} />
           </div>
+          
         );
       default:
         return cellValue;
@@ -203,7 +194,7 @@ const handleUpdateClick = (id) => {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {lotes.length} lotes</span>
+          <span className="text-default-400 text-small">Total {results.length} resultados</span>
           <label className="flex items-center text-default-400 text-small">
             Columnas por página:
             <select
@@ -231,11 +222,11 @@ const handleUpdateClick = (id) => {
   const bottomContent = React.useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-between items-center">
-        <span className="w-[30%] text-small text-default-400">
+        {<span className="w-[30%] text-small text-default-400">
           {selectedKeys === "all"
             ? "All items selected"
             : `${selectedKeys.size} de ${filteredItems.length} seleccionados`}
-        </span>
+        </span>}
         <Pagination
           isCompact
           showControls
@@ -269,11 +260,12 @@ const handleUpdateClick = (id) => {
   }}
   className="flex"
   selectedKeys={selectedKeys}
-  /* selectionMode="multiple" */
+  // selectionMode="multiple"
   sortDescriptor={sortDescriptor}
   topContent={topContent}
   topContentPlacement="outside"
   onSelectionChange={setSelectedKeys}
+
   onSortChange={setSortDescriptor}
 >
   <TableHeader columns={data}>
@@ -287,7 +279,7 @@ const handleUpdateClick = (id) => {
       </TableColumn>
     )}
   </TableHeader>
-  <TableBody emptyContent={"No hay lotes registrados"} items={sortedItems}>
+  <TableBody emptyContent={"No hay resultados registrados"} items={sortedItems}>
     {(item) => (
       <TableRow key={item.codigo}>
         {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}

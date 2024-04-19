@@ -1,26 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar2 from '../organisms/Sidebar2';
-import Navbar2 from '../organisms/Navbar2';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination, Input, Button, Switch } from "@nextui-org/react";
+import { Header } from '../molecules/Header';
+import TableVariedades from '../organisms/TableVariedades';
+import AccionesModal from '../organisms/ModalAcciones';
+import VariedadesModal from '../templates/Variedades';
 import axios from 'axios';
-import { ModalRegistrarVariedades } from '../NextUIMaria/ModalRegistrarVariedades';
-import { ModalActualizarVariedades } from '../NextUIMaria/ModalActualizarVariedades';
 
 const VistaVariedades = () => {
-    const [data, setData] = useState([]);
-    const [filteredData, setFilteredData] = useState([]);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [page, setPage] = useState(1);
-    const [filterValue, setFilterValue] = useState('');
-    const [filtroActivo, setFiltroActivo] = useState(false);
-    const [filtroInactivo, setFiltroInactivo] = useState(false);
+
+    const [results, setResults] = useState([])
+    const [modalOpen, setModalOpen] = useState(false)
+    const [ modalAccionesOpen, setModalAccionesOpen ] = useState(false)
+    const [mode, setMode] = useState('create')
+    const [initialData, setInitialData ] = useState(null)
+    const [mensaje, setMensaje] = useState('')
 
     const token = localStorage.getItem('token');
 
-    const cambiarEstado = async (id) => {
+    const handleDesactivar = async (id) => {
         await axios.put(`http://localhost:3000/variedades/desactivar/${id}`, null, {headers: {token: token}}).then((response) => {
-            console.log(response.data);
-            fetchData();
+            console.log(response.data)
+            if(response.status==200){
+                setMensaje('Se desactivó con éxito la variedad')
+                setModalAccionesOpen(true)
+                setModalOpen(false)
+                fetchData();
+            }else{
+                alert('Error')
+            }
+            
         });
     };
 
@@ -29,9 +36,9 @@ const VistaVariedades = () => {
     const fetchData = async () => {
         try {
             const response = await axios.get(url, {headers: {token: token}});
-            console.log("variedades", response.data);
-            setData(response.data);
-            setFilteredData(response.data);
+            console.log("variedades", response.data)
+            setResults(response.data)
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -41,152 +48,99 @@ const VistaVariedades = () => {
         fetchData();
     }, []);
 
-    const onSearchChange = (value) => {
-        setFilterValue(value);
-        setPage(1); // Reset page number when changing search filter
-        filterData();
-    };
-
-    const onPageChange = (pageNumber) => {
-        setPage(pageNumber);
-    };
-
-    const onRowsPerPageChange = (e) => {
-        setRowsPerPage(Number(e.target.value));
-        setPage(1); // Reset page number when changing rows per page
-    };
-
-    const filterData = () => {
-        let filtered = data;
-        filtered = filtered.filter(item => {
-            if (!filtroActivo && !filtroInactivo) return true;
-            if (filtroActivo && item.estado === 'activo') return true;
-            if (filtroInactivo && item.estado === 'inactivo') return true;
-            return false;
-        });
-        if (filterValue.trim() !== '') {
-            filtered = filtered.filter(item => Object.values(item).some(val => typeof val === 'string' && val.toLowerCase().includes(filterValue.toLowerCase())));
-        }
-        setFilteredData(filtered);
-    };
-    
-
-    useEffect(() => {
-        filterData();
-    }, [filtroActivo, filtroInactivo, filterValue]);
-
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    const paginatedData = filteredData.slice(start, end);
-
-    const columns = [
-        { key: "id", label: "ID" },
-        { key: "nombre", label: "NOMBRE" },
-        { key: "codigo", label: "CODIGO" },
-        { key: "estado", label: "ESTADO" },
-        { key: "acciones", label: "ACCIONES" },
+    const data = [
+        {
+            uid: "codigo",
+            name: "CODIGO",
+            sortable: true
+        },
+        { 
+            uid: "nombre",
+            name: "NOMBRE",
+            sortable: true
+        },
+        
+        {
+            
+            uid: "estado",
+            name: "ESTADO",
+            sortable: true
+        },
+        { 
+            uid: "actions",
+            name: "ACCIONES",
+            sortable: true
+        },
     ];
 
+    const handleToogle = (mode, initialData) => {
+        setMode(mode);
+        setInitialData(initialData);
+        setModalOpen(true);
+    }
+
+    const id = localStorage.getItem('idUser')
+
+    const handleSubmit = async (data, e) => {
+        e.preventDefault()
+        try {
+            if(mode == 'create'){
+                const response = await axios.post('http://localhost:3000/variedades/registrar', data, {headers: {token: token}});
+                console.log(response.data)
+                if(response.status==201){
+                    setMensaje('Se creó con éxito la variedad')
+                    setModalAccionesOpen(true)
+                    setModalOpen(false)
+                    fetchData();
+                }else{
+                    alert('Error')
+                }
+            }else if(mode == 'update'){
+                const response = await axios.put(`http://localhost:3000/variedades/actualizar/${id}`, data, {headers: {token: token}});
+                console.log(response.data)
+                if(response.status==201){
+                    setMensaje('Se actualizó con éxito la variedad')
+                    setModalAccionesOpen(true)
+                    setModalOpen(false)
+                    fetchData();
+                }else{
+                    alert('Error')
+                }
+            }
+        } catch (error) {
+            console.log('Error del servidor' + error);
+        }
+    }
+
     return (
-        <div className='bg-gray-100 w-full h-screen flex'>
-            <Sidebar2 />
-            <div className='w-full flex flex-col overflow-auto'>
-                <div className='h-16'>
-                    <Navbar2 />
-                </div>
+        <div>
+            <Header title='Variedades' />
+            <div className='w-full max-w-[90%] ml-28 items-center p-10'>
 
-                <div className='p-8 border w-full overflow-y-auto' style={{ height: 'calc(100vh - 16px)' }}>
-                    <div className='flex justify-start gap-3 my-10'>
-                        <Input
-                            isClearable
-                            className="w-full sm:max-w-[44%]"
-                            placeholder="Search..."
-                            value={filterValue}
-                            onClear={() => onSearchChange('')}
-                            onValueChange={onSearchChange}
-                        />
-                        <select
-                            className='rounded-lg'
-                            value={rowsPerPage}
-                            onChange={onRowsPerPageChange}
-                        >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
-                        </select>
-                    </div>
+                <AccionesModal 
+                    isOpen={modalAccionesOpen}
+                    onClose={() => setModalAccionesOpen(false)}
+                    label={mensaje}
+                />
+                
+                <VariedadesModal 
+                    open={modalOpen}
+                    onClose={() => setModalOpen(false)}
+                    title={mode === 'create' ? 'Registrar variedades' : 'Actualizar variedades'}
+                    actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                    mode={mode}
+                    initialData={initialData}
+                    handleSubmit={handleSubmit}
+                />
 
-                    <div>
-                        <ModalRegistrarVariedades fetchData={fetchData} />
-                    </div>
+                <TableVariedades 
+                    clickDesactivar={handleDesactivar}
+                    clickEditar={() => handleToogle('update', id)}
+                    clickRegistrar={() => handleToogle('create')}
+                    data={data}
+                    results={results}
+                />
 
-                    <div className='my-2 flex gap-x-2'>
-                    <Button
-                            onClick={() => {
-                                setFiltroActivo(false);
-                                setFiltroInactivo(false);
-                            }}
-                            color={!filtroActivo && !filtroInactivo ? 'secondary' : 'default'}
-                        >
-                            Todos
-                        </Button>
-                        
-                        <Button
-                            onClick={() => {
-                                setFiltroActivo(true);
-                                setFiltroInactivo(false);
-                            }}
-                            color={filtroActivo ? 'secondary' : 'default'}
-                        >
-                            Activos
-                        </Button>
-                        <Button
-                            onClick={() => {
-                                setFiltroActivo(false);
-                                setFiltroInactivo(true);
-                            }}
-                            color={filtroInactivo ? 'secondary' : 'default'}
-                        >
-                            Inactivos
-                        </Button>
-                 
-                    </div>
-
-                    <Table aria-label="Example table with dynamic content">
-                        <TableHeader columns={columns}>
-                            {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-                        </TableHeader>
-                        <TableBody>
-                            {paginatedData.map((item, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{index}</TableCell>
-                                    <TableCell>{item.nombre}</TableCell>
-                                    <TableCell>{item.codigo}</TableCell>
-                                    <TableCell>
-                                        <div className='w-14 inline-block'>
-                                            {item.estado}
-                                        </div>
-                                        <Switch
-                                            defaultSelected={item.estado === 'activo'}
-                                            color="success"
-                                            onChange={() => cambiarEstado(item.codigo)}
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <ModalActualizarVariedades item={item} fetchData={fetchData} />
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                    <Pagination
-                        className='my-4'
-                        showControls
-                        page={page}
-                        total={filteredData.length}
-                        onChange={onPageChange}
-                    />
-                </div>
             </div>
         </div>
     );
