@@ -1,21 +1,19 @@
 import React from 'react'
-import { FaX } from "react-icons/fa6";
 import FormUsuarios from '../molecules/FormUsuarios.jsx';
-import { Modal } from '../organisms/Modal.jsx';
+import { ModalAcciones } from '../organisms/Modal.jsx';
 import { Logo } from '../atoms/LogoProyecto.jsx';
 
-function UsuariosModal ({ open, onClose, handleSubmit, actionLabel, selectedUser}){
+function UsuariosModal ({ open, onClose, handleSubmit, actionLabel, title, initialData, mode}){
 
   // console.log(selectedUser)
 
     return (
       <>
         
-      <Modal open={open} onClose={onClose}> 
+      <ModalAcciones open={open} title={title}> 
       
-        <FormUsuarios handleSubmit={handleSubmit} actionLabel={actionLabel} />
-        <Logo/>
-      </Modal>
+        <FormUsuarios initialData={initialData} mode={mode} handleSubmit={handleSubmit} onClose={onClose} actionLabel={actionLabel} />
+      </ModalAcciones>
       
       </>
     )

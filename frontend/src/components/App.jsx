@@ -1,8 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
+
 import { Usuarios } from "./pages/Usuarios.jsx"
-import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions.js"
-
-
 
 
 function App() {
@@ -11,13 +9,11 @@ function App() {
     <BrowserRouter>    
     {/*   <Sidebar /> */}
         <Routes>
-          
-          <Route path="/" element={<Usuarios />} />
+          <Route path="/usuarios" element={<Usuarios />} />
         </Routes>
 
     </BrowserRouter>
-
   )
 }
 
-export default App
+export default App;

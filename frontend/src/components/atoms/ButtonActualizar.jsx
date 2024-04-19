@@ -1,11 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { FaEdit } from "react-icons/fa";
+
 
 export const ButtonActualizar = (props) => {
   
   return (
-    <button className='bg-[#FFC700] p-2 rounded-lg text-sm font-bold' type="button" onClick={props.click}>
-        <Link to={props.link}>Actualizar</Link>
-    </button> 
+    <FaEdit className='cursor-pointer text-2xl text-[#FFC700] mr-5' onClick={props.click}/>
   )
 }

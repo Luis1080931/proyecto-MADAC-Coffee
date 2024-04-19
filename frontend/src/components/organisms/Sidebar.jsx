@@ -1,98 +1,104 @@
-import React, { useState } from 'react'
-import { IoMdHome } from "react-icons/io";
-import { MdFindInPage, MdAssignmentAdd } from "react-icons/md";
-import { GrDocumentUpdate } from "react-icons/gr";
-import { FaAlignJustify } from "react-icons/fa6";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { RiSettings4Line, RiPlantFill } from "react-icons/ri";
+import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
+import { MdDashboard, MdOutlineCoffeeMaker } from "react-icons/md";
+import { GiCoffeeCup, GiFarmTractor } from "react-icons/gi";
+import { BiSolidCoffeeBean } from "react-icons/bi";
+import { IoIosPaper } from "react-icons/io";
+import { BsCardChecklist } from "react-icons/bs";
 import { FaX } from "react-icons/fa6";
-import { IconContext } from 'react-icons';
-import './../../App.css'
+import Control from './../../assets/control.png'
 
 
+export const Sidebar = () => {
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const [activeLink, setActiveLink] = useState(location.pathname);
 
-export const Sidebar = ({ children }) => {
+  const stored = localStorage.getItem('user')
+  const user = stored ? JSON.parse(stored) : null
 
-    const [sidebar, setSiderBar] = useState(false)
+  const Menus = [
+    { title: "Dashboard", link: "/dashboard", icon: MdDashboard },
+    { title: "Usuarios", link: "/usuarios", icon: AiOutlineUser },
+    { title: "Fincas", link: "/fincas", icon: GiFarmTractor, gap: true },
+    { title: "Variedades", link: "/variedades", icon: GiCoffeeCup, gap: true },
+    { title: "Lotes", link: "/lotes", icon: RiPlantFill },
+    { title: "Muestras", link: "/muestras", icon: BiSolidCoffeeBean},
+    { title: "Análisis", link: "/analisis", icon: MdOutlineCoffeeMaker},
+    { title: "Variables", link: "/variables", icon: IoIosPaper},
+    { title: "Resultados", link: "/resultados", icon: BsCardChecklist}
+];
+const MenusCatador = [
+  { title: "Dashboard", link: "/dashboard", icon: MdDashboard },
+  { title: "Fincas", link: "/fincas", icon: GiFarmTractor, gap: true },
+  { title: "Variedades", link: "/variedades", icon: GiCoffeeCup, gap: true },
+  { title: "Lotes", link: "/lotes", icon: RiPlantFill },
+  { title: "Muestras", link: "/muestras", icon: BiSolidCoffeeBean},
+  { title: "Análisis", link: "/analisis", icon: MdOutlineCoffeeMaker},
+  { title: "Variables", link: "/variables", icon: IoIosPaper},
+  { title: "Resultados", link: "/resultados", icon: BsCardChecklist}
+];
 
-    const showSideBar = () => setSiderBar(!sidebar)
-
-    const menuItem = [
-        {
-            path: '/dashboard',
-            name: "Dashboard",
-            icon: <IoMdHome />
-        },
-        {
-            path: '/usuarios',
-            name: "Usuarios",
-            icon: <MdAssignmentAdd />
-        },
-        {
-            path: '/fincas',
-            name: 'Fincas',
-            icon: <GrDocumentUpdate />
-        },
-        {
-            path: '/variedades',
-            name: 'Variedades',
-            icon: <GrDocumentUpdate />
-        },
-        {
-            path: '/lotes',
-            name: 'Lotes',
-            icon: <GrDocumentUpdate />
-        },
-        {
-            path: '/muestras',
-            name: 'Muestras',
-            icon: <GrDocumentUpdate />
-        },
-        {
-            path: '/analisis',
-            name: "Analisis",
-            icon: <MdFindInPage />
-        },
-        {
-            path: '/variables',
-            name: 'Variables',
-            icon: <GrDocumentUpdate />
-        },
-        {
-            path: '/resultados',
-            name: 'Resultados',
-            icon: <GrDocumentUpdate />
-        }
-
-    ]
   return (
-    <div>
-        
-        <div className='bg-[#39A900] h-20 flex justify-start items-center'>
-            <Link to='#'>
-                <FaAlignJustify size={30} className="ml-3 cursor-pointer" onClick={showSideBar}/>
-            </Link>
+    <>
+      <div className="flex min-h-screen z-10">
+        <div
+          className={`${open ? "w-64" : "w-20"
+            } bg-[#39A900] max-h-full p-5 pt-5 h-full fixed duration-300`}
+        >
+          <img
+            src={Control}
+            className={`absolute cursor-pointer -right-3 mt-11 w-7 border-dark-purple
+                border-2 rounded-full  ${!open && "rotate-180"}`}
+            onClick={() => setOpen(!open)}
+          />
+          {<div className={`flex items-center`}>
+            <FaX img="isotipo-SubCoffee.png" className={`${open && "rotate-[360deg]"}`} />
+            <FaX to="/subcoffee" color="cafeClaroLogo" text="Sub" className={`${!open && "scale-0"}`} />
+            <FaX to="/subcoffee" color="cafeOscuroLogo" text="Coffee" className={`${!open && "scale-0"}`} />
+          </div>}
+          <ul className="pt-6">
+            { user.tipo_usuario == 'admin' ? Menus.map((Menu, index) => (
+              <Link
+                to={Menu?.link}
+                key={index}
+                onClick={() => setActiveLink(Menu.link)}
+                className={`flex rounded-md p-2 cursor-pointer hover:bg-green-500 text-gray-300 text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
+                  } ${activeLink === Menu.link ? "bg-green-500" : ""}`}
+              >
+                <div>{React.createElement(Menu?.icon, { size: "20" })}</div>
+                <span
+                  className={`${!open && "hidden"}
+                         origin-left duration-200`}
+                >
+                  {Menu.title}
+                </span>
+              </Link>
+            )) : MenusCatador.map((Menu, index) => (
+              <Link
+                to={Menu?.link}
+                key={index}
+                onClick={() => setActiveLink(Menu.link)}
+                className={`flex rounded-md p-2 cursor-pointer hover:bg-green-500 text-gray-300 text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
+                  } ${activeLink === Menu.link ? "bg-green-500" : ""}`}
+              >
+                <div>{React.createElement(Menu?.icon, { size: "20" })}</div>
+                <span
+                  className={`${!open && "hidden"}
+                         origin-left duration-200`}
+                >
+                  {Menu.title}
+                </span>
+              </Link>
+            ))}
+          </ul>
+          <div className="flex justify-center items-center my-5 sm:hidden">
+          
+          </div>
         </div>
-        <IconContext.Provider value={{ color: '#000' }}>
-        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-            <ul className='w-full mt-9' onClick={showSideBar}>
-                <li className='ml-4 text-3xl bg-none'>
-                    <Link to='#'>
-                        <FaX />
-                    </Link>
-                </li>
-                {menuItem.map((item, index) => {
-                    return(
-                        <li className='flex justify-start align-center mt-5 list-none h-14 hover:bg-[#469C00] rounded-lg' key={index}>
-                            <Link className='flex text-white text-xl w-full h-full items-center px-4 rounded-lg' to={item.path}>
-                                {item.icon}
-                                {item.name}
-                            </Link>
-                        </li>
-                    )
-                })}
-            </ul>
-        </nav>
-        </IconContext.Provider>
-    </div>
-  )
-}
+      </div>
+    </>
+  );
+};

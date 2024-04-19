@@ -1,10 +1,15 @@
 import React from 'react'
 import LogoProyecto from './../../assets/icons/logoProyeccto-removebg.png'
+import TitleModal from './TitleModal'
 
-export const Logo = () => {
+export const Logo = ({ title }) => {
   return (
-    <div className='flex justify-center items-center w-[60%] h-[60%] mt-24 '>
+    <>
+      <div className='flex flex-col justify-center items-center max-w-[60%] max-h-[60%] mt-10'>
+        <TitleModal title={title} />
         <img src={LogoProyecto} alt="" />
-    </div>
+      </div>
+    </>
+    
   )
 }

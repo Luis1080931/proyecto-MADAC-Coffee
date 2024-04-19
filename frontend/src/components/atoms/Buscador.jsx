@@ -11,3 +11,4 @@ export const Buscador = (props) => {
 }
 
 export default Buscador
+
