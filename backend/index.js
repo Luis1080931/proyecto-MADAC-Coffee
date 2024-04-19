@@ -9,9 +9,9 @@ import routeVariables from './src/routes/routeVariables.js'
 import routeUsuarios from "./src/routes/usuarios.route.js";
 import routeVariedades from './src/routes/variedades.routes.js'
 import rutaValidacion from "./src/routes/seguridad.route.js"; 
+import RutaMunicipios from "./src/routes/municipios.route.js";
+import routeTipoAnalisis from "./src/routes/route.tipoAnalisis.js";
 import cors from 'cors'
-
-
 
 const servidor = express();
 
@@ -32,6 +32,8 @@ servidor.use('/muestras', routeMuestras)
 servidor.use('/analisis', routeAnalisis)
 servidor.use('/variables', routeVariables)
 servidor.use('/resultados', routeResultados)
+servidor.use('/municipios', RutaMunicipios)
+servidor.use('/tipoanalisis', routeTipoAnalisis)
 servidor.use(rutaValidacion)
 
 servidor.set('view engine', 'ejs')

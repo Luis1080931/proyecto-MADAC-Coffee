@@ -6,8 +6,8 @@ import { validarToken } from "../controllers/seguridad.controller.js";
 const routeResultados = Router()
 
 routeResultados.get('/listar',validarToken, listarResultados)
-routeResultados.post('/registrar', registrarResultados)
-routeResultados.put('/actualizar/:id', actualizarResultado)
+routeResultados.post('/registrar', validarToken, registrarResultados)
+routeResultados.put('/actualizar/:id', validarToken, actualizarResultado)
 routeResultados.put('/desactivar/:idResultado',validarToken, desactivarResultado)
 routeResultados.get('/buscar/:idResultado',validarToken, buscarResultados)
 
