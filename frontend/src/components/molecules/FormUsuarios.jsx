@@ -13,7 +13,7 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser }) => {
     const tipoUsuarioRef = useRef(null);
 
     useEffect(() => {
-        if (selectedUser) {
+        if (mode == 'update' && selectedUser) {
             identificacionRef.current.value = selectedUser.identificacion || '';
             nombreRef.current.value = selectedUser.nombre || '';
             correoRef.current.value = selectedUser.correo_electronico || '';
@@ -22,7 +22,6 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser }) => {
             tipoUsuarioRef.current.value = selectedUser.tipo_usuario || '';
 
             console.log(selectedUser)
-            // Continúa llenando los campos restantes según sea necesario
         }
     }, [selectedUser]);
     
