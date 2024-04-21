@@ -12,7 +12,7 @@ export function Usuarios() {
     const [selectedUser, setSelectedUser] = useState(null);
     const [results, setResults] = useState([]);
     const [modalAcciones, setModalAcciones] = useState([]);
-    const [mensaje, setMensaje] = useState('');
+    const [mensaje, setMensaje] = useState('Hola');
     const token = localStorage.getItem('token');
 
     useEffect(() => {
@@ -64,7 +64,7 @@ export function Usuarios() {
             
             axios.get('http://localhost:3000/usuarios/listar', null, {headers: {token: token}}).then((response) => {
                 console.log(response.data)
-                setResults(response.data[0])
+                setResults(response.data.usuarios)
             })
 
         } catch (error) {
@@ -76,10 +76,19 @@ export function Usuarios() {
         console.log(userId)
         try {
             const baseURL = `http://localhost:3000/usuarios/actualizar/${userId}`;
-            await axios.put(baseURL, formData);
-            alert('Usuario actualizado exitosamente');
-            setModalOpen(false);
-            fetchData();
+            await axios.put(baseURL, formData, {headers: {token: token}}).then((response) => {
+                console.log(response)
+
+                if(response.status == 201){
+                    setMensaje('Usuario actualizado exitosamente')
+                    setModalAcciones(true)
+                    setModalOpen(false)
+                    fetchData()
+                }else{
+                    alert('Error: ')
+                }
+                
+            })
         } catch (error) {
             console.error('Error al actualizar usuario:', error);
         }
@@ -88,12 +97,21 @@ export function Usuarios() {
     const handleUpdate = async (userId) => {
         console.log("ID del usuario a actualizar:", userId);
         try {
-            const token = localStorage.getItem('token');
             const baseURL = `http://localhost:3000/usuarios/desactivar/${userId}`;
-            await axios.put(baseURL, { headers: { token: token } });
-            console.log("se desactivo correctamente el usuario");
-            alert('Usuario desactivado con éxito');
-            fetchData();
+            await axios.put(baseURL, null, { headers: { token: token } }).then((response) => {
+                console.log("se desactivo correctamente el usuario");
+
+                if(response.status == 201) {
+                    setMensaje('Usuario desactivado con éxito');
+                    setModalAcciones(true)
+                    setModalOpen(false)
+                    fetchData();
+                }else{
+                    alert('Error: ')
+                }
+                
+            })
+            
         } catch (error) {
             console.error('Error al actualizar usuario:', error);
             alert('Error al actualizar usuario');
@@ -112,10 +130,19 @@ export function Usuarios() {
             const token = localStorage.getItem('token');
             if (mode === 'create') {
                 const baseURL = 'http://localhost:3000/usuarios/registrar';
-                await axios.post(baseURL, formData, { headers: { token: token } });
-                alert('Usuario registrado exitosamente');
-                fetchData();
-                setModalOpen(false);
+                await axios.post(baseURL, formData, { headers: { token: token } }).then((response) => {
+                    console.log(response.data)
+
+                    if(response.status === 201){
+                        setMensaje('Se registró con éxito el usuario')
+                        setModalAcciones(true)
+                        setModalOpen(false)
+                        fetchData();
+                    }else{
+                        alert('Error: ')
+                    }
+                    
+                })
 
             } else if (mode === 'update' && selectedUser) {
                 await actualizar(selectedUser.identificacion, formData);

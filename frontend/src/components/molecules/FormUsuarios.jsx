@@ -1,10 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 /* import { Button } from '../atoms/Button'; */
 import axios from 'axios';
+import { Button, ModalFooter } from '@nextui-org/react';
 
 const baseURL = "http://localhost:3000/usuarios/registrar";
 
-const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser }) => {
+const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }) => {
     const identificacionRef = useRef(null);
     const nombreRef = useRef(null);
     const correoRef = useRef(null);
@@ -23,7 +24,7 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser }) => {
 
             console.log(selectedUser)
         }
-    }, [selectedUser]);
+    }, [mode, selectedUser]);
     
 
     const handleFormSubmit = (e) => {
@@ -70,7 +71,14 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser }) => {
                             <option value="caficultor"> Caficultor </option>
                         </select>
                     </div>
-                   {/*  <Button actionLabel={actionLabel} /> */}
+                    {<ModalFooter>
+                        <Button color="danger" variant="flat" onPress={onClose}>
+                        Close
+                        </Button>
+                        <Button type='submit' color="primary">
+                        {actionLabel}
+                        </Button>
+                    </ModalFooter>}
                 </div>
             </form>
         </>
