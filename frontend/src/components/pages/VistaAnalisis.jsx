@@ -109,9 +109,9 @@ function VistaAnalisis() {
             if(mode == 'create'){
                 const baseURL = 'http://localhost:3000/analisis/registrar';
                 axios.post(baseURL, data, {headers: {token: token}}).then((response) => {
-                    if(response.status == 200){
-                        console.log(response.data)
-                        setMensaje(response.data.message)
+                    console.log(response.data)
+                    if(response.status == 201){
+                        setMensaje('Análisis registrado con éxito')
                         setModalAccionesOpen(true)
                         setModalOpen(false)
                         fetchData();
@@ -123,8 +123,8 @@ function VistaAnalisis() {
             }else if(mode == 'update'){
                 const updateURL = `http://localhost:3000/analisis/actualizar/${id}`
                 axios.put(updateURL,data, {headers: {token: token}}).then((response) => {
-                    if(response.status == 200){
-                        console.log(response.data)
+                    console.log(response.data)
+                    if(response.status == 201){
                         setMensaje(response.data.message)
                         setModalAccionesOpen(true)
                         setModalOpen(false)

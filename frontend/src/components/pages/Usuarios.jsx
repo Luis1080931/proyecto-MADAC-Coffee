@@ -11,8 +11,8 @@ export function Usuarios() {
     const [mode, setMode] = useState('create');
     const [selectedUser, setSelectedUser] = useState(null);
     const [results, setResults] = useState([]);
-    const [modalAcciones, setModalAcciones] = useState([]);
-    const [mensaje, setMensaje] = useState('Hola');
+    const [modalAcciones, setModalAcciones] = useState(false);
+    const [mensaje, setMensaje] = useState('');
     const token = localStorage.getItem('token');
 
     useEffect(() => {
