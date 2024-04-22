@@ -4,7 +4,7 @@ import axios from 'axios';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
 import Ejemplo from '../organisms/Table.jsx';
 import ResultadosModal from './../templates/Resultados.jsx';
-import { useResultado } from '../../context/ResultadosContext.jsx';
+/* import { useResultado } from '../../context/ResultadosContext.jsx'; */
 import { ResultadoProvider } from '../../context/ResultadosContext.jsx';
 
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 const ResultadoContext = createContext();
 
@@ -12,7 +12,7 @@ export const ResultadoProvider = ({ children }) => {
       console.log(response.data)
       setResultados(response.data)
     }).catch((error) => {
-        console.log(error)
+        console.log(error)  
       })
   }, [])
 
