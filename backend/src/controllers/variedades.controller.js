@@ -12,7 +12,7 @@ export const registrarVariedades = async (req, res) => {
         }
 
         const { nombre } = req.body
-        const [ resultado ] = await pool.query("INSERT INTO variedades(nombre) VALUES (?)", [nombre])
+        const [ resultado ] = await pool.query("INSERT INTO variedades(nombre, estado) VALUES (?, 1)", [nombre])
 
         
         if (resultado.affectedRows > 0) {
@@ -41,12 +41,12 @@ export const actualizarVariedades = async (req, res) => {
         }
         
         const { codigo } = req.params
-        const { nombre, estado } = req.body
+        const { nombre } = req.body
         
         const [ variedadesPasado ] = await pool.query("select * from variedades where codigo=?", [codigo])
         const [ resultado ] = await pool.query(`update variedades set 
                                             nombre='${nombre ? nombre : variedadesPasado[0].nombre}', 
-                                            estado='${estado ? estado : variedadesPasado[0].estado}' where codigo=? `, [codigo])
+                                            estado=1 where codigo=? `, [codigo])
 
         if (resultado.affectedRows > 0) {
             res.status(201).json({
