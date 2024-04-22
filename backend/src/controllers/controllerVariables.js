@@ -24,7 +24,6 @@ export const listarVariables = async (req, res) => {
 
 // crear variable 
 
-//crud listar
 export const CrearVariable = async (req, res) => {
     try {
 
@@ -55,6 +54,45 @@ export const CrearVariable = async (req, res) => {
         })
     }
 }
+/* export const CrearVariable = async (req, res) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json(errors);
+        }
+
+        const { nombre, fk_tipo_analisis } = req.body;
+
+        // Validar que el nombre solo contenga letras
+        const nombreValido = /^[a-zA-Z]+$/.test(nombre);
+        if (!nombreValido) {
+            return res.status(400).json({
+                status: 400,
+                message: 'El nombre de la variable solo puede contener letras.'
+            });
+        }
+
+        const [result] = await pool.query("INSERT INTO variables (nombre, fk_tipo_analisis, estado) VALUES (?, ?, 1)", [nombre, fk_tipo_analisis]);
+
+        if (result.affectedRows > 0) {
+            res.status(200).json({
+                status: 200,
+                message: 'Se registró la variable con éxito.',
+            });
+        } else {
+            res.status(403).json({
+                status: 403,
+                message: 'No se registró la variable.',
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: "Error del servidor: " + error
+        });
+    }
+}; */
+
 
 // actualizar variable 
 
@@ -66,9 +104,9 @@ export const ActualizarVariable = async (req, res) => {
             return res.status(400).json(errors);
         }
 
-        const { codigo } = req.params;
+        const { v_codigo } = req.params;
         const { nombre, fk_tipo_analisis } = req.body;
-        const [result] = await pool.query('UPDATE variables SET nombre = IFNULL(?, nombre), fk_tipo_analisis = IFNULL(?, fk_tipo_analisis) WHERE v_codigo = ?', [nombre, fk_tipo_analisis, codigo]);
+        const [result] = await pool.query('UPDATE variables SET nombre = IFNULL(?, nombre), fk_tipo_analisis = IFNULL(?, fk_tipo_analisis) WHERE v_codigo = ?', [nombre, fk_tipo_analisis, v_codigo]);
 
         if (result.affectedRows > 0) {
             res.status(200).json({ message: 'La variable ha sido actualizada correctamente.' });
@@ -113,8 +151,8 @@ export const desactivarVariable = async (req, res) => {
 //buscar variable 
 export const buscarvariable = async (req, res) => {
     try {
-        const { codigo } = req.params; 
-        const [result] = await pool.query("SELECT * FROM variables WHERE codigo = ?", [codigo]);
+        const { v_codigo } = req.params; 
+        const [result] = await pool.query("SELECT * FROM variables WHERE v_codigo = ?", [v_codigo]);
                                                         //nombre tabla
         if (result.length > 0) {
             res.status(200).json(result);

@@ -1,5 +1,4 @@
 import express from "express";
-import bodyParser from "body-parser";
 import rutasVariable from './src/routes/routeVariables.js'
 import rutasMuestras from './src/routes/routeMuestras.js'
 import cors from "cors";
