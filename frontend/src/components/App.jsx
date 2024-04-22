@@ -9,11 +9,10 @@ import { Variables } from "./pages/Variables.jsx"
 import VistaVariedades from "./pages/VistaVariedades.jsx"
 import VistaAnalisis from "./pages/VistaAnalisis.jsx"
 import { Resultados } from "./pages/Resultados.jsx"
-import Ejemplo from './NextUI/TableNext.jsx'
-import LoginModal from "./organisms/ModalLogin.jsx"
 import ModalResultados from "./organisms/ModalResultados.jsx"
 import { AuthProvider } from "../context/authContext.jsx"
 import { NextUIProvider } from "@nextui-org/react"
+import ProtectedRoute from "../Protected.jsx"
 
 function App() {
 
@@ -24,18 +23,18 @@ function App() {
         {/*   <Sidebar /> */}
             <Routes>
               <Route path="/" element={<Login />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/fincas" element={<Fincas />} />
-              <Route path="/lotes" element={<Lotes />} />
-              <Route path="/resultados" element={<Resultados />} />
-              <Route path="/variables" element={<Variables />} />
-              <Route path="/muestras" element={<Muestras />} />
-              <Route path="/usuarios" element={<Usuarios />} />
-              <Route path="/variedades" element={<VistaVariedades />} />
-              <Route path="/analisis" element={<VistaAnalisis />} />
-              <Route path="/table" element={<Ejemplo />} />
-              <Route path="/modallogin" element={<LoginModal />} />
-              <Route path="/modalresultados" element={<ModalResultados />} />
+              <Route element={<ProtectedRoute />} > 
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/fincas" element={<Fincas />} />
+                <Route path="/lotes" element={<Lotes />} />
+                <Route path="/resultados" element={<Resultados />} />
+                <Route path="/variables" element={<Variables />} />
+                <Route path="/muestras" element={<Muestras />} />
+                <Route path="/usuarios" element={<Usuarios />} />
+                <Route path="/variedades" element={<VistaVariedades />} />
+                <Route path="/analisis" element={<VistaAnalisis />} />
+                <Route path="/modalresultados" element={<ModalResultados />} />
+              </Route>
             </Routes>
 
         </BrowserRouter>
