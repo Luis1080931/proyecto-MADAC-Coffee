@@ -44,7 +44,6 @@ export const FormFincass = ({mode,initialData,handleSubmit,onClose,actionLabel})
     
     return (
         <>
-
         <form method='post' onSubmit={handleFormSubmit}>
         <div className='flex flex-col'>
         <div className='flex flex-col m-5'>
