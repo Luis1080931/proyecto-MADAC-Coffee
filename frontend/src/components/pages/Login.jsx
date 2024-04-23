@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react'
 import { HeaderLogin } from './../molecules/HeaderLogin.jsx'
 import './../../App.css'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input} from "@nextui-org/react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Checkbox} from "@nextui-org/react";
 import {MailIcon} from './../atoms/IconEmail.jsx';
 import {LockIcon} from './../atoms/LockIcon.jsx';
 import AccionesModal from './../organisms/ModalAcciones.jsx'
@@ -43,13 +43,23 @@ try {
   
   axios.post(baseURL, data).then((response) => {
     console.log(response)
+
     if(response.status === 200){
-      setMensaje('Bienvenido a MADAC-Coffee')
-      setModalAcciones(true)
-      setModalOpen(false)
-      const {token} = response.data
+      
+      const {token, user} = response.data
       localStorage.setItem('token', token)
       localStorage.setItem('user', JSON.stringify(response.data.user[0]))
+
+      const userRol = user[0]?.tipo_usuario
+      
+      if(userRol === 'caficultor'){
+        setMensaje('Usuario no autorizado')
+        setModalAcciones(true)
+      }else{
+        setMensaje('Bienvenido a MADAC-Coffee')
+        setModalAcciones(true)
+        setModalOpen(false)
+      }
       
     }else {
       console.log('Response', response)
@@ -128,7 +138,7 @@ const handleAccept = () => {
               </ModalFooter>
                 </form>
                 
-                {/* <div className="flex py-2 px-1 justify-between">
+                <div className="flex py-2 px-1 justify-between">
                   <Checkbox
                     classNames={{
                       label: "text-small",
@@ -139,7 +149,7 @@ const handleAccept = () => {
                   <Link color="primary" href="#" size="sm">
                     Forgot password?
                   </Link>
-                </div> */}
+                </div>
               </ModalBody>
             </>
           )}

@@ -1,10 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, ModalBody, Input, Button, ModalContent, ModalHeader } from '@nextui-org/react';
+import axios from 'axios';
 
 const VariableInputModal = () => {
-  const [variables, setVariables] = useState(Array(30).fill('')); // Inicializamos 30 variables con valores vacíos
+  const [variables, setVariables] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
+  const [variablesBase, setVariablesBase] = useState([]);
+
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/variables/listarVariable', {headers: {token: token}})
+      .then((response) => {
+        console.log(response.data)
+        setVariablesBase(response.data);
+        setVariables(Array(response.data.length).fill(''));
+      })
+      .catch((error) => {
+        console.error('Error fetching variables:', error);
+      });
+  }, []);
 
   const handleChange = (e, index) => {
     const newVariables = [...variables];
@@ -26,11 +42,12 @@ const VariableInputModal = () => {
     <button onClick={() => setModalOpen(true)}> Abrir </button>
     <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
       <ModalContent>
-        <ModalHeader> Registro de resultados de los analisis </ModalHeader>
+        <ModalHeader> Registro de resultados de los análisis </ModalHeader>
       <ModalBody>
         {currentIndex < variables.length ? (
           <>
-            <h2>{`Variable ${currentIndex + 1}`}</h2>
+          <h2>{`Variable ${currentIndex + 1}:`} {variablesBase[currentIndex]?.nombre} </h2>
+            
             <Input
               placeholder="Ingrese el valor"
               value={variables[currentIndex]}
@@ -48,11 +65,11 @@ const VariableInputModal = () => {
       </ModalContent>
     </Modal>
     </>
-
   );
 };
 
 export default VariableInputModal;
+
 
 
 /* import React, { useEffect, useState } from 'react';

@@ -4,14 +4,9 @@ import axios from 'axios';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
 import Ejemplo from '../organisms/Table.jsx';
 import ResultadosModal from './../templates/Resultados.jsx';
-import { useResultado } from '../../context/ResultadosContext.jsx';
 import { ResultadoProvider } from '../../context/ResultadosContext.jsx';
 
-
-
 export function Resultados () {
-
-    /* const { setResultadoSeleccionado } = useResultado() */
 
     const baseURL = 'http://localhost:3000/resultados/listar'
     const token = localStorage.getItem('token')
@@ -42,8 +37,8 @@ export function Resultados () {
   };
 
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES'); // Puedes ajustar el idioma según tu preferencia
+    const date = new Date(dateString)
+    return date.toLocaleDateString('es-ES')
   };
 
     const data = [
@@ -162,7 +157,6 @@ export function Resultados () {
 
     const handleToggle = (mode, initialData) => {
         setInitialData(initialData)
-        /* setResultadoSeleccionado(initialData) */
         setModalOpen(true)
         setMode(mode)
     }
@@ -195,7 +189,6 @@ export function Resultados () {
                 clickRegistrar={() => handleToggle('create')}
                 data={data}
                 results={results}
-               /*  onUpdate={handleUpdate} */
            />
             
         </div>

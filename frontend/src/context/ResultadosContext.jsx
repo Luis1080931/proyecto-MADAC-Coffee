@@ -1,26 +1,23 @@
-import axios from 'axios';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+
+import React, { createContext, useContext, useState } from 'react';
 
 const ResultadoContext = createContext();
 
 export const ResultadoProvider = ({ children }) => {
-  const [resultados, setResultados] = useState({});
-  const token = localStorage.getItem('token')
+ 
+  const [resultadoSeleccionado, setResultadoSeleccionado] = useState(null);
 
-  useEffect(() => {
-    axios.get('http://localhost:3000/resultados/listar', {headers: {token: token}}).then((response) => {
-      console.log(response.data)
-      setResultados(response.data)
-    }).catch((error) => {
-        console.log(error)
-      })
-  }, [])
-
+  const seleccionarResultado = (resultado) => {
+    setResultadoSeleccionado(resultado);
+  };
+  
   return (
-    <ResultadoContext.Provider value={{ resultados, setResultados }}>
+    <ResultadoContext.Provider value={{ resultadoSeleccionado, seleccionarResultado }}>
       {children}
     </ResultadoContext.Provider>
   );
 };
+
+export const useResultado = () => useContext(ResultadoContext)
 
 export default ResultadoContext;
