@@ -3,10 +3,14 @@ import {validationResult} from 'express-validator'
 
 export const getFincas = async (req, res) => {
     try {
-        const [rows]=await pool.query(` SELECT f.codigo, f.dimension_mt2, u.nombre AS fk_caficultor, m.nombre AS municipio, f.vereda, f.estado
-        FROM fincas f
-        LEFT JOIN usuarios u ON f.fk_caficultor = u.identificacion
-        LEFT JOIN municipios m ON f.municipio = m.id_municipio`) 
+        const query = `
+            SELECT f.codigo, f.dimension_mt2, u.nombre AS fk_caficultor, m.nombre AS municipio, f.vereda, f.estado
+            FROM fincas f
+            JOIN usuarios u ON f.fk_caficultor = u.identificacion
+            JOIN municipios AS m ON municipio = id_municipio
+
+        `;
+        const [rows] = await pool.query(query);
         if (rows.length > 0) {
             res.status(200).json(rows);
         } else {
@@ -22,14 +26,17 @@ export const getFincas = async (req, res) => {
 };
 
 export const getFinca = async (req,res)=>{
-    try {
-        const [rows]=await pool.query(` SELECT f.codigo, f.dimension_mt2, u.nombre AS fk_caficultor, m.nombre AS municipio, f.vereda, f.estado
+    try{
+        const [rows]=await pool.query(`
+        SELECT f.codigo, f.dimension_mt2, u.nombre AS fk_caficultor, m.nombre AS municipio, f.vereda, f.estado
         FROM fincas f
-        LEFT JOIN usuarios u ON f.fk_caficultor = u.identificacion
-        LEFT JOIN municipios m ON f.municipio = m.id_municipio WHERE codigo=?`,[req.params.codigo]) 
-        if (rows.length > 0) {
-            res.status(200).json(rows);
-        } else {
+        JOIN usuarios u ON f.fk_caficultor = u.identificacion
+        JOIN municipios AS m ON municipio = id_municipio
+        WHERE f.codigo = ?
+    `,[req.params.codigo])
+        if(rows.length > 0){
+            res.status(200).json(rows)
+        }else{
             res.status(404).json({
                 message: "No se encontraron fincas"
             });
@@ -56,8 +63,8 @@ export const postFincas=async(req,res)=>{
                 message:"finca registrado correctamente"
         })
         }else{
-            res.status(404).json({
-                message:"no se pudo registrar correctamente"
+            res.status(403).json({
+                message:"no se pudo registrar Correctamente"
         })
         }
     }catch(error){
@@ -73,11 +80,11 @@ export const desactivar_Fincas=async(req,res)=>{
         
         if(result.affectedRows > 0){
             res.status(200).json({
-                message:"Finca desactivada correctamente"})
+                message:"Finca desactivada exitosamente"})
         }
         else{
             res.status(404).json({
-                message:"no se pudo desctivar correctamente"
+                message:"No se pudo desactivar la finca"
             })
         }
     }catch(error){
@@ -86,6 +93,7 @@ export const desactivar_Fincas=async(req,res)=>{
         })
     }
 }
+
 export const actualizarFincas = async(req,res)=>{
     try{
 
@@ -102,8 +110,8 @@ export const actualizarFincas = async(req,res)=>{
                 message:"finca actualizada exitosamente"})
         }
         else{
-            res.status(404).json({
-                message:"no encontramos a nadie"
+            res.status(403).json({
+                message:"No fue posible actualizar la finca"
             })
         }
 

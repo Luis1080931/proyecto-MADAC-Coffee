@@ -12,8 +12,8 @@ export const getLotes = async (req, res) => {
             res.status(200).json(rows);
         } else {
             res.status(404).json({
-                message: "No se encontraron lotes"
-            });
+                message:"No encontramos a ningun lote"
+            })
         }
     } catch (error) {
         res.status(500).json({
@@ -23,20 +23,20 @@ export const getLotes = async (req, res) => {
 };
 
 
-export const getLote = async (req, res) => {
-    try {
-        const [rows] = await pool.query(`
-            SELECT l.codigo, l.numero_arboles, l.fk_finca, v.nombre AS fk_variedad, l.estado
-            FROM lotes l
-            LEFT JOIN variedades v ON l.fk_variedad = v.codigo
-            WHERE l.codigo = ?`, [req.params.codigo]);
-
-        if (rows.length > 0) {
-            res.status(200).json(rows);
-        } else {
+export const getLote=async(req,res)=>{
+    try{
+        const [rows] =await pool.query(`
+        SELECT l.codigo, l.numero_arboles, v.nombre AS fk_variedad, l.estado
+        FROM lotes l
+        JOIN variedades v ON l.fk_variedad = v.codigo
+        WHERE l.codigo = ?
+    `,[req.params.codigo])
+        if(rows.length > 0){
+            res.status(200).json(rows)
+        }else{
             res.status(404).json({
-                message: "No se encontró ningún lote"
-            });
+                message:"No se encontró ningun lote"
+            })
         }
     } catch (error) {
         res.status(500).json({
@@ -55,11 +55,11 @@ export const postLotes=async(req,res)=>{
         const [rows]=await pool.query('INSERT INTO lotes (numero_arboles,fk_finca,fk_variedad,estado) VALUES(?,?,?,1)',[numero_arboles,fk_finca,fk_variedad])
         if(rows.affectedRows > 0){
             res.status(200).json({
-                message:"lote registrado Correctamente"
+                message:"Lote registrado correctamente"
         })
         }else{
-            res.status(404).json({
-                message:"no se pudo registrar Correctamente"
+            res.status(403).json({
+                message:"No se pudo registrar el lote"
         })
         }
     }catch(error){
@@ -76,10 +76,11 @@ export const desactivar_Lotes=async(req,res)=>{
         if(result.affectedRows > 0){
             res.status(200).json({
                 message:"Lote desactivado exitosamente"})
+             
         }
         else{
             res.status(403).json({
-                message:"no encontramos ningun lote"
+                message:"No se pudo desactivar el lote"
             })
         }
     }catch(error){
@@ -101,11 +102,11 @@ export const actualizarLotes =async(req,res)=>{
         const [result]=await pool.query('UPDATE lotes SET numero_arboles=IFNULL(?,numero_arboles),fk_finca=IFNULL(?,fk_finca),fk_variedad=IFNULL(?,fk_variedad) WHERE codigo=?',[numero_arboles,fk_finca,fk_variedad,codigo])
         if(result.affectedRows > 0){
             res.status(200).json({
-                message:"lote actualizado exitosamente"})
+                message:"Lote actualizado exitosamente"})
         }
         else{
-            res.status(404).json({
-                message:"no encontramos ningun lote"
+            res.status(403).json({
+                message:"No se pudo actualizar el lote"
             })
         }
     }catch(error){

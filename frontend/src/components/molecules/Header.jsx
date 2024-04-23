@@ -1,14 +1,14 @@
-import { space } from "postcss/lib/list";
-import { FaAlignJustify } from "react-icons/fa6";
+import { Sidebar } from "../organisms/Sidebar.jsx";
+import { SideBarUser } from "../organisms/SideBarUser.jsx";
 
 export function Header (props) {
     return(
-        <div className="bg-[#39A900] w-full h-16 flex items-center">
-            <FaAlignJustify size={30} className="ml-3 cursor-pointer" />
-            <h2 className="text-white text-2xl font-bold justify-between ml-10">
+        <div className="bg-[#336699]/75 w-full h-20 flex justify-between">
+            <Sidebar />
+            <h2 className="text-white text-2xl font-bold flex items-center">
                 {props.title}
             </h2>
-            <FaAlignJustify size={30} className="flex ml-auto mr-3 cursor-pointer"/>
+            <SideBarUser />
         </div>
     )
 }

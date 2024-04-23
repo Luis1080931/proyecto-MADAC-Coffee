@@ -6,8 +6,3 @@ export const validarLotes=[
                             check('fk_finca','no dijitaste ningun dato valido en el campo de finca').not().isEmpty().isNumeric(),
                             check('fk_variedad','no dijitaste ningun dato valido en el campo de variedad').not().isEmpty().isNumeric()
 ]
-export const validarActLotes=[
-                            check('numero_arboles','no dijitaste ningun dato valido en el campo de numero de arboles').not().isEmpty().isNumeric(),
-                            check('fk_finca','no dijitaste ningun dato valido en el campo de finca').not().isEmpty().isNumeric(),
-                            check('fk_variedad','no dijitaste ningun dato valido en el campo de variedad').not().isEmpty().isNumeric()
-]

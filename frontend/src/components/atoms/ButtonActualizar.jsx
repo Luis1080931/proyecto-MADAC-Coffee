@@ -1,5 +1,6 @@
 import React from 'react'
-import { FaEdit } from 'react-icons/fa'
+import { FaEdit } from "react-icons/fa";
+
 
 export const ButtonActualizar = (props) => {
   
