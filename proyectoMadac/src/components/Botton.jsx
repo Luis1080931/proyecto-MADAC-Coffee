@@ -9,7 +9,7 @@ const BotonRegistrar = ({ label, onPress }) => {
   );
 };
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   button: {
     marginTop: 10,
     backgroundColor: '#30A900',

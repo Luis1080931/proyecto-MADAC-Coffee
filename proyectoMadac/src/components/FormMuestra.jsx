@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { View,Alert, TextInput, StyleSheet, Image } from 'react-native';
+import { View,Alert, TextInput, StyleSheet } from 'react-native';
 import BotonRegistrar from './Botton';
 import axios from 'axios';
 
@@ -17,7 +17,7 @@ const FormMuestra = () => {
     const [observaciones, setObservaciones] = useState('')
     const [fk_lote, setFk_lote] = useState('')
 
-    const ip = "192.168.101.108";
+    const ip = "192.168.101.99";
 
     const isValidText = (text) => {
       return text.trim().length > 0;
@@ -143,7 +143,7 @@ const FormMuestra = () => {
        </View>
     );
    };
-   const styles = StyleSheet.create({
+   export const styles = StyleSheet.create({
     ContentFormulario: {
       margin: 12,
       padding: 18,
