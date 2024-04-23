@@ -1,6 +1,7 @@
 import React from 'react'
 import FormResultados from '../molecules/FormResultados.jsx';
 import { ModalAcciones } from '../organisms/Modal.jsx';
+import { useResultado } from '../../context/ResultadosContext.jsx';
 
 
 function ResultadosModal ({ open, onClose, handleSubmit, actionLabel, title, mode, initialData}){
