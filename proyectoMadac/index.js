@@ -7,4 +7,4 @@ import App from './App';
 import {name as appName} from './app.json';
 import FormVariables from './src/components/FormVariables..jsx';
 
-AppRegistry.registerComponent(appName, () => FormVariables);
+AppRegistry.registerComponent(appName, () => App);

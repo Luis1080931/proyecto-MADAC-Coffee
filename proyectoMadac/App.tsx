@@ -14,7 +14,7 @@ const App = () => {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerStyle: {
-            backgroundColor: '#30A900',
+            backgroundColor: '#34495E',
           },
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;

@@ -5,7 +5,6 @@ import BotonRegistrar from './Botton';
 import axios from 'axios';
 
 
-
 const FormMuestra = () => {
     const [fecha, setFecha] = useState('');
     const [cantidad, setCantidad] = useState('');
@@ -144,11 +143,12 @@ const FormMuestra = () => {
     );
    };
    export const styles = StyleSheet.create({
+
     ContentFormulario: {
       margin: 12,
       padding: 18,
       borderRadius: 18,
-      backgroundColor: '#D9D9D9',
+      backgroundColor: '#CACFD2',
       justifyContent: 'center', 
       alignItems: 'center',
      },

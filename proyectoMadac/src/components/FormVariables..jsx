@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Alert, TextInput, StyleSheet } from 'react-native';
 import axios from 'axios';
-import BotonRegistrar from './Botton'; // Asumiendo que este componente está definido correctamente
+import BotonRegistrar from './Botton';
+import { Image } from 'react-native-elements';
 
 const FormVariables = () => {
   const [nombre, setNombre] = useState('');
@@ -55,6 +56,10 @@ const FormVariables = () => {
         />
         <BotonRegistrar label={'Registrarse'} onPress={handleButtonPress} />
       </View>
+      <Image
+        style={{ width: 200, height: 200, marginBottom: 15 }}
+        source={require('../assets/logo.png')}
+      />
     </View>
   );
 };

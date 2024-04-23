@@ -16,7 +16,7 @@ const Styles = StyleSheet.create({
     BotonDesactivar : {
         marginTop: 1,
         marginLeft: 230,
-        backgroundColor: 'yellow',
+        backgroundColor: '#B03A2E',
         padding: 10,
         width: 135,
         display: 'flex',
