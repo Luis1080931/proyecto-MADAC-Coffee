@@ -133,3 +133,30 @@ export const BuscarMuestra = async (req, res) => {
         res.status(500).json({message:"Error en el servidor" + error})
     }
 }
+export const cambiarEstadoMuestra = async (req, res) => {
+    try {
+        const { codigo } = req.params;
+        const [result] = await pool.query("SELECT estado FROM muestras WHERE codigo = ?", [codigo]);
+
+        if (result.length > 0) {
+            const estadoActual = result[0].estado;
+            let mensaje;
+            if (estadoActual === 1) {
+                // Si está activa, desactivarla
+                await pool.query("UPDATE muestras SET estado = 2 WHERE codigo = ?", [codigo]);
+                mensaje = 'Se desactivó con éxito';
+            } else if (estadoActual === 2) {
+                // Si está desactivada, activarla
+                await pool.query("UPDATE muestras SET estado = 1 WHERE codigo = ?", [codigo]);
+                mensaje = 'Se activó con éxito';
+            }
+            res.status(200).json({ status: 200, message: mensaje });
+        } else {
+            res.status(404).json({ status: 404, message: 'No se encontró la muestra con el código proporcionado' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Error en el servidor" + error });
+    }
+};
+
+
