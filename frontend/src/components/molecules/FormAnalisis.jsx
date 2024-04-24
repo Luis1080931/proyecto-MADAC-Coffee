@@ -1,4 +1,4 @@
-import { Button, Input, ModalFooter, Select, SelectItem } from '@nextui-org/react'
+import { Button, Checkbox, Input, ModalFooter, Select, SelectItem } from '@nextui-org/react'
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 
@@ -13,6 +13,23 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose })
   const [catadores, setCatadores] = useState([])
   const [muestras, setMuestras] = useState([])
   const [tipoAnalisis, setTipoAnalisis] = useState([])
+  const [analistas, setAnalistas] = useState([])
+
+  const handleCheckboxChange = (event) => {
+    const checked = event.target.checked;
+    const value = event.target.value;
+
+    if (checked) {
+      if (analistas.length < 5) {
+        setAnalistas(prevState => [...prevState, value]);
+      }
+    } else {
+      setAnalistas(prevState => prevState.filter(item => item !== value));
+    }
+  };
+  /* const handleSelectChange = (value) => {
+    setAnalistas(value);
+  }; */
 
   const token = localStorage.getItem('token')
 
@@ -78,18 +95,31 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose })
         />
       </div>
       <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-        <Select
+        {catadores.map(catador => (
+          <Checkbox 
+            key={catador.identificacion}
+            value={catador.identificacion}
+            onChange={handleCheckboxChange}
+            checked={analistas.includes(catador.identificacion)}
+          >
+            {catador.nombre}
+          </Checkbox>  
+        ))}
+        {/* <Select
           label="Seleccione el analista"
           name="analista"
           ref={analista}
           required={true}
+          multiple={true}
+          value={analistas}
+          onChange={handleSelectChange}
         >
           {catadores.map(item => (
             <SelectItem key={item.identificacion } value={item.identificacion }>
               {item.nombre}
             </SelectItem>
           ))}
-        </Select>
+        </Select> */}
       </div> 
       <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
         <Select

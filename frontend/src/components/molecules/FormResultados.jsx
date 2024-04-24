@@ -27,8 +27,9 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
         e.preventDefault()
         try {
 
+            const fechaValue = new Date(fecha.current.value).toISOString().slice(0, 10);
             const datosForm = {
-                fecha: new Date(fecha.current.value),
+                fecha: fechaValue,
                 fk_analisis: parseInt(fk_analisis.current.value),
                 fk_variables: parseInt(fk_variables.current.value),
                 valor: valor.current.value,

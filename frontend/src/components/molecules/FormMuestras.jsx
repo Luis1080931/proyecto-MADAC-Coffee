@@ -52,9 +52,11 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
 
     const handleFormSubmit = async (e) => {
         e.preventDefault()
+
+        const fechaValue = new Date(fecha.current.value).toISOString().slice(0, 10);
       
         const datosForm = {
-          fecha: new Date(fecha.current.value),
+          fecha: fechaValue,
           cantidad: parseFloat(cantidad.current.value),
           quien_recibe: String(quien_recibe.current.value),
           proceso_fermentacion: proceso_fermentacion.current.value,

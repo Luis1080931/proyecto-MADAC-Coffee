@@ -125,14 +125,14 @@ export function Muestras () {
     const id = localStorage.getItem('idUser')
     
     const handleSubmit = async (datosForm, e) => {
-        console.log(datosForm);
+        console.log(datosForm); 
         e.preventDefault()
 
         try {
             if (mode === 'create') {
                 const BaseURL = 'http://localhost:3000/muestras/crearMuestra'
 
-                await axios.post(BaseURL, datosForm).then((response) => {
+                await axios.post(BaseURL, datosForm, {headers: {token: token}}).then((response) => {
                     console.log(response);
                     if (response.status == 200) {
                         setMensaje('Muestra registrada con éxito')

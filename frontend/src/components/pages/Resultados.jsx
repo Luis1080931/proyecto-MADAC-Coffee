@@ -94,7 +94,7 @@ export function Resultados () {
             axios.put(`http://localhost:3000/resultados/desactivar/${idResultado}`, null, {headers: {token: token}}).then((response) => {
             console.log(response.data)
             if(response.status==200){
-                setMensaje('Se desactivó con exito el resultado')
+                setMensaje(response.data.message)
                 setModalAcciones(true)
                 fetchData()
             }else{
