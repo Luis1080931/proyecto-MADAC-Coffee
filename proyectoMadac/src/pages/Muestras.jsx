@@ -3,7 +3,8 @@ import { View, Text, FlatList, ActivityIndicator, TouchableOpacity, TextInput, S
 import axios from 'axios';
 import BotonDesactivar from '../components/BotonDesactivar';
 import { useNavigation } from '@react-navigation/native';
-import FormMuestra from '../components/FormMuestra';
+import BotonActualizar from '../components/BotonActualizar';
+
 
 const Muestras = () => {
   const navigation = useNavigation();
@@ -98,14 +99,18 @@ const Muestras = () => {
         data={filteredMuestrasByEstado}
         keyExtractor={(item) => item.codigo.toString()} 
         renderItem={({ item }) => (
-          <MuestraItem muestra={item} desactivarMuestra={desactivarMuestra} />
+          <MuestraItem
+            muestra={item}
+            desactivarMuestra={desactivarMuestra}
+            navigation={navigation} // Pasar navigation como una propiedad
+          />
         )}
       />
     </View>
   );
 };
 
-const MuestraItem = ({ muestra, desactivarMuestra }) => {
+const MuestraItem = ({ muestra, desactivarMuestra, navigation }) => {
   return (
     <View style={styles.muestraContainer}>
       <Text style={styles.muestraText}>Codigo: {muestra.codigo}</Text>
@@ -120,7 +125,7 @@ const MuestraItem = ({ muestra, desactivarMuestra }) => {
       <Text style={styles.muestraText}>Lote: {muestra.fk_lote}</Text>
       <Text style={styles.muestraText}>Estado: {muestra.estado}</Text>
 
-
+        <BotonActualizar label="Actualizar" onPress={() => navigation.navigate('Actualizar')}/>
         <BotonDesactivar label="Desactivar" onPress={() => desactivarMuestra(muestra.codigo)}/>
 
     </View>
