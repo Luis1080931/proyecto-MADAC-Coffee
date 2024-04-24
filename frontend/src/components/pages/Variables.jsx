@@ -44,7 +44,7 @@ export function Variables () {
             sortable: true
         },
         {
-            uid: 'fk_tipo_analisis',
+            uid: 'tipo_analisis',
             name: 'fk Tipo analisis',
             sortable: true
         },

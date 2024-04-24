@@ -269,11 +269,11 @@ const handleUpdateClick = (id) => {
   bottomContent={bottomContent}
   bottomContentPlacement="outside"
   classNames={{
-    wrapper: "max-h-[95%] max-w-[95%]" ,
+    wrapper: "max-h-[100%] max-w-[100%]" ,
   }}
   className="flex"
   selectedKeys={selectedKeys}
-  selectionMode="multiple"
+/*   selectionMode="multiple" */
   sortDescriptor={sortDescriptor}
   topContent={topContent}
   topContentPlacement="outside"

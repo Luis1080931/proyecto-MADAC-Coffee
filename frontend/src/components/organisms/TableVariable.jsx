@@ -49,7 +49,7 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
 
     if (hasSearchFilter) {
       filteredvariables = filteredvariables.filter(variable =>
-        String(variable.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(variable.v_codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
         variable.nombre.toLowerCase().includes(filterValue.toLowerCase()) ||
         String (variable.fk_tipo_analisis).toLowerCase().includes(filterValue.toLowerCase()) 
       );
@@ -110,8 +110,8 @@ const handleUpdateClick = (id) => {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Menu de acciones">
-                <DropdownItem onClick={() => handleUpdateClick(variable.codigo)}>Editar</DropdownItem>
-                <DropdownItem onClick={() => clickDesactivar(variable.codigo)}>Desactivar</DropdownItem>
+                <DropdownItem onClick={() => handleUpdateClick(variable.v_codigo)}>Editar</DropdownItem>
+                <DropdownItem onClick={() => clickDesactivar(variable.v_codigo)}>Desactivar</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -262,11 +262,11 @@ const handleUpdateClick = (id) => {
   bottomContent={bottomContent}
   bottomContentPlacement="outside"
   classNames={{
-    wrapper: "max-h-[95%] max-w-[95%]" ,
+    wrapper: "max-h-[100%] max-w-[100%]" ,
   }}
   className="flex"
   selectedKeys={selectedKeys}
-  selectionMode="multiple"
+/*   selectionMode="multiple" */
   sortDescriptor={sortDescriptor}
   topContent={topContent}
   topContentPlacement="outside"
