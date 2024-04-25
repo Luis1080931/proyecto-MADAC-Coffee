@@ -1,0 +1,67 @@
+
+
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+     /* Ajustar según sea necesario */
+  }
+  
+  .lines {
+    width: 35px; /* Ancho de las líneas */
+    height: 100%; /* Altura de las líneas */
+    display: flex;
+    flex-direction: column-reverse; /* Para que las líneas estén en orden descendente */
+  }
+  
+  .line {
+    width: 100%;
+    height: 10px; /* Altura de cada línea */
+    margin-bottom: 2px; /* Espacio entre líneas */
+  }
+  
+  .light {
+    background-color: #847d7d; /* Color claro */
+  }
+  
+  .dark {
+    background-color: #5e5b5b; /* Color oscuro */
+  }
+
+  .ruler {
+    display: flex;
+    margin-left: 8px;
+  }
+  
+  .ruler-item {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+  }
+  
+  .lineRuler {
+    width: 2px;
+    height: 10px; /* Ajusta la altura de las líneas según sea necesario */
+    background-color: #000;
+  }
+  
+  .line-center {
+    height: 20px; /* Ajusta la altura de la línea central según sea necesario */
+  }
+  
+  .number {
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 18px; /* Ajusta el margen superior según sea necesario */
+  }
+
+  .checkbox-group {
+    display: flex;
+  }
+  
+  .checkbox {
+    margin-right: 15px; /* Espacio entre cada checkbox */
+  }
+  
+  
+  

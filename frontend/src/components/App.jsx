@@ -13,6 +13,7 @@ import ModalResultados from "./organisms/ModalResultados.jsx"
 import { AuthProvider } from "../context/authContext.jsx"
 import { NextUIProvider } from "@nextui-org/react"
 import ProtectedRoute from "../Protected.jsx"
+import SliderVertical from "./organisms/Slider.jsx"
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
                 <Route path="/variedades" element={<VistaVariedades />} />
                 <Route path="/analisis" element={<VistaAnalisis />} />
                 <Route path="/modalresultados" element={<ModalResultados />} />
+                <Route path="/slider" element={<SliderVertical />} />
               </Route>
             </Routes>
 
