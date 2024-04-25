@@ -118,7 +118,10 @@ const handleUpdateClick = (id) => {
               </DropdownTrigger>
               <DropdownMenu aria-label="Menu de acciones">
                 <DropdownItem onClick={() => handleUpdateClick(muestra.codigo)}>Editar</DropdownItem>
-                <DropdownItem onClick={() => clickDesactivar(muestra.codigo)}>Desactivar</DropdownItem>
+                <DropdownItem onClick={() => clickDesactivar(muestra.codigo)}>
+  {muestra.estado === 'activo' ? 'Desactivar' : 'Activar'}
+</DropdownItem>
+
               </DropdownMenu>
             </Dropdown>
           </div>

@@ -102,24 +102,27 @@ export function Muestras () {
         }
     ];
 
-
     const handleDesactivar = (codigo) => {
         try {
             axios.put(`http://localhost:3000/muestra/desactivar/${codigo}`, null).then((response) => {
                 console.log(response.data);
-            
-                if(response.status == 200) { 
-                    setMensaje('Se desactivo con éxito la Muestra')
-                    setModalAcciones(true)
-                    fetchData()
+                const mensaje = response.data.message;
+    
+                if(response.status === 200) { 
+                    const nuevoEstado = mensaje.split("'")[1]; 
+
+                    setMensaje(`Se cambió el estado de la muestra a ${nuevoEstado} con exito`);
+                    setModalAcciones(true);
+                    fetchData();
                 } else {
-                    alert('Error' + error)
+                    alert('Error: ' + mensaje);
                 }
             })
-            } catch (error) {
-                alert('Error con el servidor')
-            }
+        } catch (error) {
+            alert('Error con el servidor');
+        }
     }
+    
     const id = localStorage.getItem('idUser')
     
     const handleSubmit = async (datosForm, e) => {

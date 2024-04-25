@@ -111,7 +111,7 @@ const handleUpdateClick = (id) => {
               </DropdownTrigger>
               <DropdownMenu aria-label="Menu de acciones">
                 <DropdownItem onClick={() => handleUpdateClick(variable.v_codigo)}>Editar</DropdownItem>
-                <DropdownItem onClick={() => clickDesactivar(variable.v_codigo)}>Desactivar</DropdownItem>
+                <DropdownItem onClick={() => clickDesactivar(variable.v_codigo)}> {variable.estado === 'activo' ? 'Desactivar' : 'Activar'}</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>

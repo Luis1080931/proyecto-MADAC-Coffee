@@ -64,10 +64,11 @@ export function Variables () {
         try {
             axios.put(`http://localhost:3000/variable/desactivar/${v_codigo}`, null).then((response) => {
                 console.log(response.data);
-            
+                const mensaje = response.data.message;
 
             if(response.status == 200) {
-                setMensaje('Se desactivo con exito la varible')
+                const nuevoEstado = mensaje.split("'")[1]; 
+                setMensaje(`Se cambió el estado de la variable a ${nuevoEstado} con exito`)
                 setModalAcciones(true)
                 fetchData()
             }else{
