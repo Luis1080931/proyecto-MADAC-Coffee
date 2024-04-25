@@ -151,7 +151,7 @@
     </table>
 <hr>
 <h3> Requerimiento desactivar muestras </h3>
-<!-- desactivar variable -->
+<!-- desactivar muestra -->
 <table>
     <tr><td>numero</td><td>24</td></tr>
     <tr><td>Nombre del servicio</td><td>desactivar muestras</td></tr>
@@ -164,15 +164,15 @@
     <tr><td>Respuesta json</td><td>
 
     correcto:
-    status: 200 message: 'Se desactivó con éxito'
+    status: 200 message: 'Se cambió el estado de la muestra a '${nuevoEstado}' con éxito'
     json:
     {
         "status": 200,
-        "message": "Se desactivó con éxito",
+        "message": "Se cambió el estado de la muestra a '${nuevoEstado}' con éxito",
       }
         incorrecto:
         status:403
-        "Mensaje": 'No se pudo desactivar la muestra'
+        "Mensaje": 'No se encontró la muestra para cambiar el estado'
 
         Error: 
         Status: 500,

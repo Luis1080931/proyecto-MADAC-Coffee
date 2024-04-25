@@ -126,27 +126,31 @@ export const ActualizarVariable = async (req, res) => {
 
 export const desactivarVariable = async (req, res) => {
     try {
-        const {codigo} = req.params; // Cambiado de 'codigo' a 'codigo'
-        const [result] = await pool.query("UPDATE variables  SET estado= 2 WHERE v_codigo = ?", [ codigo]);
+        const { codigo } = req.params; 
+        const [variable] = await pool.query("SELECT * FROM variables WHERE v_codigo = ?", [codigo]);
+
+        const nuevoEstado = variable[0].estado === 'activo' ? 'inactivo' : 'activo';
+        const [result] = await pool.query("UPDATE variables SET estado = ? WHERE v_codigo = ?", [nuevoEstado, codigo]);
 
         if (result.affectedRows > 0) {
             res.status(200).json({
                 status: 200,
-                message: 'Se desactivó con éxito',
+                message: `Se cambió el estado de la variable a '${nuevoEstado}' con éxito`,
             });
         } else {
             res.status(403).json({
                 status: 403,
-                message: 'No se pudo desactivar la variable'
+                message: 'No se encontró la variable para cambiar el estado'
             });
         }
     } catch (error) {
         res.status(500).json({
-            status:500,
+            status: 500,
             message: "Error del servidor" + error
-        })
+        });
     }
-}
+};
+
 
 //buscar variable 
 export const buscarvariable = async (req, res) => {
