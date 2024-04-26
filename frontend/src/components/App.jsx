@@ -15,6 +15,9 @@ import { NextUIProvider } from "@nextui-org/react"
 import ProtectedRoute from "../Protected.jsx"
 import SliderVertical from "./organisms/Slider.jsx"
 
+const stored = localStorage.getItem('user')
+const user = stored ? JSON.parse(stored) : null
+
 function App() {
 
   return (
@@ -31,11 +34,13 @@ function App() {
                 <Route path="/resultados" element={<Resultados />} />
                 <Route path="/variables" element={<Variables />} />
                 <Route path="/muestras" element={<Muestras />} />
-                <Route path="/usuarios" element={<Usuarios />} />
                 <Route path="/variedades" element={<VistaVariedades />} />
                 <Route path="/analisis" element={<VistaAnalisis />} />
                 <Route path="/modalresultados" element={<ModalResultados />} />
                 <Route path="/slider" element={<SliderVertical />} />
+                {user.tipo_usuario === 'admin' && (
+                  <Route path="/usuarios" element={<Usuarios />} />
+                )}
               </Route>
             </Routes>
 

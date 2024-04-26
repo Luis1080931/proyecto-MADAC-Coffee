@@ -5,6 +5,7 @@ import AccionesModal from '../organisms/ModalAcciones.jsx';
 import Ejemplo from '../organisms/Table.jsx';
 import ResultadosModal from './../templates/Resultados.jsx';
 import { ResultadoProvider } from '../../context/ResultadosContext.jsx';
+import VariableInputModal from "./../organisms/ModalResultados.jsx";
 
 export function Resultados () {
 
@@ -17,6 +18,7 @@ export function Resultados () {
     const [initialData, setInitialData ] = useState(null)
     const [mensaje, setMensaje] = useState('')
     const [results, setResults] = useState([]);
+    const [modalRegister, setModalRegister] = useState(false)
     
 
   useEffect(() => {
@@ -167,6 +169,11 @@ export function Resultados () {
         <Header title="Resultados" />
         <div className='w-full max-w-[90%] ml-28 items-center p-10'>
 
+        <VariableInputModal 
+            open={modalOpen}
+            onClose={() => setModalOpen(false)}
+        />
+
         <AccionesModal 
             isOpen={modalAcciones}
             onClose={() => setModalAcciones(false)}
@@ -186,7 +193,6 @@ export function Resultados () {
            <Ejemplo 
                 clickDesactivar={handleDesactivar}
                 clickEditar={() => handleToggle('update', id)}
-                clickRegistrar={() => handleToggle('create')}
                 data={data}
                 results={results}
            />

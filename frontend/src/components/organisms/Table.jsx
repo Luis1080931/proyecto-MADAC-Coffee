@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableHeader,
@@ -21,6 +21,7 @@ import { SearchIcon } from "./../NextUI/SearchIcon.jsx";
 import { ChevronDownIcon } from "./../NextUI/ChevronDownIcon.jsx";
 import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
 import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
+import VariableInputModal from "./ModalResultados.jsx";
 
 const statusColorMap = {
   activo: "success",
@@ -38,6 +39,7 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
     direction: "ascending",
   });
   const [page, setPage] = React.useState(1);
+  const [modalOpen, setModalOpen] = useState(false)
  
   const statusOptions = [
     {name: "Activo", uid: "activo"},
@@ -102,12 +104,25 @@ const handleUpdateClick = (id) => {
     switch (columnKey) {
       case "estado":
         return (
-          <Chip className="capitalize" color={statusColorMap[result.estado]} size="sm" variant="flat">
+          <Chip className="capitalize" color={statusColorMap[result.estado]} size="md" variant="flat">
             {cellValue}
           </Chip>
         );
       case "actions":
         return (
+          /* <div>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button isIconOnly size="sm" variant="light">
+                  <VerticalDotsIcon className="text-default-300" />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Menu de acciones">
+                <DropdownItem onClick={() =>  handleUpdateClick(result.codigo)}>Editar</DropdownItem>
+                <DropdownItem onClick={() => clickDesactivar(result.codigo)}>Desactivar</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div> */
           <div className="flex flex-row">
             <ButtonActualizar click={() =>  handleUpdateClick(result.codigo)} /> 
             <ButtonDesactivar click={() => clickDesactivar(result.codigo)} />
@@ -161,7 +176,7 @@ const handleUpdateClick = (id) => {
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
-            className="w-full sm:max-w-[44%]"
+            className="w-full sm:max-w-[44%] text-xl"
             placeholder="Buscar..."
             startContent={<SearchIcon />}
             value={filterValue}
@@ -172,7 +187,7 @@ const handleUpdateClick = (id) => {
   
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
+                <Button className="text-xl" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
                   Estado
                 </Button>
               </DropdownTrigger>
@@ -192,17 +207,17 @@ const handleUpdateClick = (id) => {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />} onClick={clickRegistrar}>
+            <Button className="text-xl" color="primary" endContent={<PlusIcon />} onClick={() => setModalOpen(true)}>
               Registrar
             </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {results.length} resultados</span>
-          <label className="flex items-center text-default-400 text-small">
+          <span className="text-default-400 text-xl">Total {results.length} resultados</span>
+          <label className="flex items-center text-default-400 text-xl">
             Columnas por página:
             <select
-              className="bg-transparent outline-none text-default-400 text-small"
+              className="bg-transparent outline-none text-default-400 text-xl"
               onChange={onRowsPerPageChange}
             >
               <option value="5">5</option>
@@ -226,7 +241,7 @@ const handleUpdateClick = (id) => {
   const bottomContent = React.useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-between items-center">
-        {<span className="w-[30%] text-small text-default-400">
+        {<span className="w-[30%] text-xl text-default-400">
           {selectedKeys === "all"
             ? "All items selected"
             : `${selectedKeys.size} de ${filteredItems.length} seleccionados`}
@@ -241,10 +256,10 @@ const handleUpdateClick = (id) => {
           onChange={setPage}
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
+          <Button className="text-xl" color="primary" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
             Atras
           </Button>
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
+          <Button className="text-xl" color='primary' isDisabled={pages === 1} size="md" variant="ghost" onPress={onNextPage}>
             Siguiente
           </Button>
         </div>
@@ -253,44 +268,50 @@ const handleUpdateClick = (id) => {
   }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
 
   return (
+    
     <div className="flex items-center justify-center">
-<Table
-  aria-label="Tabla"
-  isHeaderSticky
-  bottomContent={bottomContent}
-  bottomContentPlacement="outside"
-  classNames={{
-    wrapper: "max-h-[95%] max-w-[95%]" ,
-  }}
-  className="flex"
-  selectedKeys={selectedKeys}
-  // selectionMode="multiple"
-  sortDescriptor={sortDescriptor}
-  topContent={topContent}
-  topContentPlacement="outside"
-  onSelectionChange={setSelectedKeys}
+      <VariableInputModal 
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+      />
+      <Table
+        aria-label="Tabla"
+        isHeaderSticky
+        bottomContent={bottomContent}
+        bottomContentPlacement="outside"
+        classNames={{
+          wrapper: "max-h-[95%] max-w-[95%]" ,
+        }}
+        className="flex"
+        selectedKeys={selectedKeys}
+        // selectionMode="multiple"
+        sortDescriptor={sortDescriptor}
+        topContent={topContent}
+        topContentPlacement="outside"
+        onSelectionChange={setSelectedKeys}
 
-  onSortChange={setSortDescriptor}
->
-  <TableHeader columns={data}>
-    {(column) => (
-      <TableColumn
-        key={column.uid}
-        align={column.uid === "actions" ? "center" : "start"}
-        allowsSorting={column.sortable}
+        onSortChange={setSortDescriptor}
       >
-        {column.name}
-      </TableColumn>
-    )}
-  </TableHeader>
-  <TableBody emptyContent={"No hay resultados registrados"} items={sortedItems}>
-    {(item) => (
-      <TableRow key={item.codigo}>
-        {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
-      </TableRow>
-    )}
-  </TableBody>
-</Table>
+        <TableHeader columns={data}>
+          {(column) => (
+            <TableColumn
+              className="bg-[#3C6E9F] text-white text-lg"
+              key={column.uid}
+              align={column.uid === "actions" ? "center" : "start"}
+              allowsSorting={column.sortable}
+            >
+              {column.name}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody emptyContent={"No hay resultados registrados"} items={sortedItems}>
+          {(item) => (
+            <TableRow key={item.codigo}>
+              {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
     </div>
     
   );

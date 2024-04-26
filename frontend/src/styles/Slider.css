@@ -4,30 +4,29 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-     /* Ajustar según sea necesario */
   }
   
   .lines {
-    width: 35px; /* Ancho de las líneas */
-    height: 100%; /* Altura de las líneas */
+    width: 35px; 
+    height: 100%;
     display: flex;
-    flex-direction: column-reverse; /* Para que las líneas estén en orden descendente */
+    flex-direction: column-reverse; 
   }
   
   .line {
     width: 100%;
-    height: 10px; /* Altura de cada línea */
-    margin-bottom: 2px; /* Espacio entre líneas */
+    height: 10px;
+    margin-bottom: 2px; 
   }
   
   .light {
-    background-color: #847d7d; /* Color claro */
+    background-color: #847d7d;
   }
   
   .dark {
-    background-color: #5e5b5b; /* Color oscuro */
+    background-color: brown; 
   }
-
+  
   .ruler {
     display: flex;
     margin-left: 8px;
@@ -41,18 +40,18 @@
   
   .lineRuler {
     width: 2px;
-    height: 10px; /* Ajusta la altura de las líneas según sea necesario */
-    background-color: #000;
+    height: 10px; 
+    background-color: #000; 
   }
   
   .line-center {
-    height: 20px; /* Ajusta la altura de la línea central según sea necesario */
+    height: 20px;
   }
   
   .number {
     font-size: 12px;
     font-weight: bold;
-    margin-top: 18px; /* Ajusta el margen superior según sea necesario */
+    margin-top: 18px; 
   }
 
   .checkbox-group {
@@ -60,8 +59,5 @@
   }
   
   .checkbox {
-    margin-right: 15px; /* Espacio entre cada checkbox */
+    margin-right: 15px; 
   }
-  
-  
-  
