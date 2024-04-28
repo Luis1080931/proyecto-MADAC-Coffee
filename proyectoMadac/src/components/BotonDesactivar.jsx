@@ -1,34 +1,30 @@
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import React from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+const BotonDesactivar = ({ isActive, onPress }) => {
+  const backgroundColor = isActive ? '#B03A2E' : '#2ECC71';
+  const label = isActive ? "Desactivar" : "Activar";
 
-const BotonDesactivar = ({label,onPress}) => {
   return (
-    <>
-    <TouchableOpacity style={Styles.BotonDesactivar} onPress={onPress} >
-        <Text style={Styles.TextDesactivar}>{label}</Text>
+    <TouchableOpacity style={[styles.botonDesactivar, { backgroundColor }]} onPress={onPress}>
+      <Text style={styles.textoBoton}>{label}</Text>
     </TouchableOpacity>
-    </>
-  )
+  );
+};
 
-}
-const Styles = StyleSheet.create({
-    BotonDesactivar : {
-        marginTop: 1,
-        marginLeft: 230,
-        backgroundColor: '#B03A2E',
-        padding: 10,
-        width: 135,
-        display: 'flex',
-        alignItems: 'center',
-        borderRadius: 20,
-        
-    },
-    TextDesactivar: {
-        color: 'white',
-        fontWeight: 'bold',
-        fontSize: 20,
-    }
-})
+const styles = StyleSheet.create({
+  botonDesactivar: {
+    marginTop: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    alignItems: 'center',
+  },
+  textoBoton: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+});
 
-export default BotonDesactivar
+export default BotonDesactivar;

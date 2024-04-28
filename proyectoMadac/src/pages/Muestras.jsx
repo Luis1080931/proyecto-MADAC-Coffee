@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, ActivityIndicator, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, TouchableOpacity, TextInput, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import BotonDesactivar from '../components/BotonDesactivar';
 import { useNavigation } from '@react-navigation/native';
@@ -13,37 +13,44 @@ const Muestras = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterByEstado, setFilterByEstado] = useState('');
 
-  const ip = "192.168.101.99";
+  const ip = "192.168.100.155";
 
   useEffect(() => {
     const fetchMuestras = async () => {
       try {
         const response = await axios.get(`http://${ip}:3000/muestra/listar`);
-        setMuestras(response.data);
-        setLoading(false);
+        if (response.data && response.data.length > 0) {
+          setMuestras(response.data);
+          setLoading(false);
+        } else {
+          Alert.alert('No hay muestras encontradas.');
+          setLoading(false);
+        }
       } catch (error) {
+        Alert.alert('Error al cargar las muestras');
         console.log('Error al cargar las muestras:', error);
         setLoading(false);
       }
     };
-
+  
     fetchMuestras();
-  }, []);
-
+  }, [muestras]);
+  
+  
   const desactivarMuestra = async (codigo) => {
     try {
       await axios.put(`http://${ip}:3000/muestra/desactivar/${codigo}`);
       // Actualizar las muestras después de desactivar
       const updatedMuestras = muestras.map(muestra => {
         if (muestra.codigo === codigo) {
-          return { ...muestra, estado: 'inactivo' }; // Cambiar el estado a inactivo
+          return { ...muestra, estado: 'inactivo'}; // Cambiar el estado a inactivo
         }
         return muestra;
       });
       setMuestras(updatedMuestras);
-      console.log('Muestra desactivada correctamente');
+      Alert.alert(`Cambio de estado exitoso.`);
     } catch (error) {
-      console.error('Error al desactivar la muestra:', error);
+      console.error('Error al cambiar de estado la muestra:', error);
     }
   };
 
@@ -102,15 +109,14 @@ const Muestras = () => {
           <MuestraItem
             muestra={item}
             desactivarMuestra={desactivarMuestra}
-            navigation={navigation} // Pasar navigation como una propiedad
+            navigation={navigation}
           />
         )}
       />
     </View>
   );
 };
-
-const MuestraItem = ({ muestra, desactivarMuestra, navigation }) => {
+const MuestraItem = ({ muestra, desactivarMuestra, navigation,isActive }) => {
   return (
     <View style={styles.muestraContainer}>
       <Text style={styles.muestraText}>Codigo: {muestra.codigo}</Text>
@@ -126,11 +132,12 @@ const MuestraItem = ({ muestra, desactivarMuestra, navigation }) => {
       <Text style={styles.muestraText}>Estado: {muestra.estado}</Text>
 
         <BotonActualizar label="Actualizar" onPress={() => navigation.navigate('Actualizar')}/>
-        <BotonDesactivar label="Desactivar" onPress={() => desactivarMuestra(muestra.codigo)}/>
+        <BotonDesactivar isActive={muestra.estado === 'activo'} onPress={() => desactivarMuestra(muestra.codigo)}/>
 
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

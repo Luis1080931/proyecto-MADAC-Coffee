@@ -9,21 +9,20 @@ const BotonActualizar = ({ label, onPress }) => {
   );
 };
 
-export const styles = StyleSheet.create({
+
+const styles = StyleSheet.create({
   button: {
     marginTop: 10,
-    backgroundColor: '#30A900',
-    padding: 10,
-    width: 135,
-    display: 'flex',
-    alignItems: 'center',
+    backgroundColor: '#F4D03F',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 20,
+    alignItems: 'center',
   },
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 20,
-
   },
 });
 

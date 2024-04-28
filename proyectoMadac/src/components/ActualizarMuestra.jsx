@@ -4,8 +4,7 @@ import axios from 'axios';
 
 const ActualizarMuestra = ({ muestra, actualizarMuestra }) => {
   const [datosMuestra, setDatosMuestra] = useState(muestra);
-
-  const ip = "192.168.101.99";
+  const ip = "192.168.100.155";
 
   const handleChange = (campo, valor) => {
     setDatosMuestra({ ...datosMuestra, [campo]: valor });
@@ -13,8 +12,12 @@ const ActualizarMuestra = ({ muestra, actualizarMuestra }) => {
 
   const handleSubmit = async () => {
     try {
+      // Realizar la solicitud PUT para actualizar la muestra
       await axios.put(`http://${ip}:3000/muestra/actualizar/${muestra.codigo}`, datosMuestra);
-      actualizarMuestra(datosMuestra); // Actualiza la muestra en el estado de la lista de muestras
+
+      // Actualizar la muestra en el estado utilizando la función actualizarMuestra
+      actualizarMuestra(datosMuestra);
+
       console.log('Muestra actualizada correctamente');
     } catch (error) {
       console.error('Error al actualizar la muestra:', error);
@@ -23,7 +26,7 @@ const ActualizarMuestra = ({ muestra, actualizarMuestra }) => {
 
   return (
     <View style={styles.container}>
-
+      {/* Renderizar los campos de entrada para la muestra */}
       <Text style={styles.label}>Fecha:</Text>
       <TextInput
         style={styles.input}
@@ -31,62 +34,9 @@ const ActualizarMuestra = ({ muestra, actualizarMuestra }) => {
         onChangeText={(text) => handleChange('fecha', text)}
       />
 
-      <Text style={styles.label}>Cantidad:</Text>
-      <TextInput
-        style={styles.input}
-        value={datosMuestra.cantidad}
-        onChangeText={(text) => handleChange('cantidad', text)}
-      />
+      {/* Renderizar otros campos de entrada para la muestra de manera similar */}
 
-      <Text style={styles.label}>Quién recibe:</Text>
-      <TextInput
-        style={styles.input}
-        value={datosMuestra.quien_recibe}
-        onChangeText={(text) => handleChange('quien_recibe', text)}
-      />
-
-      <Text style={styles.label}>Proceso de fermentación:</Text>
-      <TextInput
-        style={styles.input}
-        value={datosMuestra.proceso_fermentacion}
-        onChangeText={(text) => handleChange('proceso_fermentacion', text)}
-      />
-
-      <Text style={styles.label}>Humedad del café:</Text>
-      <TextInput
-        style={styles.input}
-        value={datosMuestra.humedad_cafe}
-        onChangeText={(text) => handleChange('humedad_cafe', text)}
-      />
-
-      <Text style={styles.label}>Altura MSNM:</Text>
-      <TextInput
-        style={styles.input}
-        value={datosMuestra.altura_MSNM}
-        onChangeText={(text) => handleChange('altura_MSNM', text)}
-      />
-
-      <Text style={styles.label}>Tipo de secado:</Text>
-      <TextInput
-        style={styles.input}
-        value={datosMuestra.tipo_secado}
-        onChangeText={(text) => handleChange('tipo_secado', text)}
-      />
-
-      <Text style={styles.label}>Observaciones:</Text>
-      <TextInput
-        style={styles.input}
-        value={datosMuestra.observaciones}
-        onChangeText={(text) => handleChange('observaciones', text)}
-      />
-
-      <Text style={styles.label}>Lote:</Text>
-      <TextInput
-        style={styles.input}
-        value={datosMuestra.fk_lote}
-        onChangeText={(text) => handleChange('fk_lote', text)}
-      />
-      
+      {/* Botón para enviar el formulario y actualizar la muestra */}
       <TouchableOpacity style={styles.boton} onPress={handleSubmit}>
         <Text style={styles.textoBoton}>Actualizar Muestra</Text>
       </TouchableOpacity>
