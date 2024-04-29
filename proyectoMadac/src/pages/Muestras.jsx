@@ -13,7 +13,7 @@ const Muestras = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterByEstado, setFilterByEstado] = useState('');
 
-  const ip = "192.168.100.155";
+  const ip = "10.193.144.233";
 
   useEffect(() => {
     const fetchMuestras = async () => {

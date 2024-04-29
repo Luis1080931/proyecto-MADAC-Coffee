@@ -16,7 +16,7 @@ const FormMuestra = () => {
     const [observaciones, setObservaciones] = useState('')
     const [fk_lote, setFk_lote] = useState('')
 
-    const ip = "192.168.101.99";
+    const ip = "10.193.144.233";
 
     const isValidText = (text) => {
       return text.trim().length > 0;

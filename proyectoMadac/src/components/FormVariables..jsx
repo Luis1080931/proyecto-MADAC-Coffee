@@ -8,7 +8,7 @@ const FormVariables = () => {
   const [nombre, setNombre] = useState('');
   const [fk_tipo_analisis, setFk_tipo_analisis] = useState('');
 
-  const ip = "192.168.100.155";
+  const ip = "10.193.144.233";
 
   const isValidText = (text) => {
     return text.trim().length > 0;
