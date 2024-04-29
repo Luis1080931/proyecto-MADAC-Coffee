@@ -15,10 +15,10 @@ import {
   Chip,
   Pagination,
 } from "@nextui-org/react";
-import { PlusIcon } from "./../NextUIAlejandro/PlusIcon.jsx";
-import { VerticalDotsIcon } from "./../NextUIAlejandro/VerticalDotsIcon.jsx";
-import { SearchIcon } from "./../NextUIAlejandro/SearchIcon.jsx";
-import { ChevronDownIcon } from "./../NextUIAlejandro/ChevronDownIcon.jsx";
+import { PlusIcon } from "./../NextUI/PlusIcon.jsx";
+import { VerticalDotsIcon } from "./../NextUI/VerticalDotsIcon.jsx";
+import { SearchIcon } from "./../NextUI/SearchIcon.jsx";
+import { ChevronDownIcon } from "./../NextUI/ChevronDownIcon.jsx";
 
 const statusColorMap = {
   activo: "success",

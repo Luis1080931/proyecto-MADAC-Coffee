@@ -92,7 +92,7 @@ export function Variables () {
             if(mode === 'create') {
                 const baseURL = 'http://localhost:3000/variables/crearvariable'
 
-                await axios.post(baseURL, datosForm).then((response) => {
+                await axios.post(baseURL, datosForm, {headers:{token: token}}).then((response) => {
                     console.log(response)
                     if(response.status == 200 ){
                         setMensaje('Variable registrada con éxito')

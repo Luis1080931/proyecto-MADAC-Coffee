@@ -38,8 +38,8 @@ function App() {
                 <Route path="/analisis" element={<VistaAnalisis />} />
                 <Route path="/modalresultados" element={<ModalResultados />} />
                 <Route path="/slider" element={<SliderVertical />} />
-                {user.tipo_usuario === 'admin' && (
-                  <Route path="/usuarios" element={<Usuarios />} />
+                {user && user.tipo_usuario === 'admin' && (
+                <Route path="/usuarios" element={<Usuarios />} /> 
                 )}
               </Route>
             </Routes>
