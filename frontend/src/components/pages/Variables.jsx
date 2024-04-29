@@ -7,7 +7,7 @@ import Ejemplo from '../organisms/TableVariable.jsx';
 
 export function Variables () {
 
-    const baseURL = 'http://localhost:3000/variable/listar'
+    const baseURL = 'http://localhost:3000/variables/listarvariable'
 
     const [modalOpen, setModalOpen] = useState(false)
     const [ modalAcciones, setModalAcciones ] = useState(false)
@@ -16,13 +16,15 @@ export function Variables () {
     const [mensaje, setMensaje] = useState('')
     const [variables, setVariables] = useState([])
 
-    useEffect(() => {
+    useEffect(() => {   
         fetchData()
     },[])
 
+    const token = localStorage.getItem('token')
+
     const fetchData = async () => {
         try {
-            axios.get(baseURL).then((response) => {
+            axios.get(baseURL, {headers: {token: token}}).then((response) => {
                 console.log(response.data)
                 setVariables(response.data)
             })
@@ -45,7 +47,7 @@ export function Variables () {
         },
         {
             uid: 'tipo_analisis',
-            name: 'fk Tipo analisis',
+            name: 'Tipo analisis',
             sortable: true
         },
         {
@@ -60,9 +62,9 @@ export function Variables () {
         }
     ];
 
-    const handleDesactivar = (v_codigo) => {
+    const handleDesactivar = (codigo) => {
         try {
-            axios.put(`http://localhost:3000/variable/desactivar/${v_codigo}`, null).then((response) => {
+            axios.put(`http://localhost:3000/variables/desactivarVariable/${codigo}`, null, {headers: {token: token}}).then((response) => {
                 console.log(response.data);
                 const mensaje = response.data.message;
 
@@ -88,7 +90,7 @@ export function Variables () {
 
         try {
             if(mode === 'create') {
-                const baseURL = 'http://localhost:3000/variable/crear'
+                const baseURL = 'http://localhost:3000/variables/crearvariable'
 
                 await axios.post(baseURL, datosForm).then((response) => {
                     console.log(response)
@@ -117,7 +119,6 @@ export function Variables () {
             setModalOpen(false)
         } catch (error) {
             console.log('Error en el servidor ' + error)
-            alert('Se desactivo la variable con exito')
         }
     }
     const handleToggle = (mode, initialData) => {
@@ -129,7 +130,7 @@ export function Variables () {
     
     <div>
         <Header title="Variables" />
-        <div className='w-full flex flex-col justify-center items-center p-10'>
+        <div className='w-full max-w-[90%] ml-28 items-center p-10'>
 
            <AccionesModal
             isOpen={modalAcciones}

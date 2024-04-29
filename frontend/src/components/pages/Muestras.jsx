@@ -8,7 +8,7 @@ import Ejemplo from '../organisms/TableMuestras.jsx';
 
 export function Muestras () {
 
-    const baseURL = 'http://localhost:3000/muestra/listar'
+    const baseURL = 'http://localhost:3000/muestras/listarMuestra'
 
     const [modalOpen, setModalOpen] = useState(false)
     const [ modalAcciones, setModalAcciones ] = useState(false)
@@ -21,9 +21,11 @@ export function Muestras () {
         fetchData()
     }, [])
 
+    const token = localStorage.getItem('token')
+
     const fetchData = async () => {
         try {
-            const response = await axios.get(baseURL)
+            const response = await axios.get(baseURL, {headers: {token: token}})
             const formattedMuestras = response.data.map((result) => ({
                 ...result,
                 fecha: formatDate(result.fecha),
@@ -87,7 +89,7 @@ export function Muestras () {
         },
         {
             uid: 'fk_lote',
-            name: 'fk Lote',
+            name: 'Lote',
             sortable: true
         },
         {
@@ -104,7 +106,7 @@ export function Muestras () {
 
     const handleDesactivar = (codigo) => {
         try {
-            axios.put(`http://localhost:3000/muestra/desactivar/${codigo}`, null).then((response) => {
+            axios.put(`http://localhost:3000/muestras/desactivarMuestra/${codigo}`, null, {headers:{token: token}}).then((response) => {
                 console.log(response.data);
                 const mensaje = response.data.message;
     
@@ -119,21 +121,21 @@ export function Muestras () {
                 }
             })
         } catch (error) {
-            alert('Error con el servidor');
+            alert('Error con el servidor' + error);
         }
     }
     
     const id = localStorage.getItem('idUser')
     
     const handleSubmit = async (datosForm, e) => {
-        console.log(datosForm);
+        console.log(datosForm); 
         e.preventDefault()
 
         try {
             if (mode === 'create') {
-                const BaseURL = 'http://localhost:3000/muestra/crearmuestra'
+                const BaseURL = 'http://localhost:3000/muestras/crearMuestra'
 
-                await axios.post(BaseURL, datosForm).then((response) => {
+                await axios.post(BaseURL, datosForm, {headers: {token: token}}).then((response) => {
                     console.log(response);
                     if (response.status == 200) {
                         setMensaje('Muestra registrada con éxito')
@@ -176,7 +178,7 @@ export function Muestras () {
     
     <div>
         <Header title="Muestras" />
-        <div className='w-full flex flex-col justify-center items-center p-10'>
+        <div className='w-full max-w-[90%] ml-28 items-center p-10'>
             <AccionesModal
             isOpen={modalAcciones}
             onClose={() => setModalAcciones(false)}
@@ -190,7 +192,6 @@ export function Muestras () {
                 initialData={initialData}
                 handleSubmit={handleSubmit}
                 mode={mode}
-
             />
            <Ejemplo
                 clickDesactivar={handleDesactivar}

@@ -4,7 +4,7 @@ import { validationResult } from "express-validator";
 
 export const listarVariables = async (req, res) => {
     try {
-        let sql = 'SELECT v_codigo, v.nombre, v.fk_tipo_analisis AS tipo_analisis, ta.tipo_analisis, v.estado from variables AS v JOIN tipo_analisis AS ta ON v.fk_tipo_analisis = ta.id'
+        let sql = 'SELECT v_codigo, nombre, fk_tipo_analisis AS tipo_analisis, tipo_analisis, v.estado FROM variables AS v JOIN tipo_analisis ON fk_tipo_analisis = id'
         const [result] = await pool.query(sql)
 
         if (result.length > 0 ) {
@@ -33,7 +33,7 @@ export const CrearVariable = async (req, res) => {
         }
 
         const { nombre, fk_tipo_analisis } = req.body
-        const [result] = await pool.query("INSERT INTO variables (nombre, fk_tipo_analisis, estado) VALUES (? , ? , 1)", [nombre, fk_tipo_analisis])
+        const [result] = await pool.query("INSERT INTO variables (nombre, fk_tipo_analisis, estado) VALUES (? , ? , 1 )", [nombre, fk_tipo_analisis ])
         
 
         if (result.affectedRows > 0 ) {

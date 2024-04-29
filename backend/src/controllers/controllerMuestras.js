@@ -55,7 +55,7 @@ export const actualizarMuestra = async (req, res) => {
         const { codigo } = req.params;
         const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote } = req.body;
 
-        const [result] = await pool.query('UPDATE muestras SET fecha = IFNULL(?, fecha), cantidad = IFNULL(?, cantidad), quien_recibe = IFNULL(?, quien_recibe), proceso_fermentacion = IFNULL(?, proceso_fermentacion), humedad_cafe = IFNULL(?, humedad_cafe), altura_MSNM = IFNULL(?, altura_MSNM), tipo_secado = IFNULL(?, tipo_secado), observaciones = IFNULL(?, observaciones), fk_lote = IFNULL(?, fk_lote) WHERE codigo = ?', [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, codigo]);
+        const [result] = await pool.query('UPDATE muestras SET fecha = IFNULL(?, fecha), cantidad = IFNULL(?, cantidad), quien_recibe = IFNULL(?, quien_recibe), proceso_fermentacion = IFNULL(?, proceso_fermentacion), humedad_cafe = IFNULL(?, humedad_cafe), altura_MSNM = IFNULL(?, altura_MSNM), tipo_secado = IFNULL(?, tipo_secado), observaciones = IFNULL(?, observaciones), fk_lote = IFNULL(?, fk_lote), estado=1 WHERE codigo = ?', [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, codigo]);
 
         if (result.affectedRows > 0) {
             res.status(200).json({ message: 'La muestra ha sido actualizada correctamente.' });

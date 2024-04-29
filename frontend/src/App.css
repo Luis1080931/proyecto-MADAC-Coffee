@@ -1,5 +1,11 @@
+
+
 .nav-menu.active{
   left: 0;
+  transition: 550ms;
+  scroll-behavior: smooth;
+  z-index: 500;
+  overflow-x: hidden;
   transition: 550ms;
   scroll-behavior: smooth;
   z-index: 500;
@@ -7,7 +13,7 @@
 }
 
 .nav-menu{
-  background-color: #39A900;
+  background-color: #336699/75;
   width: 250px;
   height: 100vh;
   display: flex;
@@ -22,6 +28,7 @@
 
 .nav-menu-user.active{
   right: 0;
+  background-color: #336699;
   transition: 550ms;
   scroll-behavior: smooth;
   z-index: 500;
@@ -29,9 +36,7 @@
 }
 
 .nav-menu-user{
-  background-color: #39A900;
-  width: 250px;
-  height: 40vh;
+  background-color: #336699;
   display: flex;
   justify-content: center;
   position: fixed;
@@ -67,3 +72,4 @@
   height: 100vh;
   position: fixed;
 }
+

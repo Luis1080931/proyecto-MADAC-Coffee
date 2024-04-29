@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ModalFooter, Button } from '@nextui-org/react';
-
+import { ModalFooter, Button, Input, Textarea, Select, SelectItem } from '@nextui-org/react';
+import axios from 'axios'
 
 const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) => {
+
     const fecha = useRef(null);
     const cantidad = useRef(null);
     const quien_recibe = useRef(null);
@@ -12,6 +13,16 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
     const tipo_secado = useRef(null);
     const observaciones = useRef(null);
     const fk_lote = useRef(null);
+
+    const [lotes, setLotes] = useState([])
+    const token = localStorage.getItem('token')
+
+    useEffect(() => {
+      axios.get('http://localhost:3000/lotes/listar', {headers: {token: token}}).then((response) => {
+        console.log(response.data)
+        setLotes(response.data)
+      })
+    }, [])
 
     const [errors, setErrors] = useState({
       fecha: '',
@@ -40,10 +51,12 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
     }, [mode, initialData]);
 
     const handleFormSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
+
+        const fechaValue = new Date(fecha.current.value).toISOString().slice(0, 10);
       
         const datosForm = {
-          fecha: new Date(fecha.current.value),
+          fecha: fechaValue,
           cantidad: parseFloat(cantidad.current.value),
           quien_recibe: String(quien_recibe.current.value),
           proceso_fermentacion: proceso_fermentacion.current.value,
@@ -98,19 +111,20 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
         try {
           handleSubmit(datosForm, e);
         } catch (error) {
-          console.log('Error al conectar con el servidor' + error);
+          alert('Error al conectar con el servidor' + error);
+          console.log('Error al conectar con el servidor formulario ' + error);
         }
     };
 
 
 
     return (
+        <>
         <form method='post' onSubmit={handleFormSubmit}>
             <div className='flex flex-col'>
 
                 <label className='text-xl font-bold'> Fecha: </label>
-                <input
-                    className='p-2 rounded-lg w-80 h-12'
+                <Input
                     id='fecha'
                     type="date"
                     name="fecha"
@@ -123,8 +137,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Cantidad: </label>
-                <input
-                    className='p-2 rounded-lg w-80 h-12'
+                <Input
                     id='cantidad'
                     name='cantidad'
                     type="decimal"
@@ -136,8 +149,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Quien recibe: </label>
-                <input
-                    className='p-2 rounded-lg w-80 h-12'
+                <Input
                     id='quien_recibe'
                     type="text"
                     name="quien_recibe"
@@ -149,8 +161,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Proceso de fermentación: </label>
-                <input
-                    className='p-2 rounded-lg w-80 h-12'
+                <Input
                     id='proceso_fermentacion'
                     type="text"
                     name="proceso_fermentacion"
@@ -162,8 +173,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Humedad del café: </label>
-                <input
-                    className='p-2 rounded-lg w-80 h-12'
+                <Input
                     id='humedad_cafe'
                     type="text"
                     name="humedad_cafe"
@@ -175,8 +185,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Altura MSNM: </label>
-                <input
-                    className='p-2 rounded-lg w-80 h-12'
+                <Input
                     id='altura_MSNM'
                     type="decimal"
                     name="altura_MSNM"
@@ -188,8 +197,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Tipo de Secado: </label>
-                <input
-                    className='p-2 rounded-lg w-80 h-12'
+                <Input
                     id='tipo_secado'
                     type="text"
                     name="tipo_secado"
@@ -201,8 +209,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Observaciones: </label>
-                <textarea
-                    className='p-2 rounded-lg w-80'
+                <Textarea
                     id='observaciones'
                     name="observaciones"
                     ref={observaciones}
@@ -214,15 +221,13 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
             </div>
             <div className='flex-col md:flex'>
                 <label className='text-xl font-bold'> Lote: </label>
-                <input
-                    className='p-2 rounded-lg w-80 h-12'
-                    id='fk_lote'
-                    type="number"
-                    placeholder='Ingrese la fk del lote'
-                    name="fk_lote"
-                    ref={fk_lote}
-                    required={true}
-                />
+                <Select label='Selecciones el lote' ref={fk_lote} required={true}>
+                  {lotes.map(lote => (
+                    <SelectItem key={lote.codigo} value={lote.codigo} textValue={lote.codigo}>
+                      {lote.codigo}
+                    </SelectItem>
+                  ))}
+                </Select>
                 {errors.fk_lote && <span className='text-red-500'>{errors.fk_lote}</span>}
             </div>
             
@@ -241,6 +246,8 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
                 </Button>
             </ModalFooter>
         </form>
+        </>
+        
     );
 };
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ModalFooter, Button } from '@nextui-org/react';
+import { ModalFooter, Button, Input, Select, SelectItem } from '@nextui-org/react';
+import axios from 'axios';
 
 const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode, onClose}) => {
 
@@ -10,6 +11,14 @@ const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode, onClose}
     nombre: '',
     fk_tipo_analisis: ''
   })
+  const [tipoAnalisis, setTipoAnalisis] = useState([])
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/tipoanalisis/listar').then((response) => {
+      console.log(response.data)
+      setTipoAnalisis(response.data)
+    })
+  }, [])
 
   useEffect (()=>{
     if(mode == 'update' && initialdata) {
@@ -56,10 +65,9 @@ const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode, onClose}
       <form method='post' onSubmit={handleFormSubmit}>
         <div className='flex flex-col'>
           <label className='text-x1 font-bold'>Nombre: </label>
-            <input
-              className='p-2 rounded-lg w-80 h-12'
+            <Input
               type="text"
-              placeholder='Ingrese el nombre de la variable'
+              label='Ingrese el nombre de la variable'
               id='nombre'
               name="nombre"
               ref={nombre}
@@ -69,15 +77,13 @@ const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode, onClose}
               </div>
           <div className='flex-col md:fle'>
               <label className='text-xl font-bold'>tipo de análisis</label>
-              <input
-              className='p-2 rounded-lg w-80 h-12'
-              type="number"
-              placeholder='Ingrese Tipo de analisis'
-              id='fk_tipo_analisis'
-              name="fk_tipo_analisis"
-              ref={fk_tipo_analisis}
-              required= {true}
-            />
+              <Select label='Seleccione el tipo de análisis' ref={fk_tipo_analisis} required={true}>
+                {tipoAnalisis.map(tipo => (
+                  <SelectItem key={tipo.id} value={tipo.id}>
+                    {tipo.tipo_analisis}
+                  </SelectItem>
+                ))}
+              </Select>
             {errors.fk_tipo_analisis && <span className='text-red-500'>{errors.fk_tipo_analisis}</span>}
             </div>
             <ModalFooter>
