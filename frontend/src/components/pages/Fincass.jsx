@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from '../molecules/Header.jsx';
-import axios from 'axios';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
 import Ejemplo from '../organisms/TableFinca.jsx'
 import FincasModal from '../templates/Fincas.jsx'; 
+import axiosClient from '../axiosClient.js';
 
 export function Fincas() {
-    //URL LISTAR LOTES
-    const baseURL='http://localhost:3000/fincas/listar';
     //TOKEN
     const token = localStorage.getItem('token');
 
@@ -28,7 +26,7 @@ export function Fincas() {
 
     const peticionGet = async () => {
         try {
-            await axios.get(baseURL,{headers:{token: token}}).then((response)=>{
+            await axiosClient.get('/fincas/listar').then((response)=>{
                 console.log(response.data)
                 setFincas(response.data)
             })        
@@ -85,10 +83,10 @@ const data = [
 
     const peticionDesactivar = async (codigo) => {
         try {
-            axios.put(`http://localhost:3000/fincas/desactivar/${codigo}`,null,{headers:{token:token}}).then((response)=>{
+            axiosClient.put(`/fincas/desactivar/${codigo}`,null).then((response)=>{
                 console.log(response.data)
                 if(response.status==200){
-                    setMensaje('Se desactivo con exito la finca')
+                    setMensaje(response.data.message)
                     setModalAcciones(true)
                     peticionGet()
                 }else{
@@ -111,13 +109,12 @@ const data = [
         try{
         
         if(mode === 'create'){
-            const baseURL = 'http://localhost:3000/fincas/registrar'
             
-            await axios.post(baseURL, datosForm).then((response)=>{
+            await axiosClient.post('/fincas/registrar', datosForm).then((response)=>{
                 console.log(response)
 
                 if(response.status == 200){
-                    setMensaje('Finca registrada con exito')
+                    setMensaje(response.data.message)
                     setModalAcciones(true)
                     setModalOpen(false)
                     peticionGet()
@@ -126,13 +123,12 @@ const data = [
                 }
             })
         }else if(mode==='update'){
-            const updateURL = `http://localhost:3000/fincas/actualizar/${id}`
 
-            await axios.put(updateURL,datosForm).then((response)=>{
+            await axiosClient.put(`/fincas/actualizar/${id}`,datosForm).then((response)=>{
                 console.log(response); 
 
                 if(response.status==200){
-                    setMensaje('Se actualizo la finca con exito')
+                    setMensaje(response.data.message)
                     setModalAcciones(true)
                     setModalOpen(false)
                     peticionGet()

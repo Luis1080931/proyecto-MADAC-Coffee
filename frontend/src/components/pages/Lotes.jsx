@@ -4,10 +4,9 @@ import axios from 'axios';
 import AccionesModal from '../organisms/ModalAcciones.jsx'
 import Ejemplo from '../organisms/TableLotes.jsx'
 import LotesModal from '../templates/Lotes.jsx';
+import axiosClient from '../axiosClient.js';
 
 export function Lotes () {
-    //URL LISTAR FINCAS
-    const baseURL='http://localhost:3000/lotes/listar';
     //TOKEN
     const token = localStorage.getItem('token');
  
@@ -27,7 +26,7 @@ export function Lotes () {
     //PETICION GET PARA TRAER LOS DATOS DE LOS LOTES REGISTRADOS
     const peticionGet = async () => {
       try{
-        await axios.get(baseURL,{headers:{token: token}}).then((response)=>{
+        await axiosClient.get('/lotes/listar').then((response)=>{
             console.log(response.data)
             setLotes(response.data)
         })
@@ -80,10 +79,10 @@ const peticionDesactivar = async (codigo) => {
     // console.log("ID del lotes a desactivar:", codigo);
    
     try {
-        axios.put(`http://localhost:3000/lotes/desactivar/${codigo}`,null,{headers:{token:token}}).then((response)=>{
+        axiosClient.put(`/lotes/desactivar/${codigo}`,null).then((response)=>{
             console.log(response.data)
             if(response.status==200){
-                setMensaje('Se desactivo con exito el lote')
+                setMensaje(response.data.message)
                 setModalAcciones(true)
                 peticionGet()
             }else{
@@ -109,13 +108,12 @@ const peticionDesactivar = async (codigo) => {
         try{
         
         if(mode === 'create'){
-            const baseURL = 'http://localhost:3000/lotes/registrar'
             
-            await axios.post(baseURL, datosForm).then((response)=>{
+            await axiosClient.post('/lotes/registrar', datosForm).then((response)=>{
                 console.log(response)
 
                 if(response.status == 200){
-                    setMensaje('Lote registrado con exito')
+                    setMensaje(response.data.message)
                     setModalAcciones(true)
                     setModalOpen(false)
                     peticionGet()
@@ -124,13 +122,12 @@ const peticionDesactivar = async (codigo) => {
                 }
             })
         }else if(mode==='update'){
-            const updateURL = `http://localhost:3000/lotes/actualizar/${id}`
 
-            await axios.put(updateURL,datosForm).then((response)=>{
+            await axiosClient.put(`/lotes/actulizar/${id}`,datosForm).then((response)=>{
                 console.log(response); 
 
                 if(response.status==200){
-                    setMensaje('Se actualizo el lote con exito')
+                    setMensaje(response.data.message)
                     setModalAcciones(true)
                     setModalOpen(false)
                     peticionGet()

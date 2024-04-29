@@ -4,11 +4,10 @@ import MuestrasModal from '../templates/MuestrasModal.jsx';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
 import axios from 'axios';
 import Ejemplo from '../organisms/TableMuestras.jsx';
+import axiosClient from '../axiosClient.js';
 
 
 export function Muestras () {
-
-    const baseURL = 'http://localhost:3000/muestras/listarMuestra'
 
     const [modalOpen, setModalOpen] = useState(false)
     const [ modalAcciones, setModalAcciones ] = useState(false)
@@ -25,7 +24,7 @@ export function Muestras () {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(baseURL, {headers: {token: token}})
+            const response = await axiosClient.get('/muestras/listarMuestra')
             const formattedMuestras = response.data.map((result) => ({
                 ...result,
                 fecha: formatDate(result.fecha),
@@ -107,11 +106,11 @@ export function Muestras () {
 
     const handleDesactivar = (codigo) => {
         try {
-            axios.put(`http://localhost:3000/muestras/desactivarMuestra/${codigo}`, null, {headers:{token: token}}).then((response) => {
+            axiosClient.put(`/muestras/desactivarMuestra/${codigo}`, null).then((response) => {
                 console.log(response.data);
             
                 if(response.status == 200) { 
-                    setMensaje('Se desactivo con éxito la Muestra')
+                    setMensaje(response.data.message)
                     setModalAcciones(true)
                     fetchData()
                 } else {
@@ -130,12 +129,11 @@ export function Muestras () {
 
         try {
             if (mode === 'create') {
-                const BaseURL = 'http://localhost:3000/muestras/crearMuestra'
 
-                await axios.post(BaseURL, datosForm, {headers: {token: token}}).then((response) => {
+                await axiosClient.post('/muestras/crearMuestra', datosForm).then((response) => {
                     console.log(response);
                     if (response.status == 200) {
-                        setMensaje('Muestra registrada con éxito')
+                        setMensaje(response.data.message)
                         setModalAcciones(true)
                         setModalOpen(false)
                         fetchData()
@@ -143,12 +141,11 @@ export function Muestras () {
                 })
 
             } else if (mode === 'update') {
-                const UpdateURL = `http://localhost:3000/muestra/actualizar/${id}`
-                await axios.put(UpdateURL, datosForm).then((response) => {
+                await axiosClient.put(`/muestra/actualizar/${id}`, datosForm).then((response) => {
                     console.log(response);
 
                     if (response.status == 200) {
-                        setMensaje('Se actualizó La Muestra con éxito')
+                        setMensaje(response.data.message)
                         setModalAcciones(true)
                         setModalOpen(false)
                         fetchData()

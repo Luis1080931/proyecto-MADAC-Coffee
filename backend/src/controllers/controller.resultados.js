@@ -125,6 +125,32 @@ export const desactivarResultado = async (req, res) => {
     }
 }
 
+export const activarResultado = async (req, res) => {
+    try {
+        let id = req.params.id
+        let sql = `UPDATE resultados SET estado = 1 WHERE codigo = ?`
+
+        const [rows] = await pool.query(sql, [id])
+
+        if(rows.affectedRows>0){
+            res.status(200).json({
+                status: 200,
+                message: 'Se activo el resultado con exito'
+            })
+        }else{
+            res.status(403).json({
+                status: 403,
+                message: 'No se pudo activar el resultado'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: 'Error del servidor' + error
+        })
+    }
+}
+
 export const buscarResultados = async (req, res) => {
 
     try {

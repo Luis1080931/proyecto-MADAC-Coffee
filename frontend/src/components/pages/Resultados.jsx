@@ -5,7 +5,8 @@ import AccionesModal from '../organisms/ModalAcciones.jsx';
 import Ejemplo from '../organisms/Table.jsx';
 import ResultadosModal from './../templates/Resultados.jsx';
 import { ResultadoProvider } from '../../context/ResultadosContext.jsx';
-import VariableInputModal from "./../organisms/ModalResultados.jsx";
+import { Modal, ModalBody, Input, Button, ModalContent, ModalHeader, Select, SelectItem } from '@nextui-org/react';
+import axiosClient from '../axiosClient.js';
 
 export function Resultados () {
 
@@ -18,8 +19,6 @@ export function Resultados () {
     const [initialData, setInitialData ] = useState(null)
     const [mensaje, setMensaje] = useState('')
     const [results, setResults] = useState([]);
-    const [modalRegister, setModalRegister] = useState(false)
-    
 
   useEffect(() => {
     fetchData();
@@ -27,7 +26,7 @@ export function Resultados () {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(baseURL, { headers: { token: token } });
+      const response = await axiosClient.get(baseURL);
       const formattedResults = response.data.map((result) => ({
         ...result,
         fecha: formatDate(result.fecha),
@@ -93,7 +92,7 @@ export function Resultados () {
     const handleDesactivar = (idResultado) => {
         
         try {
-            axios.put(`http://localhost:3000/resultados/desactivar/${idResultado}`, null, {headers: {token: token}}).then((response) => {
+            axiosClient.put(`/resultados/desactivar/${idResultado}`, null, {headers: {token: token}}).then((response) => {
             console.log(response.data)
             if(response.status==200){
                 setMensaje(response.data.message)
@@ -110,6 +109,26 @@ export function Resultados () {
         
     }
 
+    const handleActivar = (id) => {
+        
+      try {
+          axiosClient.put(`/resultados/activar/${id}`, null, {headers: {token: token}}).then((response) => {
+          console.log(response.data)
+          if(response.status==200){
+              setMensaje(response.data.message)
+              setModalAcciones(true)
+              fetchData()
+          }else{
+              alert('Error')
+          }
+          
+      })
+      } catch (error) {
+          alert('Error de servidor' + error)
+      }
+      
+  }
+
     const id = localStorage.getItem('idUser')
     
 
@@ -124,7 +143,7 @@ export function Resultados () {
                     console.log(response)
 
                     if(response.status == 200){
-                        setMensaje('Resultado registrado con éxito')
+                        setMensaje(response.data.message)
                         setModalAcciones(true)
                         setModalOpen(false)
                         fetchData()
@@ -135,13 +154,11 @@ export function Resultados () {
                 })
              } else if(mode === 'update'){
 
-                    const updateURL = `http://localhost:3000/resultados/actualizar/${id}`
-
-                    axios.put(updateURL, datosForm, {headers: {token: token}} ).then((response) => {
+                    axiosClient.put(`/resultados/actualizar/${id}`, datosForm).then((response) => {
                         console.log(response)
     
                         if(response.status == 200){
-                            setMensaje('Se actualizó el resultado con éxito')
+                            setMensaje(response.data.message)
                             setModalAcciones(true)
                             setModalOpen(false)
                             fetchData()
@@ -163,16 +180,137 @@ export function Resultados () {
         setMode(mode)
     }
 
+  
+    
+        const [variables, setVariables] = useState([]);
+        const [currentIndex, setCurrentIndex] = useState(0);
+        const [variablesBase, setVariablesBase] = useState([]);
+        const [selectedDate, setSelectedDate] = useState(new Date());
+        const [selectedAnalysis, setSelectedAnalysis] = useState('');
+        const [analisis, setAnalisis] = useState([])
+        const [modalRegister, setModalRegister] = useState(false)
+        
+      
+        const handleChange = (e, index) => {
+          const newVariables = [...variables];
+          newVariables[index] = e.target.value;
+          setVariables(newVariables);
+        };
+      
+        const handleNext = () => {
+          setCurrentIndex(currentIndex + 1);
+        };
+      
+        const handleDateChange = (e) => {
+          setSelectedDate(e.target.value);
+        };
+      
+        const handleAnalysisChange = (e) => {
+          setSelectedAnalysis(e.target.value);
+        };
+      
+        useEffect(() => {
+          axiosClient.get('/variables/listarVariable')
+            .then((response) => {
+              console.log(response.data)
+              setVariablesBase(response.data);
+              setVariables(Array(response.data.length).fill(''));
+            })  
+            .catch((error) => {
+              console.error('Error fetching variables:', error);
+            });
+        }, []);
+      
+        useEffect(() => {
+          axiosClient.get('/analisis/listar').then((response) => {
+            console.log(response.data)
+            const analisisFilter = response.data.filter(anali => anali.estado == 'activo')
+            setAnalisis(analisisFilter)
+          })
+        },[])
+        
+        const handleSubmitRegister = async () => {
+          try {
+           
+            for (let i = 0; i < variables.length; i++) {
+              const variable = variables[i]
+              const variableBase = variablesBase[currentIndex]
+              
+              const data = {
+                fk_analisis: selectedAnalysis,
+                fecha: new Date(selectedDate).toISOString(),
+                fk_variables: variablesBase[i]?.v_codigo, 
+                valor: variable 
+              };
+        
+              await axiosClient.post('/resultados/registrar', data).then((response) => {
+                console.log(`Variable ${i + 1} registrada correctamente:`, data);
+                console.log(response.data)
+                if(response.status == 200){
+                    setMensaje(response.data.message)
+                    setModalAcciones(true)
+                    setModalRegister(false)
+                    
+                    fetchData()
+                }
+              })
+        
+              
+            }
+            setModalRegister(false);
+          } catch (error) {
+            console.error('Error al enviar variables:', error);
+          }
+      };
+
   return (
     <ResultadoProvider>
     <div>
         <Header title="Resultados" />
         <div className='w-full max-w-[90%] ml-28 items-center p-10'>
 
-        <VariableInputModal 
-            open={modalOpen}
-            onClose={() => setModalOpen(false)}
-        />
+        <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)}>
+              <ModalContent>
+                <ModalHeader> Registro de resultados de los análisis </ModalHeader>
+                <ModalBody>
+                <Select 
+                    label="Seleccione el análisis"
+                    value={selectedAnalysis}
+                    onChange={handleAnalysisChange}
+                    required
+                  >
+                    {analisis.map(analisi => (
+                      <SelectItem key={analisi.codigo} value={analisi.codigo} textValue={analisi.codigo}>
+                        {analisi.codigo}
+                      </SelectItem>
+                    ))}
+                  </Select>
+                  <Input 
+                    type='date'
+                    placeholder='Ingrese la fecha'
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                  />
+                  {currentIndex < variables.length ? (
+                    <>
+                      <h2>{`Variable ${currentIndex + 1}:`} {variablesBase[currentIndex]?.nombre} </h2>
+                      <Input
+                        placeholder="Ingrese el valor"
+                        required={true}
+                        value={variables[currentIndex]}
+                        onChange={(e) => handleChange(e, currentIndex)}
+                      />
+                      <Button color='primary' onClick={handleNext}>Next</Button>
+                    </>
+                  ) : (
+                    <>
+                      <h2>Registro completo</h2>
+                      <Button color='primary' onClick={handleSubmitRegister}>Registrar</Button>
+                    </>
+                  )}
+                </ModalBody>
+              </ModalContent>
+            </Modal>
 
         <AccionesModal 
             isOpen={modalAcciones}
@@ -192,6 +330,8 @@ export function Resultados () {
 
            <Ejemplo 
                 clickDesactivar={handleDesactivar}
+                clickActivar={handleActivar}
+                clickRegistrar={() => setModalRegister(true)}
                 clickEditar={() => handleToggle('update', id)}
                 data={data}
                 results={results}

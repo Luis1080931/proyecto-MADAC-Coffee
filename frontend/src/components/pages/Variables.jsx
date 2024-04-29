@@ -4,10 +4,9 @@ import VariablesModal from '../templates/VariablesModal.jsx';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
 import  axios from 'axios';
 import Ejemplo from '../organisms/TableVariable.jsx';
+import axiosClient from '../axiosClient.js';
 
 export function Variables () {
-
-    const baseURL = 'http://localhost:3000/variables/listarvariable'
 
     const [modalOpen, setModalOpen] = useState(false)
     const [ modalAcciones, setModalAcciones ] = useState(false)
@@ -24,7 +23,7 @@ export function Variables () {
 
     const fetchData = async () => {
         try {
-            axios.get(baseURL, {headers: {token: token}}).then((response) => {
+            axiosClient.get('/variables/listarvariable').then((response) => {
                 console.log(response.data)
                 setVariables(response.data)
             })
@@ -64,12 +63,12 @@ export function Variables () {
 
     const handleDesactivar = (codigo) => {
         try {
-            axios.put(`http://localhost:3000/variables/desactivarVariable/${codigo}`, null, {headers: {token: token}}).then((response) => {
+            axiosClient.put(`/variables/desactivarVariable/${codigo}`, null).then((response) => {
                 console.log(response.data);
             
 
             if(response.status == 200) {
-                setMensaje('Se desactivo con exito la varible')
+                setMensaje(response.data.message)
                 setModalAcciones(true)
                 fetchData()
             }else{
@@ -89,24 +88,22 @@ export function Variables () {
 
         try {
             if(mode === 'create') {
-                const baseURL = 'http://localhost:3000/variables/crearvariable'
 
-                await axios.post(baseURL, datosForm).then((response) => {
+                await axiosClient.post('/variables/crearvariable', datosForm).then((response) => {
                     console.log(response)
                     if(response.status == 200 ){
-                        setMensaje('Variable registrada con éxito')
+                        setMensaje(response.data.message)
                         setModalAcciones(true)
                         setModalOpen(false)
                         fetchData()
                     }
                 })
             }else if (mode === 'update'){
-                const UpdateURL = `http://localhost:3000/variable/actualizar/${id}`
-                await axios.put(UpdateURL, datosForm).then((response) => {
+                await axiosClient.put(`/variable/actualizar/${id}`, datosForm).then((response) => {
                     console.log(response);
 
                     if(response.status == 200){
-                        setMensaje('Se actualizó La variable con éxito')
+                        setMensaje(response.data.message)
                         setModalAcciones(true)
                         setModalOpen(false)
                         fetchData()

@@ -4,7 +4,7 @@ import { Header } from '../molecules/Header.jsx';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
 import AnalisisModal from '../templates/Analisis.jsx';
 import Ejemplo from '../organisms/TableAnalisis.jsx';
-import { render } from 'react-dom';
+import axiosClient from '../axiosClient.js';
 
 function VistaAnalisis() {
     const [results, setResults] = useState([]);
@@ -61,10 +61,10 @@ function VistaAnalisis() {
     const token = localStorage.getItem('token');
 
     const handleDesactivar = async (id) => {
-        await axios.put(`http://localhost:3000/analisis/desactivar/${id}`, null, {headers: {token: token}}).then((response) => {
+        await axiosClient.put(`/analisis/desactivar/${id}`, null).then((response) => {
             console.log(response.data)
             if(response.status==200){
-                setMensaje('Se desactivó con exito el análisis')
+                setMensaje(response.data.message)
                 setModalAccionesOpen(true)
                 setModalOpen(false)
                 fetchData();
@@ -75,11 +75,9 @@ function VistaAnalisis() {
         });
     };
 
-    const url = 'http://localhost:3000/analisis/listar';
-
     const fetchData = async () => {
         try {
-            const response = await axios.get(url, {headers: {token: token}})
+            const response = await axiosClient.get('/analisis/listar')
 
             const formattedResults = response.data.map((result) => ({
                 ...result,
@@ -107,11 +105,10 @@ function VistaAnalisis() {
         e.preventDefault()
         try {
             if(mode == 'create'){
-                const baseURL = 'http://localhost:3000/analisis/registrar';
-                axios.post(baseURL, data, {headers: {token: token}}).then((response) => {
+                axiosClient.post('/analisis/registrar', data).then((response) => {
                     console.log(response.data)
                     if(response.status == 201){
-                        setMensaje('Análisis registrado con éxito')
+                        setMensaje(response.data.message)
                         setModalAccionesOpen(true)
                         setModalOpen(false)
                         fetchData();
@@ -120,9 +117,8 @@ function VistaAnalisis() {
                     }
                     
                 });
-            }else if(mode == 'update'){
-                const updateURL = `http://localhost:3000/analisis/actualizar/${id}`
-                axios.put(updateURL,data, {headers: {token: token}}).then((response) => {
+            }else if(mode == 'update'){ 
+                axiosClient.put(`/analisis/actualizar/${id}`,data).then((response) => {
                     console.log(response.data)
                     if(response.status == 201){
                         setMensaje(response.data.message)

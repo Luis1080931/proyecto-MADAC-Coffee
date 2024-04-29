@@ -3,7 +3,7 @@ import { Header } from '../molecules/Header';
 import TableVariedades from '../organisms/TableVariedades';
 import AccionesModal from '../organisms/ModalAcciones';
 import VariedadesModal from '../templates/Variedades';
-import axios from 'axios';
+import axiosClient from '../axiosClient';
 
 const VistaVariedades = () => {
 
@@ -17,10 +17,10 @@ const VistaVariedades = () => {
     const token = localStorage.getItem('token');
 
     const handleDesactivar = async (id) => {
-        await axios.put(`http://localhost:3000/variedades/desactivar/${id}`, null, {headers: {token: token}}).then((response) => {
+        await axiosClient.put(`/variedades/desactivar/${id}`, null).then((response) => {
             console.log(response.data)
             if(response.status==200){
-                setMensaje('Se desactivó con éxito la variedad')
+                setMensaje(response.data.message)
                 setModalAccionesOpen(true)
                 setModalOpen(false)
                 fetchData();
@@ -31,11 +31,9 @@ const VistaVariedades = () => {
         });
     };
 
-    const url = 'http://localhost:3000/variedades/listar';
-
     const fetchData = async () => {
         try {
-            const response = await axios.get(url, {headers: {token: token}});
+            const response = await axiosClient.get('/variedades/listar');
             console.log("variedades", response.data)
             setResults(response.data)
 
@@ -85,10 +83,10 @@ const VistaVariedades = () => {
         e.preventDefault()
         try {
             if(mode == 'create'){
-                const response = await axios.post('http://localhost:3000/variedades/registrar', data, {headers: {token: token}});
+                const response = await axiosClient.post('/variedades/registrar', data);
                 console.log(response.data)
                 if(response.status==201){
-                    setMensaje('Se creó con éxito la variedad')
+                    setMensaje(response.data.message)
                     setModalAccionesOpen(true)
                     setModalOpen(false)
                     fetchData();
@@ -96,10 +94,10 @@ const VistaVariedades = () => {
                     alert('Error')
                 }
             }else if(mode == 'update'){
-                const response = await axios.put(`http://localhost:3000/variedades/actualizar/${id}`, data, {headers: {token: token}});
+                const response = await axiosClient.put(`/variedades/actualizar/${id}`, data);
                 console.log(response.data)
                 if(response.status==201){
-                    setMensaje('Se actualizó con éxito la variedad')
+                    setMensaje(response.data.message)
                     setModalAccionesOpen(true)
                     setModalOpen(false)
                     fetchData();

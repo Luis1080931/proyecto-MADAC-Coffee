@@ -5,7 +5,6 @@ import axios from 'axios';
 const VariableInputModal = ({ open, onClose }) => {
   const [variables, setVariables] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
   const [variablesBase, setVariablesBase] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedAnalysis, setSelectedAnalysis] = useState('');

@@ -16,19 +16,18 @@ import {
   Pagination,
 } from "@nextui-org/react";
 import { PlusIcon } from "./../NextUI/PlusIcon.jsx";
-import { VerticalDotsIcon } from "./../NextUI/VerticalDotsIcon.jsx";
 import { SearchIcon } from "./../NextUI/SearchIcon.jsx";
 import { ChevronDownIcon } from "./../NextUI/ChevronDownIcon.jsx";
 import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
 import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
-import VariableInputModal from "./ModalResultados.jsx";
+import ButtonActivar from "../atoms/ButtonActivar.jsx";
 
 const statusColorMap = {
   activo: "success",
   inactivo: "danger",
 };
 
-export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, data, results }) {
+export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, clickRegistrar, data, results }) {
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
@@ -124,8 +123,15 @@ const handleUpdateClick = (id) => {
             </Dropdown>
           </div> */
           <div className="flex flex-row">
-            <ButtonActualizar click={() =>  handleUpdateClick(result.codigo)} /> 
-            <ButtonDesactivar click={() => clickDesactivar(result.codigo)} />
+            <ButtonActualizar click={() =>  handleUpdateClick(result.codigo)} />
+            {result.estado === 'activo' ? (
+                <ButtonDesactivar click={() => clickDesactivar(result.codigo)} />
+              ) : 
+              (
+                <ButtonActivar click={() => clickActivar(result.codigo)} />
+              )
+            } 
+            
           </div>
           
         );
@@ -207,7 +213,7 @@ const handleUpdateClick = (id) => {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button className="text-xl" color="primary" endContent={<PlusIcon />} onClick={() => setModalOpen(true)}>
+            <Button className="text-xl" color="primary" endContent={<PlusIcon />} onClick={clickRegistrar}>
               Registrar
             </Button>
           </div>
@@ -270,10 +276,7 @@ const handleUpdateClick = (id) => {
   return (
     
     <div className="flex items-center justify-center">
-      <VariableInputModal 
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-      />
+      
       <Table
         aria-label="Tabla"
         isHeaderSticky

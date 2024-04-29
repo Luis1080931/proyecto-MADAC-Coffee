@@ -4,6 +4,7 @@ import UsuariosModal from '../templates/Usuarios.jsx';
 import axios from 'axios';
 import Ejemplo from '../organisms/TableUsers.jsx';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
+import axiosClient from '../axiosClient.js';
 
 export function Usuarios() {
 
@@ -62,7 +63,7 @@ export function Usuarios() {
     const fetchData = async () => {
         try {
             
-            axios.get('http://localhost:3000/usuarios/listar', null, {headers: {token: token}}).then((response) => {
+            axiosClient.get('/usuarios/listar', null).then((response) => {
                 console.log(response.data)
                 setResults(response.data.usuarios)
             })
@@ -75,12 +76,11 @@ export function Usuarios() {
     const actualizar = async (userId, formData) => {
         console.log(userId)
         try {
-            const baseURL = `http://localhost:3000/usuarios/actualizar/${userId}`;
-            await axios.put(baseURL, formData, {headers: {token: token}}).then((response) => {
+            await axiosClient.put(`/usuarios/actualizar/${userId}`, formData).then((response) => {
                 console.log(response)
 
                 if(response.status == 201){
-                    setMensaje('Usuario actualizado exitosamente')
+                    setMensaje(response.data.message)
                     setModalAcciones(true)
                     setModalOpen(false)
                     fetchData()
@@ -97,12 +97,11 @@ export function Usuarios() {
     const handleUpdate = async (userId) => {
         console.log("ID del usuario a actualizar:", userId);
         try {
-            const baseURL = `http://localhost:3000/usuarios/desactivar/${userId}`;
-            await axios.put(baseURL, null, { headers: { token: token } }).then((response) => {
+            await axiosClient.put(`/usuarios/desactivar/${userId}`, null).then((response) => {
                 console.log("se desactivo correctamente el usuario");
 
                 if(response.status == 201) {
-                    setMensaje('Usuario desactivado con éxito');
+                    setMensaje(response.data.message);
                     setModalAcciones(true)
                     setModalOpen(false)
                     fetchData();
@@ -127,14 +126,12 @@ export function Usuarios() {
     const handleSubmit = async (formData, e) => {
         console.log(formData)
         try {
-            const token = localStorage.getItem('token');
             if (mode === 'create') {
-                const baseURL = 'http://localhost:3000/usuarios/registrar';
-                await axios.post(baseURL, formData, { headers: { token: token } }).then((response) => {
+                await axiosClient.post('/usuarios/registrar', formData).then((response) => {
                     console.log(response.data)
 
                     if(response.status === 201){
-                        setMensaje('Se registró con éxito el usuario')
+                        setMensaje(response.data.message)
                         setModalAcciones(true)
                         setModalOpen(false)
                         fetchData();
