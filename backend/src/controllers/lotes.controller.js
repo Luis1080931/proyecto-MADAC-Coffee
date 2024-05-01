@@ -90,6 +90,32 @@ export const desactivar_Lotes=async(req,res)=>{
     }
 }
 
+export const activarLotes = async (req, res) => {
+    try {
+        const { codigo } = req.params
+        let sql = `UPDATE lotes SET estado = 1 WHERE codigo = ?`
+
+        const [rows] = await pool.query(sql, [codigo])
+
+        if(rows.affectedRows>0){
+            res.status(200).json({
+                status: 200,
+                message: 'Se activó con éxito el lote'
+            })
+        }else{
+            res.status(403).json({
+                status: 403,
+                message: 'No se pudo activar el lote'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: "Error del servidor" + error
+        })
+    }
+}
+
 export const actualizarLotes =async(req,res)=>{
     try{
 

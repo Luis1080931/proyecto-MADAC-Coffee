@@ -94,8 +94,19 @@ const peticionDesactivar = async (codigo) => {
     }
 }
 
-
-
+const handleActivar = async (codigo) => {
+    axiosClient.put(`/lotes/activar/${codigo}`).then((response) => {
+        console.log(response.data)
+        if(response.status==200){
+            setMensaje(response.data.message)
+            setModalAcciones(true)
+            peticionGet()
+        }else{
+            setMensaje(response.data.message)
+            setModalAcciones(true)
+        }
+    })
+}
 
 
 
@@ -174,6 +185,7 @@ const peticionDesactivar = async (codigo) => {
                 />
                 <Ejemplo
                 clickDesactivar={peticionDesactivar}
+                clickActivar={handleActivar}
                 clickEditar={() => handleToggle('update', id)}
                 clickRegistrar={() => handleToggle('create')}
                 data={data}

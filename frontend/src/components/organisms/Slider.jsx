@@ -34,12 +34,12 @@ const Ruler = () => {
         <div className="ruler">
         {[...Array(5)].map((_, index) => (
           <div key={index} className="ruler-item">
+            <div className="number">{index + 6}</div>
             <div className="lineRuler"></div>
             <div className="lineRuler"></div>
             <div className="lineRuler line-center"></div>
             <div className="lineRuler"></div>
             <div className="lineRuler"></div>
-            <div className="number">{index + 6}</div>
           </div>
         ))}
       </div>

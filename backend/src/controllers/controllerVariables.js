@@ -131,3 +131,29 @@ export const buscarvariable = async (req, res) => {
         })
     }
 }
+
+export const activarVariable = async (req, res) => {
+    try {
+        const { codigo } = req.params
+        let sql = `UPDATE variables SET estado = 1 WHERE v_codigo = ?`
+
+        const [rows] = await pool.query(sql, [codigo])
+
+        if(rows.affectedRows>0){
+            res.status(200).json({
+                status: 200,
+                message: 'Se activó con exito la variable'
+            })
+        }else{
+            res.status(403).json({
+                status: 403,
+                message: 'Error  al intentar activar la variable'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: "Error del servidor" + error
+        })
+    }
+}

@@ -80,6 +80,20 @@ export function Variables () {
         }
     }
 
+    const handleActivar = async (codigo) => {
+        axiosClient.put(`/variables/activarVariable/${codigo}`).then((response) => {
+            console.log(response.data)
+            if(response.status == 200) {
+                setMensaje(response.data.message)
+                setModalAcciones(true)
+                fetchData()
+            }else{
+                setMensaje(response.data.message)
+                setModalAcciones(true)
+            }
+        })
+    }
+
     const id = localStorage.getItem('idUser')
 
     const handleSubmit = async (datosForm, e  ) => {
@@ -145,6 +159,7 @@ export function Variables () {
             />
             <Ejemplo
                 clickDesactivar={handleDesactivar}
+                clickActivar={handleActivar}
                 clickEditar={() => handleToggle('update', id)}
                 clickRegistrar={() => handleToggle('create')}
                 data={data}

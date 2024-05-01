@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { listarVariables, CrearVariable, ActualizarVariable, desactivarVariable, buscarvariable } from "../controllers/controllerVariables.js";
+import { listarVariables, CrearVariable, ActualizarVariable, desactivarVariable, buscarvariable, activarVariable } from "../controllers/controllerVariables.js";
 import { validacionVariable } from "../../validate/variable.js";
 import { validarToken } from "../controllers/seguridad.controller.js";
 
@@ -11,6 +11,7 @@ routeVariables.post("/crearvariable",/* validarToken, */ /* validacionVariable, 
 
 routeVariables.put("/actualizarvariable/:codigo",validarToken, ActualizarVariable)
 routeVariables.put("/desactivarVariable/:codigo",validarToken, desactivarVariable)
+routeVariables.put("/activarVariable/:codigo",validarToken, activarVariable)
 routeVariables.get("/buscarvariable/:codigo",validarToken, buscarvariable)
 
 

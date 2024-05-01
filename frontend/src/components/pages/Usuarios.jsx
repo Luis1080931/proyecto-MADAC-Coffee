@@ -149,6 +149,21 @@ export function Usuarios() {
         }
     };
 
+    const handleActivar = async (identificacion) => {
+        await axiosClient.put(`/usuarios/activar/${identificacion}`).then((response) => {
+            console.log(response.data)
+            if(response.status == 200){
+                setMensaje(response.data.message)
+                setModalAcciones(true)
+                fetchData()
+            }else{
+                setMensaje(response.data.message)
+                setModalAcciones(true)
+                fetchData()
+            }
+        })
+    }
+
     return (
         <>
             <Header title="Usuarios"/>       
@@ -173,6 +188,7 @@ export function Usuarios() {
                     <Ejemplo
                         clickRegistrar={() => handleToggle('create')}
                         clickDesactivar={handleUpdate}
+                        clickActivar={handleActivar}
                         clickEditar={() => handleToggle('update')}
                         data={data}
                         results={results}

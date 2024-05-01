@@ -19,13 +19,16 @@ import { PlusIcon } from "../NextUiSergio/PlusIcon.jsx"
 import { VerticalDotsIcon } from "../NextUiSergio/VerticalDotsIcon.jsx";
 import { SearchIcon } from "../NextUiSergio/SearchIcon.jsx";
 import { ChevronDownIcon } from "../NextUiSergio/ChevronIcon.jsx";
+import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
+import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
+import ButtonActivar from "../atoms/ButtonActivar.jsx";
 
 const statusColorMap = {
   activo: "success",
   inactivo: "danger",
 };
 
-export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, data, fincas }) {
+export default function Ejemplo({ clickEditar, clickDesactivar,clickActivar, clickRegistrar, data, fincas }) {
 
 
   const [filterValue, setFilterValue] = React.useState("");
@@ -107,17 +110,12 @@ const handleUpdateClick = (id) => {
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Menu de acciones">
-                <DropdownItem onClick={() => handleUpdateClick(finca.codigo)}>Editar</DropdownItem>
-                <DropdownItem onClick={() => clickDesactivar(finca.codigo)}>Desactivar</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            <ButtonActualizar click={() => handleUpdateClick(finca.codigo)} />
+            {finca.estado === 'activo' ? (
+              <ButtonDesactivar click={() => clickDesactivar(finca.codigo)} />
+            ) : (
+              <ButtonActivar click={() => clickActivar(finca.codigo)} />
+            )}
           </div>
         );
       default:
@@ -167,7 +165,7 @@ const handleUpdateClick = (id) => {
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
-            className="w-full sm:max-w-[44%]"
+            className="w-full sm:max-w-[44%] text-xl"
             placeholder="Buscar..."
             startContent={<SearchIcon />}
             value={filterValue}
@@ -178,7 +176,7 @@ const handleUpdateClick = (id) => {
   
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
+                <Button className="text-xl" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
                   Estado
                 </Button>
               </DropdownTrigger>
@@ -198,17 +196,17 @@ const handleUpdateClick = (id) => {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />} onClick={clickRegistrar}>
+            <Button className="text-xl" color="primary" endContent={<PlusIcon />} onClick={clickRegistrar}>
               Registrar
             </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {fincas.length} fincas</span>
-          <label className="flex items-center text-default-400 text-small">
+          <span className="text-default-400 text-xl">Total {fincas.length} fincas</span>
+          <label className="flex items-center text-default-400 text-xl">
             Columnas por página:
             <select
-              className="bg-transparent outline-none text-default-400 text-small"
+              className="bg-transparent outline-none text-default-400 text-xl"
               onChange={onRowsPerPageChange}
             >
               <option value="5">5</option>
@@ -232,7 +230,7 @@ const handleUpdateClick = (id) => {
   const bottomContent = React.useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-between items-center">
-        <span className="w-[30%] text-small text-default-400">
+        <span className="w-[30%] text-xl text-default-400">
           {selectedKeys === "all"
             ? "All items selected"
             : `${selectedKeys.size} de ${filteredItems.length} seleccionados`}
@@ -247,10 +245,10 @@ const handleUpdateClick = (id) => {
           onChange={setPage}
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
+          <Button className="text-xl" color="primary" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
             Atras
           </Button>
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
+          <Button className="text-xl" color='primary' isDisabled={pages === 1} size="md" variant="ghost" onPress={onNextPage}>
             Siguiente
           </Button>
         </div>
@@ -280,6 +278,7 @@ const handleUpdateClick = (id) => {
   <TableHeader columns={data}>
     {(column) => (
       <TableColumn
+        className="bg-[#3C6E9F] text-white text-lg"
         key={column.uid}
         align={column.uid === "actions" ? "center" : "start"}
         allowsSorting={column.sortable}
@@ -288,7 +287,7 @@ const handleUpdateClick = (id) => {
       </TableColumn>
     )}
   </TableHeader>
-  <TableBody emptyContent={"No hay fincas registrados"} items={sortedItems}>
+  <TableBody emptyContent={"No hay fincas registradas"} items={sortedItems}>
     {(item) => (
       <TableRow key={item.codigo}>
         {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}

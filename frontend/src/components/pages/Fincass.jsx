@@ -98,7 +98,19 @@ const data = [
         }
     }
 
-
+    const handleActivar = async (codigo) => {
+        axiosClient.put(`/fincas/activar/${codigo}`).then((response) => {
+            console.log(response.data)
+            if(response.status==200){
+                setMensaje(response.data.message)
+                setModalAcciones(true)
+                peticionGet()
+            }else{
+                setMensaje(response.data.message)
+                setModalAcciones(true)
+            }
+        })
+    }
 
 
      //PETICION PARA ACTIVAR FINCAS
@@ -174,6 +186,7 @@ const data = [
 
                 <Ejemplo 
                 clickDesactivar={peticionDesactivar}
+                clickActivar={handleActivar}
                 clickEditar={() => handleToggle('update', id)}
                 clickRegistrar={() => handleToggle('create')}
                 data={data}

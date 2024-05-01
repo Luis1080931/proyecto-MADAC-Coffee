@@ -73,7 +73,22 @@ function VistaAnalisis() {
             }
             
         });
-    };
+    }
+
+    const handleActivar = async (codigo) => {
+        axiosClient.put(`/analisis/activar/${codigo}`).then((response) => {
+            console.log(response.data)
+            if(response.status==200){
+                setMensaje(response.data.message)
+                setModalAccionesOpen(true)
+                setModalOpen(false)
+                fetchData();
+            }else{
+                setMensaje(response.data.message)
+                setModalAccionesOpen(true)
+            }
+        })
+    }
 
     const fetchData = async () => {
         try {
@@ -157,6 +172,7 @@ function VistaAnalisis() {
                 />
                 <Ejemplo 
                     clickDesactivar={handleDesactivar}
+                    clickActivar={handleActivar}
                     clickEditar={() => handleToggle('update', id)}
                     clickRegistrar={() => handleToggle('create')}
                     data={data}

@@ -9,7 +9,7 @@ import { Variables } from "./pages/Variables.jsx"
 import VistaVariedades from "./pages/VistaVariedades.jsx"
 import VistaAnalisis from "./pages/VistaAnalisis.jsx"
 import { Resultados } from "./pages/Resultados.jsx"
-import ModalResultados from "./organisms/ModalResultados.jsx"
+import NotFoundPage from "./pages/NotFoundPages.jsx"
 import { AuthProvider } from "../context/authContext.jsx"
 import { NextUIProvider } from "@nextui-org/react"
 import ProtectedRoute from "../Protected.jsx"
@@ -36,12 +36,12 @@ function App() {
                 <Route path="/muestras" element={<Muestras />} />
                 <Route path="/variedades" element={<VistaVariedades />} />
                 <Route path="/analisis" element={<VistaAnalisis />} />
-                <Route path="/modalresultados" element={<ModalResultados />} />
                 <Route path="/slider" element={<SliderVertical />} />
                 {user && user.tipo_usuario === 'admin' && (
                   <Route path="/usuarios" element={<Usuarios />} />
                 )}
               </Route>
+              <Route path="*" element={<NotFoundPage />}/>
             </Routes>
 
         </BrowserRouter>

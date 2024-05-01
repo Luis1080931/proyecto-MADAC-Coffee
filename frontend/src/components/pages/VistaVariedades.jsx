@@ -16,21 +16,6 @@ const VistaVariedades = () => {
 
     const token = localStorage.getItem('token');
 
-    const handleDesactivar = async (id) => {
-        await axiosClient.put(`/variedades/desactivar/${id}`, null).then((response) => {
-            console.log(response.data)
-            if(response.status==200){
-                setMensaje(response.data.message)
-                setModalAccionesOpen(true)
-                setModalOpen(false)
-                fetchData();
-            }else{
-                alert('Error')
-            }
-            
-        });
-    };
-
     const fetchData = async () => {
         try {
             const response = await axiosClient.get('/variedades/listar');
@@ -110,6 +95,36 @@ const VistaVariedades = () => {
         }
     }
 
+    const handleDesactivar = async (id) => {
+        await axiosClient.put(`/variedades/desactivar/${id}`, null).then((response) => {
+            console.log(response.data)
+            if(response.status==200){
+                setMensaje(response.data.message)
+                setModalAccionesOpen(true)
+                setModalOpen(false)
+                fetchData();
+            }else{
+                alert('Error')
+            }
+            
+        });
+    }
+
+    const handleActivar = async (codigo) => {
+        axiosClient.put(`/variedades/activar/${codigo}`).then((response) => {
+            console.log(response.data)
+            if(response.status==200){
+                setMensaje(response.data.message)
+                setModalAccionesOpen(true)
+                setModalOpen(false)
+                fetchData();
+            }else{
+                setMensaje(response.data.message)
+                setModalAccionesOpen(true)
+            }
+        })
+    }
+
     return (
         <div>
             <Header title='Variedades' />
@@ -133,6 +148,7 @@ const VistaVariedades = () => {
 
                 <TableVariedades 
                     clickDesactivar={handleDesactivar}
+                    clickActivar={handleActivar}
                     clickEditar={() => handleToogle('update', id)}
                     clickRegistrar={() => handleToogle('create')}
                     data={data}

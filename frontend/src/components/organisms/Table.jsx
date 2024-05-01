@@ -109,19 +109,6 @@ const handleUpdateClick = (id) => {
         );
       case "actions":
         return (
-          /* <div>
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Menu de acciones">
-                <DropdownItem onClick={() =>  handleUpdateClick(result.codigo)}>Editar</DropdownItem>
-                <DropdownItem onClick={() => clickDesactivar(result.codigo)}>Desactivar</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div> */
           <div className="flex flex-row">
             <ButtonActualizar click={() =>  handleUpdateClick(result.codigo)} />
             {result.estado === 'activo' ? (
