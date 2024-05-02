@@ -10,7 +10,7 @@ const SliderVertical = () => {
   const [cuerpo, setCuerpo] = useState(0)
 
   const handleNivel = (index) => {
-    setnivel((index + 1) * 6); // Actualiza la posición del slider al hacer clic en una línea
+    setnivel((index + 1) * 6); 
   };
 
   const handleSeco = (index) => {
@@ -45,6 +45,53 @@ const Ruler = () => {
       </div>
     )
 };
+const [values, setValues] = useState(Array(5).fill(false));
+const [tazaValues, setTazaValues] = useState(Array(5).fill(false));
+const [dulzuraValues, setDulzuraValues] = useState(Array(5).fill(false));
+const [total, setTotal] = useState(0);
+const [taza, setTaza] = useState(0)
+const [dulzura, setDulzura] = useState(0)
+
+const punteoTotal = parseInt(total) + parseInt(taza) + parseInt(dulzura)
+
+const handleCheckboxUniformidad = (index) => {
+    const updatedValues = values.map((_, i) => (i === index));
+    setValues(updatedValues);
+    const sum = updatedValues.reduce((acc, value, i) => acc + (value ? (i + 1) * 2 : 0), 0);
+    setTotal(sum);
+  };
+
+  const handleCheckboxTaza = (index) => {
+    const updatedValues = tazaValues.map((_, i) => (i === index));
+    setTazaValues(updatedValues);
+    const sum = updatedValues.reduce((acc, value, i) => acc + (value ? (i + 1) * 2 : 0), 0);
+    setTaza(sum);
+  };
+
+  const handleCheckboxDulzura = (index) => {
+    const updatedValues = dulzuraValues.map((_, i) => (i === index));
+    setDulzuraValues(updatedValues);
+    const sum = updatedValues.reduce((acc, value, i) => acc + (value ? (i + 1) * 2 : 0), 0);
+    setDulzura(sum);
+  };
+
+  const [numeroTazas, setNumeroTazas] = useState(0);
+  const [numeroIntensidad, setNumeroIntensidad] = useState(0);
+  const [resultado, setResultado] = useState(0);
+
+  const handleNumeroTazas = (e) => {
+    const newValue = parseInt(e.target.value);
+    setNumeroTazas(newValue);
+    setResultado(newValue * numeroIntensidad);
+  };
+
+  const handleNumeroIntensidad = (e) => {
+    const newValue = parseInt(e.target.value);
+    setNumeroIntensidad(newValue);
+    setResultado(numeroTazas * newValue);
+  };
+
+  const totalPunteoFinal = parseInt(punteoTotal) - parseInt(resultado)
 
   return (
     <>
@@ -188,18 +235,25 @@ const Ruler = () => {
             <div className='border-t-2 border-b-2 border-r-2 border-black'>
                 <div className='flex flex-row ml-2'>
                     <label className='text-xl font-bold'> Uniformidad </label>
-                    <div className='w-12 h-7 border-2 border-black mb-3'>
-                        <label></label>
+                    <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
+                        <label>{total}</label>
                     </div>
                 </div>
                 <div className='flex justify-center items-centerx mb-9'>
                     <div className="checkbox-group">
-                        {[...Array(5)].map((_, index) => (
-                            <input key={index} type="checkbox" className="checkbox" />
-                        ))} 
+                    {[...Array(5)].map((_, index) => (
+                        <React.Fragment key={index}>
+                        <input
+                            type="checkbox"
+                            className="checkbox"
+                            checked={values[index]}
+                            onChange={() => handleCheckboxUniformidad(index)}
+                        />
+                        </React.Fragment>
+                    ))}
                     </div>
                 </div>
-            </div>
+                </div>
             <div className='border-b-2 border-r-2 border-black'>
                 <div className='flex flex-row ml-2'>
                     <label className='text-xl font-bold mr-12'> Balance </label>
@@ -216,30 +270,44 @@ const Ruler = () => {
             <div className='border-t-2 border-b-2 border-r-2 border-black'>
                 <div className='flex flex-row ml-2'>
                     <label className='text-xl font-bold'> Taza limpia </label>
-                    <div className='w-12 h-7 border-2 border-black mb-3'>
-                        <label></label>
+                    <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
+                        <label>{taza}</label>
                     </div>
                 </div>
                 <div className='flex justify-center items-centerx mb-9'>
                     <div className="checkbox-group">
-                        {[...Array(5)].map((_, index) => (
-                            <input key={index} type="checkbox" className="checkbox" />
-                        ))} 
+                    {[...Array(5)].map((_, index) => (
+                        <React.Fragment key={index}>
+                        <input
+                            type="checkbox"
+                            className="checkbox"
+                            checked={tazaValues[index]}
+                            onChange={() => handleCheckboxTaza(index)}
+                        />
+                        </React.Fragment>
+                    ))}
                     </div>
                 </div>
             </div>
             <div className='border-t-2 border-b-2 border-r-2 border-black'>
                 <div className='flex flex-row ml-2'>
                     <label className='text-xl font-bold mr-8'> Dulzura </label>
-                    <div className='w-12 h-7 border-2 border-black mb-3'>
-                        <label></label>
+                    <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
+                        <label>{dulzura}</label>
                     </div>
                 </div>
                 <div className='flex justify-center items-centerx mb-7'>
                     <div className="checkbox-group">
-                        {[...Array(5)].map((_, index) => (
-                            <input key={index} type="checkbox" className="checkbox" />
-                        ))} 
+                    {[...Array(5)].map((_, index) => (
+                        <React.Fragment key={index}>
+                        <input
+                            type="checkbox"
+                            className="checkbox"
+                            checked={dulzuraValues[index]}
+                            onChange={() => handleCheckboxDulzura(index)}
+                        />
+                        </React.Fragment>
+                    ))}
                     </div>
                 </div>
             </div>
@@ -260,8 +328,8 @@ const Ruler = () => {
                         <label className='text-xs font-bold'> Punteo </label>
                         <label className='text-xs font-bold'> total </label>
                     </div>
-                    <div className='w-12 h-7 border-2 border-black mb-3'>
-                        <label htmlFor=""></label>
+                    <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
+                        <label>{punteoTotal}</label>
                     </div>
                     
                 </div>
@@ -279,20 +347,26 @@ const Ruler = () => {
                     <div className='flex flex-row ml-4'>
                         <div className='flex flex-col'>
                             <label className='text-xs font-bold'> # Tazas </label>
-                            <div className='w-7 h-7 border-2 border-black mb-3'></div>
+                            <div className='w-10 h-7 border-2 border-black mb-3'>
+                                <input className='w-9' type="number" value={numeroTazas} onChange={handleNumeroTazas}/>
+                            </div>
                         </div>
                         <div className='flex items-center justify-center'>
                             <label className='text-xl font-bold mr-4'> X </label>
                         </div>
                         <div className='flex flex-col'>
                             <label className='text-xs font-bold'> Intensidad </label>
-                            <div className='w-7 h-7 border-2 border-black mb-3'></div>
+                            <div className='w-10 h-7 border-2 border-black mb-3'>
+                                <input className='w-9' type="number" name="numeroIntensidad" value={numeroIntensidad} onChange={handleNumeroIntensidad} />
+                            </div>
                         </div>
                         <div className='flex items-center justify-center'>
                             <label className='text-xl font-bold'> = </label>
                         </div>
                         <div className='flex flex-col mt-4 ml-4'>
-                            <div className='w-12 h-7 border-2 border-black mb-3'></div>
+                            <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
+                                <label>{resultado}</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -304,10 +378,13 @@ const Ruler = () => {
         <div className='flex justify-between'>
             <div className='flex items-end'>
                 <label className='font-bold'> Notas: </label>
+                <textarea name="" id="" cols="160" rows="2"></textarea>
             </div>
             <div className='flex flex-row items-center'>
                 <label className='font-bold'> Punteo Final </label>
-                <div className='w-16 h-12 border-2 border-black'></div>
+                <div className='w-16 h-12 border-2 border-black flex justify-center items-center'>
+                    <label>{totalPunteoFinal}</label>
+                </div>
             </div>
             
 
@@ -317,4 +394,5 @@ const Ruler = () => {
   );
 };
 
-export default SliderVertical;
+
+export default SliderVertical

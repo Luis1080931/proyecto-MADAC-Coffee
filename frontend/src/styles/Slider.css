@@ -27,37 +27,37 @@
     background-color: brown; 
   }
   
-  .ruler {
-    display: flex;
-    margin-left: 8px;
-  }
-  
-  .ruler-item {
-    display: flex;
-    flex-direction: row;
-    gap: 3px;
-  }
-  
-  .lineRuler {
-    width: 2px;
-    height: 10px; 
-    background-color: #000; 
-  }
-  
-  .line-center {
-    height: 20px;
-  }
-  
-  .number {
-    font-size: 12px;
-    font-weight: bold;
-    margin-top: 18px; 
-  }
+    .ruler {
+      display: flex;
+      margin-left: 8px;
+    }
+    
+    .ruler-item {
+      display: flex;
+      flex-direction: row;
+      gap: 3px;
+    }
+    
+    .lineRuler {
+      width: 2px;
+      height: 10px; 
+      background-color: #000; 
+    }
+    
+    .line-center {
+      height: 20px;
+    }
+    
+    .number {
+      font-size: 12px;
+      font-weight: bold;
+      margin-top: 18px; 
+    }
 
-  .checkbox-group {
-    display: flex;
-  }
-  
-  .checkbox {
-    margin-right: 15px; 
-  }
+    .checkbox-group {
+      display: flex;
+    }
+    
+    .checkbox {
+      margin-right: 15px; 
+    }
