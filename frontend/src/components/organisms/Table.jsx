@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -14,6 +14,8 @@ import {
   DropdownItem,
   Chip,
   Pagination,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
 import { PlusIcon } from "./../NextUI/PlusIcon.jsx";
 import { SearchIcon } from "./../NextUI/SearchIcon.jsx";
@@ -21,10 +23,12 @@ import { ChevronDownIcon } from "./../NextUI/ChevronDownIcon.jsx";
 import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
 import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
 import ButtonActivar from "../atoms/ButtonActivar.jsx";
+import axiosClient from "../axiosClient.js";
 
 const statusColorMap = {
   activo: "success",
   inactivo: "danger",
+  todos: 'primary'
 };
 
 export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, clickRegistrar, data, results }) {
@@ -38,12 +42,26 @@ export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, cl
     direction: "ascending",
   });
   const [page, setPage] = React.useState(1);
-  const [modalOpen, setModalOpen] = useState(false)
  
   const statusOptions = [
+    {name: "todos", uid: "todos"},
     {name: "Activo", uid: "activo"},
     {name: "Inactivo", uid: "inactivo"},
   ];
+
+  const [analisisValue, setAnalisisValue] = useState([])
+
+  useEffect(() => {
+    axiosClient.get('/analisis/listar')
+      .then((response) => {
+        console.log(response.data)
+        setAnalisisValue(response.data)
+      })
+      .catch((error) => {
+        console.error('Error al obtener datos:', error)
+      });
+  }, []);
+  
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -57,7 +75,6 @@ export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, cl
         String(result.analisis).toLowerCase().includes(filterValue.toLowerCase()) ||
         result.variable.toLowerCase().includes(filterValue.toLowerCase()) ||
         result.valor.toLowerCase().includes(filterValue.toLowerCase()) ||
-        result.observaciones.toLowerCase().includes(filterValue.toLowerCase()) ||
         result.estado.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
@@ -176,8 +193,30 @@ const handleUpdateClick = (id) => {
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
+          
           <div className="flex gap-3">
-  
+          
+            <Dropdown>
+              <DropdownTrigger className="hidden sm:flex">
+                <Button className="text-xl" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
+                  Análisis
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                disallowEmptySelection
+                aria-label="Menu de analisis"
+                selectionMode="multiple"
+                aria-labelledby="Analisis"
+              >
+                {analisisValue.map((analisi) => (
+                  <DropdownItem key={analisi.codigo} value={analisi.codigo} textValue={analisi.codigo} className="capitalize">
+                    {analisi.codigo}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+
+            </Dropdown>
+            
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button className="text-xl" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">

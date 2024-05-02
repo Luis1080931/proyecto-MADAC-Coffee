@@ -70,11 +70,6 @@ export function Resultados () {
             sortable: true 
         },
         { 
-            uid: "observaciones",
-            name: "Observaciones",
-            sortable: false 
-        },
-        { 
             uid: "estado",
             name: "Estado",
             sortable: true 
@@ -266,7 +261,7 @@ export function Resultados () {
   return (
     <ResultadoProvider>
     <div>
-        <Header title="Resultados" />
+        <Header title="Resultado de los análisis" />
         <div className='w-full max-w-[90%] ml-28 items-center p-10'>
 
         <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)}>

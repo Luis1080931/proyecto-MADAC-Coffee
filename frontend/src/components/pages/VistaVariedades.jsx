@@ -127,7 +127,7 @@ const VistaVariedades = () => {
 
     return (
         <div>
-            <Header title='Variedades' />
+            <Header title='Variedades del café' />
             <div className='w-full max-w-[90%] ml-28 items-center p-10'>
 
                 <AccionesModal 

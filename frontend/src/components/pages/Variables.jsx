@@ -139,7 +139,7 @@ export function Variables () {
   return (
     
     <div>
-        <Header title="Variables" />
+        <Header title="Variables de análisis físico" />
         <div className='w-full max-w-[90%] ml-28 items-center p-10'>
 
            <AccionesModal

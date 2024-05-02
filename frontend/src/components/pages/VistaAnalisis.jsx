@@ -153,7 +153,7 @@ function VistaAnalisis() {
 
     return (
         <div>
-            <Header title='Análisis' />
+            <Header title='Análisis físico y sensorial' />
             <div className='w-full max-w-[90%] ml-28 items-center p-10'>
                 <AccionesModal 
                     isOpen={modalAccionesOpen}

@@ -20,8 +20,6 @@ export function Muestras () {
         fetchData()
     }, [])
 
-    const token = localStorage.getItem('token')
-
     const fetchData = async () => {
         try {
             const response = await axiosClient.get('/muestras/listarMuestra')
@@ -186,7 +184,7 @@ export function Muestras () {
   return (
     
     <div>
-        <Header title="Muestras" />
+        <Header title="Recepción de muestras" />
         <div className='w-full max-w-[90%] ml-28 items-center p-10'>
             <AccionesModal
             isOpen={modalAcciones}
