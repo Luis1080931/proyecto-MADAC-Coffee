@@ -91,7 +91,7 @@ export function Variables () {
         try {
             if(mode === 'create') {
                 const baseURL = 'http://localhost:3000/variables/crearvariable'
-
+/* url de la api */
                 await axios.post(baseURL, datosForm, {headers:{token: token}}).then((response) => {
                     console.log(response)
                     if(response.status == 200 ){
