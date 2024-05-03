@@ -7,7 +7,7 @@ import { Image } from 'react-native-elements';
 const FormVariables = () => {
   const [nombre, setNombre] = useState('');
   const [fk_tipo_analisis, setFk_tipo_analisis] = useState('');
-
+/* ip */
   const ip = "10.193.144.233";
 
   const isValidText = (text) => {
