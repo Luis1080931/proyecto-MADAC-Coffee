@@ -91,7 +91,7 @@ export function Variables () {
         try {
             if(mode === 'create') {
                 const baseURL = 'http://localhost:3000/variables/crearvariable'
-/* url de la api */
+
                 await axios.post(baseURL, datosForm, {headers:{token: token}}).then((response) => {
                     console.log(response)
                     if(response.status == 200 ){
@@ -102,8 +102,8 @@ export function Variables () {
                     }
                 })
             }else if (mode === 'update'){
-                const UpdateURL = `http://localhost:3000/variable/actualizar/${id}`
-                await axios.put(UpdateURL, datosForm).then((response) => {
+                const UpdateURL = `http://localhost:3000/variables/actualizarvariable/${id}`
+                axios.put(UpdateURL, datosForm, {headers: {token:token}}).then((response) => {
                     console.log(response);
 
                     if(response.status == 200){

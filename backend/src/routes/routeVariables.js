@@ -9,7 +9,7 @@ routeVariables.get("/listarvariable", validarToken, listarVariables)
 
 routeVariables.post("/crearvariable", validarToken, validacionVariable,  CrearVariable)
 
-routeVariables.put("/actualizarvariable/:codigo",validarToken,validacionVariable, ActualizarVariable)
+routeVariables.put("/actualizarvariable/:v_codigo",validarToken,validacionVariable, ActualizarVariable)
 routeVariables.put("/desactivarVariable/:codigo",validarToken, desactivarVariable)
 routeVariables.get("/buscarvariable/:codigo",validarToken, buscarvariable)
 

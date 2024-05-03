@@ -25,7 +25,7 @@ const statusColorMap = {
   inactivo: "danger",
 };
 
-export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, data, muestras }) {
+export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar,clickActivar, data, muestras }) {
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
@@ -38,6 +38,7 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
   const [page, setPage] = React.useState(1);
  
   const statusOptions = [
+    {name: "todos", uid: "todos"},
     {name: "Activo", uid: "activo"},
     {name: "Inactivo", uid: "inactivo"},
   ];
@@ -109,8 +110,8 @@ const handleUpdateClick = (id) => {
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
+            <div className="relative flex justify-end items-center gap-2">
+             <Dropdown>
               <DropdownTrigger>
                 <Button isIconOnly size="sm" variant="light">
                   <VerticalDotsIcon className="text-default-300" />
@@ -119,12 +120,11 @@ const handleUpdateClick = (id) => {
               <DropdownMenu aria-label="Menu de acciones">
                 <DropdownItem onClick={() => handleUpdateClick(muestra.codigo)}>Editar</DropdownItem>
                 <DropdownItem onClick={() => clickDesactivar(muestra.codigo)}>
-  {muestra.estado === 'activo' ? 'Desactivar' : 'Activar'}
-</DropdownItem>
-
+                {muestra.estado === 'activo' ? 'Desactivar' : 'Activar'}
+               </DropdownItem>
               </DropdownMenu>
             </Dropdown>
-          </div>
+          </div> 
         );
       default:
         return cellValue;

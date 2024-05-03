@@ -103,7 +103,7 @@ const handleUpdateClick = (id) => {
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
+             <Dropdown>
               <DropdownTrigger>
                 <Button isIconOnly size="sm" variant="light">
                   <VerticalDotsIcon className="text-default-300" />
@@ -113,6 +113,7 @@ const handleUpdateClick = (id) => {
                 <DropdownItem onClick={() => handleUpdateClick(variable.v_codigo)}>Editar</DropdownItem>
                 <DropdownItem onClick={() => clickDesactivar(variable.v_codigo)}> {variable.estado === 'activo' ? 'Desactivar' : 'Activar'}</DropdownItem>
               </DropdownMenu>
+              
             </Dropdown>
           </div>
         );

@@ -26,7 +26,6 @@ export const CrearMuestra = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json(errors.array());
     }
-
         const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote } = req.body;
         const [resultado] = await pool.query("INSERT INTO muestras (fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)", [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote]);
 

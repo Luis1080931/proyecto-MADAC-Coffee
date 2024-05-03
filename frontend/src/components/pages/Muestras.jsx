@@ -146,8 +146,8 @@ export function Muestras () {
                 })
 
             } else if (mode === 'update') {
-                const UpdateURL = `http://localhost:3000/muestra/actualizar/${id}`
-                await axios.put(UpdateURL, datosForm).then((response) => {
+                const UpdateURL = `http://localhost:3000/muestras/actualizarMuestra/${id}`
+                await axios.put(UpdateURL, datosForm, {headers: {token:token}}).then((response) => {
                     console.log(response);
 
                     if (response.status == 200) {
