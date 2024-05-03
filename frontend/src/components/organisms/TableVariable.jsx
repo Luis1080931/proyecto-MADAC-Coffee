@@ -109,11 +109,12 @@ const handleUpdateClick = (id) => {
                   <VerticalDotsIcon className="text-default-300" />
                 </Button>
               </DropdownTrigger>
+              {/* menu */}
               <DropdownMenu aria-label="Menu de acciones">
                 <DropdownItem onClick={() => handleUpdateClick(variable.v_codigo)}>Editar</DropdownItem>
                 <DropdownItem onClick={() => clickDesactivar(variable.v_codigo)}> {variable.estado === 'activo' ? 'Desactivar' : 'Activar'}</DropdownItem>
               </DropdownMenu>
-              
+
             </Dropdown>
           </div>
         );
