@@ -11,7 +11,7 @@ const RouteMuestras = Router();
 RouteMuestras.get("/listarMuestra", validarToken, listarMuestras);
 //validation datos 
 RouteMuestras.post("/crearMuestra",validarToken, validacionMuestra,CrearMuestra);
-
+/* rutas puestas */
 RouteMuestras.put("/actualizarMuestra/:codigo",validarToken, actualizarMuestra);
 RouteMuestras.put("/desactivarMuestra/:codigo",validarToken, desactivarMuestras);
 RouteMuestras.get("/buscarmuestra/:codigo",validarToken, BuscarMuestra);
