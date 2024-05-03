@@ -1,7 +1,6 @@
 import React from 'react'
-import FormResultados from '../molecules/FormVariedades.jsx';
+import FormVariedades from '../molecules/FormVariedades.jsx';
 import { ModalAcciones } from '../organisms/Modal.jsx';
-import { Logo } from '../atoms/LogoProyecto.jsx';
 
 function VariedadesModal ({ open, onClose, handleSubmit, actionLabel, title, mode, initialData }){
 
@@ -9,7 +8,7 @@ function VariedadesModal ({ open, onClose, handleSubmit, actionLabel, title, mod
       <>
 
       <ModalAcciones open={open} onClose={onClose} title={title}> 
-        <FormResultados handleSubmit={handleSubmit} actionLabel={actionLabel} mode={mode} initialData={initialData} onClose={onclose} />
+        <FormVariedades onClose={onClose} handleSubmit={handleSubmit} actionLabel={actionLabel} mode={mode} initialData={initialData} />
       </ModalAcciones>
       
       </>

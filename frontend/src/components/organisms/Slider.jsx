@@ -94,7 +94,7 @@ const handleCheckboxUniformidad = (index) => {
   const totalPunteoFinal = parseInt(punteoTotal) - parseInt(resultado)
 
   return (
-    <>
+    <div className='flex flex-col justify-center '>
     <div className='flex flex-row h-44'>
         <div className='border-2 border-black p-2'>
             <label className='text-xl font-bold'> Muestra </label>
@@ -390,7 +390,7 @@ const handleCheckboxUniformidad = (index) => {
 
         </div>
     </div>
-    </>
+    </div>
   );
 };
 

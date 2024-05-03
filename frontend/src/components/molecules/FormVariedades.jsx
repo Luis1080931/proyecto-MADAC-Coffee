@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Input, ModalFooter } from '@nextui-org/react'
 
-const FormVariedades = ({ handleSubmit, actionLabel, mode, initialData, onClose }) => {
+const FormVariedades = ({ handleSubmit, onClose, actionLabel, mode, initialData }) => {
 
   const nombre = useRef(null)
 
@@ -36,7 +36,7 @@ const FormVariedades = ({ handleSubmit, actionLabel, mode, initialData, onClose 
           />
         </div>
         <ModalFooter>
-          <Button color="danger" variant="light" onPress={onClose}>
+        <Button color="danger" variant="flat" onPress={onClose}>
             Cerrar
           </Button>
           <Button type='submit' color="primary">

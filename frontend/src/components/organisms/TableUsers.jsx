@@ -16,7 +16,6 @@ import {
   Pagination,
 } from "@nextui-org/react";
 import { PlusIcon } from "./../NextUI/PlusIcon.jsx";
-import { VerticalDotsIcon } from "./../NextUI/VerticalDotsIcon.jsx";
 import { SearchIcon } from "./../NextUI/SearchIcon.jsx";
 import { ChevronDownIcon } from "./../NextUI/ChevronDownIcon.jsx";
 import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";

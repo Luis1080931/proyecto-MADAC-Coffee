@@ -16,7 +16,7 @@ export const ResultadoProvider = ({ children }) => {
       {children}
     </ResultadoContext.Provider>
   );
-};
+}
 
 export const useResultado = () => useContext(ResultadoContext)
 

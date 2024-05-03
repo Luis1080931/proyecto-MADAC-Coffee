@@ -1,27 +1,33 @@
 import React, { useEffect, useRef, useState } from 'react'
-import axios from 'axios'
-import {ModalFooter, Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import {ModalFooter, Button, Input, Select, SelectItem } from "@nextui-org/react";
+import axiosClient from '../axiosClient';
 
 const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel }) => {
-
-    const token = localStorage.getItem('token')
 
     const fecha = useRef(null)
     const fk_analisis = useRef(null)
     const fk_variables = useRef(null)
     const valor = useRef(null)
-    const observaciones = useRef(null)
 
     useEffect(() => {
-        if(mode == 'update' && initialData){
-            /* const formatDate = initialData.fecha.substring(0,10) */
-            fecha.current.value = initialData.fecha
-            fk_analisis.current.value = initialData.fk_analisis
-            fk_variables.current.value = initialData.fk_variables
-            valor.current.value = initialData.valor
-            observaciones.current.value = initialData.observaciones
+        if (mode === 'update' && initialData && initialData.fecha) {
+            const fechaDate = new Date(initialData.fecha);
+            if (!isNaN(fechaDate.getTime())) {
+                const formattedDate = fechaDate.toISOString().split('T')[0];
+                fecha.current.value = formattedDate;
+                fk_analisis.current.value = initialData.fk_analisis;
+                fk_variables.current.value = initialData.fk_variables;
+                valor.current.value = initialData.valor;
+            } else {
+                console.error('initialData.fecha no es una instancia válida de Date');
+            }
+        } else {
+            console.error('No se proporcionó initialData o initialData.fecha está indefinido');
         }
-    }, [mode, initialData])
+    }, [mode, initialData]);
+    
+    
+
 
      const handleFormSubmit = async (e) => {
         e.preventDefault()
@@ -33,11 +39,10 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                 fk_analisis: parseInt(fk_analisis.current.value),
                 fk_variables: parseInt(fk_variables.current.value),
                 valor: valor.current.value,
-                observaciones: observaciones.current.value
             }
             /* console.log('Datos:', data); */
             handleSubmit(datosForm, e)
-
+            
         } catch (error) {
             alert('Error de servidor' + error)
         }
@@ -46,7 +51,7 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
     const [analisis, setAnalisis] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:3000/analisis/listar', {headers: {token:token}}).then((response) => {
+        axiosClient.get('/analisis/listar').then((response) => {
             console.log(response.data)
 
             const analisisFilter = response.data.filter(analisi => analisi.estado == 'activo')
@@ -57,7 +62,7 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
     const [variables, setVariables] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:3000/variables/listarvariable', {headers: {token:token}}).then((response) => {
+        axiosClient.get('/variables/listarvariable').then((response) => {
             console.log(response.data)
 
             const variableFilter = response.data.filter(variable => variable.estado == 'activo')
@@ -120,18 +125,7 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                     required={true}
                 />
             </div>
-            <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
-                <Textarea 
-                    label='Observaciones'
-                    name="observaciones" 
-                    cols="30" 
-                    rows="3" 
-                    placeholder='Observaciones' 
-                    ref={observaciones} 
-                    required={true}
-                ></Textarea>
-            </div>
-            {<ModalFooter>
+            <ModalFooter>
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Close
                 </Button>
@@ -139,7 +133,7 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                   {actionLabel}
                 </Button>
                 
-            </ModalFooter>}
+            </ModalFooter>
         </div>
         </form>
     </>

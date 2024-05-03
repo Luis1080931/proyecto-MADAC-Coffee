@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -24,6 +24,7 @@ import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
 import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
 import ButtonActivar from "../atoms/ButtonActivar.jsx";
 import axiosClient from "../axiosClient.js";
+import ResultadoContext from "../../context/ResultadosContext.jsx";
 
 const statusColorMap = {
   activo: "success",
@@ -55,7 +56,7 @@ export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, cl
   useEffect(() => {
     axiosClient.get('/analisis/listar')
       .then((response) => {
-        console.log('Datos recibidos:', response.data); // Agregar esta línea
+        console.log('Datos recibidos:', response.data)
         setAnalisisValue(response.data);
       })
       .catch((error) => {
@@ -78,8 +79,7 @@ export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, cl
   const filteredItems = React.useMemo(() => {
     let filteredResults = results;
   
-    // Filtrar por análisis seleccionado
-    console.log('Análisis seleccionado en el filtro:', selectedAnalysis); // Agregar esta línea
+    console.log('Análisis seleccionado en el filtro:', selectedAnalysis)
     if (selectedAnalysis) {
       filteredResults = filteredResults.filter(
         (result) => parseInt(result.analisis) === parseInt(selectedAnalysis)
@@ -128,11 +128,14 @@ export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, cl
     });
   }, [sortDescriptor, items]);
 
+  const { resultadoSeleccionado, seleccionarResultado }  = useContext(ResultadoContext)
+
   const renderCell = React.useCallback((result, columnKey) => {
     const cellValue = result[columnKey];
 
     const handleUpdateClick = (id) => {
-      localStorage.setItem('idUser', id)
+      seleccionarResultado(id)
+      console.log(seleccionarResultado);
       clickEditar(id)
     };
 
@@ -146,7 +149,7 @@ export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, cl
       case "actions":
         return (
           <div className="flex flex-row">
-            <ButtonActualizar click={() =>  handleUpdateClick(result.codigo)} />
+            <ButtonActualizar click={() =>  handleUpdateClick(result)} />
             {result.estado === 'activo' ? (
               <ButtonDesactivar click={() => clickDesactivar(result.codigo)} />
             ) : (
@@ -196,7 +199,7 @@ export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, cl
 
   const topContent = React.useMemo(() => {
     return (
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 h-full">
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
@@ -210,10 +213,11 @@ export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, cl
           
           <div className="flex gap-3">
           <Select
+            className="w-48"
             aria-label="Select analisis"
             placeholder="Seleccionar análisis"
             value={selectedAnalysis}
-            onChange={handleAnalysisChange} // Cambiar esto
+            onChange={handleAnalysisChange}
           >
             {analisisValue.map((analisis) => (
               <SelectItem key={analisis.codigo} value={analisis.codigo} textValue={analisis.codigo}>
@@ -221,7 +225,6 @@ export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, cl
               </SelectItem>
             ))}
           </Select> 
-
             
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
@@ -298,14 +301,14 @@ export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, cl
   }, [selectedKeys, items.length, page, pages]);
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center max-h-screen">
       <Table
         aria-label="Tabla"
         isHeaderSticky
         bottomContent={bottomContent}
         bottomContentPlacement="outside"
         classNames={{
-          wrapper: "max-h-[95%] max-w-[95%]" ,
+          wrapper: "max-w-[95%]" ,
         }}
         className="flex"
         selectedKeys={selectedKeys}

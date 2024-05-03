@@ -7,4 +7,4 @@ const ButtonActivar = (props) => {
   )
 }
 
-export default ButtonActivar
+export default ButtonActivar; 

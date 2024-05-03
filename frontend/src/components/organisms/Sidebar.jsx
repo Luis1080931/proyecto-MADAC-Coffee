@@ -22,8 +22,8 @@ export const Sidebar = () => {
   const Menus = [
     { title: "Dashboard", link: "/dashboard", icon: MdDashboard },
     { title: "Usuarios", link: "/usuarios", icon: AiOutlineUser },
-    { title: "Fincas", link: "/fincas", icon: GiFarmTractor, gap: true },
-    { title: "Variedades", link: "/variedades", icon: GiCoffeeCup, gap: true },
+    { title: "Fincas", link: "/fincas", icon: GiFarmTractor},
+    { title: "Variedades", link: "/variedades", icon: GiCoffeeCup },
     { title: "Lotes", link: "/lotes", icon: RiPlantFill },
     { title: "Muestras", link: "/muestras", icon: BiSolidCoffeeBean},
     { title: "Análisis", link: "/analisis", icon: MdOutlineCoffeeMaker},
@@ -32,8 +32,8 @@ export const Sidebar = () => {
 ];
 const MenusCatador = [
   { title: "Dashboard", link: "/dashboard", icon: MdDashboard },
-  { title: "Fincas", link: "/fincas", icon: GiFarmTractor, gap: true },
-  { title: "Variedades", link: "/variedades", icon: GiCoffeeCup, gap: true },
+  { title: "Fincas", link: "/fincas", icon: GiFarmTractor   },
+  { title: "Variedades", link: "/variedades", icon: GiCoffeeCup },
   { title: "Lotes", link: "/lotes", icon: RiPlantFill },
   { title: "Muestras", link: "/muestras", icon: BiSolidCoffeeBean},
   { title: "Análisis", link: "/analisis", icon: MdOutlineCoffeeMaker},
@@ -46,7 +46,7 @@ const MenusCatador = [
       <div className="flex min-h-screen z-10">
         <div
           className={`${open ? "w-64" : "w-20"
-            } bg-[#336699]/75 max-h-full p-5 pt-5 h-full fixed duration-300`}
+            } bg-[#D9E4EC] max-h-full p-5 pt-5 h-full fixed duration-300`}
         >
           <img
             src={Control}
@@ -65,8 +65,8 @@ const MenusCatador = [
                 to={Menu?.link}
                 key={index}
                 onClick={() => setActiveLink(Menu.link)}
-                className={`flex rounded-md p-2 cursor-pointer hover:bg-green-500 text-gray-300 text-lg font-bold items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
-                  } ${activeLink === Menu.link ? "bg-green-500" : ""}`}
+                className={`flex rounded-md p-2 cursor-pointer hover:bg-[#97BCC7] text-black text-lg font-bold items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
+                  } ${activeLink === Menu.link ? "bg-[#97BCC7]" : ""}`}
               >
                 <div>{React.createElement(Menu?.icon, { size: "20" })}</div>
                 <span
