@@ -50,25 +50,44 @@ export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, cl
   ];
 
   const [analisisValue, setAnalisisValue] = useState([])
+  const [selectedAnalysis, setSelectedAnalysis] = useState("");
 
   useEffect(() => {
     axiosClient.get('/analisis/listar')
       .then((response) => {
-        console.log(response.data)
-        setAnalisisValue(response.data)
+        console.log('Datos recibidos:', response.data); // Agregar esta línea
+        setAnalisisValue(response.data);
       })
       .catch((error) => {
-        console.error('Error al obtener datos:', error)
+        console.error('Error al obtener datos:', error);
       });
   }, []);
+  
+  
+  const handleAnalysisChange = (event) => {
+    const { value } = event.target;
+    console.log('Analisis seleccionado:', value);
+    setSelectedAnalysis(value);
+  };
+  
+  
   
 
   const hasSearchFilter = Boolean(filterValue);
 
   const filteredItems = React.useMemo(() => {
     let filteredResults = results;
-
+  
+    // Filtrar por análisis seleccionado
+    console.log('Análisis seleccionado en el filtro:', selectedAnalysis); // Agregar esta línea
+    if (selectedAnalysis) {
+      filteredResults = filteredResults.filter(
+        (result) => parseInt(result.analisis) === parseInt(selectedAnalysis)
+      );
+    }
+  
     if (hasSearchFilter) {
+      console.log("Filter Value:", filterValue);
       filteredResults = filteredResults.filter(result =>
         String(result.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
         result.fecha.toLowerCase().includes(filterValue.toLowerCase()) ||
@@ -85,8 +104,10 @@ export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, cl
       );
     }
 
+    console.log('Resultados filtrados:', filteredResults);
+
     return filteredResults;
-  }, [results, filterValue, statusFilter]);
+  }, [results, filterValue, statusFilter, selectedAnalysis]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -110,12 +131,10 @@ export default function Ejemplo({ clickEditar, clickActivar, clickDesactivar, cl
   const renderCell = React.useCallback((result, columnKey) => {
     const cellValue = result[columnKey];
 
-  
-const handleUpdateClick = (id) => {
- 
-  localStorage.setItem('idUser', id)
-  clickEditar(id)
-};
+    const handleUpdateClick = (id) => {
+      localStorage.setItem('idUser', id)
+      clickEditar(id)
+    };
 
     switch (columnKey) {
       case "estado":
@@ -129,15 +148,11 @@ const handleUpdateClick = (id) => {
           <div className="flex flex-row">
             <ButtonActualizar click={() =>  handleUpdateClick(result.codigo)} />
             {result.estado === 'activo' ? (
-                <ButtonDesactivar click={() => clickDesactivar(result.codigo)} />
-              ) : 
-              (
-                <ButtonActivar click={() => clickActivar(result.codigo)} />
-              )
-            } 
-            
+              <ButtonDesactivar click={() => clickDesactivar(result.codigo)} />
+            ) : (
+              <ButtonActivar click={() => clickActivar(result.codigo)} />
+            )} 
           </div>
-          
         );
       default:
         return cellValue;
@@ -181,7 +196,6 @@ const handleUpdateClick = (id) => {
 
   const topContent = React.useMemo(() => {
     return (
-      <>
       <div className="flex flex-col gap-4">
         <div className="flex justify-between gap-3 items-end">
           <Input
@@ -195,27 +209,19 @@ const handleUpdateClick = (id) => {
           />
           
           <div className="flex gap-3">
-          
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button className="text-xl" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
-                  Análisis
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Menu de analisis"
-                selectionMode="multiple"
-                aria-labelledby="Analisis"
-              >
-                {analisisValue.map((analisi) => (
-                  <DropdownItem key={analisi.codigo} value={analisi.codigo} textValue={analisi.codigo} className="capitalize">
-                    {analisi.codigo}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
+          <Select
+            aria-label="Select analisis"
+            placeholder="Seleccionar análisis"
+            value={selectedAnalysis}
+            onChange={handleAnalysisChange} // Cambiar esto
+          >
+            {analisisValue.map((analisis) => (
+              <SelectItem key={analisis.codigo} value={analisis.codigo} textValue={analisis.codigo}>
+                {analisis.codigo}
+              </SelectItem>
+            ))}
+          </Select> 
 
-            </Dropdown>
             
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
@@ -259,25 +265,17 @@ const handleUpdateClick = (id) => {
           </label>
         </div>
       </div>
-      </>
-     
     );
-  }, [
-    filterValue,
-    onRowsPerPageChange,
-    onSearchChange,
-    onClear,
-    hasSearchFilter,
-  ]);
+  }, [filterValue, onRowsPerPageChange, onSearchChange, onClear]);
 
   const bottomContent = React.useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-between items-center">
-        {<span className="w-[30%] text-xl text-default-400">
+        <span className="w-[30%] text-xl text-default-400">
           {selectedKeys === "all"
             ? "All items selected"
             : `${selectedKeys.size} de ${filteredItems.length} seleccionados`}
-        </span>}
+        </span>
         <Pagination
           isCompact
           showControls
@@ -297,12 +295,10 @@ const handleUpdateClick = (id) => {
         </div>
       </div>
     );
-  }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
+  }, [selectedKeys, items.length, page, pages]);
 
   return (
-    
     <div className="flex items-center justify-center">
-      
       <Table
         aria-label="Tabla"
         isHeaderSticky
@@ -313,12 +309,10 @@ const handleUpdateClick = (id) => {
         }}
         className="flex"
         selectedKeys={selectedKeys}
-        // selectionMode="multiple"
         sortDescriptor={sortDescriptor}
         topContent={topContent}
         topContentPlacement="outside"
         onSelectionChange={setSelectedKeys}
-
         onSortChange={setSortDescriptor}
       >
         <TableHeader columns={data}>
@@ -342,6 +336,5 @@ const handleUpdateClick = (id) => {
         </TableBody>
       </Table>
     </div>
-    
   );
 }
