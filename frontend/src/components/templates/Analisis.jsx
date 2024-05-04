@@ -1,7 +1,6 @@
 import React from 'react'
 import FormAnalisis from '../molecules/FormAnalisis.jsx';
 import { ModalAcciones } from '../organisms/Modal.jsx';
-import { Logo } from '../atoms/LogoProyecto.jsx';
 
 function AnalisisModal ({ open, onClose, handleSubmit, actionLabel, initialData, mode, title }){
 

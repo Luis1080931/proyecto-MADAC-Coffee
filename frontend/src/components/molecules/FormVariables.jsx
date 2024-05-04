@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ModalFooter, Button, Input, Select, SelectItem } from '@nextui-org/react';
-import axios from 'axios';
+import axiosClient from '../axiosClient';
 
 const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode, onClose}) => {
 
@@ -14,7 +14,7 @@ const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode, onClose}
   const [tipoAnalisis, setTipoAnalisis] = useState([])
 
   useEffect(() => {
-    axios.get('http://localhost:3000/tipoanalisis/listar').then((response) => {
+    axiosClient.get('/tipoanalisis/listar').then((response) => {
       console.log(response.data)
       setTipoAnalisis(response.data)
     })

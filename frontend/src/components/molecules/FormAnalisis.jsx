@@ -1,7 +1,6 @@
-import { Button, Checkbox, Input, ModalFooter, Select, SelectItem } from '@nextui-org/react'
-import axios from 'axios'
+import { Button, Input, ModalFooter, Select, SelectItem } from '@nextui-org/react'
 import React, { useEffect, useRef, useState } from 'react'
-
+import axiosClient from '../axiosClient'
 
 const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose }) => {
 
@@ -15,10 +14,8 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose })
   const [tipoAnalisis, setTipoAnalisis] = useState([])
   const [analistas, setAnalistas] = useState([])
 
-  const token = localStorage.getItem('token')
-
   useEffect(() => {
-    axios.get('http://localhost:3000/usuarios/listar', {headers: {token: token}}).then((response) => {
+    axiosClient.get('/usuarios/listar').then((response) => {
       console.log(response.data)
 
       const userFilter = response.data.usuarios.filter(catador => catador.tipo_usuario == 'catador' && catador.estado == 'activo')
@@ -27,7 +24,7 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose })
   }, [])
 
   useEffect(() => {
-    axios.get('http://localhost:3000/muestras/listarMuestra', {headers: {token: token}}).then((response) => {
+    axiosClient.get('/muestras/listarMuestra').then((response) => {
       console.log(response.data)
 
       const muestraFilter = response.data.filter(muestra => muestra.estado == 'activo')
@@ -36,7 +33,7 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose })
   }, [])
 
   useEffect(() => {
-    axios.get('http://localhost:3000/tipoanalisis/listar').then((response) => {
+    axiosClient.get('/tipoanalisis/listar').then((response) => {
       console.log(response.data)
        setTipoAnalisis(response.data)
     })

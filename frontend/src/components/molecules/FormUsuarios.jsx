@@ -2,21 +2,21 @@ import React, { useRef, useEffect } from 'react';
 import { Button, Input, ModalFooter, Select, SelectItem } from '@nextui-org/react';
 
 const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }) => {
-    const identificacionRef = useRef(null);
-    const nombreRef = useRef(null);
-    const correoRef = useRef(null);
-    const telefonoRef = useRef(null);
-    const passwordRef = useRef(null);
-    const tipoUsuarioRef = useRef(null);
+    const identificacion = useRef(null);
+    const nombre = useRef(null);
+    const correo = useRef(null);
+    const telefono = useRef(null);
+    const password = useRef(null);
+    const tipo_usuario = useRef(null);
 
     useEffect(() => {
         if (mode == 'update' && selectedUser) {
-            identificacionRef.current.value = selectedUser.identificacion || '';
-            nombreRef.current.value = selectedUser.nombre || '';
-            correoRef.current.value = selectedUser.correo_electronico || '';
-            telefonoRef.current.value = selectedUser.telefono || '';
-            passwordRef.current.value = selectedUser.password || '';
-            tipoUsuarioRef.current.value = selectedUser.tipo_usuario || '';
+            identificacion.current.value = selectedUser.identificacion;
+            nombre.current.value = selectedUser.nombre
+            correo.current.value = selectedUser.correo_electronico
+            telefono.current.value = selectedUser.telefono
+            password.current.value = selectedUser.password 
+            tipo_usuario.current.value = selectedUser.tipo_usuario
 
             console.log(selectedUser)
         }
@@ -26,12 +26,12 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }
     const handleFormSubmit = (e) => {
         e.preventDefault();
         const formData = {
-            identificacion: parseInt(identificacionRef.current.value),
-            nombre: nombreRef.current.value,
-            correo_electronico: correoRef.current.value,
-            telefono: telefonoRef.current.value,
-            password: passwordRef.current.value,
-            tipo_usuario: tipoUsuarioRef.current.value
+            identificacion: parseInt(identificacion.current.value),
+            nombre: nombre.current.value,
+            correo_electronico: correo.current.value,
+            telefono: telefono.current.value,
+            password: password.current.value,
+            tipo_usuario: tipo_usuario.current.value
         };
         handleSubmit(formData, e);
     };
@@ -46,7 +46,7 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }
                             id='identificacion'
                             type="number"
                             placeholder='Ingrese su N° de identidad'
-                            ref={identificacionRef} 
+                            ref={identificacion} 
                         />
                     </div>
                     <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
@@ -55,7 +55,7 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }
                             id='nombre'
                             type="text"
                             placeholder='Ingrese su Nombre(s)'
-                            ref={nombreRef} 
+                            ref={nombre} 
                         />
                     </div>
                     <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
@@ -64,7 +64,7 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }
                             id='correo_electronico'
                             type="text"
                             placeholder='Ingrese su correo Electronico'
-                            ref={correoRef}
+                            ref={correo}
                         />
                     </div>
                     <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
@@ -73,7 +73,7 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }
                             type="text" 
                             id='telefono' 
                             placeholder='Ingrese su N° de Telefono' 
-                            ref={telefonoRef} 
+                            ref={telefono} 
                         />
                     </div>
                     <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
@@ -82,7 +82,7 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }
                             placeholder='Ingrese la Contraseña'
                             name='password' 
                             id='password' 
-                            ref={passwordRef} 
+                            ref={password} 
                         />
                     </div>
                     <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
@@ -92,7 +92,7 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }
                             id='tipo_usuario' 
                             type="text" 
                             placeholder='Ingrese el tipo de usuario' 
-                            ref={tipoUsuarioRef}
+                            ref={tipo_usuario}
                         >
                             <SelectItem value="catador"> Catador </SelectItem>
                             <SelectItem value="caficultor"> Caficultor </SelectItem>

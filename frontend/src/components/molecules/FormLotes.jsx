@@ -1,20 +1,18 @@
 import React, { useRef,useEffect,useState } from 'react';
-import axios from 'axios';
+import axiosClient from '../axiosClient';
 import { ModalFooter,Button, Input, Select, SelectItem } from '@nextui-org/react';
 
 export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel }) => {
 
     const [fincas, setFincas] = useState([])
     const [variedades, setVariedades] = useState([])
-
-    const token = localStorage.getItem('token')
  
     const numero_arboles = useRef(null);
     const fk_finca = useRef(null);
     const fk_variedad = useRef(null);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/fincas/listar', {headers: {token: token} }).then((response) => {
+        axiosClient.get('/fincas/listar').then((response) => {
             console.log(response.data)
 
             const fincasFilter = response.data.filter(finca => finca.estado == 'activo')
@@ -23,7 +21,7 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
     }, [])
 
     useEffect(() => {
-        axios.get('http://localhost:3000/variedades/listar', {headers: {token: token}}).then((response) => {
+        axiosClient.get('/variedades/listar').then((response) => {
             console.log(response.data)
 
             const variedadesFilter = response.data.filter(variedad => variedad.estado == 'activo')

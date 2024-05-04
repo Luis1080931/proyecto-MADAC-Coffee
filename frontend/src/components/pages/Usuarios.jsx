@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Header } from './../molecules/Header.jsx';
 import UsuariosModal from '../templates/Usuarios.jsx';
-import axios from 'axios';
-import Ejemplo from '../organisms/TableUsers.jsx';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
 import axiosClient from '../axiosClient.js';import {
     Table,
@@ -20,16 +18,14 @@ import axiosClient from '../axiosClient.js';import {
     Chip,
     Pagination,
   } from "@nextui-org/react";
-  import { PlusIcon } from "./../NextUI/PlusIcon.jsx";
-  import { SearchIcon } from "./../NextUI/SearchIcon.jsx";
-  import { ChevronDownIcon } from "./../NextUI/ChevronDownIcon.jsx";
+  import { PlusIcon } from "./../atoms/PlusIcon.jsx";
+  import { SearchIcon } from "./../atoms/SearchIcon.jsx";
+  import { ChevronDownIcon } from "./../atoms/ChevronDownIcon.jsx";
   import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
   import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
   import ButtonActivar from "../atoms/ButtonActivar.jsx";
 
     export function Usuarios() {
-
-
 
     const statusColorMap = {
     activo: "success",
@@ -389,18 +385,12 @@ import axiosClient from '../axiosClient.js';import {
                 alert('Error al actualizar usuario');
             }
         };
-
-        const handleToggle = (mode, selectedUser) => {
-            setMode(mode);
-            setSelectedUser(selectedUser);
-            setModalOpen(true);
-        };
         
         const handleSubmit = async (formData, e) => {
             console.log(formData)
             try {
                 if (mode === 'create') {
-                    axiosClient.post('/usuarios/registrar', formData).then((response) => {
+                    await axiosClient.post('/usuarios/registrar', formData).then((response) => {
                         console.log(response.data)
 
                         if(response.status === 201){
@@ -414,9 +404,9 @@ import axiosClient from '../axiosClient.js';import {
                         
                     })
 
-                } else if (mode === 'update' && selectedUser) {
+                } else if (mode === 'update') {
                     try {
-                        axiosClient.put(`/usuarios/actualizar/${results.identificacion}`, formData).then((response) => {
+                        await axiosClient.put(`/usuarios/actualizar/${results.identificacion}`, formData).then((response) => {
                             console.log(response)
         
                             if(response.status == 201){
@@ -436,6 +426,12 @@ import axiosClient from '../axiosClient.js';import {
             } catch (error) {
                 console.error('Error al procesar la solicitud:', error);
             }
+        }
+
+        const handleToggle = (mode, selectedUser) => {
+            setSelectedUser(selectedUser);
+            setModalOpen(true);
+            setMode(mode);
         };
 
         const handleActivar = async (identificacion) => {
@@ -473,6 +469,7 @@ import axiosClient from '../axiosClient.js';import {
                             selectedUser={selectedUser}
                             actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
                             title={mode === 'create' ? 'Registro de usuario' : 'Actualizar usuario'}
+                            mode={mode}
                         />
 
                         <Ejemplo

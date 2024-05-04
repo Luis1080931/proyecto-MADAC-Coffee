@@ -11,9 +11,12 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
 
     useEffect(() => {
         if (mode === 'update' && initialData && initialData.fecha) {
+            // Verificar si initialData.fecha es una instancia válida de Date
             const fechaDate = new Date(initialData.fecha);
             if (!isNaN(fechaDate.getTime())) {
+                // Obtener la fecha en formato 'yyyy-MM-dd'
                 const formattedDate = fechaDate.toISOString().split('T')[0];
+                // Establecer la fecha en el input
                 fecha.current.value = formattedDate;
                 fk_analisis.current.value = initialData.fk_analisis;
                 fk_variables.current.value = initialData.fk_variables;
@@ -26,8 +29,6 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
         }
     }, [mode, initialData]);
     
-    
-
 
      const handleFormSubmit = async (e) => {
         e.preventDefault()

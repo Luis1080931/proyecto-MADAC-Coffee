@@ -1,7 +1,7 @@
 
 import React, { useRef,useEffect,useState } from 'react';
-import axios from 'axios';
 import {ModalFooter, Button, SelectItem, Select, Input } from "@nextui-org/react";
+import axiosClient from '../axiosClient';
 
 export const FormFincass = ({mode,initialData,handleSubmit,onClose,actionLabel}) => {
 
@@ -13,10 +13,8 @@ export const FormFincass = ({mode,initialData,handleSubmit,onClose,actionLabel})
     const municipio = useRef(null);
     const vereda = useRef(null);
 
-    const token = localStorage.getItem('token')
-
     useEffect(() => {
-        axios.get('http://localhost:3000/usuarios/listar', {headers: {token: token}}).then((response) => {
+        axiosClient.get('/usuarios/listar').then((response) => {
             console.log(response.data)
 
             const caficultorFilter = response.data.usuarios.filter(caficultor => caficultor.tipo_usuario == 'caficultor')
@@ -25,7 +23,7 @@ export const FormFincass = ({mode,initialData,handleSubmit,onClose,actionLabel})
     }, [])
 
     useEffect(() => {
-        axios.get('http://localhost:3000/municipios/listar').then((response) => {
+        axiosClient.get('/municipios/listar').then((response) => {
             console.log(response.data)
             setMunicipios(response.data)
         })

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ModalFooter, Button, Input, Textarea, Select, SelectItem } from '@nextui-org/react';
-import axios from 'axios'
+import axiosClient from '../axiosClient';
 
 const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) => {
 
@@ -15,10 +15,9 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
     const fk_lote = useRef(null);
 
     const [lotes, setLotes] = useState([])
-    const token = localStorage.getItem('token')
 
     useEffect(() => {
-      axios.get('http://localhost:3000/lotes/listar', {headers: {token: token}}).then((response) => {
+      axiosClient.get('/lotes/listar').then((response) => {
         console.log(response.data)
         setLotes(response.data)
       })

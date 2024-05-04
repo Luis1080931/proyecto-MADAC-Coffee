@@ -25,15 +25,13 @@ import {
   ModalContent,
   ModalHeader
 } from "@nextui-org/react";
-import { PlusIcon } from "./../NextUI/PlusIcon.jsx";
-import { SearchIcon } from "./../NextUI/SearchIcon.jsx";
-import { ChevronDownIcon } from "./../NextUI/ChevronDownIcon.jsx";
+import { PlusIcon } from "./../atoms/PlusIcon.jsx";
+import { SearchIcon } from "./../atoms/SearchIcon.jsx";
+import { ChevronDownIcon } from "./../atoms/ChevronDownIcon.jsx";
 import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
 import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
 import ButtonActivar from "../atoms/ButtonActivar.jsx";
 import axiosClient from "../axiosClient.js";
-import ResultadoContext from "../../context/ResultadosContext.jsx";
-
 
 export function Resultados () {
 
@@ -463,9 +461,6 @@ export function Resultados () {
       }
       
   }
-
-    const id = localStorage.getItem('idUser')
-    
 
     const handleSubmit = async (datosForm, e) => {
         console.log(datosForm);
