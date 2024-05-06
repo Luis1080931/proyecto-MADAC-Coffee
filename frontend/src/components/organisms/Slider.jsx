@@ -29,30 +29,202 @@ const SliderVertical = () => {
     setCuerpo(((index+1) * 6))
   }
 
-const Ruler = () => {
+const [labelAroma, setlabelAroma] = useState(null);
+const [labelSabor, setLabelSabor] = useState(null)
+const [labelPostgusto, setLabelPostgusto] = useState(null)
+const [labelAcidez, setLabelAcidez] = useState(null)
+const [labelCuerpo, setLabelCuerpo] = useState(null)
+const [labelBalance, setLabelBalance] = useState(null)
+const [labelGeneral, setLabelGeneral] = useState(null)
+
+const RulerAroma = () => {
+   
+    const handleClick = (index, lineIndex) => {
+    
+      const value = index + 6 + (lineIndex * 0.25);
+      setlabelAroma(value);
+    };
+  
     return (
-        <div className="ruler">
+      <div className="ruler">
         {[...Array(5)].map((_, index) => (
           <div key={index} className="ruler-item">
             <div className="number">{index + 6}</div>
-            <div className="lineRuler"></div>
-            <div className="lineRuler"></div>
-            <div className="lineRuler line-center"></div>
-            <div className="lineRuler"></div>
-            <div className="lineRuler"></div>
+            {[...Array(4)].map((_, lineIndex) => (
+              <div
+                key={lineIndex}
+                className="lineRuler"
+                onClick={() => handleClick(index, lineIndex)}
+              ></div>
+            ))}
           </div>
         ))}
       </div>
-    )
-};
+    );
+  }
+
+  const RulerSabor = () => {
+   
+    const handleClick = (index, lineIndex) => {
+    
+      const value = index + 6 + (lineIndex * 0.25);
+      setLabelSabor(value);
+    };
+  
+    return (
+      <div className="ruler">
+        {[...Array(5)].map((_, index) => (
+          <div key={index} className="ruler-item">
+            <div className="number">{index + 6}</div>
+            {[...Array(4)].map((_, lineIndex) => (
+              <div
+                key={lineIndex}
+                className="lineRuler"
+                onClick={() => handleClick(index, lineIndex)}
+              ></div>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const RulerPostgusto = () => {
+   
+    const handleClick = (index, lineIndex) => {
+    
+      const value = index + 6 + (lineIndex * 0.25);
+      setLabelPostgusto(value);
+    };
+  
+    return (
+      <div className="ruler">
+        {[...Array(5)].map((_, index) => (
+          <div key={index} className="ruler-item">
+            <div className="number">{index + 6}</div>
+            {[...Array(4)].map((_, lineIndex) => (
+              <div
+                key={lineIndex}
+                className="lineRuler"
+                onClick={() => handleClick(index, lineIndex)}
+              ></div>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const RulerAcidez = () => {
+   
+    const handleClick = (index, lineIndex) => {
+    
+      const value = index + 6 + (lineIndex * 0.25);
+      setLabelAcidez(value);
+    };
+  
+    return (
+      <div className="ruler">
+        {[...Array(5)].map((_, index) => (
+          <div key={index} className="ruler-item">
+            <div className="number">{index + 6}</div>
+            {[...Array(4)].map((_, lineIndex) => (
+              <div
+                key={lineIndex}
+                className="lineRuler"
+                onClick={() => handleClick(index, lineIndex)}
+              ></div>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  const RulerCuerpo = () => {
+   
+    const handleClick = (index, lineIndex) => {
+    
+      const value = index + 6 + (lineIndex * 0.25);
+      setLabelCuerpo(value);
+    };
+  
+    return (
+      <div className="ruler">
+        {[...Array(5)].map((_, index) => (
+          <div key={index} className="ruler-item">
+            <div className="number">{index + 6}</div>
+            {[...Array(4)].map((_, lineIndex) => (
+              <div
+                key={lineIndex}
+                className="lineRuler"
+                onClick={() => handleClick(index, lineIndex)}
+              ></div>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  const RulerBalance = () => {
+   
+    const handleClick = (index, lineIndex) => {
+    
+      const value = index + 6 + (lineIndex * 0.25);
+      setLabelBalance(value);
+    };
+  
+    return (
+      <div className="ruler">
+        {[...Array(5)].map((_, index) => (
+          <div key={index} className="ruler-item">
+            <div className="number">{index + 6}</div>
+            {[...Array(4)].map((_, lineIndex) => (
+              <div
+                key={lineIndex}
+                className="lineRuler"
+                onClick={() => handleClick(index, lineIndex)}
+              ></div>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  const RulerGeneral = () => {
+   
+    const handleClick = (index, lineIndex) => {
+    
+      const value = index + 6 + (lineIndex * 0.25);
+      setLabelGeneral(value);
+    };
+  
+    return (
+      <div className="ruler">
+        {[...Array(5)].map((_, index) => (
+          <div key={index} className="ruler-item">
+            <div className="number">{index + 6}</div>
+            {[...Array(4)].map((_, lineIndex) => (
+              <div
+                key={lineIndex}
+                className="lineRuler"
+                onClick={() => handleClick(index, lineIndex)}
+              ></div>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
 const [values, setValues] = useState(Array(5).fill(false));
 const [tazaValues, setTazaValues] = useState(Array(5).fill(false));
 const [dulzuraValues, setDulzuraValues] = useState(Array(5).fill(false));
 const [total, setTotal] = useState(0);
 const [taza, setTaza] = useState(0)
 const [dulzura, setDulzura] = useState(0)
-
-const punteoTotal = parseInt(total) + parseInt(taza) + parseInt(dulzura)
 
 const handleCheckboxUniformidad = (index) => {
     const updatedValues = values.map((_, i) => (i === index));
@@ -91,6 +263,22 @@ const handleCheckboxUniformidad = (index) => {
     setResultado(numeroTazas * newValue);
   };
 
+  const [secoValue, setSecoValue] = useState(null);
+  const [nataValue, setNataValue] = useState(null);
+
+  const handleSecoValue = (index) => {
+      setSeco((index + 1) * 6)
+      setSecoValue(6 + index);
+  };
+
+  const handleNataValue = (index) => {
+      setNata((index + 1) * 6)
+      setNataValue(6 + index);
+  };
+
+  const totalAroma = ((parseInt(secoValue) || 0) + (parseInt(nataValue) || 0)) / 2;
+
+  const punteoTotal = parseInt(totalAroma) + parseInt(labelSabor) + parseInt(labelPostgusto) + parseInt(labelAcidez) + parseInt(labelBalance) + parseInt(labelCuerpo) +parseInt(labelGeneral) + parseInt(total) + parseInt(taza) + parseInt(dulzura)
   const totalPunteoFinal = parseInt(punteoTotal) - parseInt(resultado)
 
   return (
@@ -102,20 +290,20 @@ const handleCheckboxUniformidad = (index) => {
                 <label className='text-6xl font-bold text-white'> 1 </label>    
             </div>    
         </div>
-        <div className='border-t-2 border-b-2 border-r-2 border-black p-2'>
+        <div className='border-t-2 border-b-2 border-r-2 border-black p-2 flex flex-col justify-between'>
             <div className='flex flex-col items-center justify-center'>
                 <label className='font-bold'> Nivel </label>
-                <label className='font-bold'> Tomado </label>
+                <label className='font-bold'> Tostado </label>
             </div>
             
             <div className="slider-container">
-                {/* Líneas del slider */}
+               
                 <div className="lines">
-                    {/* Generar las líneas con eventos de clic */}
-                    {[...Array(6)].map((_, index) => (
+                    
+                    {[...Array(5)].map((_, index) => (
                     <div
                         key={index}
-                        className={`line ${nivel >= (index + 1) * 6 ? 'dark' : 'light'}`}
+                        className={`line ${nivel >= (index + 1) * 5 ? 'dark' : 'light'}`}
                         onClick={() => handleNivel(index)}
                     />
                     ))}
@@ -126,20 +314,21 @@ const handleCheckboxUniformidad = (index) => {
             <div className='flex flex-row ml-2'>
                 <label className='text-xl font-bold mr-2'> Frag/Aroma </label>
                 <div className='w-12 h-7 border-2 border-black mb-3'>
-                    <label></label>
+                    <label> {totalAroma} </label>
                 </div>
             </div>
-            <Ruler />
+            <RulerAroma />
             <div className='flex flex-row ml-2'>
                 <div className="slider-container">
                     <label>Seco</label>
                     <div className="lines">
-                        {[...Array(6)].map((_, index) => (
-                        <div
-                            key={index}
-                            className={`line ${seco >= (index + 1) * 6 ? 'dark' : 'light'}`}
-                            onClick={() => handleSeco(index)}
-                        />
+                        {[...Array(5)].map((_, index) => (
+                            <div
+                                key={index}
+                                className={`line ${seco >= (index + 1) * 5 ? 'dark' : 'light'}`}
+                                onClick={() => handleSecoValue(index)}
+                            />
+                           
                         ))}
                     </div>
                 </div>
@@ -150,11 +339,11 @@ const handleCheckboxUniformidad = (index) => {
                 <div className="slider-container">
                     <label>Nata</label>
                     <div className="lines">
-                        {[...Array(6)].map((_, index) => (
+                        {[...Array(5)].map((_, index) => (
                         <div
                             key={index}
-                            className={`line ${nata >= (index + 1) * 6 ? 'dark' : 'light'}`}
-                            onClick={() => handleNata(index)}
+                            className={`line ${nata >= (index + 1) * 5 ? 'dark' : 'light'}`}
+                            onClick={() => handleNataValue(index)}
                         />
                         ))}
                     </div>
@@ -165,34 +354,34 @@ const handleCheckboxUniformidad = (index) => {
             <div className='flex flex-row ml-2'>
                 <label className='text-xl font-bold mr-16'> Sabor </label>
                 <div className='w-12 h-7 border-2 border-black mb-3'>
-                    <label></label>
+                    <label> {labelSabor} </label>
                 </div>
             </div>
-            <Ruler />
+            <RulerSabor />
             <div className='flex flex-row ml-2'>
                 <label className='text-xl font-bold mr-6'> Postgusto </label>
                 <div className='w-12 h-7 border-2 border-black mb-3'>
-                    <label></label>
+                    <label> {labelPostgusto} </label>
                 </div>
             </div>
-            <Ruler />
+            <RulerPostgusto />
         </div>
         <div className='border-t-2 border-b-2 border-r-2 border-black'>
             <div className='flex flex-row ml-2'>
                 <label className='text-xl font-bold mr-14'> Acidez </label>
                 <div className='w-12 h-7 border-2 border-black mb-3'>
-                    <label></label>
+                    <label> {labelAcidez} </label>
                 </div>
             </div>
-            <Ruler />
+            <RulerAcidez />
             <div className='flex flex-row'>
                 <div className="slider-container">
                     <label> Intensidad </label>
                     <div className="lines">
-                        {[...Array(6)].map((_, index) => (
+                        {[...Array(5)].map((_, index) => (
                         <div
                             key={index}
-                            className={`line ${intensidad >= (index + 1) * 6 ? 'dark' : 'light'}`}
+                            className={`line ${intensidad >= (index + 1) * 5 ? 'dark' : 'light'}`}
                             onClick={() => handleIntensidad(index)}
                         />
                         ))}
@@ -208,18 +397,18 @@ const handleCheckboxUniformidad = (index) => {
             <div className='flex flex-row ml-2'>
                 <label className='text-xl font-bold mr-14'> Cuerpo </label>
                 <div className='w-12 h-7 border-2 border-black mb-3'>
-                    <label></label>
+                    <label> {labelCuerpo} </label>
                 </div>
             </div>
-            <Ruler />
+            <RulerCuerpo />
             <div className='flex flex-row ml-2'>
                 <div className="slider-container">
                     <label> Nivel </label>
                     <div className="lines">
-                        {[...Array(6)].map((_, index) => (
+                        {[...Array(5)].map((_, index) => (
                         <div
                             key={index}
-                            className={`line ${cuerpo >= (index + 1) * 6 ? 'dark' : 'light'}`}
+                            className={`line ${cuerpo >= (index + 1) * 5 ? 'dark' : 'light'}`}
                             onClick={() => handleCuerpo(index)}
                         />
                         ))}
@@ -258,11 +447,11 @@ const handleCheckboxUniformidad = (index) => {
                 <div className='flex flex-row ml-2'>
                     <label className='text-xl font-bold mr-12'> Balance </label>
                     <div className='w-12 h-7 border-2 border-black mb-2'>
-                        <label></label>
+                        <label> {labelBalance} </label>
                     </div>
                 </div>
                 <div className='mb-3'>
-                    <Ruler />
+                    <RulerBalance />
                 </div>
             </div>
         </div>
@@ -318,10 +507,10 @@ const handleCheckboxUniformidad = (index) => {
                     <div className='flex flex-row ml-2 mb-4'>
                         <label className='text-xl font-bold mr-2'> Ap. General </label>
                         <div className='w-12 h-7 border-2 border-black mb-3'>
-                            <label></label>
+                            <label> {labelGeneral} </label>
                         </div>
                     </div>
-                    <Ruler />
+                    <RulerGeneral />
                 </div>
                 <div className='flex flex-row ml-3'>
                     <div className='flex flex-col mr-2 items-center'>
