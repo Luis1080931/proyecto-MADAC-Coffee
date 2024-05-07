@@ -142,12 +142,6 @@ export function Resultados () {
     const renderCell = React.useCallback((result, columnKey) => {
       const cellValue = result[columnKey];
   
-     /*  const handleUpdateClick = (id) => {
-        seleccionarResultado(id)
-        console.log(seleccionarResultado);
-        clickEditar(id)
-      }; */
-  
       switch (columnKey) {
         case "estado":
           return (
