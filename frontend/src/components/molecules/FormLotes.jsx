@@ -6,10 +6,10 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
 
     const [fincas, setFincas] = useState([])
     const [variedades, setVariedades] = useState([])
- 
-    const numero_arboles = useRef(null);
-    const fk_finca = useRef(null);
-    const fk_variedad = useRef(null);
+
+    const [numero, setNumero] = useState('')
+    const [finca, setFinca] = useState('')
+    const [variedadFk, setVariedadFk] = useState('')
 
     useEffect(() => {
         axiosClient.get('/fincas/listar').then((response) => {
@@ -32,41 +32,44 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
 
     useEffect(()=>{
         if(mode=='update' && initialData){
-            console.log("ESTA MANDANDO ESTO",initialData);
-
-            numero_arboles.current.value=initialData.numero_arboles
-            fk_finca.current.value=initialData.fk_finca
-            fk_variedad.current.value=initialData.fk_variedad
+            setNumero(initialData.numero_arboles)
+            setFinca(initialData.fk_finca)
+            setVariedadFk(initialData.fk_variedad)
         }
     },[mode,initialData])
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            const datosForm = {
-                numero_arboles:parseInt(numero_arboles.current.value),
-                fk_finca: parseInt(fk_finca.current.value),
-                fk_variedad: parseInt(fk_variedad.current.value)
-            };
-            handleSubmit(datosForm,e)
+            const formData = {
+                numero_arboles: parseInt(numero),
+                fk_finca: parseInt(finca),
+                fk_variedad: parseInt(variedadFk)
+            }
+            handleSubmit(formData,e)
         } catch (error) {
             console.log(error);
             alert('Hay un error en el sistema ' + error);
         }
-    };
-
+    }
 
     return (
         <> 
             <form method="post" onSubmit={handleFormSubmit}>
                 <div className='flex flex-col'>
-                    <div className='flex flex-col m-5'>
-                        <label className='text-xl font-bold'> Numero de arboles: </label>
-                        <Input className='p-2 rounded-lg w-80 h-12' id='numero_arboles' type="number" name='numero_arboles' label='Ingrese el número de árboles' ref={numero_arboles} required={true} />
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <Input 
+                            id='numero_arboles'
+                            type="number" 
+                            name='numero_arboles'
+                            label='Ingrese el número de árboles'
+                            value={numero}
+                            onChange={(e) => setNumero(e.target.value)}
+                            required={true}
+                        />
                     </div>
-                    <div className='flex flex-col m-5'  >
-                        <label className='text-xl font-bold'> Finca: </label>
-                        <Select className='p-2 rounded-lg w-80 h-12' label='Seleccione la finca' ref={fk_finca} required={true} >
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4" >
+                        <Select label='Seleccione la finca' value={finca} onChange={(e) => setFinca(e.target.value)} required={true} >
                             {fincas.map(finca => (
                                 <SelectItem key={finca.codigo} value={finca.codigo} textValue={finca.codigo}>
                                     {finca.codigo} - {finca.fk_caficultor}
@@ -74,9 +77,8 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
                             ))}
                         </Select>
                     </div>
-                    <div className='flex flex-col m-5'>
-                        <label className='text-xl font-bold'> Variedad: </label>
-                        <Select className='p-2 rounded-lg w-80 h-12' label='Seleccione la variedad' ref={fk_variedad} required={true} >
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <Select label='Seleccione la variedad' value={variedadFk} onChange={(e) => setVariedadFk(e.target.value)} required={true} >
                             {variedades.map(variedad => (
                                 <SelectItem key={variedad.codigo} value={variedad.codigo}>
                                     {variedad.nombre}

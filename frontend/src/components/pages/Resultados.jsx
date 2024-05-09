@@ -32,6 +32,7 @@ import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
 import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
 import ButtonActivar from "../atoms/ButtonActivar.jsx";
 import axiosClient from "../axiosClient.js";
+import ResultadoContext from '../../context/ResultadosContext.jsx';
 
 export function Resultados () {
 
@@ -137,7 +138,7 @@ export function Resultados () {
       });
     }, [sortDescriptor, items]);
   
-   /*  const { resultadoSeleccionado, seleccionarResultado }  = useContext(ResultadoContext) */
+    const { resultadoSeleccionado, seleccionarResultado }  = useContext(ResultadoContext)
   
     const renderCell = React.useCallback((result, columnKey) => {
       const cellValue = result[columnKey];

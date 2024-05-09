@@ -296,13 +296,12 @@ function TableVariedades() {
   );
 }
 
-
-    const [results, setResults] = useState([])
-    const [modalOpen, setModalOpen] = useState(false)
-    const [ modalAccionesOpen, setModalAccionesOpen ] = useState(false)
-    const [mode, setMode] = useState('create')
-    const [initialData, setInitialData ] = useState(null)
-    const [mensaje, setMensaje] = useState('')
+const [results, setResults] = useState([])
+const [modalOpen, setModalOpen] = useState(false)
+const [ modalAccionesOpen, setModalAccionesOpen ] = useState(false)
+const [mode, setMode] = useState('create')
+const [initialData, setInitialData ] = useState(null)
+const [mensaje, setMensaje] = useState('')
 
     const fetchData = async () => {
         try {
@@ -344,12 +343,6 @@ function TableVariedades() {
         },
     ];
 
-    const handleToogle = (mode, initialData) => {
-        setMode(mode);
-        setInitialData(initialData);
-        setModalOpen(true);
-    }
-
     const handleSubmit = async (data, e) => {
         e.preventDefault()
         try {
@@ -365,9 +358,10 @@ function TableVariedades() {
                     alert('Error')
                 }
             }else if(mode == 'update'){
-                const response = await axiosClient.put(`/variedades/actualizar/${results.codigo}`, data);
-                console.log(response.data)
-                if(response.status==201){
+                axiosClient.put(`/variedades/actualizar/${results.codigo}`, data).then((response) => {
+                  console.log(response.data)
+
+                  if(response.status==201){
                     setMensaje(response.data.message)
                     setModalAccionesOpen(true)
                     setModalOpen(false)
@@ -375,6 +369,9 @@ function TableVariedades() {
                 }else{
                     alert('Error')
                 }
+                })
+                
+                
             }
         } catch (error) {
             console.log('Error del servidor' + error);
@@ -410,6 +407,12 @@ function TableVariedades() {
             }
         })
     }
+
+    const handleToogle = (mode, initialData) => {
+      setMode(mode);
+      setInitialData(initialData);
+      setModalOpen(true);
+  }
 
     return (
         <div>

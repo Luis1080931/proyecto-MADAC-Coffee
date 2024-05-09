@@ -406,7 +406,7 @@ import axiosClient from '../axiosClient.js';import {
 
                 } else if (mode === 'update') {
                     try {
-                        await axiosClient.put(`/usuarios/actualizar/${results.identificacion}`, formData).then((response) => {
+                        axiosClient.put(`/usuarios/actualizar/${results.identificacion}`, formData).then((response) => {
                             console.log(response)
         
                             if(response.status == 201){

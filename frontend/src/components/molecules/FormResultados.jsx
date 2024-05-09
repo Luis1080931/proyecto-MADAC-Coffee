@@ -1,26 +1,44 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {ModalFooter, Button, Input, Select, SelectItem } from "@nextui-org/react";
+import {ModalFooter, Button, Input, Select, SelectItem, table } from "@nextui-org/react";
 import axiosClient from '../axiosClient';
 
 const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel }) => {
 
-    const fecha = useRef(null)
-    const fk_analisis = useRef(null)
-    const fk_variables = useRef(null)
-    const valor = useRef(null)
+    const [fecha, setFecha] = useState('')
+    const [analisisFk, setAnalisisFk] = useState('')
+    const [variableFk, setVariableFk] = useState('')
+    const [valor, setValor] = useState('')
+
+    const [analisis, setAnalisis] = useState([])
+    const [variables, setVariables] = useState([])
+
+    useEffect(() => {
+        axiosClient.get('/analisis/listar').then((response) => {
+            console.log(response.data)
+
+            const analisisFilter = response.data.filter(analisi => analisi.estado == 'activo')
+            setAnalisis(analisisFilter)
+        })
+    }, [])
+
+    useEffect(() => {
+        axiosClient.get('/variables/listarvariable').then((response) => {
+            console.log(response.data)
+
+            const variableFilter = response.data.filter(variable => variable.estado == 'activo')
+            setVariables(variableFilter)
+        })
+    }, [])
 
     useEffect(() => {
         if (mode === 'update' && initialData && initialData.fecha) {
-            // Verificar si initialData.fecha es una instancia válida de Date
             const fechaDate = new Date(initialData.fecha);
             if (!isNaN(fechaDate.getTime())) {
-                // Obtener la fecha en formato 'yyyy-MM-dd'
                 const formattedDate = fechaDate.toISOString().split('T')[0];
-                // Establecer la fecha en el input
-                fecha.current.value = formattedDate;
-                fk_analisis.current.value = initialData.fk_analisis;
-                fk_variables.current.value = initialData.fk_variables;
-                valor.current.value = initialData.valor;
+                setFecha(formattedDate)
+                setAnalisisFk(initialData.fk_analisis)
+                setVariableFk(initialData.fk_variables)
+                setValor(initialData.valor)
             } else {
                 console.error('initialData.fecha no es una instancia válida de Date');
             }
@@ -34,42 +52,19 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
         e.preventDefault()
         try {
 
-            const fechaValue = new Date(fecha.current.value).toISOString().slice(0, 10);
+            const fechaValue = new Date(fecha).toISOString().slice(0, 10);
             const datosForm = {
                 fecha: fechaValue,
-                fk_analisis: parseInt(fk_analisis.current.value),
-                fk_variables: parseInt(fk_variables.current.value),
-                valor: valor.current.value,
+                fk_analisis: parseInt(analisisFk),
+                fk_variables: parseInt(variableFk),
+                valor: valor,
             }
-            /* console.log('Datos:', data); */
             handleSubmit(datosForm, e)
             
         } catch (error) {
             alert('Error de servidor' + error)
         }
     }
-
-    const [analisis, setAnalisis] = useState([])
-
-    useEffect(() => {
-        axiosClient.get('/analisis/listar').then((response) => {
-            console.log(response.data)
-
-            const analisisFilter = response.data.filter(analisi => analisi.estado == 'activo')
-            setAnalisis(analisisFilter)
-        })
-    }, [])
-
-    const [variables, setVariables] = useState([])
-
-    useEffect(() => {
-        axiosClient.get('/variables/listarvariable').then((response) => {
-            console.log(response.data)
-
-            const variableFilter = response.data.filter(variable => variable.estado == 'activo')
-            setVariables(variableFilter)
-        })
-    }, [])
 
   return (
     <>
@@ -82,7 +77,8 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                     name='fecha' 
                     type="date" 
                     placeholder='Ingrese la fecha' 
-                    ref={fecha} 
+                    value={fecha} 
+                    onChange={(e) => setFecha(e.target.value)}
                     required={true}
                 />
             </div>
@@ -91,7 +87,8 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                     label='Código de análisis'
                     name="" 
                     id="" 
-                    ref={fk_analisis} 
+                    value={analisisFk} 
+                    onChange={(e) => e.target.value}
                     required={true} 
                 >
                         {analisis.map(anali => (
@@ -106,7 +103,8 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                     label='Variable'
                     name="idvariable"
                     id=""
-                    ref={fk_variables}
+                    value={variableFk}
+                    onChange={(e) => e.target.value}
                     required={true} 
                 >
                         {variables.map(varia => (
@@ -122,7 +120,8 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                     name='valor' 
                     type="text" 
                     placeholder='Ingrese la valor' 
-                    ref={valor} 
+                    value={valor}
+                    onChange={(e) => setValor(e.target.value)} 
                     required={true}
                 />
             </div>

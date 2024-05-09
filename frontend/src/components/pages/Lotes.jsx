@@ -403,15 +403,15 @@ const handleActivar = async (codigo) => {
 
 //PETICION PARA ACTIVAR LOTES
 
-    const handleSubmit =async (datosForm,e)=>{
-        console.log(datosForm);
+    const handleSubmit = async (formData,e)=>{
+        console.log(formData);
         e.preventDefault()
 
         try{
         
         if(mode === 'create'){
             
-            await axiosClient.post('/lotes/registrar', datosForm).then((response)=>{
+            await axiosClient.post('/lotes/registrar', formData).then((response)=>{
                 console.log(response)
 
                 if(response.status == 200){
@@ -425,7 +425,7 @@ const handleActivar = async (codigo) => {
             })
         }else if(mode==='update'){
 
-            await axiosClient.put(`/lotes/actulizar/${lotes.codigo}`,datosForm).then((response)=>{
+            await axiosClient.put(`/lotes/actulizar/${lotes.codigo}`,formData).then((response)=>{
                 console.log(response); 
 
                 if(response.status==200){

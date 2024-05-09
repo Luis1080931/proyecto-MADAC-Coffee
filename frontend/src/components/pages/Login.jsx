@@ -87,7 +87,7 @@ const handleAccept = () => {
         <HeaderLogin title="MADAC-Coffee" />
 
       <div className='w-11/12 flex justify-end items-end mt-5'>
-            <Button className='w-28 p-2 rounded-lg bg-[#336699] text-white font-bold text-xl z-10' onPress={() => setModalOpen(true)}>
+            <Button className='w-28 p-2 rounded-lg bg-[#B7CFDC] text-black font-bold text-xl z-10' onPress={() => setModalOpen(true)}>
                 Login
             </Button>
         </div>

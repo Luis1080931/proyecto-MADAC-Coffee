@@ -444,7 +444,7 @@ const handleUpdateClick = (id) => {
             if (mode === 'create') {
 
                 await axiosClient.post('/muestras/crearMuestra', datosForm).then((response) => {
-                    console.log(response);
+                    console.log(response.data);
                     if (response.status == 200) {
                         setMensaje(response.data.message)
                         setModalAcciones(true)

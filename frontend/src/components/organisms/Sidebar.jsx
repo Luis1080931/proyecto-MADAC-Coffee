@@ -81,8 +81,8 @@ const MenusCatador = [
                 to={Menu?.link}
                 key={index}
                 onClick={() => setActiveLink(Menu.link)}
-                className={`flex rounded-md p-2 cursor-pointer hover:bg-green-500 text-gray-300 text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
-                  } ${activeLink === Menu.link ? "bg-green-500" : ""}`}
+                className={`flex rounded-md p-2 cursor-pointer hover:bg-[#97BCC7] text-gray-300 text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
+                  } ${activeLink === Menu.link ? "bg-[#97BCC7]" : ""}`}
               >
                 <div>{React.createElement(Menu?.icon, { size: "20" })}</div>
                 <span

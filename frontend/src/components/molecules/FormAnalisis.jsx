@@ -1,136 +1,141 @@
-import { Button, Input, ModalFooter, Select, SelectItem } from '@nextui-org/react'
-import React, { useEffect, useRef, useState } from 'react'
-import axiosClient from '../axiosClient'
+import React, { useEffect, useState } from 'react';
+import { Button, Input, ModalFooter, Select, SelectItem } from '@nextui-org/react';
+import axiosClient from '../axiosClient';
 
 const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose }) => {
 
-  const fecha = useRef(null)
-  const analista = useRef(null)
-  const fk_muestra = useRef(null)
-  const fk_tipo_analisis = useRef(null)
+  const [fechaValue, setFechaValue] = useState('');
+  const [analistaValue, setAnalistaValue] = useState('');
+  const [muestraValue, setMuestraValue] = useState('');
+  const [tipoAnalisisValue, setTipoAnalisisValue] = useState('');
 
-  const [catadores, setCatadores] = useState([])
-  const [muestras, setMuestras] = useState([])
-  const [tipoAnalisis, setTipoAnalisis] = useState([])
-  const [analistas, setAnalistas] = useState([])
+  const [catadores, setCatadores] = useState([]);
+  const [muestras, setMuestras] = useState([]);
+  const [tipoAnalisis, setTipoAnalisis] = useState([]);
 
   useEffect(() => {
     axiosClient.get('/usuarios/listar').then((response) => {
-      console.log(response.data)
-
-      const userFilter = response.data.usuarios.filter(catador => catador.tipo_usuario == 'catador' && catador.estado == 'activo')
-      setCatadores(userFilter)
-    })
-  }, [])
+      const userFilter = response.data.usuarios.filter(catador => catador.tipo_usuario === 'catador' && catador.estado === 'activo');
+      setCatadores(userFilter);
+    });
+  }, []);
 
   useEffect(() => {
     axiosClient.get('/muestras/listarMuestra').then((response) => {
-      console.log(response.data)
-
-      const muestraFilter = response.data.filter(muestra => muestra.estado == 'activo')
-      setMuestras(muestraFilter)
-    })
-  }, [])
+      const muestraFilter = response.data.filter(muestra => muestra.estado === 'activo');
+      setMuestras(muestraFilter);
+    });
+  }, []);
 
   useEffect(() => {
     axiosClient.get('/tipoanalisis/listar').then((response) => {
-      console.log(response.data)
-       setTipoAnalisis(response.data)
-    })
-  }, [])
+      setTipoAnalisis(response.data);
+    });
+  }, []);
 
   useEffect(() => {
-    if(mode == 'update' && initialData){
-      fecha.current.value = initialData.fecha
-      analista.current.value = initialData.analista
-      fk_muestra.current.value = initialData.fk_muestra
-      fk_tipo_analisis.current.value = initialData.fk_tipo_analisis
-    }
-  }, [mode, initialData])
-  
-  const handleFormSubmit = (e) => {
-    e.preventDefault()
-    try {
-      const data = {
-        fecha: new Date(fecha.current.value),
-        analista: analista.current.value,
-        fk_muestra: fk_muestra.current.value,
-        fk_tipo_analisis: fk_tipo_analisis.current.value
+    if (mode === 'update' && initialData && initialData.fecha) {
+      const fechaDate = new Date(initialData.fecha);
+      if (!isNaN(fechaDate.getTime())) {
+        const formattedDate = fechaDate.toISOString().split('T')[0];
+        setFechaValue(formattedDate);
+        setAnalistaValue(initialData.analista);
+        setMuestraValue(initialData.fk_muestra);
+        setTipoAnalisisValue(initialData.fk_tipo_analisis);
+      } else {
+        console.error('initialData.fecha no es una instancia válida de Date');
       }
-      handleSubmit(data, e)
+    }
+    
+  }, [mode, initialData]);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    try {
+      const fechaValues = new Date(fechaValue).toISOString().slice(0, 10);
+      const data = {
+        fecha: fechaValues,
+        analista: analistaValue,
+        fk_muestra: muestraValue,
+        fk_tipo_analisis: tipoAnalisisValue
+      };
+      handleSubmit(data, e);
     } catch (error) {
       console.log('Error de submit' + error);
     }
-  }
+  };
 
   return (
     <>
-    <form method='post' onSubmit={handleFormSubmit}>
-      <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-        <Input 
-          type="date" 
-          name="fecha"
-          ref={fecha}
-          required={true} 
-          label="Ingrese la fecha"
-        />
-      </div>
-      <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-        <Select
-          label="Seleccione el analista"
-          name="analista"
-          ref={analista}
-          required={true}
-          selectionMode='multiple'
-          value={analistas}
-        >
-          {catadores.map(item => (
-            <SelectItem key={item.identificacion } value={item.identificacion }>
-              {item.nombre}
-            </SelectItem>
-          ))}
-        </Select>
-      </div> 
-      <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-        <Select
-          label="Seleccione la muestra"
-          name="fk_muestra"
-          ref={fk_muestra}
-          required={true}
-        >
-          {muestras.map(mues => (
-              <SelectItem key={mues.codigo} value={mues.codigo} textValue={mues.codigo} >
-                  {mues.codigo}
+      <form method="post" onSubmit={handleFormSubmit}>
+        <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+          <Input
+            type="date"
+            name="fecha"
+            value={fechaValue}
+            onChange={(e) => setFechaValue(e.target.value)}
+            required={true}
+            label="Ingrese la fecha"
+          />
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+          <Select
+            label="Seleccione el analista"
+            name="analista"
+            value={analistaValue}
+            onChange={(e) => setAnalistaValue(e.target.value)}
+            required={true}
+            selectionMode="single"
+          >
+            {catadores.map(item => (
+              <SelectItem key={item.identificacion} value={item.identificacion} textValue={item.nombre}>
+                {item.nombre}
               </SelectItem>
-          ))}
-        </Select>
-      </div>
-      <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-        <Select
-          label="Tipo de análisis"
-          placeholder="Seleccione el tipo de análisis"
-          name="fk_tipo_analisis"
-          ref={fk_tipo_analisis}
-          required={true}
-        >
+            ))}
+          </Select>
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+          <Select
+            label="Seleccione la muestra"
+            name="fk_muestra"
+            value={muestraValue}
+            onChange={(e) => setMuestraValue(e.target.value)}
+            required={true}
+          >
+            {muestras.map(mues => (
+              <SelectItem key={mues.codigo} value={mues.codigo} textValue={mues.codigo}>
+                {mues.codigo}
+              </SelectItem>
+            ))}
+          </Select>
+        </div>
+        <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+          <Select
+            label="Tipo de análisis"
+            placeholder="Seleccione el tipo de análisis"
+            name="fk_tipo_analisis"
+            value={tipoAnalisisValue}
+            onChange={(e) => setTipoAnalisisValue(e.target.value)}
+            required={true}
+          >
             {tipoAnalisis.map(tipo => (
-              <SelectItem key={tipo.id} value={tipo.id}>
+              <SelectItem key={tipo.id} value={tipo.id} textValue={tipo.tipo_analisis}>
                 {tipo.tipo_analisis}
               </SelectItem>
             ))}
-        </Select>
-      </div>
-      <ModalFooter>
-        <Button color="danger" variant="light" onPress={onClose}>
-          Cerrar
-        </Button>
-        <Button type='submit' color="primary" >
-          {actionLabel}
-        </Button>
-      </ModalFooter>
-    </form>
+          </Select>
+        </div>
+        <ModalFooter>
+          <Button color="danger" variant="light" onPress={onClose}>
+            Cerrar
+          </Button>
+          <Button type="submit" color="primary">
+            {actionLabel}
+          </Button>
+        </ModalFooter>
+      </form>
     </>
-  )
-}
+  );
+};
 
-export default FormAnalisis
+export default FormAnalisis;

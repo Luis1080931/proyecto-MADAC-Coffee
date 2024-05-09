@@ -4,14 +4,15 @@ import axiosClient from '../axiosClient';
 
 const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode, onClose}) => {
 
-  const nombre = useRef(null)
-  const fk_tipo_analisis = useRef(null)
+  const [nombre, setNombre] = useState('')
+  const [analisisType, setAnalisisType] = useState('')
+  const [tipoAnalisis, setTipoAnalisis] = useState([])
 
   const [errors, setErrors] = useState({
     nombre: '',
     fk_tipo_analisis: ''
   })
-  const [tipoAnalisis, setTipoAnalisis] = useState([])
+  
 
   useEffect(() => {
     axiosClient.get('/tipoanalisis/listar').then((response) => {
@@ -22,20 +23,15 @@ const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode, onClose}
 
   useEffect (()=>{
     if(mode == 'update' && initialdata) {
-      nombre.current.value = initialdata.nombre 
-      fk_tipo_analisis.current.value = initialdata.fk_tipo_analisis
+      setNombre(initialdata.nombre)
+      setAnalisisType(initialdata.fk_tipo_analisis)
     }
   }, [mode, initialdata])
 
   const handleFormSubmit  = async (e) => {
     e.preventDefault();
 
-   
-      const datosForm = {
-        nombre: nombre.current.value ,
-        fk_tipo_analisis: parseInt(fk_tipo_analisis.current.value)
-      }
-      let hasErrors = false;
+      /* let hasErrors = false;
       const newErrors = { ...errors};
 
       //Validación de Campos correctos 
@@ -51,33 +47,36 @@ const FormVariables = ({ actionLabel , handleSubmit, initialdata, mode, onClose}
       setErrors(newErrors);
       if (hasErrors) {
         return;
-      }
+      } */
       try {
+        const datosForm = {
+          nombre: nombre,
+          fk_tipo_analisis: parseInt(analisisType)
+        }
       handleSubmit(datosForm, e)
     } catch (error) {
       console.log('Error al conectar con el server ' + error);
     }
 
-  };
+  }
 
   return (
     <>
       <form method='post' onSubmit={handleFormSubmit}>
-        <div className='flex flex-col'>
-          <label className='text-x1 font-bold'>Nombre: </label>
+        <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
             <Input
               type="text"
               label='Ingrese el nombre de la variable'
               id='nombre'
               name="nombre"
-              ref={nombre}
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
               required={true}
               />
               {errors.nombre&& <span className='text-red-500'>{errors.nombre}</span>}
               </div>
-          <div className='flex-col md:fle'>
-              <label className='text-xl font-bold'>tipo de análisis</label>
-              <Select label='Seleccione el tipo de análisis' ref={fk_tipo_analisis} required={true}>
+          <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+              <Select label='Seleccione el tipo de análisis' value={analisisType} onChange={(e) => setAnalisisType(e.target.value)} required={true}>
                 {tipoAnalisis.map(tipo => (
                   <SelectItem key={tipo.id} value={tipo.id}>
                     {tipo.tipo_analisis}
