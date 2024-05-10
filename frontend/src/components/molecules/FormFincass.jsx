@@ -16,9 +16,9 @@ export const FormFincass = ({ mode, initialData, handleSubmit, onClose, actionLa
     const { dimension_mt2, fk_caficultor, municipio, vereda } = formData;
 
     useEffect(() => {
-        axiosClient.get('/usuarios/listar').then((response) => {
-            const caficultoresFilter = response.data.usuarios.filter(caficultor => caficultor.tipo_usuario === 'caficultor');
-            setCaficultores(caficultoresFilter);
+        axiosClient.get('/usuarios/caficultores').then((response) => {
+            console.log(response.data);
+            setCaficultores(response.data);
         });
     }, []);
 

@@ -17,7 +17,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
     const [lotes, setLotes] = useState([])
 
     useEffect(() => {
-      axiosClient.get('/lotes/listar').then((response) => {
+      axiosClient.get('/lotes/activos').then((response) => {
         console.log(response.data)
         setLotes(response.data)
       })

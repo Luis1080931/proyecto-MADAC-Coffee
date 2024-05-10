@@ -6,18 +6,27 @@ const AnalisisFisicosChart = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await axiosClient.get('/analisis/listar');
-      setData(result.data)
-    };
-
-    fetchData()
+    axiosClient.get('/analisis/fisicos').then((response) => {
+      console.log(response.data)
+      setData(response.data)
+    })
   }, [])
 
-  // Mapea los datos para x (mes) y y (cantidad de análisis)
-  const chartData = data.map(item => ({ x: item.mes, y: item.cantidad }));
+  // Función para contar la cantidad de análisis físicos por mes
+  const contarAnalisisPorMes = () => {
+    const analisisPorMes = Array(12).fill(0); // Inicializar un array para contar la cantidad de análisis por mes
+    
+    data.forEach(item => {
+      const mes = new Date(item.fecha).getMonth(); // Obtener el mes del análisis físico
+      analisisPorMes[mes]++; // Incrementar el contador para el mes correspondiente
+    });
+    
+    return analisisPorMes;
+  }
 
-  // Configuración de los nombres de los meses para el eje x
+  // Obtener los datos para graficar
+  const chartData = contarAnalisisPorMes().map((cantidad, index) => ({ x: index + 1, y: cantidad }));
+  
   const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
   return (
@@ -26,7 +35,7 @@ const AnalisisFisicosChart = () => {
       <VictoryChart width={600} height={400} padding={{ left: 80, right: 50, top: 50, bottom: 50 }}>
         <VictoryLabel text="Mes" x={300} y={30} textAnchor="middle"/>
         <VictoryLabel text="Cantidad" x={30} y={200} angle={-90} textAnchor="middle"/>
-        <VictoryAxis tickValues={months} tickFormat={(t) => months.indexOf(t) + 1} />
+        <VictoryAxis tickValues={months} tickFormat={(t, i) => i + 1} />
         <VictoryAxis dependentAxis />
         <VictoryLine data={chartData} />
       </VictoryChart>

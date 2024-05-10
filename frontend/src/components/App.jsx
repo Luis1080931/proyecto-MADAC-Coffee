@@ -15,6 +15,7 @@ import { NextUIProvider } from "@nextui-org/react"
 import ProtectedRoute from "../Protected.jsx"
 import SliderVertical from "./organisms/Slider.jsx"
 import AnalisisFisicosChart from "./organisms/Estadisticas.jsx"
+import PDFReport from "./organisms/Reportes.jsx"
 
 const stored = localStorage.getItem('user')
 const user = stored ? JSON.parse(stored) : null
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/analisis" element={<VistaAnalisis />} />
                 <Route path="/slider" element={<SliderVertical />} />
                 <Route path="/estadisticas" element={<AnalisisFisicosChart />} />
+                <Route path="/pdf" element={<PDFReport />} />
                 {user && user.tipo_usuario === 'admin' && (
                   <Route path="/usuarios" element={<Usuarios />} />
                 )}

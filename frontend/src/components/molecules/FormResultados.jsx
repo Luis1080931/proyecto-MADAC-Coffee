@@ -13,20 +13,16 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
     const [variables, setVariables] = useState([])
 
     useEffect(() => {
-        axiosClient.get('/analisis/listar').then((response) => {
+        axiosClient.get('/analisis/activos').then((response) => {
             console.log(response.data)
-
-            const analisisFilter = response.data.filter(analisi => analisi.estado == 'activo')
-            setAnalisis(analisisFilter)
+            setAnalisis(response.data)
         })
     }, [])
 
     useEffect(() => {
-        axiosClient.get('/variables/listarvariable').then((response) => {
+        axiosClient.get('/variables/activas').then((response) => {
             console.log(response.data)
-
-            const variableFilter = response.data.filter(variable => variable.estado == 'activo')
-            setVariables(variableFilter)
+            setVariables(response.data)
         })
     }, [])
 

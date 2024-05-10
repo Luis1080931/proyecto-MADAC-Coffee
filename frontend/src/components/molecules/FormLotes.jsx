@@ -12,20 +12,16 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
     const [variedadFk, setVariedadFk] = useState('')
 
     useEffect(() => {
-        axiosClient.get('/fincas/listar').then((response) => {
+        axiosClient.get('/fincas/activas').then((response) => {
             console.log(response.data)
-
-            const fincasFilter = response.data.filter(finca => finca.estado == 'activo')
-            setFincas(fincasFilter)
+            setFincas(response.data)
         })
     }, [])
 
     useEffect(() => {
-        axiosClient.get('/variedades/listar').then((response) => {
+        axiosClient.get('/variedades/activas').then((response) => {
             console.log(response.data)
-
-            const variedadesFilter = response.data.filter(variedad => variedad.estado == 'activo')
-            setVariedades(variedadesFilter)
+            setVariedades(response.data)
         })
     }, [])
 

@@ -366,9 +366,7 @@ const data = [
     }
 ];
 
-    //PETICION PARA DESACTIVAR FINCAS
-    const id = localStorage.getItem('idUser')
-    
+    //PETICION PARA DESACTIVAR FINCAS    
 
     const peticionDesactivar = async (codigo) => {
         try {

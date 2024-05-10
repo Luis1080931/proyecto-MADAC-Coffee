@@ -14,16 +14,16 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose })
   const [tipoAnalisis, setTipoAnalisis] = useState([]);
 
   useEffect(() => {
-    axiosClient.get('/usuarios/listar').then((response) => {
-      const userFilter = response.data.usuarios.filter(catador => catador.tipo_usuario === 'catador' && catador.estado === 'activo');
-      setCatadores(userFilter);
+    axiosClient.get('/usuarios/catadores').then((response) => {
+      console.log(response.data);
+      setCatadores(response.data);
     });
   }, []);
 
   useEffect(() => {
-    axiosClient.get('/muestras/listarMuestra').then((response) => {
-      const muestraFilter = response.data.filter(muestra => muestra.estado === 'activo');
-      setMuestras(muestraFilter);
+    axiosClient.get('/muestras/activas').then((response) => {
+      console.log(response.data);
+      setMuestras(response.data);
     });
   }, []);
 
