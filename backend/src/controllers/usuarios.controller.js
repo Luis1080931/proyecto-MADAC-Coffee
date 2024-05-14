@@ -185,3 +185,45 @@ export const activarUsuarios = async (req, res) => {
         })
     }
 }
+
+export const usuariosCaficultores = async (req, res) => {
+    try {
+        let sql = `SELECT * FROM usuarios WHERE tipo_usuario = 3 AND estado = 1`
+        const [rows] = await pool.query(sql)
+
+        if(rows.length>0){
+            res.status(200).json(rows)
+        }else{
+            res.status(404).json({
+                status: 404,
+                message: 'No hay usuarios registrados con este rol'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: 'Error del servidor' + error
+        })
+    }
+}
+
+export const usuariosCatadores = async (req, res) => {
+    try {
+        let sql = `SELECT * FROM usuarios WHERE tipo_usuario = 2 AND estado = 1`
+        const [rows] = await pool.query(sql)
+
+        if(rows.length>0){
+            res.status(200).json(rows)
+        }else{
+            res.status(404).json({
+                status: 404,
+                message: 'No hay usuarios registrados con este rol'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: 'Error del servidor' + error
+        })
+    }
+}

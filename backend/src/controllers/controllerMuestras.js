@@ -133,3 +133,19 @@ export const BuscarMuestra = async (req, res) => {
         res.status(500).json({message:"Error en el servidor" + error})
     }
 }
+
+export const muestrasActivas = async (req, res) => {
+    try {
+        const [result] = await pool.query("SELECT * FROM muestras WHERE estado = 1")
+
+        if (result.length > 0 ) {
+            res.status(200).json(result)
+        } else {
+            res.status(404).json({
+                "Mensaje":"No hay muestras"
+            });
+        }
+    } catch (error) {
+        res.status(500).json({message:"Error en el servidor" + error})
+    }
+}

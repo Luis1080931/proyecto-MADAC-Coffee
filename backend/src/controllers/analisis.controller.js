@@ -63,29 +63,6 @@ export const actualizarAnalisis = async (req, res) => {
     }
 }
 
-//Desactivar
-// export const desactivarAnalisis = async (req, res) => {
-//     try {
-//         const { codigo } = req.params
-//         const [ resultado ] = await pool.query("update analisis set estado='inactivo' where codigo=?", [codigo])
-
-//         if (resultado.affectedRows > 0) {
-//             res.status(201).json({
-//                 message: "Analisis desactivado con exito!"
-//             })
-//         } else {
-//             res.status(403).json({
-//                 message: "No se pudo desactivar el analisis"
-//             })
-//         }
-
-//     } catch (error) {
-//         res.status(500).json({
-//             message: error
-//         })
-//     }
-// }
-
 export const desactivarAnalisis = async (req, res) => {
     try {
         const { codigo } = req.params;
@@ -175,6 +152,48 @@ export const buscarAnalisis=async(req,res)=>{
     } catch (error) {
         res.status(500).json({
             message:error
+        })
+    }
+}
+
+export const analisisActivos = async (req,res) => {
+    try {
+
+        const [analisis] = await pool.query(`SELECT codigo, fecha, nombre AS analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id WHERE a.estado = 1`)
+
+        if (analisis.length>0) {
+            res.status(200).json(analisis)
+        } else {
+        res.status(404).json({
+            message:"No hay analisis registrados"
+        })
+        }
+        
+        
+    } catch (error) {
+        res.status(500).json({
+            message: "Error del servidor" + error
+        })
+    }
+}
+
+export const analisisFisicos = async (req,res) => {
+    try {
+
+        const [analisis] = await pool.query(`SELECT codigo, fecha, nombre AS analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id WHERE fk_tipo_analisis = 1`)
+
+        if (analisis.length>0) {
+            res.status(200).json(analisis)
+        } else {
+        res.status(404).json({
+            message:"No hay analisis registrados"
+        })
+        }
+        
+        
+    } catch (error) {
+        res.status(500).json({
+            message: "Error del servidor" + error
         })
     }
 }

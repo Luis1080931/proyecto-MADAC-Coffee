@@ -157,3 +157,23 @@ export const activarVariable = async (req, res) => {
         })
     }
 }
+
+export const variablesActivas = async (req, res) => {
+    try {
+        let sql = 'SELECT v_codigo, nombre, fk_tipo_analisis AS tipo_analisis, tipo_analisis, v.estado FROM variables AS v JOIN tipo_analisis ON fk_tipo_analisis = id WHERE v.estado = 1'
+        const [result] = await pool.query(sql)
+
+        if (result.length > 0 ) {
+            res.status(200).json(result)
+        } else {
+            res.status(404).json({
+                "Mensaje":"No hay variables"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status:500,
+            message: "Error del servidor" + error
+        })
+    }
+}
