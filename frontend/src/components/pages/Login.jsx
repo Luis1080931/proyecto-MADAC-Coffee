@@ -7,6 +7,8 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input,
 import {MailIcon} from './../atoms/IconEmail.jsx';
 import {LockIcon} from './../atoms/LockIcon.jsx';
 import AccionesModal from './../organisms/ModalAcciones.jsx'
+import caficultor from './../../assets/icons/caficultor.jpg'
+import fondo from './../../assets/icons/img-fondo.jpg'
 
 export const Login = () => {
 
@@ -82,12 +84,19 @@ const handleAccept = () => {
 }
 
   return (
-    <div className='fondo'>
+    <div>
 
         <HeaderLogin title="MADAC-Coffee" />
 
-      <div className='w-11/12 flex justify-end items-end mt-5'>
-            <Button className='w-28 p-2 rounded-lg bg-[#B7CFDC] text-black font-bold text-xl z-10' onPress={() => setModalOpen(true)}>
+      <div 
+      style={{
+        backgroundImage: `url(${fondo})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        height: '100vh'
+      }}
+      >
+            <Button className='w-28 m-10 rounded-lg bg-[#B7CFDC] text-black font-bold text-xl' onPress={() => setModalOpen(true)}>
                 Login
             </Button>
         </div>
@@ -99,35 +108,44 @@ const handleAccept = () => {
           onAccept={handleAccept}
         />
 
-      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} placement="top-center">
+      <Modal size='3xl' isOpen={modalOpen} onClose={() => setModalOpen(false)}>
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
               <ModalBody>
+                <div className='flex flex-row justify-center content-center items-center'>
+                  <img className='w-80 h-96 mr-10 rounded-lg' src={caficultor} alt="" />
                 <form method='post' onSubmit={handleSubmit}>
-                <Input
-                  autoFocus
-                  endContent={
-                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                  }
-                  required={true}
-                  label="Email"
-                  placeholder="Enter your email"
-                  variant="bordered"
-                  ref={correo_electronico}
-                />
-                <Input
-                  endContent={
-                    <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                  }
-                  label="Password"
-                  placeholder="Enter your password"
-                  type="password"
-                  variant="bordered"
-                  required={true}
-                  ref={password}
-                />
+                  <div className='mb-5'>
+                    <Input
+                      className='w-[300px]'
+                      autoFocus
+                      endContent={
+                        <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                      }
+                      required={true}
+                      label="Email"
+                      placeholder="Ingresa tu correo"
+                      variant="bordered"
+                      ref={correo_electronico}
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      className='w-[300px]'
+                      endContent={
+                        <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                      }
+                      label="Password"
+                      placeholder="Ingresa tu contraseña"
+                      type="password"
+                      variant="bordered"
+                      required={true}
+                      ref={password}
+                    />
+                  </div> 
+                
                 <ModalFooter>
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Close
@@ -137,15 +155,10 @@ const handleAccept = () => {
                 </Button>
               </ModalFooter>
                 </form>
+                </div>  
+                
                 
                 <div className="flex py-2 px-1 justify-between">
-                  <Checkbox
-                    classNames={{
-                      label: "text-small",
-                    }}
-                  >
-                    Remember me
-                  </Checkbox>
                   <Link color="primary" href="#" size="sm">
                     Forgot password?
                   </Link>

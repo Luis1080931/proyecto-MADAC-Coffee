@@ -4,12 +4,6 @@ import AuthContext from './../../context/authContext.jsx';
 
 const FormUsuarios = ({ actionLabel, mode, onClose }) => {
  
-    /* const [identificacion, setIdentificacion] = useState('');
-    const [nombre, setNombre] = useState('');
-    const [correo, setCorreo] = useState('');
-    const [telefono, setTelefono] = useState('');
-    const [password, setPassword] = useState('');
-    const [tipoUsuario, setTipoUsuario] = useState(''); */
     const {createUsers, updateUsers, idUser} = useContext(AuthContext)
     const [formData, setFormData] = useState({
         identificacion: '',
@@ -34,6 +28,13 @@ const FormUsuarios = ({ actionLabel, mode, onClose }) => {
         }
     }, [mode, idUser]);
 
+    const handleChange = (e) => {
+        setFormData({
+          ...formData,
+          [e.target.name]: e.target.value,
+        });
+      };
+
     const handleFormSubmit = (e) => {
         e.preventDefault();
         const data = {
@@ -42,7 +43,7 @@ const FormUsuarios = ({ actionLabel, mode, onClose }) => {
             correo_electronico: correo_electronico,
             telefono,
             password,
-            tipo_usuario: tipoUsuario
+            tipo_usuario
         }
         try {
             if(mode === 'update'){
@@ -64,7 +65,7 @@ const FormUsuarios = ({ actionLabel, mode, onClose }) => {
                         type="number"
                         placeholder='Ingrese su N° de identidad'
                         value={formData.identificacion}
-                        onChange={(e) => setIdentificacion(e.target.value)}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
@@ -74,7 +75,7 @@ const FormUsuarios = ({ actionLabel, mode, onClose }) => {
                         type="text"
                         placeholder='Ingrese su Nombre(s)'
                         value={formData.nombre}
-                        onChange={(e) => setNombre(e.target.value)}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
@@ -84,7 +85,7 @@ const FormUsuarios = ({ actionLabel, mode, onClose }) => {
                         type="text"
                         placeholder='Ingrese su correo Electronico'
                         value={formData.correo_electronico}
-                        onChange={(e) => setCorreo(e.target.value)}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
@@ -94,7 +95,7 @@ const FormUsuarios = ({ actionLabel, mode, onClose }) => {
                         id='telefono' 
                         placeholder='Ingrese su N° de Telefono' 
                         value={formData.telefono}
-                        onChange={(e) => setTelefono(e.target.value)}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
@@ -104,15 +105,17 @@ const FormUsuarios = ({ actionLabel, mode, onClose }) => {
                         name='password' 
                         id='password' 
                         value={formData.password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
                     <select  
+                        name='tipo_usuario'
+                        className='w-[400px] rounded-xl bg-gray-100 h-[40px]'
                         aria-label='Registro de users'
                         placeholder='Ingrese el tipo de usuario' 
                         value={formData.tipo_usuario}
-                        onChange={(e) => setTipoUsuario(e.target.value)}
+                        onChange={handleChange}
                     >
                         <option value="catador"> Catador </option>
                         <option value="caficultor"> Caficultor </option>
