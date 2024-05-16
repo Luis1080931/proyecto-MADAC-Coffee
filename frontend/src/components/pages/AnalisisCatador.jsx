@@ -24,7 +24,7 @@ import {
   import { ChevronDownIcon } from "./../atoms/ChevronDownIcon.jsx";
   import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
 
-function VistaAnalisis() {
+function VistaAnalisisCatador() {
 
 const statusColorMap = {
   activo: "success",
@@ -342,41 +342,14 @@ function Ejemplo() {
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString('es-ES'); // Puedes ajustar el idioma según tu preferencia
-      }
-
-    const handleDesactivar = async (id) => {
-        await axiosClient.put(`/analisis/desactivar/${id}`, null).then((response) => {
-            console.log(response.data)
-            if(response.status==200){
-                setMensaje(response.data.message)
-                setModalAccionesOpen(true)
-                setModalOpen(false)
-                fetchData();
-            }else{
-                alert('Error')
-            }
-            
-        });
     }
 
-    const handleActivar = async (codigo) => {
-        axiosClient.put(`/analisis/activar/${codigo}`).then((response) => {
-            console.log(response.data)
-            if(response.status==200){
-                setMensaje(response.data.message)
-                setModalAccionesOpen(true)
-                setModalOpen(false)
-                fetchData();
-            }else{
-                setMensaje(response.data.message)
-                setModalAccionesOpen(true)
-            }
-        })
-    }
+    const stored = localStorage.getItem('user');
+    const user = stored ? JSON.parse(stored) : null;
 
     const fetchData = async () => {
         try {
-            const response = await axiosClient.get('/analisis/listar')
+            const response = await axiosClient.get(`/analisis/analisisCatador/${user.identificacion}`)
 
             const formattedResults = response.data.map((result) => ({
                 ...result,
@@ -398,41 +371,6 @@ function Ejemplo() {
         setMode(mode)
     }
 
-    const handleSubmit = (data, e) => {
-        e.preventDefault()
-        try {
-            if(mode == 'create'){
-                axiosClient.post('/analisis/registrar', data).then((response) => {
-                    console.log(response.data)
-                    if(response.status == 201){
-                        setMensaje(response.data.message)
-                        setModalAccionesOpen(true)
-                        setModalOpen(false)
-                        fetchData();
-                    }else{
-                        alert('Error en el registro')
-                    }
-                    
-                });
-            }else if(mode == 'update'){ 
-                axiosClient.put(`/analisis/actualizar/${results.codigo}`,data).then((response) => {
-                    console.log(response.data)
-                    if(response.status == 201){
-                        setMensaje(response.data.message)
-                        setModalAccionesOpen(true)
-                        setModalOpen(false)
-                        fetchData();
-                    }else{
-                        alert('Error en el registro')
-                    }
-                    
-                });
-            }
-        } catch (error) {
-           console.log('Error de servidor' + error); 
-        }
-    }
-
     return (
         <div>
             <Header title='Análisis físico y sensorial' />
@@ -450,11 +388,8 @@ function Ejemplo() {
                     actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
                     mode={mode}
                     initialData={initialData}
-                    handleSubmit={handleSubmit}
                 />
-                <Ejemplo 
-                    clickDesactivar={handleDesactivar}
-                    clickActivar={handleActivar}
+                <Ejemplo  
                     clickEditar={() => handleToggle('update', id)}
                     clickRegistrar={() => handleToggle('create')}
                     data={data}
@@ -465,4 +400,4 @@ function Ejemplo() {
     );
 }
 
-export default VistaAnalisis
+export default VistaAnalisisCatador

@@ -32,7 +32,7 @@ export const Sidebar = () => {
 ];
 const MenusCatador = [
   { title: "Dashboard", link: "/dashboard", icon: MdDashboard },
-  { title: "Análisis", link: "/analisis", icon: MdOutlineCoffeeMaker}
+  { title: "Análisis", link: "/analisisCatador", icon: MdOutlineCoffeeMaker}
 ];
 
   return (

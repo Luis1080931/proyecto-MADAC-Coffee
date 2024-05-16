@@ -16,6 +16,8 @@ import ProtectedRoute from "../Protected.jsx"
 import SliderVertical from "./organisms/Slider.jsx"
 import AnalisisFisicosChart from "./organisms/Estadisticas.jsx"
 import PDFReport from "./organisms/Reportes.jsx"
+import VistaAnalisisCatador from "./pages/AnalisisCatador.jsx"
+
 
 const stored = localStorage.getItem('user')
 const user = stored ? JSON.parse(stored) : null
@@ -45,7 +47,9 @@ function App() {
                     <Route path="/muestras" element={<Muestras />} />
                     <Route path="/variedades" element={<VistaVariedades />} />
                   </Routes>
-                  
+                )}
+                {user && user.tipo_usuario === 'catador' && (
+                  <Route path="/analisisCatador" element={<VistaAnalisisCatador />} />
                 )}
               </Route>
               <Route path="*" element={<NotFoundPage />}/>
