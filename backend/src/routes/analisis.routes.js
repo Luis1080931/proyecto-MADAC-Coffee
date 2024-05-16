@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { desactivarAnalisis, actualizarAnalisis, registrarAnalisis, listarAnalisis, buscarAnalisis, activarAnalisis, analisisActivos, analisisFisicos } from '../controllers/analisis.controller.js'
+import { desactivarAnalisis, actualizarAnalisis, registrarAnalisis, listarAnalisis, buscarAnalisis, activarAnalisis, analisisActivos, analisisFisicos, analisisCatador } from '../controllers/analisis.controller.js'
 import { validarAnalisis } from '../../validate/analisis.validate.js'
 import { validarToken } from '../controllers/seguridad.controller.js'
 
@@ -14,5 +14,6 @@ routeAnalisis.get('/listar', validarToken, listarAnalisis)
 routeAnalisis.get('/activos', validarToken, analisisActivos)
 routeAnalisis.get('/buscar/:codigo',validarToken, buscarAnalisis)
 routeAnalisis.get('/fisicos',validarToken, analisisFisicos)
+routeAnalisis.get('/analisisCatador/:id',validarToken, analisisCatador)
 
 export default routeAnalisis
