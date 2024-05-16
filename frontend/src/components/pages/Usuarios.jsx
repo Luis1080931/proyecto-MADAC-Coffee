@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Header } from './../molecules/Header.jsx';
 import UsuariosModal from '../templates/Usuarios.jsx';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
@@ -24,7 +24,7 @@ import axiosClient from '../axiosClient.js';import {
   import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
   import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
   import ButtonActivar from "../atoms/ButtonActivar.jsx";
-
+    import AuthContext from '../../context/authContext.jsx'; 
     export function Usuarios() {
 
     const statusColorMap = {
@@ -43,6 +43,7 @@ import axiosClient from '../axiosClient.js';import {
         direction: "ascending",
     });
     const [page, setPage] = React.useState(1);
+    const { setIdUser } = useContext(AuthContext)
     
     const statusOptions = [
         {name: "Activo", uid: "activo"},
@@ -106,7 +107,7 @@ import axiosClient from '../axiosClient.js';import {
         case "actions":
             return (
             <div className="flex flex-row">
-                <ButtonActualizar click={() =>  handleToggle('update', result)} /> 
+                <ButtonActualizar click={() =>  handleToggle('update', setIdUser(result))} /> 
                 {result.estado === 'activo' ? (
                 <ButtonDesactivar click={() => handleUpdate(result.identificacion)} />
                 ) : (
@@ -301,7 +302,6 @@ import axiosClient from '../axiosClient.js';import {
 
         const [modalOpen, setModalOpen] = useState(false);
         const [mode, setMode] = useState('create');
-        const [selectedUser, setSelectedUser] = useState(null);
         const [results, setResults] = useState([]);
         const [modalAcciones, setModalAcciones] = useState(false);
         const [mensaje, setMensaje] = useState('');
@@ -384,52 +384,9 @@ import axiosClient from '../axiosClient.js';import {
                 console.error('Error al actualizar usuario:', error);
                 alert('Error al actualizar usuario');
             }
-        };
-        
-        const handleSubmit = async (formData, e) => {
-            console.log(formData)
-            try {
-                if (mode === 'create') {
-                    await axiosClient.post('/usuarios/registrar', formData).then((response) => {
-                        console.log(response.data)
-
-                        if(response.status === 201){
-                            setMensaje(response.data.message)
-                            setModalAcciones(true)
-                            setModalOpen(false)
-                            fetchData();
-                        }else{
-                            alert('Error: ')
-                        }
-                        
-                    })
-
-                } else if (mode === 'update') {
-                    try {
-                        axiosClient.put(`/usuarios/actualizar/${results.identificacion}`, formData).then((response) => {
-                            console.log(response)
-        
-                            if(response.status == 201){
-                                setMensaje(response.data.message)
-                                setModalAcciones(true)
-                                setModalOpen(false)
-                                fetchData()
-                            }else{
-                                alert('Error: ')
-                            }
-                            
-                        })
-                    } catch (error) {
-                        console.error('Error al actualizar usuario:', error);
-                    }
-                }
-            } catch (error) {
-                console.error('Error al procesar la solicitud:', error);
-            }
         }
 
-        const handleToggle = (mode, selectedUser) => {
-            setSelectedUser(selectedUser);
+        const handleToggle = (mode) => {
             setModalOpen(true);
             setMode(mode);
         };
@@ -465,8 +422,6 @@ import axiosClient from '../axiosClient.js';import {
                         <UsuariosModal
                             open={modalOpen}
                             onClose={() => setModalOpen(false)}
-                            handleSubmit={handleSubmit}
-                            selectedUser={selectedUser}
                             actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
                             title={mode === 'create' ? 'Registro de usuario' : 'Actualizar usuario'}
                             mode={mode}

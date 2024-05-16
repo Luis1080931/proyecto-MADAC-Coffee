@@ -11,7 +11,7 @@ function UsuariosModal ({ open, onClose, handleSubmit, actionLabel, selectedUser
         
       <ModalAcciones open={open} title={title} onClose={onClose}> 
       
-        <FormUsuarios handleSubmit={handleSubmit} actionLabel={actionLabel} mode={mode} selectedUser={selectedUser} onClose={onClose} />
+        <FormUsuarios actionLabel={actionLabel} mode={mode} onClose={onClose} />
       </ModalAcciones>
       
       </>
