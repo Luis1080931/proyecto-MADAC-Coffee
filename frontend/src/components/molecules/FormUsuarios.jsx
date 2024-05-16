@@ -1,39 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Input, ModalFooter, Select, SelectItem } from '@nextui-org/react';
+import AuthContext from './../../context/authContext.jsx';
 
-const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }) => {
+const FormUsuarios = ({ actionLabel, mode, onClose }) => {
  
-    const [identificacion, setIdentificacion] = useState('');
+    /* const [identificacion, setIdentificacion] = useState('');
     const [nombre, setNombre] = useState('');
     const [correo, setCorreo] = useState('');
     const [telefono, setTelefono] = useState('');
     const [password, setPassword] = useState('');
-    const [tipoUsuario, setTipoUsuario] = useState('');
+    const [tipoUsuario, setTipoUsuario] = useState(''); */
+    const {createUsers, updateUsers, idUser} = useContext(AuthContext)
+    const [formData, setFormData] = useState({
+        identificacion: '',
+        nombre: '',
+        correo_electronico: '',
+        telefono: '',
+        password: '',
+        tipo_usuario: ''
+    })
 
     useEffect(() => {
-        if (mode === 'update' && selectedUser) {
-            console.log(selectedUser.tipo_usuario);
-            setIdentificacion(selectedUser.identificacion);
-            setNombre(selectedUser.nombre);
-            setCorreo(selectedUser.correo_electronico);
-            setTelefono(selectedUser.telefono);
-            setPassword(selectedUser.password);
-            setTipoUsuario(selectedUser.tipoUsuario);
+        if (mode === 'update' && idUser) {
+            setFormData({
+                identificacion: idUser.identificacion,
+                nombre: idUser.nombre,
+                correo_electronico: idUser.correo_electronico,
+                telefono: idUser.telefono,
+                password:  idUser.password,
+                tipo_usuario: idUser.tipo_usuario
+            })
             
         }
-    }, [selectedUser]);
+    }, [mode, idUser]);
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        const formData = {
+        const data = {
             identificacion: parseInt(identificacion),
             nombre,
-            correo_electronico: correo,
+            correo_electronico: correo_electronico,
             telefono,
             password,
             tipo_usuario: tipoUsuario
-        };
-        handleSubmit(formData, e);
+        }
+        try {
+            if(mode === 'update'){
+                updateUsers(idUser.identificacion, data)
+            }else{
+                createUsers(data)
+            }
+        } catch (error) {
+            console.log('ERROR DE SERVIDOR' + error);
+        }
     };
 
     return (
@@ -44,7 +63,7 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }
                         id='identificacion'
                         type="number"
                         placeholder='Ingrese su N° de identidad'
-                        value={identificacion}
+                        value={formData.identificacion}
                         onChange={(e) => setIdentificacion(e.target.value)}
                     />
                 </div>
@@ -54,7 +73,7 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }
                         id='nombre'
                         type="text"
                         placeholder='Ingrese su Nombre(s)'
-                        value={nombre}
+                        value={formData.nombre}
                         onChange={(e) => setNombre(e.target.value)}
                     />
                 </div>
@@ -64,7 +83,7 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }
                         id='correo_electronico'
                         type="text"
                         placeholder='Ingrese su correo Electronico'
-                        value={correo}
+                        value={formData.correo_electronico}
                         onChange={(e) => setCorreo(e.target.value)}
                     />
                 </div>
@@ -74,7 +93,7 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }
                         type="text" 
                         id='telefono' 
                         placeholder='Ingrese su N° de Telefono' 
-                        value={telefono}
+                        value={formData.telefono}
                         onChange={(e) => setTelefono(e.target.value)}
                     />
                 </div>
@@ -84,20 +103,20 @@ const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }
                         placeholder='Ingrese la Contraseña'
                         name='password' 
                         id='password' 
-                        value={password}
+                        value={formData.password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
                 <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
-                    <Select  
+                    <select  
                         aria-label='Registro de users'
                         placeholder='Ingrese el tipo de usuario' 
-                        value={tipoUsuario}
+                        value={formData.tipo_usuario}
                         onChange={(e) => setTipoUsuario(e.target.value)}
                     >
-                        <SelectItem value="catador"> Catador </SelectItem>
-                        <SelectItem value="caficultor"> Caficultor </SelectItem>
-                    </Select>
+                        <option value="catador"> Catador </option>
+                        <option value="caficultor"> Caficultor </option>
+                    </select>
                 </div>
                 <ModalFooter>
                     <Button color="danger" variant="flat" onPress={onClose}>

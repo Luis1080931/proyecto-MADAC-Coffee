@@ -69,7 +69,7 @@ export const FormFincass = ({ mode, initialData, handleSubmit, onClose, actionLa
                         />
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                        <Select
+                        <select
                             name='fk_caficultor'
                             required
                             label='Seleccione el caficultor'
@@ -77,14 +77,14 @@ export const FormFincass = ({ mode, initialData, handleSubmit, onClose, actionLa
                             onChange={handleChange}
                         >
                             {caficultores.map(cafi => (
-                                <SelectItem key={cafi.identificacion} value={cafi.identificacion}>
+                                <option key={cafi.identificacion} value={cafi.identificacion}>
                                     {cafi.nombre}
-                                </SelectItem>
+                                </option>
                             ))}
-                        </Select>
+                        </select>
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                        <Select
+                        <select
                             name='municipio'
                             required
                             label='Seleccione el municipio'
@@ -92,11 +92,11 @@ export const FormFincass = ({ mode, initialData, handleSubmit, onClose, actionLa
                             onChange={handleChange}
                         >
                             {municipios.map(municipio => (
-                                <SelectItem key={municipio.id_municipio} value={municipio.id_municipio}>
+                                <option key={municipio.id_municipio} value={municipio.id_municipio}>
                                     {municipio.nombre}
-                                </SelectItem>
+                                </option>
                             ))}
-                        </Select>
+                        </select>
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input
