@@ -12,19 +12,18 @@ const AnalisisFisicosChart = () => {
     })
   }, [])
 
-  // Función para contar la cantidad de análisis físicos por mes
   const contarAnalisisPorMes = () => {
-    const analisisPorMes = Array(12).fill(0); // Inicializar un array para contar la cantidad de análisis por mes
+    const analisisPorMes = Array(12).fill(0); 
     
     data.forEach(item => {
-      const mes = new Date(item.fecha).getMonth(); // Obtener el mes del análisis físico
-      analisisPorMes[mes]++; // Incrementar el contador para el mes correspondiente
+      const mes = new Date(item.fecha).getMonth(); 
+      analisisPorMes[mes]++;
     });
     
     return analisisPorMes;
   }
 
-  // Obtener los datos para graficar
+
   const chartData = contarAnalisisPorMes().map((cantidad, index) => ({ x: index + 1, y: cantidad }));
   
   const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
