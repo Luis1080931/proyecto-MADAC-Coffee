@@ -18,14 +18,15 @@ import axiosClient from '../axiosClient.js';import {
     Chip,
     Pagination,
   } from "@nextui-org/react";
-  import { PlusIcon } from "./../atoms/PlusIcon.jsx";
-  import { SearchIcon } from "./../atoms/SearchIcon.jsx";
-  import { ChevronDownIcon } from "./../atoms/ChevronDownIcon.jsx";
-  import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
-  import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
-  import ButtonActivar from "../atoms/ButtonActivar.jsx";
-    import AuthContext from '../../context/authContext.jsx'; 
-    export function Usuarios() {
+import { PlusIcon } from "./../atoms/PlusIcon.jsx";
+import { SearchIcon } from "./../atoms/SearchIcon.jsx";
+import { ChevronDownIcon } from "./../atoms/ChevronDownIcon.jsx";
+import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
+import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
+import ButtonActivar from "../atoms/ButtonActivar.jsx";
+import AuthContext from '../../context/authContext.jsx'; 
+    
+export function Usuarios() {
 
     const statusColorMap = {
     activo: "success",
@@ -43,7 +44,6 @@ import axiosClient from '../axiosClient.js';import {
         direction: "ascending",
     });
     const [page, setPage] = React.useState(1);
-    const { setIdUser } = useContext(AuthContext)
     
     const statusOptions = [
         {name: "Activo", uid: "activo"},
@@ -305,6 +305,7 @@ import axiosClient from '../axiosClient.js';import {
         const [results, setResults] = useState([]);
         const [modalAcciones, setModalAcciones] = useState(false);
         const [mensaje, setMensaje] = useState('');
+        const { setIdUser, createUsers, updateUsers, idUser } = useContext(AuthContext)
 
         useEffect(() => {
             fetchData();
@@ -406,6 +407,38 @@ import axiosClient from '../axiosClient.js';import {
             })
         }
 
+        const handleSubmit = async (data) => {
+            try {
+                if(mode === 'update'){
+                    axiosClient.put(`/usuarios/actualizar/${idUser.identificacion}`, data).then((response) => {
+                        console.log(response.data)
+                        if(response.status === 201){
+                            setMensaje(response.data.message)
+                            setModalAcciones(true)
+                            setModalOpen(false)
+                            fetchData()
+                        }else{
+                            console.log('Error');
+                        }
+                    })
+                    
+                }else{
+                    axiosClient.post(`/usuarios/registrar`, data).then((response) => {
+                        console.log(response.data);
+                        if(response.status === 201){
+                          setMensaje(response.data.message)
+                          setModalAcciones(true)
+                          setModalOpen(false)
+                          fetchData();
+                      }else{
+                          alert('Error: ')
+                    }
+                })}
+            } catch (error) {
+                console.log('Error del servidor');
+            }
+        }
+
         return (
             <>
                 <Header title="Usuarios"/>       
@@ -422,6 +455,7 @@ import axiosClient from '../axiosClient.js';import {
                         <UsuariosModal
                             open={modalOpen}
                             onClose={() => setModalOpen(false)}
+                            handleSubmit={handleSubmit}
                             actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
                             title={mode === 'create' ? 'Registro de usuario' : 'Actualizar usuario'}
                             mode={mode}

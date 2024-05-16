@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Button, Input, ModalFooter, Select, SelectItem } from '@nextui-org/react';
 import AuthContext from './../../context/authContext.jsx';
 
-const FormUsuarios = ({ actionLabel, mode, onClose }) => {
+const FormUsuarios = ({ actionLabel, mode, onClose, handleSubmit }) => {
  
-    const {createUsers, updateUsers, idUser} = useContext(AuthContext)
+    const { idUser} = useContext(AuthContext)
     const [formData, setFormData] = useState({
         identificacion: '',
         nombre: '',
@@ -37,22 +37,20 @@ const FormUsuarios = ({ actionLabel, mode, onClose }) => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        const data = {
-            identificacion: parseInt(identificacion),
-            nombre,
-            correo_electronico: correo_electronico,
-            telefono,
-            password,
-            tipo_usuario
-        }
         try {
-            if(mode === 'update'){
-                updateUsers(idUser.identificacion, data)
-            }else{
-                createUsers(data)
+            const { identificacion, nombre, correo_electronico, telefono, password, tipo_usuario } = formData;
+   
+            const data = {
+                identificacion: parseInt(identificacion),
+                nombre,
+                correo_electronico: correo_electronico,
+                telefono,
+                password,
+                tipo_usuario
             }
+            handleSubmit(data, e )
         } catch (error) {
-            console.log('ERROR DE SERVIDOR' + error);
+            console.log('Error' + error);
         }
     };
 
@@ -117,6 +115,7 @@ const FormUsuarios = ({ actionLabel, mode, onClose }) => {
                         value={formData.tipo_usuario}
                         onChange={handleChange}
                     >
+                        <option value='admin'> Admin </option>
                         <option value="catador"> Catador </option>
                         <option value="caficultor"> Caficultor </option>
                     </select>

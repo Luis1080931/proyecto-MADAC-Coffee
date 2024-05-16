@@ -11,7 +11,7 @@ export const Dashboard = () => {
       url: 'https://diariodelhuila.com/wp-content/uploads/Foto-4-ENCC-jpg.webp'
     },
     {
-      url: 'https://i2.wp.com/lavozdelaregion.co/wp-content/uploads/2023/09/ENCC-Pitalito.jpg?resize=350%2C200&ssl=1'
+      url: 'https://lavozdelaregion.co/wp-content/uploads/2023/09/ENCC-Pitalito.jpg'
     }
   ];
 

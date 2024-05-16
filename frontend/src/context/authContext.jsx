@@ -8,7 +8,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const [users, setUsers] = useState([]);
+  const [result, setResults] = useState([]);
   const [user, setUser] = useState([])
   const [idUser, setIdUser] = useState([])
   const [mensaje, setMensaje] = useState([])
@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
   const getUsers = async () => {
     try {
       axiosClient.get('/usuarios/listar').then((response) => {
-        setUsers(response.data.data);
+        setResults(response.data);
       })
     } catch (error) {
       console.log('Error del servidor' + error);;
@@ -34,13 +34,13 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  const createUsers = async (data) => {
+  /* const createUsers = async (data) => {
     try {
       axiosClient.post(`/usuarios/registrar`, data).then((response) => {
+        console.log(response.data);
         if(response.status === 201){
           setMensaje(response.data.message)
           setModalAcciones(true)
-          setModalOpen(false)
           getUsers();
       }else{
           alert('Error: ')
@@ -57,7 +57,6 @@ export const AuthProvider = ({ children }) => {
         if(response.status === 201){
           setMensaje(response.data.message)
           setModalAcciones(true)
-          setModalOpen(false)
           getUsers();
       }else{
         alert('Error: ')
@@ -66,13 +65,13 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.log('Error del servidor' + error);
     }
-  }
+  } */
 
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        users,
+        result,
         idUser,
         user, 
         setUser,
@@ -80,9 +79,9 @@ export const AuthProvider = ({ children }) => {
         getUserID,
         setIsAuthenticated,
         getUsers,
-        createUsers,
-        updateUsers,
-        setUsers,
+        /* createUsers,
+        updateUsers, */
+        setResults,
       }}
     >
       <AccionesModal 

@@ -423,7 +423,7 @@ const data = [
             })
         }else if(mode==='update'){
 
-            await axiosClient.put(`/fincas/actualizar/${fincas.codigo}`,datosForm).then((response)=>{
+            await axiosClient.put(`/fincas/actualizar/${fincaS.codigo}`,datosForm).then((response)=>{
                 console.log(response); 
 
                 if(response.status==200){
