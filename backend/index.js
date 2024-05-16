@@ -17,10 +17,6 @@ const servidor = express();
 
 servidor.use(cors());
 
-servidor.use(cors())
-
-servidor.use(cors())
-
 servidor.use(body_parser.json())
 servidor.use(body_parser.urlencoded({extend: false}))
 
