@@ -32,13 +32,7 @@ export const Sidebar = () => {
 ];
 const MenusCatador = [
   { title: "Dashboard", link: "/dashboard", icon: MdDashboard },
-  { title: "Fincas", link: "/fincas", icon: GiFarmTractor   },
-  { title: "Variedades", link: "/variedades", icon: GiCoffeeCup },
-  { title: "Lotes", link: "/lotes", icon: RiPlantFill },
-  { title: "Muestras", link: "/muestras", icon: BiSolidCoffeeBean},
-  { title: "Análisis", link: "/analisis", icon: MdOutlineCoffeeMaker},
-  { title: "Variables", link: "/variables", icon: IoIosPaper},
-  { title: "Resultados", link: "/resultados", icon: BsCardChecklist}
+  { title: "Análisis", link: "/analisis", icon: MdOutlineCoffeeMaker}
 ];
 
   return (
@@ -81,7 +75,7 @@ const MenusCatador = [
                 to={Menu?.link}
                 key={index}
                 onClick={() => setActiveLink(Menu.link)}
-                className={`flex rounded-md p-2 cursor-pointer hover:bg-[#97BCC7] text-gray-300 text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
+                className={`flex rounded-md p-2 cursor-pointer hover:bg-[#97BCC7] text-black text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
                   } ${activeLink === Menu.link ? "bg-[#97BCC7]" : ""}`}
               >
                 <div>{React.createElement(Menu?.icon, { size: "20" })}</div>

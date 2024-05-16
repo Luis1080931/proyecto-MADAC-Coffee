@@ -31,18 +31,21 @@ function App() {
               <Route path="/" element={<Login />} />
               <Route element={<ProtectedRoute />} > 
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/fincas" element={<Fincas />} />
-                <Route path="/lotes" element={<Lotes />} />
-                <Route path="/resultados" element={<Resultados />} />
-                <Route path="/variables" element={<Variables />} />
-                <Route path="/muestras" element={<Muestras />} />
-                <Route path="/variedades" element={<VistaVariedades />} />
-                <Route path="/analisis" element={<VistaAnalisis />} />
                 <Route path="/slider" element={<SliderVertical />} />
                 <Route path="/estadisticas" element={<AnalisisFisicosChart />} />
                 <Route path="/pdf" element={<PDFReport />} />
+                <Route path="/analisis" element={<VistaAnalisis />} />
                 {user && user.tipo_usuario === 'admin' && (
-                  <Route path="/usuarios" element={<Usuarios />} />
+                  <Routes>
+                    <Route path="/usuarios" element={<Usuarios />} />
+                    <Route path="/fincas" element={<Fincas />} />
+                    <Route path="/lotes" element={<Lotes />} />
+                    <Route path="/resultados" element={<Resultados />} />
+                    <Route path="/variables" element={<Variables />} />
+                    <Route path="/muestras" element={<Muestras />} />
+                    <Route path="/variedades" element={<VistaVariedades />} />
+                  </Routes>
+                  
                 )}
               </Route>
               <Route path="*" element={<NotFoundPage />}/>

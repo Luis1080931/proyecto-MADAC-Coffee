@@ -34,39 +34,6 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
-  /* const createUsers = async (data) => {
-    try {
-      axiosClient.post(`/usuarios/registrar`, data).then((response) => {
-        console.log(response.data);
-        if(response.status === 201){
-          setMensaje(response.data.message)
-          setModalAcciones(true)
-          getUsers();
-      }else{
-          alert('Error: ')
-      }
-      })
-    } catch (error) {
-      console.log('Error del servidor'+ error);
-    }
-  };
-
-  const updateUsers = async (id, data) => {
-    try {
-      axiosClient.put(`/usuarios/actualizar/${id}`, data).then((response) => {
-        if(response.status === 201){
-          setMensaje(response.data.message)
-          setModalAcciones(true)
-          getUsers();
-      }else{
-        alert('Error: ')
-      }
-    })
-    } catch (error) {
-      console.log('Error del servidor' + error);
-    }
-  } */
-
   return (
     <AuthContext.Provider
       value={{
@@ -79,8 +46,6 @@ export const AuthProvider = ({ children }) => {
         getUserID,
         setIsAuthenticated,
         getUsers,
-        /* createUsers,
-        updateUsers, */
         setResults,
       }}
     >
