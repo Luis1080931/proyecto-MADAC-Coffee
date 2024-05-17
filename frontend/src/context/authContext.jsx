@@ -1,7 +1,5 @@
 import { createContext,  useState } from "react";
-import axiosClient from "../components/axiosClient.js";
-import AccionesModal from './../components/organisms/ModalAcciones.jsx';
-import axios from "axios";
+import axiosClient from "../components/axiosClient.js"
 
 const AuthContext = createContext();
 
@@ -11,8 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [result, setResults] = useState([]);
   const [user, setUser] = useState([])
   const [idUser, setIdUser] = useState([])
-  const [mensaje, setMensaje] = useState([])
-  const [modalAcciones, setModalAcciones] = useState(false)
 
   const getUsers = async () => {
     try {
@@ -49,12 +45,6 @@ export const AuthProvider = ({ children }) => {
         setResults,
       }}
     >
-      <AccionesModal 
-        isOpen={modalAcciones}
-        onClose={() => setModalAcciones(false)}
-        label={mensaje}
-      />
-      
       {children}
     </AuthContext.Provider>
     )

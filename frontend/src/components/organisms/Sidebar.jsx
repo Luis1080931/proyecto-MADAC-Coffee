@@ -32,7 +32,8 @@ export const Sidebar = () => {
 ];
 const MenusCatador = [
   { title: "Dashboard", link: "/dashboard", icon: MdDashboard },
-  { title: "Análisis", link: "/analisisCatador", icon: MdOutlineCoffeeMaker}
+  { title: "Análisis", link: "/analisisCatador", icon: MdOutlineCoffeeMaker},
+  { title: "Resultados", link: "/resultados", icon: BsCardChecklist}
 ];
 
   return (
@@ -54,7 +55,7 @@ const MenusCatador = [
             <FaX to="/subcoffee" color="cafeOscuroLogo" text="Coffee" className={`${!open && "scale-0"}`} /> */}
           </div>
           <ul className="pt-6">
-            { user.tipo_usuario == 'admin' ? Menus.map((Menu, index) => (
+            { user.tipo_usuario === 'admin' ? Menus.map((Menu, index) => (
               <Link
                 to={Menu?.link}
                 key={index}

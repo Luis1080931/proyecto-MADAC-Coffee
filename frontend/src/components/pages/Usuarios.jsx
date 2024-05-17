@@ -305,7 +305,7 @@ export function Usuarios() {
         const [results, setResults] = useState([]);
         const [modalAcciones, setModalAcciones] = useState(false);
         const [mensaje, setMensaje] = useState('');
-        const { setIdUser, createUsers, updateUsers, idUser } = useContext(AuthContext)
+        const { setIdUser, idUser } = useContext(AuthContext)
 
         useEffect(() => {
             fetchData();

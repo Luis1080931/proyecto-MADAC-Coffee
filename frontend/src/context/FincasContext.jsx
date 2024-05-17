@@ -1,9 +1,9 @@
 import React, { createContext, useState } from 'react'
 import axiosClient from '../components/axiosClient'
 
-export const FincasContext = createContext()
+const FincasContext = createContext()
 
-const FincasContext = () => {
+export const FincasProvider = ({ children }) => {
 
     const [fincas, setFincas] = useState([])
     const [finca, setFinca] = useState([])

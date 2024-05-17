@@ -101,14 +101,7 @@ function Ejemplo() {
           <Chip className="capitalize" color={statusColorMap[result.estado]} size="sm" variant="flat">
             {cellValue}
           </Chip>
-        );
-      case "actions":
-        return (
-          <div className="flex flex-row">
-            <ButtonActualizar click={() =>  handleToggle('update', result)} /> 
-          </div>
-          
-        );
+        )
       default:
         return cellValue;
     }
@@ -331,17 +324,12 @@ function Ejemplo() {
             uid: "estado",
             name: "ESTADO",
             sortable: true
-        },
-        { 
-            uid: "actions",
-            name: "ACCIONES",
-            sortable: true
-        },
+        }
     ];
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString('es-ES'); // Puedes ajustar el idioma según tu preferencia
+        return date.toLocaleDateString('es-ES'); 
     }
 
     const stored = localStorage.getItem('user');

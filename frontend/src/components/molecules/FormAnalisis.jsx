@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Input, ModalFooter, Select, SelectItem } from '@nextui-org/react';
 import axiosClient from '../axiosClient';
+import AnalisisContext from '../../context/AnalisisContext';
 
 const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose }) => {
 
-  const [fechaValue, setFechaValue] = useState('');
-  const [analistaValue, setAnalistaValue] = useState('');
-  const [muestraValue, setMuestraValue] = useState('');
-  const [tipoAnalisisValue, setTipoAnalisisValue] = useState('');
+  const [formData, setFormData] = useState({
+    fecha: '',
+    analista: '',
+    fk_muestra: '',
+    fk_tipo_analisis: ''
+  })
+
+  const { analisisId } = useContext(AnalisisContext)
 
   const [catadores, setCatadores] = useState([]);
   const [muestras, setMuestras] = useState([]);
@@ -34,35 +39,46 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose })
   }, []);
 
   useEffect(() => {
-    if (mode === 'update' && initialData && initialData.fecha) {
-      const fechaDate = new Date(initialData.fecha);
+    if (mode === 'update' && analisisId && analisisId.fecha) {
+      const fechaDate = new Date(analisisId.fecha);
       if (!isNaN(fechaDate.getTime())) {
         const formattedDate = fechaDate.toISOString().split('T')[0];
-        setFechaValue(formattedDate);
-        setAnalistaValue(initialData.analista);
-        setMuestraValue(initialData.fk_muestra);
-        setTipoAnalisisValue(initialData.fk_tipo_analisis);
+        setFormData({
+          fecha: formattedDate,
+          analista: analisisId.analista,
+          fk_muestra: analisisId.fk_muestra,
+          fk_tipo_analisis: analisisId.fk_tipo_analisis
+        })
       } else {
         console.error('initialData.fecha no es una instancia válida de Date');
       }
     }
     
-  }, [mode, initialData]);
+  }, [mode, analisisId]);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     try {
-      const fechaValues = new Date(fechaValue).toISOString().slice(0, 10);
+      
+      const {fecha, analista, fk_muestra, fk_tipo_analisis } = formData
+
       const data = {
-        fecha: fechaValues,
-        analista: analistaValue,
-        fk_muestra: muestraValue,
-        fk_tipo_analisis: tipoAnalisisValue
+        fecha: fecha,
+        analista: analista,
+        fk_muestra,
+        fk_tipo_analisis
       };
       handleSubmit(data, e);
     } catch (error) {
       console.log('Error de submit' + error);
     }
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
@@ -72,8 +88,8 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose })
           <Input
             type="date"
             name="fecha"
-            value={fechaValue}
-            onChange={(e) => setFechaValue(e.target.value)}
+            value={formData.fecha}
+            onChange={handleChange}
             required={true}
             label="Ingrese la fecha"
           />
@@ -82,8 +98,8 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose })
           <Select
             label="Seleccione el analista"
             name="analista"
-            value={analistaValue}
-            onChange={(e) => setAnalistaValue(e.target.value)}
+            value={formData.analista}
+            onChange={handleChange}
             required={true}
             selectionMode="single"
           >
@@ -98,8 +114,8 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose })
           <Select
             label="Seleccione la muestra"
             name="fk_muestra"
-            value={muestraValue}
-            onChange={(e) => setMuestraValue(e.target.value)}
+            value={formData.fk_muestra}
+            onChange={handleChange}
             required={true}
           >
             {muestras.map(mues => (
@@ -114,8 +130,8 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose })
             label="Tipo de análisis"
             placeholder="Seleccione el tipo de análisis"
             name="fk_tipo_analisis"
-            value={tipoAnalisisValue}
-            onChange={(e) => setTipoAnalisisValue(e.target.value)}
+            value={formData.fk_tipo_analisis}
+            onChange={handleChange}
             required={true}
           >
             {tipoAnalisis.map(tipo => (

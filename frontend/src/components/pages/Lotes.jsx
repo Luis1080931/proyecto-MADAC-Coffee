@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Header } from './../molecules/Header.jsx'
 import AccionesModal from '../organisms/ModalAcciones.jsx'
 import LotesModal from '../templates/Lotes.jsx';
@@ -25,6 +25,7 @@ import {
   import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
   import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
   import ButtonActivar from "../atoms/ButtonActivar.jsx";
+  import LotesContext from '../../context/LotesContext.jsx';
 
 export function Lotes () {
 
@@ -97,13 +98,6 @@ function Ejemplo() {
   const renderCell = React.useCallback((lotes, columnKey) => {
     const cellValue = lotes[columnKey];
 
-  
-const handleUpdateClick = (id) => {
- 
-  localStorage.setItem('idUser', id)
-  clickEditar(id)
-};
-
     switch (columnKey) {
       case "estado":
         return (
@@ -114,7 +108,7 @@ const handleUpdateClick = (id) => {
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
-            <ButtonActualizar click={() => handleToggle('update', lotes)} />
+            <ButtonActualizar click={() => handleToggle('update', setLoteId(lotes))} />
             {lotes.estado === 'activo' ? (
               <ButtonDesactivar click={() => peticionDesactivar(lotes.codigo)} />
             ) : (
@@ -310,6 +304,7 @@ const handleUpdateClick = (id) => {
     const [initialData,setInitialData]=useState(null);
     const [mensaje, setMensaje] = useState('')
     const [lotes,setLotes]=useState([]);
+    const { idLote, setLoteId }= useContext(LotesContext)
 
     useEffect(()=>{
 
@@ -425,7 +420,7 @@ const handleActivar = async (codigo) => {
             })
         }else if(mode==='update'){
 
-            await axiosClient.put(`/lotes/actulizar/${lotes.codigo}`,formData).then((response)=>{
+            await axiosClient.put(`/lotes/actulizar/${idLote.codigo}`,formData).then((response)=>{
                 console.log(response); 
 
                 if(response.status==200){

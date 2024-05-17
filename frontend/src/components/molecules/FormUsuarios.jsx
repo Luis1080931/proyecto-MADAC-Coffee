@@ -5,6 +5,7 @@ import AuthContext from './../../context/authContext.jsx';
 const FormUsuarios = ({ actionLabel, mode, onClose, handleSubmit }) => {
  
     const { idUser} = useContext(AuthContext)
+    
     const [formData, setFormData] = useState({
         identificacion: '',
         nombre: '',

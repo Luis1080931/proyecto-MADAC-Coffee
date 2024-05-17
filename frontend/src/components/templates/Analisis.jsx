@@ -8,7 +8,7 @@ function AnalisisModal ({ open, onClose, handleSubmit, actionLabel, initialData,
       <>
 
       <ModalAcciones open={open} onClose={onClose} title={title}> 
-        <FormAnalisis handleSubmit={handleSubmit} actionLabel={actionLabel} initialData={initialData} mode={mode} onClose={onClose} />
+        <FormAnalisis handleSubmit={handleSubmit} actionLabel={actionLabel} mode={mode} onClose={onClose} />
       </ModalAcciones>
       
       </>

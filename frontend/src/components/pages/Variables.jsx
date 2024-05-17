@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Header } from './../molecules/Header.jsx'
 import VariablesModal from '../templates/VariablesModal.jsx';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
@@ -25,6 +25,7 @@ import {
   import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
   import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
   import ButtonActivar from "../atoms/ButtonActivar.jsx";
+  import VariablesContext from '../../context/VariablesContext.jsx';
 
 export function Variables () {
 
@@ -94,14 +95,15 @@ function Ejemplo() {
   const renderCell = React.useCallback((variable, columnKey) => {
     const cellValue = variable[columnKey];
 
-  
-const handleUpdateClick = (id) => {
- 
-  localStorage.setItem('idUser', id)
-  clickEditar(id)
-};
-
     switch (columnKey) {
+      case "tipo_analisis":
+        return (
+          <Chip className="capitalize" size="sm" variant=''>
+            {
+              variable.tipo_analisis === 1 ? "Fisico" : "Sensorial"
+            }
+          </Chip>
+        );
       case "estado":
         return (
           <Chip className="capitalize" color={statusColorMap[variable.estado]} size="sm" variant="flat">
@@ -111,7 +113,7 @@ const handleUpdateClick = (id) => {
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
-            <ButtonActualizar click={() => handleToggle('update', variable)} />
+            <ButtonActualizar click={() => handleToggle('update', setVariableId(variable))} />
             {variable.estado === 'activo' ? (
               <ButtonDesactivar click={() => handleDesactivar(variable.v_codigo)} />
             ) : (
@@ -307,6 +309,7 @@ const handleUpdateClick = (id) => {
     const [initialData, setInitialData ] = useState(null)
     const [mensaje, setMensaje] = useState('')
     const [variables, setVariables] = useState([])
+    const { variableId, setVariableId } = useContext(VariablesContext)
 
     useEffect(() => {   
         fetchData()
@@ -385,8 +388,6 @@ const handleUpdateClick = (id) => {
         })
     }
 
-    const id = localStorage.getItem('idUser')
-
     const handleSubmit = async (datosForm, e  ) => {
         console.log(datosForm);
         e.preventDefault()
@@ -404,7 +405,7 @@ const handleUpdateClick = (id) => {
                     }
                 })
             }else if (mode === 'update'){
-                await axiosClient.put(`/variable/actualizar/${variables.v_codigo}`, datosForm).then((response) => {
+                await axiosClient.put(`/variable/actualizar/${variableId.v_codigo}`, datosForm).then((response) => {
                     console.log(response);
 
                     if(response.status == 200){

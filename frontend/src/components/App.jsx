@@ -10,13 +10,13 @@ import VistaVariedades from "./pages/VistaVariedades.jsx"
 import VistaAnalisis from "./pages/VistaAnalisis.jsx"
 import { Resultados } from "./pages/Resultados.jsx"
 import NotFoundPage from "./pages/NotFoundPages.jsx"
-import { AuthProvider } from "../context/authContext.jsx"
 import { NextUIProvider } from "@nextui-org/react"
 import ProtectedRoute from "../Protected.jsx"
 import SliderVertical from "./organisms/Slider.jsx"
 import AnalisisFisicosChart from "./organisms/Estadisticas.jsx"
 import PDFReport from "./organisms/Reportes.jsx"
 import VistaAnalisisCatador from "./pages/AnalisisCatador.jsx"
+import GlobalProvider from "../context/GlobalContext.jsx"
 
 
 const stored = localStorage.getItem('user')
@@ -26,7 +26,7 @@ function App() {
 
   return (
     <NextUIProvider>
-      <AuthProvider>
+      <GlobalProvider>
         <BrowserRouter>    
         {/*   <Sidebar /> */}
             <Routes>
@@ -38,7 +38,7 @@ function App() {
                 <Route path="/pdf" element={<PDFReport />} />
                 <Route path="/analisis" element={<VistaAnalisis />} />
                 {user && user.tipo_usuario === 'admin' && (
-                  <Routes>
+                  <>
                     <Route path="/usuarios" element={<Usuarios />} />
                     <Route path="/fincas" element={<Fincas />} />
                     <Route path="/lotes" element={<Lotes />} />
@@ -46,17 +46,21 @@ function App() {
                     <Route path="/variables" element={<Variables />} />
                     <Route path="/muestras" element={<Muestras />} />
                     <Route path="/variedades" element={<VistaVariedades />} />
-                  </Routes>
+                  </>
                 )}
                 {user && user.tipo_usuario === 'catador' && (
-                  <Route path="/analisisCatador" element={<VistaAnalisisCatador />} />
-                )}
+                  <>
+                    <Route path="/analisisCatador" element={<VistaAnalisisCatador />} />
+                    <Route path="/resultados" element={<Resultados />} />
+                  </>
+                  
+                )} 
               </Route>
               <Route path="*" element={<NotFoundPage />}/>
             </Routes>
 
         </BrowserRouter>
-      </AuthProvider>
+      </GlobalProvider>
     </NextUIProvider>
   )
 }

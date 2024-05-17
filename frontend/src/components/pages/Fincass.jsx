@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Header } from '../molecules/Header.jsx';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
 import FincasModal from '../templates/Fincas.jsx'; 
@@ -25,6 +25,7 @@ import {
   import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
   import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
   import ButtonActivar from "../atoms/ButtonActivar.jsx";
+  import FincasContext from '../../context/FincasContext.jsx';
 
 export function Fincas() {
 
@@ -108,7 +109,7 @@ function Ejemplo() {
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
-            <ButtonActualizar click={() => handleToggle('update', finca)} />
+            <ButtonActualizar click={() => handleToggle('update', setIdFinca(finca))} />
             {finca.estado === 'activo' ? (
               <ButtonDesactivar click={() => peticionDesactivar(finca.codigo)} />
             ) : (
@@ -301,9 +302,9 @@ function Ejemplo() {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalAcciones, setModalAcciones] = useState(false)
     const [mode, setMode] = useState('create');
-    const [initialData, setInitialData] = useState(null)
     const [mensaje, setMensaje] = useState('')
     const [fincas,setFincas] = useState([]);
+    const { setIdFinca, idFinca } = useContext(FincasContext)
 
     useEffect(()=>{
         
@@ -401,15 +402,15 @@ const data = [
 
 
      //PETICION PARA ACTIVAR FINCAS
-    const handleSubmit=async(datosForm,e)=>{
-        console.log(datosForm);
+    const handleSubmit=async(data,e)=>{
+        console.log(data);
         e.preventDefault()
 
         try{
         
         if(mode === 'create'){
             
-            await axiosClient.post('/fincas/registrar', datosForm).then((response)=>{
+            await axiosClient.post('/fincas/registrar', data).then((response)=>{
                 console.log(response)
 
                 if(response.status == 200){
@@ -423,8 +424,8 @@ const data = [
             })
         }else if(mode==='update'){
 
-            await axiosClient.put(`/fincas/actualizar/${fincaS.codigo}`,datosForm).then((response)=>{
-                console.log(response); 
+            await axiosClient.put(`/fincas/actualizar/${idFinca.codigo}`,data).then((response)=>{
+                console.log(response.data); 
 
                 if(response.status==200){
                     setMensaje(response.data.message)
@@ -445,8 +446,7 @@ const data = [
     }
 
 
-    const handleToggle = (mode, initialData) => {
-        setInitialData(initialData);
+    const handleToggle = (mode) => {
         setModalOpen(true);
         setMode(mode);
     };
@@ -466,7 +466,6 @@ const data = [
                     onClose={() => setModalOpen(false)} 
                     title={mode === 'create' ? 'Registrar resultados' : 'Actualizar fincas'}
                     actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                    initialData={initialData}
                     handleSubmit={handleSubmit}
                     mode={mode}
                 />

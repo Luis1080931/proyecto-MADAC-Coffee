@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Header } from '../molecules/Header.jsx';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
 import AnalisisModal from '../templates/Analisis.jsx';
@@ -25,6 +25,7 @@ import {
   import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
   import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
   import ButtonActivar from "../atoms/ButtonActivar.jsx";
+import AnalisisContext from '../../context/AnalisisContext.jsx';
 
 function VistaAnalisis() {
 
@@ -97,13 +98,6 @@ function Ejemplo() {
   const renderCell = React.useCallback((result, columnKey) => {
     const cellValue = result[columnKey];
 
-  
-const handleUpdateClick = (id) => {
- 
-  localStorage.setItem('idUser', id)
-  clickEditar(id)
-};
-
     switch (columnKey) {
       case "estado":
         return (
@@ -114,7 +108,7 @@ const handleUpdateClick = (id) => {
       case "actions":
         return (
           <div className="flex flex-row">
-            <ButtonActualizar click={() =>  handleToggle('update', result)} /> 
+            <ButtonActualizar click={() =>  handleToggle('update', setAnalisisId(result))} /> 
             {result.estado === 'activo' ? (
               <ButtonDesactivar click={() => handleDesactivar(result.codigo)} />
             ) : (
@@ -312,7 +306,7 @@ const handleUpdateClick = (id) => {
     const [modalOpen, setModalOpen] = useState(false)
     const [mensaje, setMensaje] = useState('')
     const [mode, setMode] = useState('create')
-    const [initialData, setInitialData] = useState(null)
+    const { setAnalisisId, analisisId } = useContext(AnalisisContext)
 
     const data = [
         { 
@@ -406,8 +400,7 @@ const handleUpdateClick = (id) => {
         fetchData();
     }, []);
 
-    const handleToggle = (mode, initialData) => {
-        setInitialData(initialData)
+    const handleToggle = (mode) => {
         setModalOpen(true)
         setMode(mode)
     }
@@ -429,7 +422,7 @@ const handleUpdateClick = (id) => {
                     
                 });
             }else if(mode == 'update'){ 
-                axiosClient.put(`/analisis/actualizar/${results.codigo}`,data).then((response) => {
+                axiosClient.put(`/analisis/actualizar/${analisisId.codigo}`,data).then((response) => {
                     console.log(response.data)
                     if(response.status == 201){
                         setMensaje(response.data.message)
@@ -463,7 +456,6 @@ const handleUpdateClick = (id) => {
                     title={mode === 'create' ? 'Registrar Análisis' : 'Actualizar Análisis'}
                     actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
                     mode={mode}
-                    initialData={initialData}
                     handleSubmit={handleSubmit}
                 />
                 <Ejemplo 

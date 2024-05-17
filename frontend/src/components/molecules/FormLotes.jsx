@@ -1,6 +1,7 @@
-import React, { useRef,useEffect,useState } from 'react';
+import React, { useRef,useEffect,useState, useContext } from 'react';
 import axiosClient from '../axiosClient';
 import { ModalFooter,Button, Input, Select, SelectItem } from '@nextui-org/react';
+import LotesContext from './../../context/LotesContext.jsx'
 
 export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel }) => {
 
@@ -10,6 +11,7 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
     const [numero, setNumero] = useState('')
     const [finca, setFinca] = useState('')
     const [variedadFk, setVariedadFk] = useState('')
+    const { idLote } = useContext(LotesContext)
 
     useEffect(() => {
         axiosClient.get('/fincas/activas').then((response) => {
@@ -27,12 +29,12 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
 
 
     useEffect(()=>{
-        if(mode=='update' && initialData){
-            setNumero(initialData.numero_arboles)
-            setFinca(initialData.fk_finca)
-            setVariedadFk(initialData.fk_variedad)
+        if(mode=='update' && idLote){
+            setNumero(idLote.numero_arboles)
+            setFinca(idLote.fk_finca)
+            setVariedadFk(idLote.fk_variedad)
         }
-    },[mode,initialData])
+    },[mode,idLote])
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -55,9 +57,9 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
                 <div className='flex flex-col'>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input 
-                            id='numero_arboles'
+                            id='numero'
                             type="number" 
-                            name='numero_arboles'
+                            name='numero'
                             label='Ingrese el número de árboles'
                             value={numero}
                             onChange={(e) => setNumero(e.target.value)}
@@ -65,22 +67,22 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
                         />
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4" >
-                        <Select label='Seleccione la finca' value={finca} onChange={(e) => setFinca(e.target.value)} required={true} >
+                        <select name='finca' label='Seleccione la finca' value={finca} onChange={(e) => setFinca(e.target.value)} required={true} >
                             {fincas.map(finca => (
-                                <SelectItem key={finca.codigo} value={finca.codigo} textValue={finca.codigo}>
+                                <option key={finca.codigo} value={finca.codigo} textValue={finca.codigo}>
                                     {finca.codigo} - {finca.fk_caficultor}
-                                </SelectItem>
+                                </option>
                             ))}
-                        </Select>
+                        </select>
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                        <Select label='Seleccione la variedad' value={variedadFk} onChange={(e) => setVariedadFk(e.target.value)} required={true} >
+                        <select name='variedadFk' label='Seleccione la variedad' value={variedadFk} onChange={(e) => setVariedadFk(e.target.value)} required={true} >
                             {variedades.map(variedad => (
-                                <SelectItem key={variedad.codigo} value={variedad.codigo}>
+                                <option key={variedad.codigo} value={variedad.codigo}>
                                     {variedad.nombre}
-                                </SelectItem>
+                                </option>
                             ))}
-                        </Select>
+                        </select>
                     </div>
                     <ModalFooter>
                         <Button

@@ -1,23 +1,24 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import { ModalFooter, Button, SelectItem, Select, Input } from "@nextui-org/react";
 import axiosClient from '../axiosClient';
+import FincasContext from './../../context/FincasContext.jsx'
 
-export const FormFincass = ({ mode, initialData, handleSubmit, onClose, actionLabel }) => {
+export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
 
     const [caficultores, setCaficultores] = useState([]);
     const [municipios, setMunicipios] = useState([]);
     const [formData, setFormData] = useState({
         dimension_mt2: '',
         fk_caficultor: '',
-        municipio: '',
+        municipios: '',
         vereda: ''
     });
 
-    const { dimension_mt2, fk_caficultor, municipio, vereda } = formData;
+    const { idFinca } = useContext(FincasContext)
 
     useEffect(() => {
         axiosClient.get('/usuarios/caficultores').then((response) => {
-            console.log(response.data);
+            // console.log(response.data);
             setCaficultores(response.data);
         });
     }, []);
@@ -29,29 +30,40 @@ export const FormFincass = ({ mode, initialData, handleSubmit, onClose, actionLa
     }, []);
 
     useEffect(() => {
-        if (mode === 'update' && initialData) {
+        if (mode === 'update' && idFinca) {
             setFormData({
-                dimension_mt2: initialData.dimension_mt2,
-                fk_caficultor: initialData.fk_caficultor,
-                municipio: initialData.municipio,
-                vereda: initialData.vereda
+                dimension_mt2: idFinca.dimension_mt2,
+                fk_caficultor: idFinca.fk_caficultor,
+                municipio: idFinca.municipio,
+                vereda: idFinca.vereda
             });
+            console.log(idFinca.municipio);
         }
-    }, [mode, initialData]);
+    }, [mode, idFinca]);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            await handleSubmit(formData, e);
+            const { dimension_mt2, fk_caficultor, municipio, vereda } = formData;
+            const data = {
+                dimension_mt2,
+                fk_caficultor,
+                municipio,
+                vereda
+            }
+
+            handleSubmit(data, e)
         } catch (error) {
             alert('Hay un error en el sistema ' + error);
         }
     };
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
+        setFormData({
+          ...formData,
+          [e.target.name]: e.target.value,
+        });
+      };
 
     return (
         <>
@@ -63,40 +75,41 @@ export const FormFincass = ({ mode, initialData, handleSubmit, onClose, actionLa
                             name='dimension_mt2'
                             type="number"
                             placeholder='Ingrese las dimensiones de la finca'
-                            value={dimension_mt2}
+                            value={formData.dimension_mt2}
                             onChange={handleChange}
                             required
                         />
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                        <Select
+                        <select
                             name='fk_caficultor'
+                            id='fk_caficultor'
                             required
                             label='Seleccione el caficultor'
-                            value={fk_caficultor}
+                            value={formData.fk_caficultor}
                             onChange={handleChange}
                         >
-                            {caficultores.map(cafi => (
-                                <SelectItem key={cafi.identificacion} value={cafi.identificacion}>
+                            {caficultores.map((cafi) => (
+                                <option key={cafi.identificacion} value={cafi.identificacion}>
                                     {cafi.nombre}
-                                </SelectItem>
+                                </option>
                             ))}
-                        </Select>
+                        </select>
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                        <Select
+                        <select
                             name='municipio'
                             required
                             label='Seleccione el municipio'
-                            value={municipio}
+                            value={formData.municipio}
                             onChange={handleChange}
                         >
                             {municipios.map(municipio => (
-                                <SelectItem key={municipio.id_municipio} value={municipio.id_municipio}>
+                                <option key={municipio.id_municipio} value={municipio.id_municipio}>
                                     {municipio.nombre}
-                                </SelectItem>
+                                </option>
                             ))}
-                        </Select>
+                        </select>
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input
@@ -104,7 +117,7 @@ export const FormFincass = ({ mode, initialData, handleSubmit, onClose, actionLa
                             type="text"
                             name='vereda'
                             label='Ingrese la vereda'
-                            value={vereda}
+                            value={formData.vereda}
                             onChange={handleChange}
                             required
                         />
