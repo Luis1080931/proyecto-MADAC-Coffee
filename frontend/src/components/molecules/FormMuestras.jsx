@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ModalFooter, Button, Input, Textarea, Select, SelectItem } from '@nextui-org/react';
 import axiosClient from '../axiosClient';
+import MuestrasContext from './../../context/MuestrasContext.jsx'
 
-const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) => {
+const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
 
     const [fecha, setFecha] = useState('')
     const [cantidad, setCantidad] = useState('')
@@ -13,6 +14,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
     const [secado, setSecado] = useState('')
     const [observaciones, setObservaciones] = useState('')
     const [loteFk, setLoteFk] = useState('') 
+    const { idMuestra } = useContext(MuestrasContext)
 
     const [lotes, setLotes] = useState([])
 
@@ -23,77 +25,24 @@ const FormMuestras = ({ actionLabel, handleSubmit, initialData, mode, onClose}) 
       })
     }, [])
 
-    const [errors, setErrors] = useState({
-      fecha: '',
-      cantidad: '',
-      quien_recibe: '',
-      proceso_fermentacion: '',
-      humedad_cafe: '',
-      altura_MSNM: '',
-      tipo_secado: '',
-      observaciones: '', 
-      fk_lote: ''
-    });
-
     useEffect(() => {
-      if(mode === 'update' && initialData) {
+      if(mode === 'update' && idMuestra) {
         
-          setFecha(initialData.fecha),
-          setCantidad(initialData.cantidad),
-          setQuienRecibe(initialData.quien_recibe),
-          setProceso(initialData.proceso_fermentacion),
-          setHumedad(initialData.humedad_cafe),
-          setAltura(initialData.altura_MSNM),
-          setSecado(initialData.tipo_secado),
-          setObservaciones(initialData.observaciones),
-          setLoteFk(initialData.fk_lote)
+          setFecha(idMuestra.fecha),
+          setCantidad(idMuestra.cantidad),
+          setQuienRecibe(idMuestra.quien_recibe),
+          setProceso(idMuestra.proceso_fermentacion),
+          setHumedad(idMuestra.humedad_cafe),
+          setAltura(idMuestra.altura_MSNM),
+          setSecado(idMuestra.tipo_secado),
+          setObservaciones(idMuestra.observaciones),
+          setLoteFk(idMuestra.fk_lote)
         
       }
-    }, [mode, initialData]);
+    }, [mode, idMuestra]);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault()
-
-        /* let hasErrors = false;
-        const newErrors = { ...errors };
-
-        // Validación de la "cantidad" como un número decimal positivo
-        if (!datosForm.cantidad || isNaN(datosForm.cantidad) || datosForm.cantidad <= 0) {
-          newErrors.cantidad = 'La cantidad debe ser un valor numérico positivo';
-          hasErrors = true;
-        }
-
-        // Validación de "quien_recibe" para que solo contenga letras
-        if (!datosForm.quien_recibe || !/^[a-zA-Z\s]+$/.test(datosForm.quien_recibe)) {
-          newErrors.quien_recibe = 'El nombre del receptor debe contener solo letras';
-          hasErrors = true;
-        }
-        if (!datosForm.proceso_fermentacion || !/^[a-zA-Z\s]+$/.test(datosForm.proceso_fermentacion)) {
-          newErrors.proceso_fermentacion = 'El proceso de fermentación debe contener solo letras';
-          hasErrors = true;
-        }
-        if (!datosForm.humedad_cafe || isNaN(datosForm.humedad_cafe) || datosForm.humedad_cafe <= 0) {
-            newErrors.humedad_cafe = 'La humedad debe ser un valor numérico positivo';
-            hasErrors = true;
-          }
-        if (!datosForm.altura_MSNM || isNaN(datosForm.altura_MSNM) || datosForm.altura_MSNM <= 0) {
-            newErrors.altura_MSNM = 'La Altura debe ser un valor numérico positivo';
-            hasErrors = true;
-          }
-          if (!datosForm.tipo_secado || !/^[a-zA-Z\s]+$/.test(datosForm.tipo_secado)) {
-            newErrors.tipo_secado = 'El Tipo de secado debe contener solo letras';
-            hasErrors = true;
-          }
-          if ( !datosForm.fk_lote || isNaN(datosForm.fk_lote) || datosForm.fk_lote<= 0) {
-            newErrors.hasErrors = 'El valor de fk debe ser de numerico entero positivo';
-            hasErrors = true
-          }
-
-        setErrors(newErrors);
-
-        if (hasErrors) {
-          return;
-        } */
 
         try {
           const fechaValue = new Date(fecha).toISOString().slice(0, 10);

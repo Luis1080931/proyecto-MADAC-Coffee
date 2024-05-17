@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect, useContext} from 'react'
 import { Header } from './../molecules/Header.jsx'
 import MuestrasModal from '../templates/MuestrasModal.jsx';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
@@ -25,7 +25,7 @@ import {
   import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
   import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
   import ButtonActivar from "../atoms/ButtonActivar.jsx";
-
+import MuestrasContext from '../../context/MuestrasContext.jsx';
 
 export function Muestras () {
 
@@ -102,13 +102,6 @@ function Ejemplo() {
   const renderCell = React.useCallback((muestra, columnKey) => {
     const cellValue = muestra[columnKey];
 
-  
-const handleUpdateClick = (id) => {
- 
-  localStorage.setItem('idUser', id)
-  clickEditar(id)
-};
-
     switch (columnKey) {
       case "estado":
         return (
@@ -119,7 +112,7 @@ const handleUpdateClick = (id) => {
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
-            <ButtonActualizar click={() => handleToggle('update', muestra)} />
+            <ButtonActualizar click={() => handleToggle('update', setMuestrasId(muestra))} />
             {muestra.estado === 'activo' ? (
               <ButtonDesactivar click={() => handleDesactivar(muestra.codigo)} />
             ) : (
@@ -315,6 +308,7 @@ const handleUpdateClick = (id) => {
     const [initialData, setInitialData ] = useState(null)
     const [mensaje, setMensaje] = useState('')
     const [muestras, setMuestras] = useState([])
+    const { idMuestras, setMuestrasId } = useContext(MuestrasContext)
 
     useEffect(() => {
         fetchData()
@@ -433,8 +427,6 @@ const handleUpdateClick = (id) => {
             }
         })
     }
-
-    const id = localStorage.getItem('idUser')
     
     const handleSubmit = async (datosForm, e) => {
         console.log(datosForm); 
@@ -454,7 +446,7 @@ const handleUpdateClick = (id) => {
                 })
 
             } else if (mode === 'update') {
-                await axiosClient.put(`/muestra/actualizar/${muestras.codigo}`, datosForm).then((response) => {
+                await axiosClient.put(`/muestra/actualizar/${idMuestras.codigo}`, datosForm).then((response) => {
                     console.log(response);
 
                     if (response.status == 200) {

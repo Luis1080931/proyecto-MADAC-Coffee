@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Header } from '../molecules/Header';
 import AccionesModal from '../organisms/ModalAcciones';
 import VariedadesModal from '../templates/Variedades';
@@ -25,6 +25,7 @@ import {
   import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
   import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
   import ButtonActivar from "../atoms/ButtonActivar.jsx";
+  import VariedadesContext from '../../context/VariedadesContext.jsx';
 
 const VistaVariedades = () => {
 
@@ -104,7 +105,7 @@ function TableVariedades() {
       case "actions":
         return (
           <div className="flex flex-row">
-            <ButtonActualizar click={() =>  handleToogle('update', result)} /> 
+            <ButtonActualizar click={() =>  handleToogle('update', setVariedadId(result))} /> 
             {result.estado === 'activo' ? (
               <ButtonDesactivar click={() => handleDesactivar(result.codigo)} />
             ) : (
@@ -302,6 +303,7 @@ const [ modalAccionesOpen, setModalAccionesOpen ] = useState(false)
 const [mode, setMode] = useState('create')
 const [initialData, setInitialData ] = useState(null)
 const [mensaje, setMensaje] = useState('')
+const {setVariedadId, variedadId} = useContext(VariedadesContext)
 
     const fetchData = async () => {
         try {
@@ -358,7 +360,7 @@ const [mensaje, setMensaje] = useState('')
                     alert('Error')
                 }
             }else if(mode == 'update'){
-                axiosClient.put(`/variedades/actualizar/${results.codigo}`, data).then((response) => {
+                axiosClient.put(`/variedades/actualizar/${variedadId.codigo}`, data).then((response) => {
                   console.log(response.data)
 
                   if(response.status==201){

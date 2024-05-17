@@ -6,6 +6,7 @@ import { VariablesProvider } from './VariablesContext.jsx'
 import { VariedadesProvider } from './VariedadesContext.jsx'
 import { LotesProvider } from './LotesContext.jsx'
 import { FincasProvider } from './FincasContext.jsx'
+import { MuestrasProvider } from './MuestrasContext.jsx'
 
 export const GlobalContext = createContext()
 
@@ -22,7 +23,9 @@ const globalContextValue = {}
                         <VariedadesProvider>
                             <FincasProvider>
                                 <LotesProvider>
-                                    {children}
+                                    <MuestrasProvider>
+                                        {children}
+                                    </MuestrasProvider>
                                 </LotesProvider>
                             </FincasProvider>
                         </VariedadesProvider>

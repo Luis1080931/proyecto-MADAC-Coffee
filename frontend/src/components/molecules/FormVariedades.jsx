@@ -1,14 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Button, Input, ModalFooter } from '@nextui-org/react'
+import VariedadesContext from '../../context/VariedadesContext';
 
-const FormVariedades = ({ handleSubmit, onClose, actionLabel, mode, initialData }) => {
-  const [nombreValue, setNombreValue] = useState('');
+const FormVariedades = ({ handleSubmit, onClose, actionLabel, mode }) => {
+  const [nombreValue, setNombreValue] = useState('')
+  const { variedadId } = useContext(VariedadesContext)
 
   useEffect(() => {
-    if (mode === 'update' && initialData) {
-      setNombreValue(initialData.nombre);
+    if (mode === 'update' && variedadId) {
+      setNombreValue(variedadId.nombre);
     }
-  }, [mode, initialData]);
+  }, [mode, variedadId]);
 
   const handleNombreChange = (e) => {
     setNombreValue(e.target.value);
