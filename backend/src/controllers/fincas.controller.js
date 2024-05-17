@@ -27,13 +27,14 @@ export const getFincas = async (req, res) => {
 
 export const getFinca = async (req,res)=>{
     try{
+        const {codigo} = req.params
         const [rows]=await pool.query(`
         SELECT f.codigo, f.dimension_mt2, u.nombre AS fk_caficultor, m.nombre AS municipio, f.vereda, f.estado
         FROM fincas f
         JOIN usuarios u ON f.fk_caficultor = u.identificacion
         JOIN municipios AS m ON municipio = id_municipio
         WHERE f.codigo = ?
-    `,[req.params.codigo])
+    `,[codigo])
         if(rows.length > 0){
             res.status(200).json(rows)
         }else{
