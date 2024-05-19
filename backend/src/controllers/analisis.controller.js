@@ -67,7 +67,7 @@ export const desactivarAnalisis = async (req, res) => {
     try {
         const { codigo } = req.params;
 
-        let sql = `UPDATE analisis SET estado = 2 WHERE codigo = ?`
+        let sql = `UPDATE analisis SET estado = 3 WHERE codigo = ?`
 
         const [rows] = await pool.query(sql, [codigo])
 
@@ -109,6 +109,31 @@ export const activarAnalisis = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({status: 500, message: 'Error del servidor' + error})
+    }
+}
+
+export const calificarAnalisis = async (req, res) => {
+    try {
+        const {id} = req.params
+        let sql = `UPDATE analisis SET estado = 2 WHERE codigo = ?`
+        const [rows] = await pool.query(sql, [id])
+
+        if(rows.affectedRows>0){
+            res.status(200).json({
+                status: 200,
+                message: 'Resultado cafilicado'
+            })
+        }else{
+            res.status(403).json({
+                status: 403,
+                message: 'No fue posible calificar el resultado'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: 'Error del servidor' + error
+        })
     }
 }
 

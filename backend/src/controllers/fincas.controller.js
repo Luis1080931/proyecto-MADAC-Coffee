@@ -16,7 +16,7 @@ export const getFincas = async (req, res) => {
         } else {
             res.status(404).json({
                 message: "No se encontraron fincas"
-            });
+            });z
         }
     } catch (error) {
         res.status(500).json({
