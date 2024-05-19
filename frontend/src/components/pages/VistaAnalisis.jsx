@@ -30,8 +30,9 @@ import AnalisisContext from '../../context/AnalisisContext.jsx';
 function VistaAnalisis() {
 
 const statusColorMap = {
-  activo: "success",
-  inactivo: "danger",
+  asignado: "success",
+  calificado: "warning",
+  terminado: "danger",
 };
 
 function Ejemplo() {
@@ -47,8 +48,9 @@ function Ejemplo() {
   const [page, setPage] = React.useState(1);
  
   const statusOptions = [
-    {name: "Activo", uid: "activo"},
-    {name: "Inactivo", uid: "inactivo"},
+    {name: "Asignado", uid: "asignado"},
+    {name: "Calificado", uid: "calificado"},
+    {name: "Terminado", uid: "terminado"},
   ];
 
   const hasSearchFilter = Boolean(filterValue);

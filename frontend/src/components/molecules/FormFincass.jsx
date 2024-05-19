@@ -7,12 +7,10 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
 
     const [caficultores, setCaficultores] = useState([]);
     const [municipios, setMunicipios] = useState([]);
-    const [formData, setFormData] = useState({
-        dimension_mt2: '',
-        fk_caficultor: '',
-        municipios: '',
-        vereda: ''
-    });
+    const [dimension, setDimension ] = useState('')
+    const [caficultor, setCaficultor ] = useState('')
+    const [municipio, setMunicipio ] = useState('')
+    const [vereda, setVereda ] = useState('')
 
     const { idFinca } = useContext(FincasContext)
 
@@ -31,12 +29,11 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
 
     useEffect(() => {
         if (mode === 'update' && idFinca) {
-            setFormData({
-                dimension_mt2: idFinca.dimension_mt2,
-                fk_caficultor: idFinca.fk_caficultor,
-                municipio: idFinca.municipio,
-                vereda: idFinca.vereda
-            });
+            
+            setCaficultor(idFinca.fk_caficultor)
+            setDimension(idFinca.dimension_mt2)
+            setMunicipio(idFinca.municipio)
+            setVereda(idFinca.vereda)
             console.log(idFinca.municipio);
         }
     }, [mode, idFinca]);
@@ -44,10 +41,10 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { dimension_mt2, fk_caficultor, municipio, vereda } = formData;
+            
             const data = {
-                dimension_mt2,
-                fk_caficultor,
+                dimension_mt2: dimension,
+                fk_caficultor: caficultor,
                 municipio,
                 vereda
             }
@@ -56,14 +53,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
         } catch (error) {
             alert('Hay un error en el sistema ' + error);
         }
-    };
-
-    const handleChange = (e) => {
-        setFormData({
-          ...formData,
-          [e.target.name]: e.target.value,
-        });
-      };
+    }
 
     return (
         <>
@@ -75,8 +65,8 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                             name='dimension_mt2'
                             type="number"
                             placeholder='Ingrese las dimensiones de la finca'
-                            value={formData.dimension_mt2}
-                            onChange={handleChange}
+                            value={dimension}
+                            onChange={(e) => setDimension(e.target.value)}
                             required
                         />
                     </div>
@@ -86,8 +76,8 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                             id='fk_caficultor'
                             required
                             label='Seleccione el caficultor'
-                            value={formData.fk_caficultor}
-                            onChange={handleChange}
+                            value={caficultor}
+                            onChange={(e) => setCaficultor(e.target.value)}
                         >
                             {caficultores.map((cafi) => (
                                 <option key={cafi.identificacion} value={cafi.identificacion}>
@@ -101,8 +91,8 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                             name='municipio'
                             required
                             label='Seleccione el municipio'
-                            value={formData.municipio}
-                            onChange={handleChange}
+                            value={municipio}
+                            onChange={(e) => setMunicipio(e.target.value)}
                         >
                             {municipios.map(municipio => (
                                 <option key={municipio.id_municipio} value={municipio.id_municipio}>
@@ -117,8 +107,8 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                             type="text"
                             name='vereda'
                             label='Ingrese la vereda'
-                            value={formData.vereda}
-                            onChange={handleChange}
+                            value={vereda}
+                            onChange={(e) => setVereda(e.target.value)}
                             required
                         />
                     </div>

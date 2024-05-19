@@ -3,14 +3,13 @@ import { Button, Input, ModalFooter, Select, SelectItem } from '@nextui-org/reac
 import axiosClient from '../axiosClient';
 import AnalisisContext from '../../context/AnalisisContext';
 
-const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose }) => {
+const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
 
-  const [formData, setFormData] = useState({
-    fecha: '',
-    analista: '',
-    fk_muestra: '',
-    fk_tipo_analisis: ''
-  })
+  
+  const [fecha, setFecha] = useState('') 
+  const [analista, setAnalista] = useState('')
+  const [muestra, setMuestra] = useState('')
+  const [tipo, setTipo] = useState('')
 
   const { analisisId } = useContext(AnalisisContext)
 
@@ -39,19 +38,14 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose })
   }, []);
 
   useEffect(() => {
-    if (mode === 'update' && analisisId && analisisId.fecha) {
-      const fechaDate = new Date(analisisId.fecha);
-      if (!isNaN(fechaDate.getTime())) {
-        const formattedDate = fechaDate.toISOString().split('T')[0];
-        setFormData({
-          fecha: formattedDate,
-          analista: analisisId.analista,
-          fk_muestra: analisisId.fk_muestra,
-          fk_tipo_analisis: analisisId.fk_tipo_analisis
-        })
-      } else {
-        console.error('initialData.fecha no es una instancia válida de Date');
-      }
+    if (mode === 'update' && analisisId ) {
+      
+        
+        setFecha(analisisId.fecha)
+        setAnalista(analisisId.analista)
+        setMuestra(analisisId.muestra)
+        setTipo(analisisId.tipo_analisis)
+      
     }
     
   }, [mode, analisisId]);
@@ -59,27 +53,18 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose })
   const handleFormSubmit = (e) => {
     e.preventDefault();
     try {
-      
-      const {fecha, analista, fk_muestra, fk_tipo_analisis } = formData
 
       const data = {
         fecha: fecha,
         analista: analista,
-        fk_muestra,
-        fk_tipo_analisis
+        fk_muestra: muestra,
+        fk_tipo_analisis: parseInt(tipo)
       };
       handleSubmit(data, e);
     } catch (error) {
       console.log('Error de submit' + error);
     }
-  };
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  }
 
   return (
     <>
@@ -88,58 +73,58 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, initialData, onClose })
           <Input
             type="date"
             name="fecha"
-            value={formData.fecha}
-            onChange={handleChange}
+            value={fecha}
+            onChange={(e) => setFecha(e.target.value)}
             required={true}
             label="Ingrese la fecha"
           />
         </div>
         <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-          <Select
+          <select
             label="Seleccione el analista"
             name="analista"
-            value={formData.analista}
-            onChange={handleChange}
+            value={analista}
+            onChange={(e) => setAnalista(e.target.value)}
             required={true}
             selectionMode="single"
           >
             {catadores.map(item => (
-              <SelectItem key={item.identificacion} value={item.identificacion} textValue={item.nombre}>
+              <option key={item.identificacion} value={item.identificacion} >
                 {item.nombre}
-              </SelectItem>
+              </option>
             ))}
-          </Select>
+          </select>
         </div>
         <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-          <Select
+          <select
             label="Seleccione la muestra"
             name="fk_muestra"
-            value={formData.fk_muestra}
-            onChange={handleChange}
+            value={muestra}
+            onChange={(e) => setMuestra(e.target.value)}
             required={true}
           >
             {muestras.map(mues => (
-              <SelectItem key={mues.codigo} value={mues.codigo} textValue={mues.codigo}>
+              <option key={mues.codigo} value={mues.codigo} >
                 {mues.codigo}
-              </SelectItem>
+              </option>
             ))}
-          </Select>
+          </select>
         </div>
         <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-          <Select
+          <select
             label="Tipo de análisis"
             placeholder="Seleccione el tipo de análisis"
             name="fk_tipo_analisis"
-            value={formData.fk_tipo_analisis}
-            onChange={handleChange}
+            value={tipo}
+            onChange={(e) => setTipo(e.target.value)}
             required={true}
           >
             {tipoAnalisis.map(tipo => (
-              <SelectItem key={tipo.id} value={tipo.id} textValue={tipo.tipo_analisis}>
+              <option key={tipo.id} value={tipo.id} >
                 {tipo.tipo_analisis}
-              </SelectItem>
+              </option>
             ))}
-          </Select>
+          </select>
         </div>
         <ModalFooter>
           <Button color="danger" variant="light" onPress={onClose}>

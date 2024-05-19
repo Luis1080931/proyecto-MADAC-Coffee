@@ -14,7 +14,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
     const [secado, setSecado] = useState('')
     const [observaciones, setObservaciones] = useState('')
     const [loteFk, setLoteFk] = useState('') 
-    const { idMuestra } = useContext(MuestrasContext)
+    const { idMuestras } = useContext(MuestrasContext)
 
     const [lotes, setLotes] = useState([])
 
@@ -26,20 +26,20 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
     }, [])
 
     useEffect(() => {
-      if(mode === 'update' && idMuestra) {
+      if(mode === 'update' && idMuestras) {
         
-          setFecha(idMuestra.fecha),
-          setCantidad(idMuestra.cantidad),
-          setQuienRecibe(idMuestra.quien_recibe),
-          setProceso(idMuestra.proceso_fermentacion),
-          setHumedad(idMuestra.humedad_cafe),
-          setAltura(idMuestra.altura_MSNM),
-          setSecado(idMuestra.tipo_secado),
-          setObservaciones(idMuestra.observaciones),
-          setLoteFk(idMuestra.fk_lote)
+          setFecha(idMuestras.fecha),
+          setCantidad(idMuestras.cantidad),
+          setQuienRecibe(idMuestras.quien_recibe),
+          setProceso(idMuestras.proceso_fermentacion),
+          setHumedad(idMuestras.humedad_cafe),
+          setAltura(idMuestras.altura_MSNM),
+          setSecado(idMuestras.tipo_secado),
+          setObservaciones(idMuestras.observaciones),
+          setLoteFk(idMuestras.fk_lote)
         
       }
-    }, [mode, idMuestra]);
+    }, [mode, idMuestras]);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault()
@@ -68,113 +68,122 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
     return (
         <>
         <form method='post' onSubmit={handleFormSubmit}>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                <Input
-                    id='fecha'
-                    type="date"
-                    name="fecha"
-                    value={fecha}
-                    onChange={(e) => setFecha(e.target.value)}
-                    required={true}
-                    placeholder='Ingresa la fecha '
-                />
-                {errors.fecha && <span className='text-red-500'>{errors.fecha}</span>}
+            <div className='flex flex-row'>
+                <div className='flex flex-col mr-2'>
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <Input
+                            id='fecha'
+                            type="date"
+                            name="fecha"
+                            value={fecha}
+                            onChange={(e) => setFecha(e.target.value)}
+                            required={true}
+                            placeholder='Ingresa la fecha '
+                        />
 
+                    </div>
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <Input
+                            id='cantidad'
+                            name='cantidad'
+                            type="decimal"
+                            value={cantidad}
+                            onChange={(e) => setCantidad(e.target.value)}
+                            required={true}
+                            placeholder='Ingrese la cantidad valor en N°'
+                        />
+                    
+                    </div>
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <Input
+                            id='quien_recibe'
+                            type="text"
+                            name="quien_recibe"
+                            value={quien_recibe}
+                            onChange={(e) => setQuienRecibe(e.target.value)}
+                            required={true}
+                            placeholder='Ingrese el nombre de quien recibe'
+                        />
+                    
+                    </div>
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <Input
+                            id='proceso_fermentacion'
+                            type="text"
+                            name="proceso_fermentacion"
+                            required={true}
+                            value={proceso}
+                            onChange={(e) => setProceso(e.target.value)}
+                            placeholder='Ingrese el proceso de fermentación.'
+                        />
+                        
+                    </div>
+                </div>
+                <div className='flex flex-col ml-4'>
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <Input
+                            id='humedad_cafe'
+                            type="text"
+                            name="humedad_cafe"
+                            required={true}
+                            value={humedad}
+                            onChange={(e) => setHumedad(e.target.value) }
+                            placeholder='Ingrese la humedad del café valor N°'
+                        />
+                    
+                    </div>
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <Input
+                            id='altura_MSNM'
+                            type="decimal"
+                            name="altura_MSNM"
+                            value={altura}
+                            onChange={(e) => setAltura(e.target.value)}
+                            required={true}
+                            placeholder='Ingrese la altura en N°'
+                        />
+                    
+                    </div>
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <Input
+                            id='tipo_secado'
+                            type="text"
+                            name="tipo_secado"
+                            value={secado}
+                            onChange={(e) => setSecado(e.target.value)}
+                            required={true}
+                            placeholder='Ingrese el tipo de secado'
+                        />
+                    
+                    </div>
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <Select label='Selecciones el lote' value={loteFk} onChange={(e) => setLoteFk(e.target.value)} required={true}>
+                        {lotes.map(lote => (
+                            <SelectItem key={lote.codigo} value={lote.codigo} textValue={lote.codigo}>
+                            {lote.codigo}
+                            </SelectItem>
+                        ))}
+                        </Select>
+                        
+                    </div>        
+                </div>
+            
             </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                <Input
-                    id='cantidad'
-                    name='cantidad'
-                    type="decimal"
-                    value={cantidad}
-                    onChange={(e) => setCantidad(e.target.value)}
-                    required={true}
-                    placeholder='Ingrese la cantidad valor en N°'
-                />
-                {errors.cantidad && <span className='text-red-500'>{errors.cantidad}</span>}
+            <div>
+                <div className="flex flex-wrap md:flex-nowrap mb-4 w-[400px]">
+                    <Textarea
+                        id='observaciones'
+                        name="observaciones"
+                        value={observaciones}
+                        onChange={(e) => setObservaciones(e.target.value)}
+                        required={true}
+                        placeholder='Ingresa las Observaciones'
+                        rows="3"
+                    />
+                
+                </div>
             </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                <Input
-                    id='quien_recibe'
-                    type="text"
-                    name="quien_recibe"
-                    value={quien_recibe}
-                    onChange={(e) => setQuienRecibe(e.target.value)}
-                    required={true}
-                    placeholder='Ingrese el nombre de quien recibe'
-                />
-                {errors.quien_recibe && <span className='text-red-500'>{errors.quien_recibe}</span>}
-            </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                <Input
-                    id='proceso_fermentacion'
-                    type="text"
-                    name="proceso_fermentacion"
-                    required={true}
-                    value={proceso}
-                    onChange={(e) => setProceso(e.target.value)}
-                    placeholder='Ingrese el proceso de fermentación.'
-                />
-                {errors.proceso_fermentacion && <span className='text-red-500'>{errors.proceso_fermentacion}</span>}
-            </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                <Input
-                    id='humedad_cafe'
-                    type="text"
-                    name="humedad_cafe"
-                    required={true}
-                    value={humedad}
-                    onChange={(e) => setHumedad(e.target.value) }
-                    placeholder='Ingrese la humedad del café valor N°'
-                />
-                {errors.humedad_cafe && <span className='text-red-500'>{errors.humedad_cafe}</span>}
-            </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                <Input
-                    id='altura_MSNM'
-                    type="decimal"
-                    name="altura_MSNM"
-                    value={altura}
-                    onChange={(e) => setAltura(e.target.value)}
-                    required={true}
-                    placeholder='Ingrese la altura en N°'
-                />
-                {errors.altura_MSNM && <span className='text-red-500'>{errors.altura_MSNM}</span>}
-            </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                <Input
-                    id='tipo_secado'
-                    type="text"
-                    name="tipo_secado"
-                    value={secado}
-                    onChange={(e) => setSecado(e.target.value)}
-                    required={true}
-                    placeholder='Ingrese el tipo de secado'
-                />
-                {errors.tipo_secado && <span className='text-red-500'>{errors.tipo_secado}</span>}
-            </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                <Textarea
-                    id='observaciones'
-                    name="observaciones"
-                    value={observaciones}
-                    onChange={(e) => setObservaciones(e.target.value)}
-                    required={true}
-                    placeholder='Ingresa las Observaciones'
-                    rows="3"
-                />
-                {errors.observaciones && <span className='text-red-500'>{errors.observaciones}</span>}
-            </div>
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                <Select label='Selecciones el lote' value={loteFk} onChange={(e) => setLoteFk(e.target.value)} required={true}>
-                  {lotes.map(lote => (
-                    <SelectItem key={lote.codigo} value={lote.codigo} textValue={lote.codigo}>
-                      {lote.codigo}
-                    </SelectItem>
-                  ))}
-                </Select>
-                {errors.fk_lote && <span className='text-red-500'>{errors.fk_lote}</span>}
-            </div>
+            
             
             <ModalFooter>
                 <Button 

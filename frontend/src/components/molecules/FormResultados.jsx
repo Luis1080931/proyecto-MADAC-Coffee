@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import {ModalFooter, Button, Input, Select, SelectItem, table } from "@nextui-org/react";
 import axiosClient from '../axiosClient';
+import ResultadoContext from '../../context/ResultadosContext.jsx';
 
-const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel }) => {
+const FormResultados = ({ mode, handleSubmit, onClose, actionLabel }) => {
 
     const [fecha, setFecha] = useState('')
     const [analisisFk, setAnalisisFk] = useState('')
@@ -11,6 +12,7 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
 
     const [analisis, setAnalisis] = useState([])
     const [variables, setVariables] = useState([])
+    const { resultadosSeleccionado } = useContext(ResultadoContext)
 
     useEffect(() => {
         axiosClient.get('/analisis/activos').then((response) => {
@@ -27,21 +29,15 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
     }, [])
 
     useEffect(() => {
-        if (mode === 'update' && initialData && initialData.fecha) {
-            const fechaDate = new Date(initialData.fecha);
-            if (!isNaN(fechaDate.getTime())) {
-                const formattedDate = fechaDate.toISOString().split('T')[0];
-                setFecha(formattedDate)
-                setAnalisisFk(initialData.fk_analisis)
-                setVariableFk(initialData.fk_variables)
-                setValor(initialData.valor)
-            } else {
-                console.error('initialData.fecha no es una instancia válida de Date');
-            }
-        } else {
-            console.error('No se proporcionó initialData o initialData.fecha está indefinido');
-        }
-    }, [mode, initialData]);
+        if (mode === 'update' && resultadosSeleccionado ) {
+            
+                setFecha(resultadosSeleccionado.fecha)
+                setAnalisisFk(resultadosSeleccionado.fk_analisis)
+                setVariableFk(resultadosSeleccionado.fk_variables)
+                setValor(resultadosSeleccionado.valor)
+           
+        } 
+    }, [mode, resultadosSeleccionado]);
     
 
      const handleFormSubmit = async (e) => {
@@ -79,7 +75,7 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                 />
             </div>
             <div className='flex w-full flex-wrap md:flex-nowrap mb-4'  >
-                <Select 
+                <select 
                     label='Código de análisis'
                     name="" 
                     id="" 
@@ -88,14 +84,14 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                     required={true} 
                 >
                         {analisis.map(anali => (
-                            <SelectItem key={anali.codigo} value={anali.codigo} textValue={anali.codigo}>
+                            <option key={anali.codigo} value={anali.codigo} >
                                 {anali.codigo}
-                            </SelectItem>
+                            </option>
                         ))}
-                </Select>
+                </select>
             </div>
             <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
-                <Select 
+                <select 
                     label='Variable'
                     name="idvariable"
                     id=""
@@ -104,11 +100,11 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                     required={true} 
                 >
                         {variables.map(varia => (
-                            <SelectItem key={varia.v_codigo} value={varia.v_codigo}>
+                            <option key={varia.v_codigo} value={varia.v_codigo}>
                                 {varia.nombre}
-                            </SelectItem>
+                            </option>
                         ))}
-                </Select>
+                </select>
             </div>
             <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
                 <Input 

@@ -2,7 +2,7 @@ import React from 'react'
 import FormAnalisis from '../molecules/FormAnalisis.jsx';
 import { ModalAcciones } from '../organisms/Modal.jsx';
 
-function AnalisisModal ({ open, onClose, handleSubmit, actionLabel, initialData, mode, title }){
+function AnalisisModal ({ open, onClose, handleSubmit, actionLabel, mode, title }){
 
     return (
       <>

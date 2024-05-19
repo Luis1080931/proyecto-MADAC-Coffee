@@ -69,7 +69,7 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4" >
                         <select name='finca' label='Seleccione la finca' value={finca} onChange={(e) => setFinca(e.target.value)} required={true} >
                             {fincas.map(finca => (
-                                <option key={finca.codigo} value={finca.codigo} textValue={finca.codigo}>
+                                <option key={finca.codigo} value={finca.codigo}>
                                     {finca.codigo} - {finca.fk_caficultor}
                                 </option>
                             ))}

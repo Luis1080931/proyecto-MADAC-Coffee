@@ -153,7 +153,7 @@ export function Resultados () {
         case "actions":
           return (
             <div className="flex flex-row">
-              <ButtonActualizar click={() =>  handleToggle('update', result)} />
+              <ButtonActualizar click={() =>  handleToggle('update', setResultadoSeleccionado(result))} />
               {result.estado === 'activo' ? (
                 <ButtonDesactivar click={() => handleDesactivar(result.codigo)} />
               ) : (
@@ -349,9 +349,9 @@ export function Resultados () {
     const [modalOpen, setModalOpen] = useState(false)
     const [ modalAcciones, setModalAcciones ] = useState(false)
     const [mode, setMode] = useState('create')
-    const [initialData, setInitialData ] = useState(null)
     const [mensaje, setMensaje] = useState('')
     const [results, setResults] = useState([]);
+    const { resultadoSeleccionado, setResultadoSeleccionado } = useContext(ResultadoContext)
 
   useEffect(() => {
     fetchData();
@@ -463,7 +463,7 @@ export function Resultados () {
         try {
             if(mode === 'update'){
 
-                    axiosClient.put(`/resultados/actualizar/${results.codigo}`, datosForm).then((response) => {
+                    axiosClient.put(`/resultados/actualizar/${resultadoSeleccionado.codigo}`, datosForm).then((response) => {
                         console.log(response)
     
                         if(response.status == 200){
@@ -483,8 +483,7 @@ export function Resultados () {
         }
     }
 
-    const handleToggle = (mode, initialData) => {
-        setInitialData(initialData)
+    const handleToggle = (mode) => {
         setModalOpen(true)
         setMode(mode)
     }
@@ -632,7 +631,6 @@ export function Resultados () {
                 onClose={() => setModalOpen(false)} 
                 title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
                 actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                initialData={initialData}
                 handleSubmit={handleSubmit}
                 mode={mode}
             />
