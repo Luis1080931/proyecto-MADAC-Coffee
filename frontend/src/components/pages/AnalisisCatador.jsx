@@ -27,8 +27,9 @@ import {
 function VistaAnalisisCatador() {
 
 const statusColorMap = {
-  activo: "success",
-  inactivo: "danger",
+  asignado: "success",
+  calificado: "warning",
+  terminado: "danger",
 };
 
 function Ejemplo() {
@@ -44,8 +45,9 @@ function Ejemplo() {
   const [page, setPage] = React.useState(1);
  
   const statusOptions = [
-    {name: "Activo", uid: "activo"},
-    {name: "Inactivo", uid: "inactivo"},
+    {name: "Asignado", uid: "asignado"},
+    {name: "Calificado", uid: "calificado"},
+    {name: "Terminado", uid: "terminado"},
   ];
 
   const hasSearchFilter = Boolean(filterValue);
@@ -180,9 +182,6 @@ function Ejemplo() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button className="text-xl" color="primary" endContent={<PlusIcon />} onClick={() => handleToggle('create')}>
-              Registrar
-            </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -205,6 +204,7 @@ function Ejemplo() {
     );
   }, [
     filterValue,
+    filteredItems,
     onRowsPerPageChange,
     onSearchChange,
     onClear,

@@ -16,6 +16,7 @@ import SliderVertical from "./organisms/Slider.jsx"
 import AnalisisFisicosChart from "./organisms/Estadisticas.jsx"
 import PDFReport from "./organisms/Reportes.jsx"
 import VistaAnalisisCatador from "./pages/AnalisisCatador.jsx"
+import { ResultadosCatador } from "./pages/ResultadosCatador.jsx"
 import GlobalProvider from "../context/GlobalContext.jsx"
 
 
@@ -51,7 +52,7 @@ function App() {
                 {user && user.tipo_usuario === 'catador' && (
                   <>
                     <Route path="/analisisCatador" element={<VistaAnalisisCatador />} />
-                    <Route path="/resultados" element={<Resultados />} />
+                    <Route path="/resultados" element={<ResultadosCatador />} />
                   </>
                   
                 )} 

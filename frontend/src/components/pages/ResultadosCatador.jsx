@@ -34,7 +34,7 @@ import ButtonActivar from "../atoms/ButtonActivar.jsx";
 import axiosClient from "../axiosClient.js";
 import ResultadoContext from '../../context/ResultadosContext.jsx';
 
-export function Resultados () {
+export function ResultadosCatador () {
 
   
   const statusColorMap = {
@@ -153,12 +153,12 @@ export function Resultados () {
         case "actions":
           return (
             <div className="flex flex-row">
-              <ButtonActualizar click={() =>  handleToggle('update', setResultadoSeleccionado(result))} />
-              {result.estado === 'activo' ? (
-                <ButtonDesactivar click={() => handleDesactivar(result.codigo)} />
+              {result.estado === 'asignado' || result.estado === 'calificado' ? (
+                <ButtonActualizar click={() =>  handleToggle('update', setResultadoSeleccionado(result))} />
               ) : (
-                <ButtonActivar click={() => handleActivar(result.codigo)} />
-              )} 
+                ''
+              )}
+              
             </div>
           );
         default:
@@ -252,9 +252,9 @@ export function Resultados () {
                   ))}
                 </DropdownMenu>
               </Dropdown>
-              {/* <Button className="text-xl" color="primary" endContent={<PlusIcon />} onClick={() => setModalRegister(true)}>
+              <Button className="text-xl" color="primary" endContent={<PlusIcon />} onClick={() => setModalRegister(true)}>
                 Registrar
-              </Button> */}
+              </Button>
             </div>
           </div>
           <div className="flex justify-between items-center">
@@ -348,10 +348,10 @@ export function Resultados () {
 
     const [modalOpen, setModalOpen] = useState(false)
     const [ modalAcciones, setModalAcciones ] = useState(false)
-    /* const [mode, setMode] = useState('create') */
+    const [mode, setMode] = useState('create')
     const [mensaje, setMensaje] = useState('')
     const [results, setResults] = useState([]);
-   /*  const { resultadoSeleccionado, setResultadoSeleccionado } = useContext(ResultadoContext) */
+    const { resultadoSeleccionado, setResultadoSeleccionado } = useContext(ResultadoContext)
 
   useEffect(() => {
     fetchData();
@@ -415,49 +415,22 @@ export function Resultados () {
         },
       ];
     
-
-
-    const handleDesactivar = (idResultado) => {
-        
-        try {
-            axiosClient.put(`/resultados/desactivar/${idResultado}`, null).then((response) => {
-            console.log(response.data)
-            if(response.status==200){
-                setMensaje(response.data.message)
-                setModalAcciones(true)
-                fetchData()
-            }else{
-                alert('Error')
-            }
-            
-        })
-        } catch (error) {
-            alert('Error de servidor' + error)
+      const handleCalificado = () => {
+        if (selectedAnalysis) {
+          axiosClient.put(`/analisis/calificar/${selectedAnalysis}`, null)
+            .then((response) => {
+              console.log(response.data);
+            })
+            .catch((error) => {
+              console.error('Error del servidor:', error);
+            });
+        } else {
+          console.error('No analysis selected.');
         }
-        
-    }
-
-    const handleActivar = (id) => {
-        
-      try {
-          axiosClient.put(`/resultados/activar/${id}`, null).then((response) => {
-          console.log(response.data)
-          if(response.status==200){
-              setMensaje(response.data.message)
-              setModalAcciones(true)
-              fetchData()
-          }else{
-              alert('Error')
-          }
-          
-      })
-      } catch (error) {
-          alert('Error de servidor' + error)
-      }
+      };
       
-  }
 
-    /* const handleSubmit = async (datosForm, e) => {
+    const handleSubmit = async (datosForm, e) => {
         console.log(datosForm);
         e.preventDefault()
         try {
@@ -486,26 +459,26 @@ export function Resultados () {
     const handleToggle = (mode) => {
         setModalOpen(true)
         setMode(mode)
-    } */
+    }
 
   
     
-       /*  const [variables, setVariables] = useState([]);
+        const [variables, setVariables] = useState([]);
         const [currentIndex, setCurrentIndex] = useState(0);
         const [variablesBase, setVariablesBase] = useState([]);
         const [selectedDate, setSelectedDate] = useState(new Date());
         const [selectedAnalysis, setSelectedAnalysis] = useState('');
         const [analisis, setAnalisis] = useState([])
-        const [modalRegister, setModalRegister] = useState(false) */
+        const [modalRegister, setModalRegister] = useState(false)
         
       
-       /*  const handleChange = (e, index) => {
+        const handleChange = (e, index) => {
           const newVariables = [...variables];
           newVariables[index] = e.target.value;
           setVariables(newVariables);
-        }; */
+        };
       
-       /*  const handleNext = () => {
+        const handleNext = () => {
           setCurrentIndex(currentIndex + 1);
         };
       
@@ -515,9 +488,9 @@ export function Resultados () {
       
         const handleAnalysisChange = (e) => {
           setSelectedAnalysis(e.target.value);
-        }; */
+        };
       
-        /* useEffect(() => {
+        useEffect(() => {
           axiosClient.get('/variables/listarVariable')
             .then((response) => {
               console.log(response.data)
@@ -527,17 +500,19 @@ export function Resultados () {
             .catch((error) => {
               console.error('Error fetching variables:', error);
             });
-        }, []); */
+        }, []);
+
+        const stored = localStorage.getItem('user');
+        const user = stored ? JSON.parse(stored) : null;
       
-        /* useEffect(() => {
-          axiosClient.get('/analisis/listar').then((response) => {
+        useEffect(() => {
+          axiosClient.get(`/analisis/analisisFisicosCatador/${user.identificacion}`).then((response) => {
             console.log(response.data)
-            const analisisFilter = response.data.filter(anali => anali.estado == 'activo')
-            setAnalisis(analisisFilter)
+            setAnalisis(response.data)
           })
-        },[]) */
+        },[])
         
-        /* const handleSubmitRegister = async () => {
+        const handleSubmitRegister = async () => {
           try {
            
             for (let i = 0; i < variables.length; i++) {
@@ -552,13 +527,14 @@ export function Resultados () {
               };
         
               await axiosClient.post('/resultados/registrar', data).then((response) => {
+                console.log('Selected Analysis:', selectedAnalysis); 
                 console.log(`Variable ${i + 1} registrada correctamente:`, data);
                 console.log(response.data)
                 if(response.status == 200){
                     setMensaje(response.data.message)
                     setModalAcciones(true)
                     setModalRegister(false)
-                    
+                    handleCalificado()
                     fetchData()
                 }
               })
@@ -569,7 +545,7 @@ export function Resultados () {
           } catch (error) {
             console.error('Error al enviar variables:', error);
           }
-      }; */
+      };
 
   return (
     <ResultadoProvider>
@@ -577,7 +553,7 @@ export function Resultados () {
         <Header title="Resultado de los análisis" />
         <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
 
-        {/* <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)}>
+        <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)}>
               <ModalContent>
                 <ModalHeader> Registro de resultados de los análisis </ModalHeader>
                 <ModalBody>
@@ -618,7 +594,7 @@ export function Resultados () {
                   )}
                 </ModalBody>
               </ModalContent>
-            </Modal> */}
+            </Modal>
 
         <AccionesModal 
             isOpen={modalAcciones}
@@ -626,14 +602,14 @@ export function Resultados () {
             label={mensaje}
         />
         
-            {/* <ResultadosModal 
+            <ResultadosModal 
                 open={modalOpen} 
                 onClose={() => setModalOpen(false)} 
                 title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
                 actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
                 handleSubmit={handleSubmit}
                 mode={mode}
-            /> */}
+            />
 
            <Ejemplo 
                 data={data}
