@@ -6,30 +6,30 @@ export const generarPDF = async (req, res) => {
         const {id} = req.params
         let sql = `
         SELECT 
-            a.id AS analisis_id,
+            a.codigo AS analisis_id,
             c.identificacion AS caficultor_id,
             c.nombre AS caficultor_nombre,
             f.codigo AS finca_id,
             l.codigo AS lote_id,
             m.codigo AS muestra_id,
             m.fecha AS fecha,
-            r.id AS resultado_id,
-            r.variable,
+            r.codigo AS resultado_id,
+            r.fk_variables,
             r.valor
         FROM 
             analisis a
         JOIN 
-            muestras m ON a.muestra_id = m.id
+            muestras m ON a.fk_muestra = m.codigo
         JOIN 
-            lotes l ON m.lote_id = l.id
+            lotes l ON m.fk_lote = l.codigo
         JOIN 
-            fincas f ON l.finca_id = f.id
+            fincas f ON l.fk_finca = f.codigo
         JOIN 
-            caficultores c ON f.caficultor_id = c.id
+            usuarios c ON f.fk_caficultor = c.identificacion
         JOIN 
-            resultados r ON a.id = r.analisis_id
+            resultados r ON a.codigo = r.fk_analisis
         WHERE 
-            a.id = ?;
+            a.codigo = ?;
     `
     const [result] = await pool.query(sql, [id])
     if(result.length>0){
