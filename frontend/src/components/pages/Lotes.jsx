@@ -346,8 +346,7 @@ const data = [
         name:'Variedad',
         sortable:true
     },
-    {
-        uid:'estado',
+    {uid:'estado',
         name:'Estado',
         sortable:true
     },
