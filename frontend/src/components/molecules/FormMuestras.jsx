@@ -69,8 +69,8 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
         <>
         <form method='post' onSubmit={handleFormSubmit}>
             <div className='flex flex-row'>
-                <div className='flex flex-col mr-2'>
-                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                <div className='flex flex-col mr-2 w-[190px]'>
+                    <div className="flex w-[190px] flex-wrap md:flex-nowrap mb-4">
                         <Input
                             id='fecha'
                             type="date"
@@ -90,7 +90,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             value={cantidad}
                             onChange={(e) => setCantidad(e.target.value)}
                             required={true}
-                            placeholder='Ingrese la cantidad valor en N°'
+                            placeholder='Cantidad muestra'
                         />
                     
                     </div>
@@ -102,7 +102,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             value={quien_recibe}
                             onChange={(e) => setQuienRecibe(e.target.value)}
                             required={true}
-                            placeholder='Ingrese el nombre de quien recibe'
+                            placeholder='Quien recibe la muestra'
                         />
                     
                     </div>
@@ -114,12 +114,12 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             required={true}
                             value={proceso}
                             onChange={(e) => setProceso(e.target.value)}
-                            placeholder='Ingrese el proceso de fermentación.'
+                            placeholder='Proceso fermetación'
                         />
                         
                     </div>
                 </div>
-                <div className='flex flex-col ml-4'>
+                <div className='flex flex-col ml-2 w-[190px]'>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input
                             id='humedad_cafe'
@@ -128,7 +128,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             required={true}
                             value={humedad}
                             onChange={(e) => setHumedad(e.target.value) }
-                            placeholder='Ingrese la humedad del café valor N°'
+                            placeholder='Humedad del café'
                         />
                     
                     </div>
@@ -140,7 +140,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             value={altura}
                             onChange={(e) => setAltura(e.target.value)}
                             required={true}
-                            placeholder='Ingrese la altura en N°'
+                            placeholder='Altura MSNM'
                         />
                     
                     </div>
@@ -152,18 +152,19 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             value={secado}
                             onChange={(e) => setSecado(e.target.value)}
                             required={true}
-                            placeholder='Ingrese el tipo de secado'
+                            placeholder='Tipo de secado'
                         />
                     
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                        <Select label='Selecciones el lote' value={loteFk} onChange={(e) => setLoteFk(e.target.value)} required={true}>
+                        <select className='w-[400px] rounded-xl bg-gray-100 h-[40px]' label='Selecciones el lote' value={loteFk} onChange={(e) => setLoteFk(e.target.value)} required={true}>
+                            <option value='' hidden> Seleccione el lote... </option>
                         {lotes.map(lote => (
-                            <SelectItem key={lote.codigo} value={lote.codigo} textValue={lote.codigo}>
+                            <option key={lote.codigo} value={lote.codigo} textValue={lote.codigo}>
                             {lote.codigo}
-                            </SelectItem>
+                            </option>
                         ))}
-                        </Select>
+                        </select>
                         
                     </div>        
                 </div>

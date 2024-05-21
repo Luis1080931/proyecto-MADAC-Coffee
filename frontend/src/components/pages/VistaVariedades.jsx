@@ -323,24 +323,24 @@ const {setVariedadId, variedadId} = useContext(VariedadesContext)
     const data = [
         {
             uid: "codigo",
-            name: "CODIGO",
+            name: "Código",
             sortable: true
         },
         { 
             uid: "nombre",
-            name: "NOMBRE",
+            name: "Nombre",
             sortable: true
         },
         
         {
             
             uid: "estado",
-            name: "ESTADO",
+            name: "Estado",
             sortable: true
         },
         { 
             uid: "actions",
-            name: "ACCIONES",
+            name: "Acciones",
             sortable: true
         },
     ];

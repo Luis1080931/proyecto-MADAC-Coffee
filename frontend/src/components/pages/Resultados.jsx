@@ -153,7 +153,6 @@ export function Resultados () {
         case "actions":
           return (
             <div className="flex flex-row">
-              <ButtonActualizar click={() =>  handleToggle('update', setResultadoSeleccionado(result))} />
               {result.estado === 'activo' ? (
                 <ButtonDesactivar click={() => handleDesactivar(result.codigo)} />
               ) : (

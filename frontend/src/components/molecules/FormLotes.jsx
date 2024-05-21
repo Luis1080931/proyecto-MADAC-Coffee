@@ -67,7 +67,7 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
                         />
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4" >
-                        <select name='finca' label='Seleccione la finca' value={finca} onChange={(e) => setFinca(e.target.value)} required={true} >
+                        <select className='w-[400px] rounded-xl bg-gray-100 h-[40px]' name='finca' label='Seleccione la finca' value={finca} onChange={(e) => setFinca(e.target.value)} required={true} >
                             {fincas.map(finca => (
                                 <option key={finca.codigo} value={finca.codigo}>
                                     {finca.codigo} - {finca.fk_caficultor}
@@ -76,7 +76,7 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
                         </select>
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                        <select name='variedadFk' label='Seleccione la variedad' value={variedadFk} onChange={(e) => setVariedadFk(e.target.value)} required={true} >
+                        <select className='w-[400px] rounded-xl bg-gray-100 h-[40px]' name='variedadFk' label='Seleccione la variedad' value={variedadFk} onChange={(e) => setVariedadFk(e.target.value)} required={true} >
                             {variedades.map(variedad => (
                                 <option key={variedad.codigo} value={variedad.codigo}>
                                     {variedad.nombre}

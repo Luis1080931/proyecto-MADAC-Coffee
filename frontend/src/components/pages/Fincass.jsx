@@ -59,6 +59,7 @@ function Ejemplo() {
 
     if (hasSearchFilter) {
       filteredFincas = filteredFincas.filter(finca =>
+        finca.nombre_finca.toLowerCase().includes(filterValue.toLocaleLowerCase()) ||
         String(finca.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
         String(finca.dimension_mt2).toLowerCase().includes(filterValue.toLowerCase()) ||
         String(finca.fk_caficultor).toLowerCase().includes(filterValue.toLowerCase()) ||
@@ -332,32 +333,37 @@ function Ejemplo() {
 const data = [
     {
         uid:'codigo',
-        name:'codigo',
+        name:'Codigo',
+        sortable:true
+    },
+    {
+        uid:'nombre_finca',
+        name: 'Nombre',
         sortable:true
     },
     {
         uid: 'dimension_mt2',
-        name:'dimension en mt2',
+        name:'Dimensión(mt2)',
         sortable:true
     },
     {
        uid:'fk_caficultor',
-       name:'caficultor',
+       name:'Caficultor',
        sortable:true
     },
     {
         uid:'municipio',
-        name:'municipio',
+        name:'Municipio',
         sortable:true
     },
     {
         uid:'vereda',
-        name:'vereda',
+        name:'Vereda',
         sortable:true
     },
     {
         uid:'estado',
-        name:'estado',
+        name:'Estado',
         sortable:true
     },
     {
@@ -440,7 +446,7 @@ const data = [
         setModalOpen(false)
 
         }catch(error){
-            console.log('Error en el servidor '+error)
+            console.log('Error en el servidor ', error)
             alert('Error en el servidor'+error)
         }
     }

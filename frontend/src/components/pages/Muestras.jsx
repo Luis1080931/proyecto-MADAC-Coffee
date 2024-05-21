@@ -446,7 +446,7 @@ function Ejemplo() {
                 })
 
             } else if (mode === 'update') {
-                await axiosClient.put(`/muestra/actualizar/${idMuestras.codigo}`, datosForm).then((response) => {
+                await axiosClient.put(`/muestras/actualizarMuestra/${idMuestras.codigo}`, datosForm).then((response) => {
                     console.log(response);
 
                     if (response.status == 200) {
@@ -484,6 +484,7 @@ function Ejemplo() {
             label={mensaje}
             />
             <MuestrasModal 
+                
                 open={modalOpen} 
                 onClose={()=>setModalOpen(false)} 
                 title={mode === 'create' ? 'Registrar Muestra' : 'Actualizar Muestra'}

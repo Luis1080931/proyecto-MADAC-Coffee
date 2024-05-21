@@ -7,6 +7,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
 
     const [caficultores, setCaficultores] = useState([]);
     const [municipios, setMunicipios] = useState([]);
+    const [nombre, setNombre ] = useState('')
     const [dimension, setDimension ] = useState('')
     const [caficultor, setCaficultor ] = useState('')
     const [municipio, setMunicipio ] = useState('')
@@ -30,11 +31,11 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
     useEffect(() => {
         if (mode === 'update' && idFinca) {
             
+            setNombre(idFinca.nombre_finca)
             setCaficultor(idFinca.fk_caficultor)
             setDimension(idFinca.dimension_mt2)
             setMunicipio(idFinca.municipio)
             setVereda(idFinca.vereda)
-            console.log(idFinca.municipio);
         }
     }, [mode, idFinca]);
 
@@ -43,8 +44,9 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
         try {
             
             const data = {
+                nombre,
                 dimension_mt2: dimension,
-                fk_caficultor: caficultor,
+                fk_caficultor: parseInt(caficultor),
                 municipio,
                 vereda
             }
@@ -59,6 +61,17 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
         <>
             <form method='post' onSubmit={handleFormSubmit}>
                 <div className='flex flex-col'>
+                <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <Input
+                            id='nombre'
+                            name='nombre'
+                            type="text"
+                            placeholder='Nombre de la finca'
+                            value={nombre}
+                            onChange={(e) => setNombre(e.target.value)}
+                            required
+                        />
+                    </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input
                             id='dimension_mt2'
@@ -73,6 +86,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <select
                             name='fk_caficultor'
+                            className='w-[400px] rounded-xl bg-gray-100 h-[40px]'
                             id='fk_caficultor'
                             required
                             label='Seleccione el caficultor'
@@ -91,6 +105,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                             name='municipio'
                             required
                             label='Seleccione el municipio'
+                            className='w-[400px] rounded-xl bg-gray-100 h-[40px]'
                             value={municipio}
                             onChange={(e) => setMunicipio(e.target.value)}
                         >

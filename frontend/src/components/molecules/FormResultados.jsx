@@ -77,6 +77,7 @@ const FormResultados = ({ mode, handleSubmit, onClose, actionLabel }) => {
             <div className='flex w-full flex-wrap md:flex-nowrap mb-4'  >
                 <select 
                     label='Código de análisis'
+                    className='w-[400px] rounded-xl bg-gray-100 h-[40px]'
                     name="" 
                     id="" 
                     value={analisisFk} 
@@ -94,6 +95,7 @@ const FormResultados = ({ mode, handleSubmit, onClose, actionLabel }) => {
                 <select 
                     label='Variable'
                     name="idvariable"
+                    className='w-[400px] rounded-xl bg-gray-100 h-[40px]'
                     id=""
                     value={variableFk}
                     onChange={(e) => e.target.value}

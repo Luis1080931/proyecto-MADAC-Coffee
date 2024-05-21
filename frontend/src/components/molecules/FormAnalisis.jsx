@@ -83,6 +83,7 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
           <select
             label="Seleccione el analista"
             name="analista"
+            className='w-[400px] rounded-xl bg-gray-100 h-[40px]'
             value={analista}
             onChange={(e) => setAnalista(e.target.value)}
             required={true}
@@ -99,6 +100,7 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
           <select
             label="Seleccione la muestra"
             name="fk_muestra"
+            className='w-[400px] rounded-xl bg-gray-100 h-[40px]'
             value={muestra}
             onChange={(e) => setMuestra(e.target.value)}
             required={true}
@@ -114,6 +116,7 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
           <select
             label="Tipo de análisis"
             placeholder="Seleccione el tipo de análisis"
+            className='w-[400px] rounded-xl bg-gray-100 h-[40px]'
             name="fk_tipo_analisis"
             value={tipo}
             onChange={(e) => setTipo(e.target.value)}

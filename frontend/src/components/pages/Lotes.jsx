@@ -328,27 +328,27 @@ function Ejemplo() {
 const data = [
     {
         uid:'codigo',
-        name:'codigo',
+        name:'Código',
         sortable:true
     },
     {
       uid:'numero_arboles',
-      name:'numero de arboles',
+      name:'Numero de arboles',
       sortable:true
     },
     {
       uid:'fk_finca',
-      name:'finca',
+      name:'Finca',
       sortable:true
     },
     {   
         uid:'fk_variedad',
-        name:'variedad',
+        name:'Variedad',
         sortable:true
     },
     {
         uid:'estado',
-        name:'estado',
+        name:'Estado',
         sortable:true
     },
     {
@@ -420,7 +420,7 @@ const handleActivar = async (codigo) => {
             })
         }else if(mode==='update'){
 
-            await axiosClient.put(`/lotes/actulizar/${idLote.codigo}`,formData).then((response)=>{
+            await axiosClient.put(`/lotes/actualizar/${idLote.codigo}`,formData).then((response)=>{
                 console.log(response); 
 
                 if(response.status==200){

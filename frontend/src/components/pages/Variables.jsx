@@ -405,7 +405,7 @@ function Ejemplo() {
                     }
                 })
             }else if (mode === 'update'){
-                await axiosClient.put(`/variable/actualizar/${variableId.v_codigo}`, datosForm).then((response) => {
+                await axiosClient.put(`/variables/actualizarvariable/${variableId.v_codigo}`, datosForm).then((response) => {
                     console.log(response);
 
                     if(response.status == 200){
