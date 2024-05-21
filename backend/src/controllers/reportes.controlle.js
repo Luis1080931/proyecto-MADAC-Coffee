@@ -7,12 +7,19 @@ export const generarPDF = async (req, res) => {
         let sql = `
         SELECT 
             a.codigo AS analisis_id,
-            c.identificacion AS caficultor_id,
             c.nombre AS caficultor_nombre,
             f.codigo AS finca_id,
+            mun.nombre AS municipio,
+            f.vereda,
+            f.nombre_finca,
             l.codigo AS lote_id,
+            v.nombre AS variedad,
             m.codigo AS muestra_id,
+            m.altura_MSNM,
             m.fecha AS fecha,
+            m.proceso_fermentacion,
+            m.humedad_cafe,
+            m.tipo_secado, 
             r.codigo AS resultado_id,
             r.fk_variables,
             r.valor
@@ -23,7 +30,11 @@ export const generarPDF = async (req, res) => {
         JOIN 
             lotes l ON m.fk_lote = l.codigo
         JOIN 
+            variedades v ON l.fk_variedad = v.codigo
+        JOIN 
             fincas f ON l.fk_finca = f.codigo
+        JOIN 
+            municipios mun ON f.municipio = mun.id_municipio 
         JOIN 
             usuarios c ON f.fk_caficultor = c.identificacion
         JOIN 
@@ -44,6 +55,49 @@ export const generarPDF = async (req, res) => {
         res.status(500).json({
             status: 500,
             message: 'Error del servidor'+ error
+        })
+    }
+}
+
+export const listarDatos = async (req, res) => {
+    try {
+        const {id} = req.params
+        let sql = `
+            SELECT 
+            a.codigo AS analisis_id,
+            m.codigo,
+            cat.nombre AS catador,
+            c.nombre AS caficultor_nombre,
+            f.nombre_finca AS finca
+            FROM 
+                analisis a
+            JOIN 
+                muestras m ON a.fk_muestra = m.codigo
+            JOIN 
+                lotes l ON m.fk_lote = l.codigo
+            JOIN 
+                fincas f ON l.fk_finca = f.codigo
+            JOIN 
+                usuarios c ON f.fk_caficultor = c.identificacion
+            JOIN 
+                usuarios cat ON a.fk_analista = cat.identificacion    
+            
+            WHERE a.codigo = ?
+            `
+
+            const [result] = await pool.query(sql, [id])
+            if(result.length>0){
+                res.status(200).json(result)
+            }else{
+                res.status(404).json({
+                    status: 404,
+                    message: 'No se encontraron resultados para la consulta'
+                })
+            }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: 'Error del servidor' + error
         })
     }
 }
