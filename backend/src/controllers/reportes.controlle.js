@@ -61,11 +61,12 @@ export const generarPDF = async (req, res) => {
 
 export const listarDatos = async (req, res) => {
     try {
-        const {id} = req.params
         let sql = `
             SELECT 
             a.codigo AS analisis_id,
+            a.estado,
             m.codigo,
+            m.fecha,
             cat.nombre AS catador,
             c.nombre AS caficultor_nombre,
             f.nombre_finca AS finca
@@ -80,12 +81,10 @@ export const listarDatos = async (req, res) => {
             JOIN 
                 usuarios c ON f.fk_caficultor = c.identificacion
             JOIN 
-                usuarios cat ON a.fk_analista = cat.identificacion    
-            
-            WHERE a.codigo = ?
+                usuarios cat ON a.fk_analista = cat.identificacion
             `
 
-            const [result] = await pool.query(sql, [id])
+            const [result] = await pool.query(sql   )
             if(result.length>0){
                 res.status(200).json(result)
             }else{
