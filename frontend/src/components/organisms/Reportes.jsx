@@ -51,22 +51,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
 });
-/* const [resultados, setResultados] = useState([]);
 
-  useEffect(() => {
-    axiosClient.get('/resultados/listar').then((response) => {
-      console.log(response.data)
-      setResultados(response.data)
-    })
-  }, []); */
-
-const PDFReport = () => (
+const PDFReport = ({ data }) => (
 
 <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
+        <Text style={styles.title}> 1. Objetivo </Text>
+        <Text> El objetivo del siguiente informe es presentar los resultados del análisis físico-sensorial obtenidos para la muestra de café {data.codigo} descrita a continuación. </Text>
         <Text style={styles.title}>Información General:</Text>
-        <Text>Caficultor: {/* {data.caficultor} */}</Text>
+        <Text>Caficultor: {data.caficultor_nombre}</Text>
         <Text>Departamento: {/* {data.departamento} */}</Text>
         <Text>Vereda: {/* {data.vereda} */}</Text>
         <Text>Nombre de la finca: {/* {data.nombreFinca} */}</Text>
@@ -103,12 +97,12 @@ const PDFReport = () => (
             <Text style={[styles.tableCell, styles.tableHeader]}>Resultado</Text>
           </View>
           {/* Renderizar los resultados del análisis físico */}
-          {resultados.map((resultado, index) => (
+          {/* {resultados.map((resultado, index) => (
             <View key={index} style={styles.tableRow}>
               <Text style={styles.tableCell}>{resultado.variable}</Text>
               <Text style={styles.tableCell}>{resultado.valor}</Text>
             </View>
-          ))}
+          ))} */}
         </View>
       </View>
     </Page>

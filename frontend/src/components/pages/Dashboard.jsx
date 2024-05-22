@@ -59,8 +59,9 @@ export const Dashboard = () => {
     <div>
       <div className="bg-[#B7CFDC] w-full h-20 flex">
         <Sidebar />
-        <h2 className="text-black text-2xl font-bold ml-auto mr-10 flex items-center">
+        <h2 className="text-black text-2xl font-bold ml-auto mr-10 flex items-end justify-center flex-col">
           Bienvenido {user.nombre}
+          <label className='text-lg flex justify-end items-end'> {user.tipo_usuario} </label>
         </h2>
         <SideBarUser />
       </div>

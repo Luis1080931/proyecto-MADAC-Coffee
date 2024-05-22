@@ -18,6 +18,7 @@ import PDFReport from "./organisms/Reportes.jsx"
 import VistaAnalisisCatador from "./pages/AnalisisCatador.jsx"
 import { ResultadosCatador } from "./pages/ResultadosCatador.jsx"
 import GlobalProvider from "../context/GlobalContext.jsx"
+import { Reportes } from "./pages/Reportes.jsx"
 
 
 const stored = localStorage.getItem('user')
@@ -52,10 +53,11 @@ function App() {
                 {user && user.tipo_usuario === 'catador' && (
                   <>
                     <Route path="/analisisCatador" element={<VistaAnalisisCatador />} />
-                    <Route path="/resultados" element={<ResultadosCatador />} />
+                    <Route path="/resultadosCatador" element={<ResultadosCatador />} />
                   </>
                   
-                )} 
+                )}
+                <Route path="/reportes" element={<Reportes />} /> 
               </Route>
               <Route path="*" element={<NotFoundPage />}/>
             </Routes>

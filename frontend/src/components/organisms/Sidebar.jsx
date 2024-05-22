@@ -7,6 +7,7 @@ import { GiCoffeeCup, GiFarmTractor } from "react-icons/gi";
 import { BiSolidCoffeeBean } from "react-icons/bi";
 import { IoIosPaper } from "react-icons/io";
 import { BsCardChecklist } from "react-icons/bs";
+import { IoDocuments } from "react-icons/io5";
 import { FaX } from "react-icons/fa6";
 import Control from './../../assets/control.png'
 
@@ -28,12 +29,14 @@ export const Sidebar = () => {
     { title: "Muestras", link: "/muestras", icon: BiSolidCoffeeBean},
     { title: "Análisis", link: "/analisis", icon: MdOutlineCoffeeMaker},
     { title: "Variables", link: "/variables", icon: IoIosPaper},
-    { title: "Resultados", link: "/resultados", icon: BsCardChecklist}
+    { title: "Resultados", link: "/resultados", icon: BsCardChecklist},
+    { title: "Reportes", link: "/reportes", icon: IoDocuments}
 ];
 const MenusCatador = [
   { title: "Dashboard", link: "/dashboard", icon: MdDashboard },
   { title: "Análisis", link: "/analisisCatador", icon: MdOutlineCoffeeMaker},
-  { title: "Resultados", link: "/resultados", icon: BsCardChecklist}
+  { title: "Resultados", link: "/resultadosCatador", icon: BsCardChecklist},
+  { title: "Reportes", link: "/reportes", icon: IoDocuments}
 ];
 
   return (
