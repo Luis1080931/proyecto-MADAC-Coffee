@@ -443,7 +443,7 @@ export function Usuarios() {
             <>
                 <Header title="Usuarios"/>       
             
-                    <div className='bg-[#D2D4C7]'>
+                    <div className='bg-[#D2D4C7] max-h-screen'>
                         <div className='w-full max-w-[90%] ml-28 items-center p-10'>
 
                             <AccionesModal 

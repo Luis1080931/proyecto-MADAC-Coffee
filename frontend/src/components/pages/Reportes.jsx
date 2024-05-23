@@ -78,17 +78,21 @@ export function Reportes () {
     };
     
     const [datosPdf, setDatosPdf] = useState([]);
+    const [loadingPdf, setLoadingPdf] = useState([]);
   
-    const fetchDataPdf = (analisisId) => {
-      try {
-        axiosClient.get(`/reportes/generar/${analisisId}`).then((response) => {
-          console.log(response.data)
-          setDatosPdf(response.data)
-        })
-      } catch (error) {
-        console.log('Error del servidor' , error);
+    const fetchDataPdf = async (analisis_id) => {
+      setLoadingPdf(true);
+      // Suponiendo que fetchDataPdf retorna los datos
+      const data = await fetchDataPdfFunction(analisis_id);
+      setDatosPdf(data);
+      setLoadingPdf(false);
+    };
+  
+    const handleDownloadClick = async (id) => {
+      if (!datosPdf) {
+        await fetchDataPdf(id);
       }
-    }
+    };
 
     const hasSearchFilter = Boolean(filterValue);
   
@@ -158,11 +162,19 @@ export function Reportes () {
           return (
             <div className="flex flex-row justify-center items-center">
               {result.estado === 'terminado' ? (
-                <PDFDownloadLink document={<PDFReport data={datosPdf} />} fileName={`Análisis-${result.analisis_id}.pdf`} onClick={() => fetchDataPdf(result.analisis_id)}>
-                  {({ blob, url, loading, error }) => 
-                    loading ? 'Cargando documento...' : <FaFileDownload className='text-3xl cursor-pointer' />
-                  }
-                </PDFDownloadLink>
+                loadingPdf ? (
+                  'Cargando documento...'
+                ) : (
+                  <PDFDownloadLink 
+                    document={<PDFReport data={datosPdf} />} 
+                    fileName={`Análisis-${result.analisis_id}.pdf`}
+                    onClick={handleDownloadClick(result.analisis_id)}
+                  >
+                    {({ loading }) => 
+                      loading ? 'Cargando documento...' : <FaFileDownload className='text-3xl cursor-pointer' />
+                    }
+                  </PDFDownloadLink>
+                )
               ) : null}
             </div>
           );
