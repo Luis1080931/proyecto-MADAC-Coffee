@@ -178,7 +178,7 @@ function Ejemplo() {
   
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
-                <Button className="text-xl" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
+                <Button className="text-xl bg-gray-100" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
                   Estado
                 </Button>
               </DropdownTrigger>
@@ -280,7 +280,7 @@ function Ejemplo() {
   <TableHeader columns={data}>
     {(column) => (
       <TableColumn
-        className="bg-[#3C6E9F] text-white text-lg"
+        className="bg-[#525B5F] text-white text-lg"
         key={column.uid}
         align={column.uid === "actions" ? "center" : "start"}
         allowsSorting={column.sortable}
@@ -477,27 +477,30 @@ function Ejemplo() {
     
     <div>
         <Header title="Recepción de muestras" />
-        <div className='w-full max-w-[90%] ml-28 items-center p-10'>
-            <AccionesModal
-            isOpen={modalAcciones}
-            onClose={() => setModalAcciones(false)}
-            label={mensaje}
-            />
-            <MuestrasModal 
-                
-                open={modalOpen} 
-                onClose={()=>setModalOpen(false)} 
-                title={mode === 'create' ? 'Registrar Muestra' : 'Actualizar Muestra'}
-                actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                initialData={initialData}
-                handleSubmit={handleSubmit}
-                mode={mode}
-            />
-           <Ejemplo
-                data={data}
-                muestras={muestras}
-           />
-        </div>
+          <div className='bg-[#D2D4C7]'>
+            <div className='w-full max-w-[90%] ml-28 items-center p-10'>
+                <AccionesModal
+                isOpen={modalAcciones}
+                onClose={() => setModalAcciones(false)}
+                label={mensaje}
+                />
+                <MuestrasModal 
+                    
+                    open={modalOpen} 
+                    onClose={()=>setModalOpen(false)} 
+                    title={mode === 'create' ? 'Registrar Muestra' : 'Actualizar Muestra'}
+                    actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                    initialData={initialData}
+                    handleSubmit={handleSubmit}
+                    mode={mode}
+                />
+              <Ejemplo
+                    data={data}
+                    muestras={muestras}
+              />
+            </div>
+
+          </div>
     </div>
   )
 }

@@ -41,15 +41,15 @@ export const SideBarUser = ({ children }) => {
                     </Link>
                 </li>
                
-                <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh bg-[#D9E4EC] hover:bg-[#97BCC7] rounded-lg p-2'>
-                    <CiUser className='text-3xl text-black font-bold' />
-                    <label className='flex text-black text-xl font-bold w-full h-full items-center px-4 rounded-lg cursor-pointer' onClick={() => setModalUser(true)}>
+                <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh bg-[#3E4749] hover:bg-[#D2D4C7] hover:text-black rounded-lg p-2'>
+                    <CiUser className='text-3xl text-white font-bold' />
+                    <label className='flex text-white hover:text-black text-xl font-bold w-full h-full items-center px-4 rounded-lg cursor-pointer' onClick={() => setModalUser(true)}>
                         Perfil de usuario
                     </label>
                 </li>
-                <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh bg-[#D9E4EC] hover:bg-[#97BCC7] rounded-lg p-2'>
-                    <IoLogOutOutline className='text-3xl text-black font-bold' />
-                    <label className='flex text-black text-xl font-bold w-full h-full items-center px-4 rounded-lg cursor-pointer' onClick={() => setModalOpen(true)}>
+                <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh bg-[#3E4749] hover:bg-[#D2D4C7] hover:text-black rounded-lg p-2'>
+                    <IoLogOutOutline className='text-3xl text-white font-bold' />
+                    <label className='flex text-white hover:text-black text-xl font-bold w-full h-full items-center px-4 rounded-lg cursor-pointer' onClick={() => setModalOpen(true)}>
                         Cerrar sesión
                     </label>
                 </li>

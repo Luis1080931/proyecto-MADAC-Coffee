@@ -158,7 +158,7 @@ export function Reportes () {
           return (
             <div className="flex flex-row justify-center items-center">
               {result.estado === 'terminado' ? (
-                <PDFDownloadLink document={<PDFReport data={datosPdf} />} fileName="tu_archivo.pdf" onClick={() => fetchDataPdf(result.analisis_id)}>
+                <PDFDownloadLink document={<PDFReport data={datosPdf} />} fileName={`Análisis-${result.analisis_id}.pdf`} onClick={() => fetchDataPdf(result.analisis_id)}>
                   {({ blob, url, loading, error }) => 
                     loading ? 'Cargando documento...' : <FaFileDownload className='text-3xl cursor-pointer' />
                   }
@@ -169,7 +169,7 @@ export function Reportes () {
         default:
           return cellValue;
       }
-    }, []);
+    }, []); 
   
     const onNextPage = React.useCallback(() => {
       if (page < pages) {
@@ -237,7 +237,7 @@ export function Reportes () {
               
               <Dropdown>
                 <DropdownTrigger className="hidden sm:flex">
-                  <Button className="text-xl" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
+                  <Button className="text-xl bg-gray-100" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
                     Estado
                   </Button>
                 </DropdownTrigger>
@@ -327,7 +327,7 @@ export function Reportes () {
           <TableHeader columns={data}>
             {(column) => (
               <TableColumn
-                className="bg-[#3C6E9F] text-white text-lg"
+                className="bg-[#525B5F] text-white text-lg"
                 key={column.uid}
                 align={column.uid === "actions" ? "center" : "start"}
                 allowsSorting={column.sortable}
@@ -419,7 +419,7 @@ export function Reportes () {
   
   return (
     <>
-        <div className='bg-gray-200 h-screen max-h-max'>
+        <div className='bg-[#D2D4C7] h-full'>
             <Header title="Reportes de los análisis" />
             <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
 

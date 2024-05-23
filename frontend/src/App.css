@@ -28,7 +28,7 @@
 
 .nav-menu-user.active{
   right: 0;
-  background-color: #D9E4EC;
+  background-color: #3E4749;
   transition: 550ms;
   scroll-behavior: smooth;
   z-index: 500;

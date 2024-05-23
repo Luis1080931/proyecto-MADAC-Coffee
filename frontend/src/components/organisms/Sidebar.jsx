@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiSettings4Line, RiPlantFill } from "react-icons/ri";
 import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
 import { MdDashboard, MdOutlineCoffeeMaker } from "react-icons/md";
@@ -10,15 +10,38 @@ import { BsCardChecklist } from "react-icons/bs";
 import { IoDocuments } from "react-icons/io5";
 import { FaX } from "react-icons/fa6";
 import Control from './../../assets/control.png'
+import logo from './../../assets/icons/logoHeader.jpeg'
 
 
 export const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const [activeLink, setActiveLink] = useState(location.pathname);
+  const [sidebar, setSidebar] = useState(false)
 
   const stored = localStorage.getItem('user')
   const user = stored ? JSON.parse(stored) : null
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setSidebar(false);
+      } else {
+        setSidebar(true);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("sidebarOpen", JSON.stringify(open));
+  }, [open]);
 
   const Menus = [
     { title: "Dashboard", link: "/dashboard", icon: MdDashboard },
@@ -42,9 +65,10 @@ const MenusCatador = [
   return (
     <>
       <div className="flex min-h-screen z-10">
-        <div
-          className={`${open ? "w-64" : "w-20"
-            } bg-[#D9E4EC] max-h-full p-5 pt-5 h-full fixed duration-300`}
+        {sidebar ? (
+          <div
+          className={`${open ? "w-56" : "w-20"
+            } bg-[#3E4749] max-h-full p-5 pt-5 h-full fixed duration-300`}
         >
           <img
             src={Control}
@@ -53,9 +77,20 @@ const MenusCatador = [
             onClick={() => setOpen(!open)}
           />
           <div className={`flex items-center`}>
-            <FaX img="isotipo-SubCoffee.png" className={`${open && "rotate-[360deg]"}`} />
-           {/*  <FaX to="/subcoffee" color="cafeClaroLogo" text="Sub" className={`${!open && "scale-0"}`} />
-            <FaX to="/subcoffee" color="cafeOscuroLogo" text="Coffee" className={`${!open && "scale-0"}`} /> */}
+          <img
+            src={logo}
+            className={`cursor-pointer duration-500 h-10 w-10 rounded-full ${open ? "rotate-[360deg] w-20 h-20 rounded-full" : ""}`}
+          />
+          <h1
+            className={`text-[#fff] origin-left ml-2 font-bold  text-xl duration-200 overflow-hidden whitespace-nowrap ${
+              !open && "scale-0 flex flex-col"
+            }`}
+            style={{ maxWidth: "calc(100% - 4rem)" }}
+            title="Madac-coffee"
+          >
+            <span className="flex"> MADAC - </span>
+            <span className="flex"> Coffee </span>
+          </h1>
           </div>
           <ul className="pt-6">
             { user.tipo_usuario === 'admin' ? Menus.map((Menu, index) => (
@@ -63,8 +98,8 @@ const MenusCatador = [
                 to={Menu?.link}
                 key={index}
                 onClick={() => setActiveLink(Menu.link)}
-                className={`flex rounded-md p-2 cursor-pointer hover:bg-[#97BCC7] text-black text-lg font-bold items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
-                  } ${activeLink === Menu.link ? "bg-[#97BCC7]" : ""}`}
+                className={`flex rounded-md p-2 cursor-pointer hover:bg-[#D2D4C7] text-white hover:text-black text-lg font-bold items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
+                  } ${activeLink === Menu.link ? "bg-[#272B2C] text-black" : ""}`}
               >
                 <div>{React.createElement(Menu?.icon, { size: "20" })}</div>
                 <span
@@ -79,8 +114,8 @@ const MenusCatador = [
                 to={Menu?.link}
                 key={index}
                 onClick={() => setActiveLink(Menu.link)}
-                className={`flex rounded-md p-2 cursor-pointer hover:bg-[#97BCC7] text-black text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
-                  } ${activeLink === Menu.link ? "bg-[#97BCC7]" : ""}`}
+                className={`flex rounded-md p-2 cursor-pointer hover:bg-[#D2D4C7] text-black text-sm items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
+                  } ${activeLink === Menu.link ? "bg-[#D2D4C7] text-black" : ""}`}
               >
                 <div>{React.createElement(Menu?.icon, { size: "20" })}</div>
                 <span
@@ -96,6 +131,7 @@ const MenusCatador = [
           
           </div>
         </div>
+        ) : []}
       </div>
     </>
   );

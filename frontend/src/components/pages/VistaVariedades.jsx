@@ -172,7 +172,7 @@ function TableVariedades() {
   
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
-                <Button className="text-xl" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
+                <Button className="text-xl bg-gray-100" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
                   Estado
                 </Button>
               </DropdownTrigger>
@@ -275,7 +275,7 @@ function TableVariedades() {
   <TableHeader columns={data}>
     {(column) => (
       <TableColumn
-        className="bg-[#3C6E9F] text-white text-lg"
+        className="bg-[#525B5F] text-white text-lg"
         key={column.uid}
         align={column.uid === "actions" ? "center" : "start"}
         allowsSorting={column.sortable}
@@ -419,30 +419,33 @@ const {setVariedadId, variedadId} = useContext(VariedadesContext)
     return (
         <div>
             <Header title='Variedades del café' />
-            <div className='w-full max-w-[90%] ml-28 items-center p-10'>
+              <div className='bg-[#D2D4C7]'>
+                <div className='w-full max-w-[90%] ml-28 items-center p-10'>
 
-                <AccionesModal 
-                    isOpen={modalAccionesOpen}
-                    onClose={() => setModalAccionesOpen(false)}
-                    label={mensaje}
-                />
-                
-                <VariedadesModal 
-                    open={modalOpen}
-                    onClose={() => setModalOpen(false)}
-                    title={mode === 'create' ? 'Registrar variedades' : 'Actualizar variedades'}
-                    actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                    mode={mode}
-                    initialData={initialData}
-                    handleSubmit={handleSubmit}
-                />
+                    <AccionesModal 
+                        isOpen={modalAccionesOpen}
+                        onClose={() => setModalAccionesOpen(false)}
+                        label={mensaje}
+                    />
+                    
+                    <VariedadesModal 
+                        open={modalOpen}
+                        onClose={() => setModalOpen(false)}
+                        title={mode === 'create' ? 'Registrar variedades' : 'Actualizar variedades'}
+                        actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                        mode={mode}
+                        initialData={initialData}
+                        handleSubmit={handleSubmit}
+                    />
 
-                <TableVariedades 
-                    data={data}
-                    results={results}
-                />
+                    <TableVariedades 
+                        data={data}
+                        results={results}
+                    />
 
-            </div>
+                </div>
+
+              </div>
         </div>
     );
 }

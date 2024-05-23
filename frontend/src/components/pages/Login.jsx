@@ -96,7 +96,7 @@ const handleAccept = () => {
         height: '100vh'
       }}
       >
-            <Button className='w-28 m-10 rounded-lg bg-[#B7CFDC] text-black font-bold text-xl' onPress={() => setModalOpen(true)}>
+            <Button className='w-28 m-10 rounded-lg bg-[#3E4749] text-white font-bold text-xl' onPress={() => setModalOpen(true)}>
                 Login
             </Button>
         </div>
@@ -112,7 +112,7 @@ const handleAccept = () => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Inicio de sesión</ModalHeader>
               <ModalBody>
                 <div className='flex flex-row justify-center content-center items-center'>
                   <img className='w-80 h-96 mr-10 rounded-lg' src={caficultor} alt="" />

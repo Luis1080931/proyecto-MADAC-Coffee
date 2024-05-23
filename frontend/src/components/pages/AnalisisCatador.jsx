@@ -263,7 +263,7 @@ function Ejemplo() {
   <TableHeader columns={data}>
     {(column) => (
       <TableColumn
-        className="bg-[#3C6E9F] text-white text-lg"
+        className="bg-[#525B5F] text-white text-lg"
         key={column.uid}
         align={column.uid === "actions" ? "center" : "start"}
         allowsSorting={column.sortable}
@@ -362,28 +362,31 @@ function Ejemplo() {
     return (
         <div>
             <Header title='Análisis físico y sensorial' />
-            <div className='w-full max-w-[90%] ml-28 items-center p-10'>
-                <AccionesModal 
-                    isOpen={modalAccionesOpen}
-                    onClose={() => setModalAccionesOpen(false)}
-                    label={mensaje}
-                />
-                
-                <AnalisisModal 
-                    open={modalOpen}
-                    onClose={() => setModalOpen(false)}
-                    title={mode === 'create' ? 'Registrar Análisis' : 'Actualizar Análisis'}
-                    actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                    mode={mode}
-                    initialData={initialData}
-                />
-                <Ejemplo  
-                    clickEditar={() => handleToggle('update', id)}
-                    clickRegistrar={() => handleToggle('create')}
-                    data={data}
-                    results={results}
-                />
-            </div>
+              <div className='bg-[#D2D4C7]'>
+                <div className='w-full max-w-[90%] ml-28 items-center p-10'>
+                    <AccionesModal 
+                        isOpen={modalAccionesOpen}
+                        onClose={() => setModalAccionesOpen(false)}
+                        label={mensaje}
+                    />
+                    
+                    <AnalisisModal 
+                        open={modalOpen}
+                        onClose={() => setModalOpen(false)}
+                        title={mode === 'create' ? 'Registrar Análisis' : 'Actualizar Análisis'}
+                        actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                        mode={mode}
+                        initialData={initialData}
+                    />
+                    <Ejemplo  
+                        clickEditar={() => handleToggle('update', id)}
+                        clickRegistrar={() => handleToggle('create')}
+                        data={data}
+                        results={results}
+                    />
+                </div>
+
+              </div>
         </div>
     );
 }

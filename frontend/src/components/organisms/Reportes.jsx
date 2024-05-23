@@ -61,10 +61,10 @@ const PDFReport = ({ data }) => (
         <Text> El objetivo del siguiente informe es presentar los resultados del análisis físico-sensorial obtenidos para la muestra de café {data.codigo} descrita a continuación. </Text>
         <Text style={styles.title}>Información General:</Text>
         <Text>Caficultor: {data.caficultor_nombre}</Text>
-        <Text>Departamento: {/* {data.departamento} */}</Text>
-        <Text>Vereda: {/* {data.vereda} */}</Text>
-        <Text>Nombre de la finca: {/* {data.nombreFinca} */}</Text>
-        <Text>Código de la muestra: {/* {data.codigoMuestra} */}</Text>
+        <Text>Departamento: {data.municipio} </Text>
+        <Text>Vereda: {data.vereda}</Text>
+        <Text>Nombre de la finca: {data.finca_id} </Text>
+        <Text>Código de la muestra: {data.muestra_id} </Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.title}>Especificaciones del Café:</Text>

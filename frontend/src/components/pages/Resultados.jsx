@@ -231,7 +231,7 @@ export function Resultados () {
               
               <Dropdown>
                 <DropdownTrigger className="hidden sm:flex">
-                  <Button className="text-xl" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
+                  <Button className="text-xl bg-gray-100" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
                     Estado
                   </Button>
                 </DropdownTrigger>
@@ -324,7 +324,7 @@ export function Resultados () {
           <TableHeader columns={data}>
             {(column) => (
               <TableColumn
-                className="bg-[#3C6E9F] text-white text-lg"
+                className="bg-[#525B5F] text-white text-lg"
                 key={column.uid}
                 align={column.uid === "actions" ? "center" : "start"}
                 allowsSorting={column.sortable}
@@ -574,73 +574,76 @@ export function Resultados () {
     <ResultadoProvider>
     <div className='bg-gray-200 h-screen max-h-max'>
         <Header title="Resultado de los análisis" />
-        <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
+          <div className='bg-[#D2D4C7]'> 
+            <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
 
-        {/* <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)}>
-              <ModalContent>
-                <ModalHeader> Registro de resultados de los análisis </ModalHeader>
-                <ModalBody>
-                <Select 
-                    label="Seleccione el análisis"
-                    value={selectedAnalysis}
-                    onChange={handleAnalysisChange}
-                    required
-                  >
-                    {analisis.map(analisi => (
-                      <SelectItem key={analisi.codigo} value={analisi.codigo} textValue={analisi.codigo}>
-                        {analisi.codigo}
-                      </SelectItem>
-                    ))}
-                  </Select>
-                  <Input 
-                    type='date'
-                    placeholder='Ingrese la fecha'
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                  />
-                  {currentIndex < variables.length ? (
-                    <>
-                      <h2>{`Variable ${currentIndex + 1}:`} {variablesBase[currentIndex]?.nombre} </h2>
-                      <Input
-                        placeholder="Ingrese el valor"
-                        required={true}
-                        value={variables[currentIndex]}
-                        onChange={(e) => handleChange(e, currentIndex)}
+            {/* <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)}>
+                  <ModalContent>
+                    <ModalHeader> Registro de resultados de los análisis </ModalHeader>
+                    <ModalBody>
+                    <Select 
+                        label="Seleccione el análisis"
+                        value={selectedAnalysis}
+                        onChange={handleAnalysisChange}
+                        required
+                      >
+                        {analisis.map(analisi => (
+                          <SelectItem key={analisi.codigo} value={analisi.codigo} textValue={analisi.codigo}>
+                            {analisi.codigo}
+                          </SelectItem>
+                        ))}
+                      </Select>
+                      <Input 
+                        type='date'
+                        placeholder='Ingrese la fecha'
+                        value={selectedDate}
+                        onChange={handleDateChange}
                       />
-                      <Button color='primary' onClick={handleNext}>Next</Button>
-                    </>
-                  ) : (
-                    <>
-                      <h2>Registro completo</h2>
-                      <Button color='primary' onClick={handleSubmitRegister}>Registrar</Button>
-                    </>
-                  )}
-                </ModalBody>
-              </ModalContent>
-            </Modal> */}
+                      {currentIndex < variables.length ? (
+                        <>
+                          <h2>{`Variable ${currentIndex + 1}:`} {variablesBase[currentIndex]?.nombre} </h2>
+                          <Input
+                            placeholder="Ingrese el valor"
+                            required={true}
+                            value={variables[currentIndex]}
+                            onChange={(e) => handleChange(e, currentIndex)}
+                          />
+                          <Button color='primary' onClick={handleNext}>Next</Button>
+                        </>
+                      ) : (
+                        <>
+                          <h2>Registro completo</h2>
+                          <Button color='primary' onClick={handleSubmitRegister}>Registrar</Button>
+                        </>
+                      )}
+                    </ModalBody>
+                  </ModalContent>
+                </Modal> */}
 
-        <AccionesModal 
-            isOpen={modalAcciones}
-            onClose={() => setModalAcciones(false)}
-            label={mensaje}
-        />
-        
-            {/* <ResultadosModal 
-                open={modalOpen} 
-                onClose={() => setModalOpen(false)} 
-                title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
-                actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                handleSubmit={handleSubmit}
-                mode={mode}
-            /> */}
+            <AccionesModal 
+                isOpen={modalAcciones}
+                onClose={() => setModalAcciones(false)}
+                label={mensaje}
+            />
+            
+                {/* <ResultadosModal 
+                    open={modalOpen} 
+                    onClose={() => setModalOpen(false)} 
+                    title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
+                    actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                    handleSubmit={handleSubmit}
+                    mode={mode}
+                /> */}
 
-           <Ejemplo 
-                data={data}
-                results={results}
-           />
-            
-            
-        </div>
+              <Ejemplo 
+                    data={data}
+                    results={results}
+              />
+                
+                
+            </div>
+
+          </div>
     </div>
     <footer className='bg-red-300'>
               Hola
