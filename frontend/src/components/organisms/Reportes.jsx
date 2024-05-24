@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
-import axiosClient from './../axiosClient.js'
 
 Font.register({
   family: 'Roboto',
@@ -9,7 +8,6 @@ Font.register({
     { src: 'https://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Mu7GxKOzY.woff2', fontWeight: 'bold' },
   ],
 });
-
 
 const styles = StyleSheet.create({
   page: {
@@ -53,29 +51,28 @@ const styles = StyleSheet.create({
 });
 
 const PDFReport = ({ data }) => (
-
-<Document>
+  <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
-        <Text style={styles.title}> 1. Objetivo </Text>
-        <Text> El objetivo del siguiente informe es presentar los resultados del análisis físico-sensorial obtenidos para la muestra de café {data.codigo} descrita a continuación. </Text>
+        <Text style={styles.title}>1. Objetivo</Text>
+        <Text>El objetivo del siguiente informe es presentar los resultados del análisis físico-sensorial obtenidos para la muestra de café {data.codigo} descrita a continuación.</Text>
         <Text style={styles.title}>Información General:</Text>
         <Text>Caficultor: {data.caficultor_nombre}</Text>
-        <Text>Departamento: {data.municipio} </Text>
+        <Text>Departamento: {data.municipio}</Text>
         <Text>Vereda: {data.vereda}</Text>
-        <Text>Nombre de la finca: {data.finca_id} </Text>
-        <Text>Código de la muestra: {data.muestra_id} </Text>
+        <Text>Nombre de la finca: {data.finca_id}</Text>
+        <Text>Código de la muestra: {data.muestra_id}</Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.title}>Especificaciones del Café:</Text>
         <View style={styles.table}>
           <View style={styles.tableRow}>
             <Text style={[styles.tableCell, styles.tableHeader]}>Variedad del Café</Text>
-            <Text style={styles.tableCell}>{/* {data.variedad} */}</Text>
+            <Text style={styles.tableCell}>{data.variedad}</Text>
           </View>
           <View style={styles.tableRow}>
             <Text style={[styles.tableCell, styles.tableHeader]}>Altura sobre el nivel del mar</Text>
-            <Text style={styles.tableCell}>{/* {data.altura} */}</Text>
+            <Text style={styles.tableCell}>{data.altura}</Text>
           </View>
         </View>
       </View>
@@ -84,7 +81,7 @@ const PDFReport = ({ data }) => (
         <View style={styles.table}>
           <View style={styles.tableRow}>
             <Text style={[styles.tableCell, styles.tableHeader]}>Tipo de Molienda</Text>
-            <Text style={styles.tableCell}>{/* {data.tipoMolienda} */}</Text>
+            <Text style={styles.tableCell}>{data.tipoMolienda}</Text>
           </View>
           {/* Agregar más filas para los datos generales del café */}
         </View>
@@ -97,12 +94,12 @@ const PDFReport = ({ data }) => (
             <Text style={[styles.tableCell, styles.tableHeader]}>Resultado</Text>
           </View>
           {/* Renderizar los resultados del análisis físico */}
-          {/* {resultados.map((resultado, index) => (
+          {data.resultados.map((resultado, index) => (
             <View key={index} style={styles.tableRow}>
               <Text style={styles.tableCell}>{resultado.variable}</Text>
               <Text style={styles.tableCell}>{resultado.valor}</Text>
             </View>
-          ))} */}
+          ))}
         </View>
       </View>
     </Page>

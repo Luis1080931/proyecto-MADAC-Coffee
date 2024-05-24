@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Header } from './../molecules/Header.jsx'
 import {
   Table,
@@ -77,22 +77,30 @@ export function Reportes () {
       setSelectedAnalysis(value);
     };
     
-    const [datosPdf, setDatosPdf] = useState([]);
-    const [loadingPdf, setLoadingPdf] = useState([]);
-  
-    const fetchDataPdf = async (analisis_id) => {
-      setLoadingPdf(true);
-      // Suponiendo que fetchDataPdf retorna los datos
-      const data = await fetchDataPdfFunction(analisis_id);
-      setDatosPdf(data);
+    const [datosPdf, setDatosPdf] = useState(null);
+  const [loadingPdf, setLoadingPdf] = useState(false);
+
+  const fetchDataPdf = useCallback(async (id) => {
+    setLoadingPdf(true);
+    try {
+      const response = await axiosClient.get(`/reportes/generar/${id}`);
+      console.log('Response data:', response.data);
+      setDatosPdf(response.data);
+    } catch (error) {
+      console.error('Error al obtener los datos del PDF:', error);
+    } finally {
       setLoadingPdf(false);
-    };
-  
-    const handleDownloadClick = async (id) => {
-      if (!datosPdf) {
-        await fetchDataPdf(id);
-      }
-    };
+    }
+  }, []);
+
+  const handleDownloadClick = async (id) => {
+    await fetchDataPdf(id);
+  };
+
+  useEffect(() => {
+    console.log('datosPdf:', datosPdf);
+    console.log('loadingPdf:', loadingPdf);
+  }, [datosPdf, loadingPdf]);
 
     const hasSearchFilter = Boolean(filterValue);
   
@@ -161,21 +169,32 @@ export function Reportes () {
         case "actions":
           return (
             <div className="flex flex-row justify-center items-center">
-              {result.estado === 'terminado' ? (
-                loadingPdf ? (
-                  'Cargando documento...'
-                ) : (
-                  <PDFDownloadLink 
-                    document={<PDFReport data={datosPdf} />} 
-                    fileName={`Análisis-${result.analisis_id}.pdf`}
-                    onClick={handleDownloadClick(result.analisis_id)}
-                  >
-                    {({ loading }) => 
-                      loading ? 'Cargando documento...' : <FaFileDownload className='text-3xl cursor-pointer' />
-                    }
-                  </PDFDownloadLink>
-                )
-              ) : null}
+              {result.estado === 'terminado' && (
+                <>
+                  {loadingPdf ? (
+                    'Cargando documento...'
+                  ) : (
+                    datosPdf ? (
+                      <PDFDownloadLink
+                        document={<PDFReport data={datosPdf} />}
+                        fileName={`Análisis-${result.analisis_id}.pdf`}
+                      >
+                        {({ loading }) =>
+                          loading ? 'Cargando documento...' : (
+                            <div>
+                              <FaFileDownload className='text-3xl cursor-pointer' />
+                            </div>
+                          )
+                        }
+                      </PDFDownloadLink>
+                    ) : (
+                      <button onClick={() => handleDownloadClick(result.analisis_id)}>
+                        Generar PDF
+                      </button>
+                    )
+                  )}
+                </>
+              )}
             </div>
           );
         default:
