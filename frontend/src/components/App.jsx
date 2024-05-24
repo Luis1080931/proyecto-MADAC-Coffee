@@ -9,11 +9,17 @@ import { Variables } from "./pages/Variables.jsx"
 import VistaVariedades from "./pages/VistaVariedades.jsx"
 import VistaAnalisis from "./pages/VistaAnalisis.jsx"
 import { Resultados } from "./pages/Resultados.jsx"
-import ModalResultados from "./organisms/ModalResultados.jsx"
-import { AuthProvider } from "../context/authContext.jsx"
+import NotFoundPage from "./pages/NotFoundPages.jsx"
 import { NextUIProvider } from "@nextui-org/react"
 import ProtectedRoute from "../Protected.jsx"
 import SliderVertical from "./organisms/Slider.jsx"
+import AnalisisFisicosChart from "./organisms/Estadisticas.jsx"
+import PDFReport from "./organisms/Reportes.jsx"
+import VistaAnalisisCatador from "./pages/AnalisisCatador.jsx"
+import { ResultadosCatador } from "./pages/ResultadosCatador.jsx"
+import GlobalProvider from "../context/GlobalContext.jsx"
+import { Reportes } from "./pages/Reportes.jsx"
+
 
 const stored = localStorage.getItem('user')
 const user = stored ? JSON.parse(stored) : null
@@ -22,30 +28,42 @@ function App() {
 
   return (
     <NextUIProvider>
-      <AuthProvider>
+      <GlobalProvider>
         <BrowserRouter>    
         {/*   <Sidebar /> */}
             <Routes>
               <Route path="/" element={<Login />} />
               <Route element={<ProtectedRoute />} > 
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/fincas" element={<Fincas />} />
-                <Route path="/lotes" element={<Lotes />} />
-                <Route path="/resultados" element={<Resultados />} />
-                <Route path="/variables" element={<Variables />} />
-                <Route path="/muestras" element={<Muestras />} />
-                <Route path="/variedades" element={<VistaVariedades />} />
-                <Route path="/analisis" element={<VistaAnalisis />} />
-                <Route path="/modalresultados" element={<ModalResultados />} />
                 <Route path="/slider" element={<SliderVertical />} />
+                <Route path="/estadisticas" element={<AnalisisFisicosChart />} />
+                <Route path="/pdf" element={<PDFReport />} />
+                <Route path="/analisis" element={<VistaAnalisis />} />
                 {user && user.tipo_usuario === 'admin' && (
-                <Route path="/usuarios" element={<Usuarios />} /> 
+                  <>
+                    <Route path="/usuarios" element={<Usuarios />} />
+                    <Route path="/fincas" element={<Fincas />} />
+                    <Route path="/lotes" element={<Lotes />} />
+                    <Route path="/resultados" element={<Resultados />} />
+                    <Route path="/variables" element={<Variables />} />
+                    <Route path="/muestras" element={<Muestras />} />
+                    <Route path="/variedades" element={<VistaVariedades />} />
+                  </>
                 )}
+                {user && user.tipo_usuario === 'catador' && (
+                  <>
+                    <Route path="/analisisCatador" element={<VistaAnalisisCatador />} />
+                    <Route path="/resultadosCatador" element={<ResultadosCatador />} />
+                  </>
+                  
+                )}
+                <Route path="/reportes" element={<Reportes />} /> 
               </Route>
+              <Route path="*" element={<NotFoundPage />}/>
             </Routes>
 
         </BrowserRouter>
-      </AuthProvider>
+      </GlobalProvider>
     </NextUIProvider>
   )
 }

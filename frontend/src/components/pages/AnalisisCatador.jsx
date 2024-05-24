@@ -1,40 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { Header } from '../molecules/Header.jsx';
+import AccionesModal from '../organisms/ModalAcciones.jsx';
+import AnalisisModal from '../templates/Analisis.jsx';
+import axiosClient from '../axiosClient.js';
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Input,
-  Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-  Chip,
-  Pagination,
-} from "@nextui-org/react";
-import { PlusIcon } from "./PlusIcon";
-import { VerticalDotsIcon } from "./VerticalDotsIcon.jsx";
-import { SearchIcon } from "./SearchIcon";
-import { ChevronDownIcon } from "./ChevronDownIcon";
-import axios from "axios";
-import ResultadosModal from "../templates/Resultados.jsx";
-import { Header } from "../molecules/Header.jsx";
+    Table,
+    TableHeader,
+    TableColumn,
+    TableBody,
+    TableRow,
+    TableCell,
+    Input,
+    Button,
+    DropdownTrigger,
+    Dropdown,
+    DropdownMenu,
+    DropdownItem,
+    Chip,
+    Pagination,
+  } from "@nextui-org/react";
+  import { PlusIcon } from "./../atoms/PlusIcon.jsx";
+  import { SearchIcon } from "./../atoms/SearchIcon.jsx";
+  import { ChevronDownIcon } from "./../atoms/ChevronDownIcon.jsx";
+  import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
+
+function VistaAnalisisCatador() {
 
 const statusColorMap = {
-  activo: "success",
-  inactivo: "danger",
+  asignado: "success",
+  calificado: "warning",
+  terminado: "danger",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["codigo", "fecha", "analisis", "variable", "valor", "observaciones", "estado", "actions"];
-
-export default function Ejemplo() {
+function Ejemplo() {
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
-  const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
   const [statusFilter, setStatusFilter] = React.useState("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [sortDescriptor, setSortDescriptor] = React.useState({
@@ -42,42 +43,11 @@ export default function Ejemplo() {
     direction: "ascending",
   });
   const [page, setPage] = React.useState(1);
-  const [results, setResults] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState('create')
-
-    const handleToggle = (mode) => {
-        setMode(mode)
-        setOpen(true)
-    }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('http://localhost:3000/resultados/listar');
-      setResults(response.data);
-    } catch (error) {
-      console.error('Error al obtener los datos:', error);
-    }
-  };
-
-  const data = [
-    { uid: "codigo", name: "Código", sortable: true },
-    { uid: "fecha", name: "Fecha", sortable: true },
-    { uid: "analisis", name: "Análisis", sortable: true },
-    { uid: "variable", name: "Variable", sortable: true },
-    { uid: "valor", name: "Valor", sortable: true },
-    { uid: "observaciones", name: "Observaciones", sortable: false },
-    { uid: "estado", name: "Estado", sortable: true },
-    { uid: "actions", name: "Acciones", sortable: false },
-  ];
-
+ 
   const statusOptions = [
-    {name: "Activo", uid: "activo"},
-    {name: "Inactivo", uid: "inactivo"},
+    {name: "Asignado", uid: "asignado"},
+    {name: "Calificado", uid: "calificado"},
+    {name: "Terminado", uid: "terminado"},
   ];
 
   const hasSearchFilter = Boolean(filterValue);
@@ -89,10 +59,9 @@ export default function Ejemplo() {
       filteredResults = filteredResults.filter(result =>
         String(result.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
         result.fecha.toLowerCase().includes(filterValue.toLowerCase()) ||
-        String(result.analisis).toLowerCase().includes(filterValue.toLowerCase()) ||
-        result.variable.toLowerCase().includes(filterValue.toLowerCase()) ||
-        result.valor.toLowerCase().includes(filterValue.toLowerCase()) ||
-        result.observaciones.toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(result.analista).toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(result.muestra).toLowerCase().includes(filterValue.toLowerCase()) ||
+        result.tipo_analisis.toLowerCase().includes(filterValue.toLowerCase()) ||
         result.estado.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
@@ -134,23 +103,7 @@ export default function Ejemplo() {
           <Chip className="capitalize" color={statusColorMap[result.estado]} size="sm" variant="flat">
             {cellValue}
           </Chip>
-        );
-      case "actions":
-        return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem onClick={() => handleToggle('update')}>Editar</DropdownItem>
-                <DropdownItem>Desactivar</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
+        )
       default:
         return cellValue;
     }
@@ -194,7 +147,6 @@ export default function Ejemplo() {
   const topContent = React.useMemo(() => {
     return (
       <>
-       <Header title='Resultados' />
       <div className="flex flex-col gap-4">
         <div className="flex justify-between gap-3 items-end">
           <Input
@@ -216,7 +168,8 @@ export default function Ejemplo() {
               </DropdownTrigger>
               <DropdownMenu
                 disallowEmptySelection
-                aria-label="Table Columns"
+                aria-label="Menu de acciones"
+                aria-labelledby="Acciones"
                 closeOnSelect={false}
                 selectedKeys={statusFilter}
                 selectionMode="multiple"
@@ -229,9 +182,6 @@ export default function Ejemplo() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />} onClick={() => setOpen(true)}>
-              Registrar
-            </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -254,6 +204,7 @@ export default function Ejemplo() {
     );
   }, [
     filterValue,
+    filteredItems,
     onRowsPerPageChange,
     onSearchChange,
     onClear,
@@ -263,11 +214,11 @@ export default function Ejemplo() {
   const bottomContent = React.useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-between items-center">
-        <span className="w-[30%] text-small text-default-400">
+        {<span className="w-[30%] text-small text-default-400">
           {selectedKeys === "all"
             ? "All items selected"
             : `${selectedKeys.size} de ${filteredItems.length} seleccionados`}
-        </span>
+        </span>}
         <Pagination
           isCompact
           showControls
@@ -291,32 +242,28 @@ export default function Ejemplo() {
 
   return (
     <div className="flex items-center justify-center">
-    <ResultadosModal 
-      open={open}
-      onClose={()=> setOpen(false)}
-      title={mode == 'create' ? 'Registro' : 'Actualizar'}
-      actionLabel={mode == 'create' ? 'Crear' : 'Guardar'}
-    />
 <Table
-  aria-label="Example table with custom cells, pagination and sorting"
+  aria-label="Tabla"
   isHeaderSticky
   bottomContent={bottomContent}
   bottomContentPlacement="outside"
   classNames={{
-    wrapper: "max-h-[382px] max-w-[95%]" ,
+    wrapper: "max-h-[95%] max-w-[95%]" ,
   }}
-  className="flex "
+  className="flex"
   selectedKeys={selectedKeys}
-  selectionMode="multiple"
+  // selectionMode="multiple"
   sortDescriptor={sortDescriptor}
   topContent={topContent}
   topContentPlacement="outside"
   onSelectionChange={setSelectedKeys}
+
   onSortChange={setSortDescriptor}
 >
   <TableHeader columns={data}>
     {(column) => (
       <TableColumn
+        className="bg-[#525B5F] text-white text-lg"
         key={column.uid}
         align={column.uid === "actions" ? "center" : "start"}
         allowsSorting={column.sortable}
@@ -325,7 +272,7 @@ export default function Ejemplo() {
       </TableColumn>
     )}
   </TableHeader>
-  <TableBody emptyContent={"No hay resultados registrados"} items={sortedItems}>
+  <TableBody emptyContent={"No hay análisis registrados"} items={sortedItems}>
     {(item) => (
       <TableRow key={item.codigo}>
         {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
@@ -337,3 +284,111 @@ export default function Ejemplo() {
     
   );
 }
+
+
+    const [results, setResults] = useState([]);
+    const [modalAccionesOpen, setModalAccionesOpen] = useState(false)
+    const [modalOpen, setModalOpen] = useState(false)
+    const [mensaje, setMensaje] = useState('')
+    const [mode, setMode] = useState('create')
+    const [initialData, setInitialData] = useState(null)
+
+    const data = [
+        { 
+            uid: "codigo",
+            name: "CÓDIGO",
+            sortable: true 
+        },
+        { 
+            uid: "analista",
+            name: "ANALISTA" ,
+            sortable: true 
+        },
+        { 
+            uid: "fecha",
+            name: "FECHA", 
+            sortable: true,
+            render: (fecha) => formatDate(fecha)
+        },
+        { 
+            uid: "muestra",
+            name: "MUESTRA",
+            sortable: true
+        },
+        { 
+            uid: "tipo_analisis",
+            name: "TIPO ANALISIS",
+            sortable: true
+        },
+        { 
+            uid: "estado",
+            name: "ESTADO",
+            sortable: true
+        }
+    ];
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('es-ES'); 
+    }
+
+    const stored = localStorage.getItem('user');
+    const user = stored ? JSON.parse(stored) : null;
+
+    const fetchData = async () => {
+        try {
+            const response = await axiosClient.get(`/analisis/analisisCatador/${user.identificacion}`)
+
+            const formattedResults = response.data.map((result) => ({
+                ...result,
+                fecha: formatDate(result.fecha),
+              }));
+              setResults(formattedResults);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const handleToggle = (mode, initialData) => {
+        setInitialData(initialData)
+        setModalOpen(true)
+        setMode(mode)
+    }
+
+    return (
+        <div>
+            <Header title='Análisis físico y sensorial' />
+              <div className='bg-[#D2D4C7]'>
+                <div className='w-full max-w-[90%] ml-28 items-center p-10'>
+                    <AccionesModal 
+                        isOpen={modalAccionesOpen}
+                        onClose={() => setModalAccionesOpen(false)}
+                        label={mensaje}
+                    />
+                    
+                    <AnalisisModal 
+                        open={modalOpen}
+                        onClose={() => setModalOpen(false)}
+                        title={mode === 'create' ? 'Registrar Análisis' : 'Actualizar Análisis'}
+                        actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                        mode={mode}
+                        initialData={initialData}
+                    />
+                    <Ejemplo  
+                        clickEditar={() => handleToggle('update', id)}
+                        clickRegistrar={() => handleToggle('create')}
+                        data={data}
+                        results={results}
+                    />
+                </div>
+
+              </div>
+        </div>
+    );
+}
+
+export default VistaAnalisisCatador

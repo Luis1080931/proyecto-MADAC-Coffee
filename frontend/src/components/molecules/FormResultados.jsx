@@ -1,69 +1,62 @@
-import React, { useEffect, useRef, useState } from 'react'
-import axios from 'axios'
-import {ModalFooter, Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import {ModalFooter, Button, Input, Select, SelectItem, table } from "@nextui-org/react";
+import axiosClient from '../axiosClient';
+import ResultadoContext from '../../context/ResultadosContext.jsx';
 
-const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel }) => {
+const FormResultados = ({ mode, handleSubmit, onClose, actionLabel }) => {
 
-    const token = localStorage.getItem('token')
+    const [fecha, setFecha] = useState('')
+    const [analisisFk, setAnalisisFk] = useState('')
+    const [variableFk, setVariableFk] = useState('')
+    const [valor, setValor] = useState('')
 
-    const fecha = useRef(null)
-    const fk_analisis = useRef(null)
-    const fk_variables = useRef(null)
-    const valor = useRef(null)
-    const observaciones = useRef(null)
+    const [analisis, setAnalisis] = useState([])
+    const [variables, setVariables] = useState([])
+    const { resultadosSeleccionado } = useContext(ResultadoContext)
 
     useEffect(() => {
-        if(mode == 'update' && initialData){
-            /* const formatDate = initialData.fecha.substring(0,10) */
-            fecha.current.value = initialData.fecha
-            fk_analisis.current.value = initialData.fk_analisis
-            fk_variables.current.value = initialData.fk_variables
-            valor.current.value = initialData.valor
-            observaciones.current.value = initialData.observaciones
-        }
-    }, [mode, initialData])
+        axiosClient.get('/analisis/activos').then((response) => {
+            console.log(response.data)
+            setAnalisis(response.data)
+        })
+    }, [])
+
+    useEffect(() => {
+        axiosClient.get('/variables/activas').then((response) => {
+            console.log(response.data)
+            setVariables(response.data)
+        })
+    }, [])
+
+    useEffect(() => {
+        if (mode === 'update' && resultadosSeleccionado ) {
+            
+                setFecha(resultadosSeleccionado.fecha)
+                setAnalisisFk(resultadosSeleccionado.fk_analisis)
+                setVariableFk(resultadosSeleccionado.fk_variables)
+                setValor(resultadosSeleccionado.valor)
+           
+        } 
+    }, [mode, resultadosSeleccionado]);
+    
 
      const handleFormSubmit = async (e) => {
         e.preventDefault()
         try {
 
-            const fechaValue = new Date(fecha.current.value).toISOString().slice(0, 10);
+            const fechaValue = new Date(fecha).toISOString().slice(0, 10);
             const datosForm = {
                 fecha: fechaValue,
-                fk_analisis: parseInt(fk_analisis.current.value),
-                fk_variables: parseInt(fk_variables.current.value),
-                valor: valor.current.value,
-                observaciones: observaciones.current.value
+                fk_analisis: parseInt(analisisFk),
+                fk_variables: parseInt(variableFk),
+                valor: valor,
             }
-            /* console.log('Datos:', data); */
             handleSubmit(datosForm, e)
-
+            
         } catch (error) {
             alert('Error de servidor' + error)
         }
     }
-
-    const [analisis, setAnalisis] = useState([])
-
-    useEffect(() => {
-        axios.get('http://localhost:3000/analisis/listar', {headers: {token:token}}).then((response) => {
-            console.log(response.data)
-
-            const analisisFilter = response.data.filter(analisi => analisi.estado == 'activo')
-            setAnalisis(analisisFilter)
-        })
-    }, [])
-
-    const [variables, setVariables] = useState([])
-
-    useEffect(() => {
-        axios.get('http://localhost:3000/variables/listarvariable', {headers: {token:token}}).then((response) => {
-            console.log(response.data)
-
-            const variableFilter = response.data.filter(variable => variable.estado == 'activo')
-            setVariables(variableFilter)
-        })
-    }, [])
 
   return (
     <>
@@ -76,39 +69,44 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                     name='fecha' 
                     type="date" 
                     placeholder='Ingrese la fecha' 
-                    ref={fecha} 
+                    value={fecha} 
+                    onChange={(e) => setFecha(e.target.value)}
                     required={true}
                 />
             </div>
             <div className='flex w-full flex-wrap md:flex-nowrap mb-4'  >
-                <Select 
+                <select 
                     label='Código de análisis'
+                    className='w-[400px] rounded-xl bg-gray-100 h-[40px]'
                     name="" 
                     id="" 
-                    ref={fk_analisis} 
+                    value={analisisFk} 
+                    onChange={(e) => e.target.value}
                     required={true} 
                 >
                         {analisis.map(anali => (
-                            <SelectItem key={anali.codigo} value={anali.codigo} textValue={anali.codigo}>
+                            <option key={anali.codigo} value={anali.codigo} >
                                 {anali.codigo}
-                            </SelectItem>
+                            </option>
                         ))}
-                </Select>
+                </select>
             </div>
             <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
-                <Select 
+                <select 
                     label='Variable'
                     name="idvariable"
+                    className='w-[400px] rounded-xl bg-gray-100 h-[40px]'
                     id=""
-                    ref={fk_variables}
+                    value={variableFk}
+                    onChange={(e) => e.target.value}
                     required={true} 
                 >
                         {variables.map(varia => (
-                            <SelectItem key={varia.v_codigo} value={varia.v_codigo}>
+                            <option key={varia.v_codigo} value={varia.v_codigo}>
                                 {varia.nombre}
-                            </SelectItem>
+                            </option>
                         ))}
-                </Select>
+                </select>
             </div>
             <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
                 <Input 
@@ -116,22 +114,12 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                     name='valor' 
                     type="text" 
                     placeholder='Ingrese la valor' 
-                    ref={valor} 
+                    value={valor}
+                    onChange={(e) => setValor(e.target.value)} 
                     required={true}
                 />
             </div>
-            <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
-                <Textarea 
-                    label='Observaciones'
-                    name="observaciones" 
-                    cols="30" 
-                    rows="3" 
-                    placeholder='Observaciones' 
-                    ref={observaciones} 
-                    required={true}
-                ></Textarea>
-            </div>
-            {<ModalFooter>
+            <ModalFooter>
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Close
                 </Button>
@@ -139,7 +127,7 @@ const FormResultados = ({ mode, initialData, handleSubmit, onClose, actionLabel 
                   {actionLabel}
                 </Button>
                 
-            </ModalFooter>}
+            </ModalFooter>
         </div>
         </form>
     </>

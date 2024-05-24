@@ -1,23 +1,21 @@
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useState } from 'react';
 
 const ResultadoContext = createContext();
 
 export const ResultadoProvider = ({ children }) => {
  
-  const [resultadoSeleccionado, setResultadoSeleccionado] = useState(null);
-
-  const seleccionarResultado = (resultado) => {
-    setResultadoSeleccionado(resultado);
-  };
+  const [resultadoSeleccionado, setResultadoSeleccionado] = useState([]);
   
   return (
-    <ResultadoContext.Provider value={{ resultadoSeleccionado, seleccionarResultado }}>
-      {children}
+    <ResultadoContext.Provider 
+      value={{ 
+        resultadoSeleccionado,
+        setResultadoSeleccionado 
+      }}>
+        {children}
     </ResultadoContext.Provider>
   );
-};
-
-export const useResultado = () => useContext(ResultadoContext)
+}
 
 export default ResultadoContext;

@@ -26,13 +26,14 @@ export const CrearMuestra = async (req, res) => {
     if (!errors.isEmpty()) {
         return res.status(400).json(errors.array());
     }
+
         const { fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote } = req.body;
         const [resultado] = await pool.query("INSERT INTO muestras (fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)", [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote]);
 
         if (resultado.affectedRows > 0) {
-            res.status(200).json({ mensaje: "Se creó una muestra" });
+            res.status(200).json({ message: "Se creó una muestra" });
         } else {
-            res.status(403).json({ mensaje: "No se creó una muestra" });
+            res.status(403).json({ message: "No se creó una muestra" });
         }
     } catch (error) {
         // Manejo de errores generales
@@ -74,24 +75,42 @@ export const actualizarMuestra = async (req, res) => {
 export const desactivarMuestras = async (req, res) => {
     try {
         const { codigo } = req.params;
-        const [muestra] = await pool.query("SELECT * FROM muestras WHERE codigo = ?", [codigo]);
+        const [result] = await pool.query("UPDATE muestras SET estado = 2 WHERE codigo = ?", [codigo]);
 
-        const nuevoEstado = muestra[0].estado === 'activo' ? 'inactivo' : 'activo';
-        const [result] = await pool.query("UPDATE muestras SET estado = ? WHERE codigo = ?", [nuevoEstado, codigo]);
+        if (result.affectedRows >  0) {
+            res.status(200).json({
+                status:  200,
+                message: 'Se desactivó con éxito',
+            });
+        } else {
+            res.status(403).json({
+                status:  403,
+                message: 'No se pudo desactivar la muestra'
+            });
+        }
+    } catch (error) {
+        res.status(500).json({message:"Error en el servidor" + error})
+    }
+};
+
+export const activarMuestras = async (req, res) => {
+    try {
+        const { codigo } = req.params;
+        const [result] = await pool.query("UPDATE muestras SET estado = 1 WHERE codigo = ?", [codigo]);
 
         if (result.affectedRows > 0) {
             res.status(200).json({
                 status: 200,
-                message: `Se cambió el estado de la muestra a '${nuevoEstado}' con éxito`,
+                message: 'Se activó con éxito la muestra',
             });
         } else {
-            res.status(404).json({
-                status: 404,
-                message: 'No se encontró la muestra para cambiar el estado'
+            res.status(403).json({
+                status: 403,
+                message: 'No se pudo activar la muestra'
             });
         }
     } catch (error) {
-        res.status(500).json({ message: "Error en el servidor" + error })
+        res.status(500).json({message: "Error en el servidor" + error})
     }
 };
 
@@ -115,4 +134,18 @@ export const BuscarMuestra = async (req, res) => {
     }
 }
 
+export const muestrasActivas = async (req, res) => {
+    try {
+        const [result] = await pool.query("SELECT * FROM muestras WHERE estado = 1")
 
+        if (result.length > 0 ) {
+            res.status(200).json(result)
+        } else {
+            res.status(404).json({
+                "Mensaje":"No hay muestras"
+            });
+        }
+    } catch (error) {
+        res.status(500).json({message:"Error en el servidor" + error})
+    }
+}

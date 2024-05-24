@@ -11,15 +11,12 @@ import routeVariedades from './src/routes/variedades.routes.js'
 import rutaValidacion from "./src/routes/seguridad.route.js"; 
 import RutaMunicipios from "./src/routes/municipios.route.js";
 import routeTipoAnalisis from "./src/routes/route.tipoAnalisis.js";
+import routeReportes from "./src/routes/route.reporte.js";
 import cors from 'cors'
 
 const servidor = express();
 
 servidor.use(cors());
-
-servidor.use(cors())
-
-servidor.use(cors())
 
 servidor.use(body_parser.json())
 servidor.use(body_parser.urlencoded({extend: false}))
@@ -34,6 +31,7 @@ servidor.use('/variables', routeVariables)
 servidor.use('/resultados', routeResultados)
 servidor.use('/municipios', RutaMunicipios)
 servidor.use('/tipoanalisis', routeTipoAnalisis)
+servidor.use('/reportes', routeReportes)
 servidor.use(rutaValidacion)
 
 servidor.set('view engine', 'ejs')

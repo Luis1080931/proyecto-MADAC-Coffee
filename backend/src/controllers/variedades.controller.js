@@ -176,3 +176,24 @@ export const buscarVariedades=async(req,res)=>{
         })
     }
 }
+
+export const variedadesActivas = async (req,res)=>{
+    try {
+
+        const [variedades] = await pool.query("SELECT * FROM variedades WHERE estado = 1")
+
+        if (variedades.length>0) {
+            res.status(200).json(variedades)
+        } else {
+        res.status(404).json({
+            message:"No hay variedades registradas"
+        })
+        }
+        
+        
+    } catch (error) {
+        res.status(500).json({
+            message:error
+        })
+    }
+}

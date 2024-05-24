@@ -1,87 +1,135 @@
-import React, { useRef, useEffect } from 'react';
-/* import { Button } from '../atoms/Button'; */
-import axios from 'axios';
-import { Button, ModalFooter } from '@nextui-org/react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Button, Input, ModalFooter, Select, SelectItem } from '@nextui-org/react';
+import AuthContext from './../../context/authContext.jsx';
 
-const baseURL = "http://localhost:3000/usuarios/registrar";
-
-const FormUsuarios = ({ handleSubmit, actionLabel, selectedUser, mode, onClose }) => {
-    const identificacionRef = useRef(null);
-    const nombreRef = useRef(null);
-    const correoRef = useRef(null);
-    const telefonoRef = useRef(null);
-    const passwordRef = useRef(null);
-    const tipoUsuarioRef = useRef(null);
+const FormUsuarios = ({ actionLabel, mode, onClose, handleSubmit }) => {
+ 
+    const { idUser} = useContext(AuthContext)
+    
+    const [formData, setFormData] = useState({
+        identificacion: '',
+        nombre: '',
+        correo_electronico: '',
+        telefono: '',
+        password: '',
+        tipo_usuario: ''
+    })
 
     useEffect(() => {
-        if (mode == 'update' && selectedUser) {
-            identificacionRef.current.value = selectedUser.identificacion || '';
-            nombreRef.current.value = selectedUser.nombre || '';
-            correoRef.current.value = selectedUser.correo_electronico || '';
-            telefonoRef.current.value = selectedUser.telefono || '';
-            passwordRef.current.value = selectedUser.password || '';
-            tipoUsuarioRef.current.value = selectedUser.tipo_usuario || '';
-
-            console.log(selectedUser)
+        if (mode === 'update' && idUser) {
+            setFormData({
+                identificacion: idUser.identificacion,
+                nombre: idUser.nombre,
+                correo_electronico: idUser.correo_electronico,
+                telefono: idUser.telefono,
+                password:  idUser.password,
+                tipo_usuario: idUser.tipo_usuario
+            })
+            
         }
-    }, [mode, selectedUser]);
-    
+    }, [mode, idUser]);
+
+    const handleChange = (e) => {
+        setFormData({
+          ...formData,
+          [e.target.name]: e.target.value,
+        });
+      };
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        const formData = {
-            identificacion: parseInt(identificacionRef.current.value),
-            nombre: nombreRef.current.value,
-            correo_electronico: correoRef.current.value,
-            telefono: telefonoRef.current.value,
-            password: passwordRef.current.value,
-            tipo_usuario: tipoUsuarioRef.current.value
-        };
-        handleSubmit(formData, e); // Pasa los datos del formulario al manejador de envío del formulario de la vista principal
+        try {
+            const { identificacion, nombre, correo_electronico, telefono, password, tipo_usuario } = formData;
+   
+            const data = {
+                identificacion: parseInt(identificacion),
+                nombre,
+                correo_electronico: correo_electronico,
+                telefono,
+                password,
+                tipo_usuario
+            }
+            handleSubmit(data, e )
+        } catch (error) {
+            console.log('Error' + error);
+        }
     };
 
     return (
-        <>
-            <form method='post' onSubmit={handleFormSubmit}>
-                <div className='flex flex-col'>
-                    <div className='flex flex-col'>
-                        <label className='text-xl font-bold'> Numero de documento </label>
-                        <input className='p-2 rounded-lg w-80 h-12' name='identificacion' id='identificacion' type="number" placeholder='Ingrese su N° de identidad' ref={identificacionRef} />
-                    </div>
-                    <div className='flex-col md:flex'  >
-                        <label className='text-xl font-bold'> Nombre: </label>
-                        <input className='p-2 rounded-lg w-80 h-12' name='nombre' id='nombre' type="text" placeholder='Ingrese su Nombre(s)' ref={nombreRef} />
-                    </div>
-                    <div className='flex-col md:flex'  >
-                        <label className='text-xl font-bold'> Correo: </label>
-                        <input className='p-2 rounded-lg w-80 h-12' name='correo_electronico' id='correo_electronico' type="text" placeholder='Ingrese su correo Electronico' ref={correoRef} />
-                    </div>
-                    <div className='flex-col md:flex'>
-                        <label className='text-xl font-bold'> Telefono: </label>
-                        <input className='p-2 rounded-lg w-80 h-12' name='telefono' type="text" id='telefono' placeholder='Ingrese su N° de Telefono' ref={telefonoRef} />
-                    </div>
-                    <div className='flex-col md:flex'>
-                        <label className='text-xl font-bold'> Contraseña: </label>
-                        <input className='p-2 rounded-lg w-80 h-12' type="password"  placeholder='Ingrese la Contraseña' name='password' id='password' ref={passwordRef} />
-                    </div>
-                    <div className='flex-col md:flex'>
-                        <label className='text-xl font-bold'> Tipo de Usuario: </label>
-                        <select className='p-2 rounded-lg w-80 h-12' name='tipo_usuario' id='tipo_usuario' type="text" placeholder='Ingrese el tipo de usuario' ref={tipoUsuarioRef}>
-                            <option value="catador"> Catador </option>
-                            <option value="caficultor"> Caficultor </option>
-                        </select>
-                    </div>
-                    {<ModalFooter>
-                        <Button color="danger" variant="flat" onPress={onClose}>
-                        Close
-                        </Button>
-                        <Button type='submit' color="primary">
-                        {actionLabel}
-                        </Button>
-                    </ModalFooter>}
+        <form method='post' onSubmit={handleFormSubmit}>
+                <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
+                    <Input 
+                        name='identificacion'
+                        id='identificacion'
+                        type="number"
+                        placeholder='Ingrese su N° de identidad'
+                        value={formData.identificacion}
+                        onChange={handleChange}
+                    />
                 </div>
-            </form>
-        </>
+                <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
+                    <Input 
+                        name='nombre'
+                        id='nombre'
+                        type="text"
+                        placeholder='Ingrese su Nombre(s)'
+                        value={formData.nombre}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
+                    <Input 
+                        name='correo_electronico' 
+                        id='correo_electronico'
+                        type="text"
+                        placeholder='Ingrese su correo Electronico'
+                        value={formData.correo_electronico}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
+                    <Input
+                        name='telefono' 
+                        type="text" 
+                        id='telefono' 
+                        placeholder='Ingrese su N° de Telefono' 
+                        value={formData.telefono}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
+                    <Input 
+                        type="password"  
+                        placeholder='Ingrese la Contraseña'
+                        name='password' 
+                        id='password' 
+                        value={formData.password}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className='flex w-full flex-wrap md:flex-nowrap mb-4'>
+                    <select  
+                        name='tipo_usuario'
+                        className='w-[400px] rounded-xl bg-gray-100 h-[40px]'
+                        aria-label='Registro de users'
+                        placeholder='Ingrese el tipo de usuario' 
+                        value={formData.tipo_usuario}
+                        onChange={handleChange}
+                    >
+                        <option value='admin'> Admin </option>
+                        <option value="catador"> Catador </option>
+                        <option value="caficultor"> Caficultor </option>
+                    </select>
+                </div>
+                <ModalFooter>
+                    <Button color="danger" variant="flat" onPress={onClose}>
+                        Cerrar
+                    </Button>
+                    <Button type='submit' color="primary">
+                        {actionLabel}
+                    </Button>
+                </ModalFooter>
+        </form>
     )
 }
 

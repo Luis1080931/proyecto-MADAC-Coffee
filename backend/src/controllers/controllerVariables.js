@@ -4,7 +4,7 @@ import { validationResult } from "express-validator";
 
 export const listarVariables = async (req, res) => {
     try {
-        let sql = 'SELECT v_codigo, nombre, fk_tipo_analisis AS tipo_analisis, tipo_analisis, v.estado FROM variables AS v JOIN tipo_analisis ON fk_tipo_analisis = id'
+        let sql = 'SELECT v_codigo, nombre, fk_tipo_analisis AS tipo_analisis, v.estado FROM variables AS v JOIN tipo_analisis ON fk_tipo_analisis = id'
         const [result] = await pool.query(sql)
 
         if (result.length > 0 ) {
@@ -24,6 +24,7 @@ export const listarVariables = async (req, res) => {
 
 // crear variable 
 
+//crud listar
 export const CrearVariable = async (req, res) => {
     try {
 
@@ -65,9 +66,9 @@ export const ActualizarVariable = async (req, res) => {
             return res.status(400).json(errors);
         }
 
-        const { v_codigo } = req.params;
+        const { codigo } = req.params;
         const { nombre, fk_tipo_analisis } = req.body;
-        const [result] = await pool.query('UPDATE variables SET nombre = IFNULL(?, nombre), fk_tipo_analisis = IFNULL(?, fk_tipo_analisis) WHERE v_codigo = ?', [nombre, fk_tipo_analisis, v_codigo]);
+        const [result] = await pool.query('UPDATE variables SET nombre = IFNULL(?, nombre), fk_tipo_analisis = IFNULL(?, fk_tipo_analisis) , estado = 1 WHERE v_codigo = ?', [nombre, fk_tipo_analisis, codigo]);
 
         if (result.affectedRows > 0) {
             res.status(200).json({ message: 'La variable ha sido actualizada correctamente.' });
@@ -87,37 +88,33 @@ export const ActualizarVariable = async (req, res) => {
 
 export const desactivarVariable = async (req, res) => {
     try {
-        const { codigo } = req.params; 
-        const [variable] = await pool.query("SELECT * FROM variables WHERE v_codigo = ?", [codigo]);
-
-        const nuevoEstado = variable[0].estado === 'activo' ? 'inactivo' : 'activo';
-        const [result] = await pool.query("UPDATE variables SET estado = ? WHERE v_codigo = ?", [nuevoEstado, codigo]);
+        const {codigo} = req.params; // Cambiado de 'codigo' a 'codigo'
+        const [result] = await pool.query("UPDATE variables  SET estado= 2 WHERE v_codigo = ?", [ codigo]);
 
         if (result.affectedRows > 0) {
             res.status(200).json({
                 status: 200,
-                message: `Se cambió el estado de la variable a '${nuevoEstado}' con éxito`,
+                message: 'Se desactivó con éxito',
             });
         } else {
             res.status(403).json({
                 status: 403,
-                message: 'No se encontró la variable para cambiar el estado'
+                message: 'No se pudo desactivar la variable'
             });
         }
     } catch (error) {
         res.status(500).json({
-            status: 500,
+            status:500,
             message: "Error del servidor" + error
-        });
+        })
     }
-};
-
+}
 
 //buscar variable 
 export const buscarvariable = async (req, res) => {
     try {
-        const { v_codigo } = req.params; 
-        const [result] = await pool.query("SELECT * FROM variables WHERE v_codigo = ?", [v_codigo]);
+        const { codigo } = req.params; 
+        const [result] = await pool.query('SELECT v_codigo, nombre, fk_tipo_analisis AS tipo_analisis, tipo_analisis, v.estado FROM variables AS v JOIN tipo_analisis ON fk_tipo_analisis = id WHERE v_codigo = ?', [codigo]);
                                                         //nombre tabla
         if (result.length > 0) {
             res.status(200).json(result);
@@ -126,6 +123,52 @@ export const buscarvariable = async (req, res) => {
                 status: 404,
                 message: 'No se encontraron resultados para la búsqueda'
             });
+        }
+    } catch (error) {
+        res.status(500).json({
+            status:500,
+            message: "Error del servidor" + error
+        })
+    }
+}
+
+export const activarVariable = async (req, res) => {
+    try {
+        const { codigo } = req.params
+        let sql = `UPDATE variables SET estado = 1 WHERE v_codigo = ?`
+
+        const [rows] = await pool.query(sql, [codigo])
+
+        if(rows.affectedRows>0){
+            res.status(200).json({
+                status: 200,
+                message: 'Se activó con exito la variable'
+            })
+        }else{
+            res.status(403).json({
+                status: 403,
+                message: 'Error  al intentar activar la variable'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: "Error del servidor" + error
+        })
+    }
+}
+
+export const variablesActivas = async (req, res) => {
+    try {
+        let sql = 'SELECT v_codigo, nombre, fk_tipo_analisis AS tipo_analisis, tipo_analisis, v.estado FROM variables AS v JOIN tipo_analisis ON fk_tipo_analisis = id WHERE v.estado = 1'
+        const [result] = await pool.query(sql)
+
+        if (result.length > 0 ) {
+            res.status(200).json(result)
+        } else {
+            res.status(404).json({
+                "Mensaje":"No hay variables"
+            })
         }
     } catch (error) {
         res.status(500).json({
