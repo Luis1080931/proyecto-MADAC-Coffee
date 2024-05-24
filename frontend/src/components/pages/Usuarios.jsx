@@ -441,33 +441,36 @@ export function Usuarios() {
 
         return (
             <>
+            <div className='bg-[#EAEDF6] h-screen max-h-max'>
                 <Header title="Usuarios"/>       
-            
-                    <div className='bg-[#D2D4C7] max-h-screen'>
-                        <div className='w-full max-w-[90%] ml-28 items-center p-10'>
+                
+                <div className='bg-[#EAEDF6]'>
+                    <div className='w-full max-w-[90%] ml-28 items-center p-10'>
 
-                            <AccionesModal 
-                                isOpen={modalAcciones}
-                                onClose={() => setModalAcciones(false)}
-                                label={mensaje}
-                            />
-                        
-                            <UsuariosModal
-                                open={modalOpen}
-                                onClose={() => setModalOpen(false)}
-                                handleSubmit={handleSubmit}
-                                actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                                title={mode === 'create' ? 'Registro de usuario' : 'Actualizar usuario'}
-                                mode={mode}
-                            />
-
-                            <Ejemplo
-                                data={data}
-                                results={results}
-                            />
-                        </div>
+                        <AccionesModal 
+                            isOpen={modalAcciones}
+                            onClose={() => setModalAcciones(false)}
+                            label={mensaje}
+                        />
                     
-                    </div> 
+                        <UsuariosModal
+                            open={modalOpen}
+                            onClose={() => setModalOpen(false)}
+                            handleSubmit={handleSubmit}
+                            actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                            title={mode === 'create' ? 'Registro de usuario' : 'Actualizar usuario'}
+                            mode={mode}
+                        />
+
+                        <Ejemplo
+                            data={data}
+                            results={results}
+                        />
+                    </div>
+                
+                </div> 
+            </div>
+                
             </>
         );
     }

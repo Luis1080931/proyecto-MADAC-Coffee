@@ -336,7 +336,7 @@ export function ResultadosCatador () {
           </TableHeader>
           <TableBody emptyContent={"No hay resultados registrados"} items={sortedItems}>
             {(item) => (
-              <TableRow key={item.codigo}>
+              <TableRow key={item.codigo} >
                 {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
               </TableRow>
             )}
@@ -549,7 +549,7 @@ export function ResultadosCatador () {
 
   return (
     <ResultadoProvider>
-    <div className='bg-gray-200 h-screen max-h-max'>
+    <div className='bg-[#D2D4C7] h-screen max-h-max'>
         <Header title="Resultado de los análisis" />
           <div className='bg-[#D2D4C7]'>
             <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
@@ -622,9 +622,6 @@ export function ResultadosCatador () {
 
           </div>
     </div>
-    <footer className='bg-red-300'>
-              Hola
-            </footer>
     </ResultadoProvider>
   )
 }

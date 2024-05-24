@@ -68,7 +68,7 @@ const MenusCatador = [
         {sidebar ? (
           <div
           className={`${open ? "w-56" : "w-20"
-            } bg-[#3E4749] max-h-full p-5 pt-5 h-full fixed duration-300`}
+            } bg-[#273468] max-h-full p-5 pt-5 h-full fixed duration-300`}
         >
           <img
             src={Control}
@@ -98,10 +98,10 @@ const MenusCatador = [
                 to={Menu?.link}
                 key={index}
                 onClick={() => setActiveLink(Menu.link)}
-                className={`flex rounded-md p-2 cursor-pointer hover:bg-[#D2D4C7] text-white hover:text-black text-lg font-bold items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
-                  } ${activeLink === Menu.link ? "bg-[#272B2C] text-black" : ""}`}
+                className={`flex rounded-md p-2 cursor-pointer hover:bg-[#EAEDF6] text-white hover:text-black text-lg font-bold items-center gap-x-4 ${Menu.gap ? "mt-9" : "mt-2"
+                  } ${activeLink === Menu.link ? "border-2 border-[#EAEDF6]" : ""}`}
               >
-                <div>{React.createElement(Menu?.icon, { size: "20" })}</div>
+                <div>{React.createElement(Menu?.icon, { size: "20"  })}</div>
                 <span
                   className={`${!open && "hidden"}
                          origin-left duration-200`}

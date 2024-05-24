@@ -44,7 +44,7 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
         setFecha(analisisId.fecha)
         setAnalista(analisisId.analista)
         setMuestra(analisisId.muestra)
-        setTipo(analisisId.tipo_analisis)
+        setTipo(analisisId.tipo)
       
     }
     
@@ -56,7 +56,7 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
 
       const data = {
         fecha: fecha,
-        analista: analista,
+        analista: parseInt(analista),
         fk_muestra: muestra,
         fk_tipo_analisis: parseInt(tipo)
       };
@@ -89,6 +89,7 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
             required={true}
             selectionMode="single"
           >
+            <option value="" hidden> Seleccione el catador ... </option>
             {catadores.map(item => (
               <option key={item.identificacion} value={item.identificacion} >
                 {item.nombre}
@@ -105,6 +106,7 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
             onChange={(e) => setMuestra(e.target.value)}
             required={true}
           >
+            <option value="" hidden> Codigo de muestra  ... </option>
             {muestras.map(mues => (
               <option key={mues.codigo} value={mues.codigo} >
                 {mues.codigo}
@@ -122,6 +124,7 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
             onChange={(e) => setTipo(e.target.value)}
             required={true}
           >
+            <option value="" hidden> Tipo de analisis ...</option>
             {tipoAnalisis.map(tipo => (
               <option key={tipo.id} value={tipo.id} >
                 {tipo.tipo_analisis}

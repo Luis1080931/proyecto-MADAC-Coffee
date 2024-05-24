@@ -29,7 +29,7 @@ export const SideBarUser = ({ children }) => {
         />
         <div className='h-20 flex justify-end items-center'>
             <Link to='#'>
-                <FaRegUserCircle size={40} className="cursor-pointer mr-8" onClick={showSideBar}/>
+                <FaRegUserCircle size={40} className="cursor-pointer mr-8 text-white" onClick={showSideBar}/>
             </Link>
         </div>
         <IconContext.Provider value={{ color: '#000' }}>

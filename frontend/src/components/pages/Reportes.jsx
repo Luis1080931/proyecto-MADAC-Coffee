@@ -78,7 +78,7 @@ export function Reportes () {
     };
     
     const [datosPdf, setDatosPdf] = useState(null);
-  const [loadingPdf, setLoadingPdf] = useState(false);
+    const [loadingPdf, setLoadingPdf] = useState(false);
 
   const fetchDataPdf = useCallback(async (id) => {
     setLoadingPdf(true);
@@ -178,6 +178,7 @@ export function Reportes () {
                       <PDFDownloadLink
                         document={<PDFReport data={datosPdf} />}
                         fileName={`Análisis-${result.analisis_id}.pdf`}
+                        /* onClick={() => handleDownloadClick(result.analisis_id)} */
                       >
                         {({ loading }) =>
                           loading ? 'Cargando documento...' : (
