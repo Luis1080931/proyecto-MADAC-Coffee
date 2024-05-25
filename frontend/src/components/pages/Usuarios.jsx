@@ -194,7 +194,7 @@ export function Usuarios() {
                     ))}
                 </DropdownMenu>
                 </Dropdown>
-                <Button className="text-xl" color="primary" endContent={<PlusIcon />} onClick={() => setModalOpen(true)}>
+                <Button className="text-xl bg-[#273468] text-white" endContent={<PlusIcon />} onClick={() => setModalOpen(true)}>
                 Registrar
                 </Button>
             </div>
@@ -219,6 +219,7 @@ export function Usuarios() {
         );
     }, [
         filterValue,
+        filteredItems,
         onRowsPerPageChange,
         onSearchChange,
         onClear,
@@ -243,10 +244,10 @@ export function Usuarios() {
             onChange={setPage}
             />
             <div className="hidden sm:flex w-[30%] justify-end gap-2">
-            <Button className="text-xl" color="primary" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
+            <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
                 Atras
             </Button>
-            <Button className="text-xl" color='primary' isDisabled={pages === 1} size="md" variant="ghost" onPress={onNextPage}>
+            <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="ghost" onPress={onNextPage}>
                 Siguiente
             </Button>
             </div>
@@ -277,7 +278,7 @@ export function Usuarios() {
     <TableHeader columns={data}>
         {(column) => (
         <TableColumn
-            className="bg-[#525B5F] text-white text-lg"
+            className="bg-[#273468] text-white text-lg"
             key={column.uid}
             align={column.uid === "actions" ? "center" : "start"}
             allowsSorting={column.sortable}

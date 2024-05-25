@@ -272,7 +272,7 @@ export function Resultados () {
           </div>
         </div>
       );
-    }, [filterValue, statusFilter, onRowsPerPageChange, onSearchChange, onClear]);
+    }, [filterValue, filteredItems, statusFilter, onRowsPerPageChange, onSearchChange, onClear]);
   
     const bottomContent = React.useMemo(() => {
       return (
@@ -324,7 +324,7 @@ export function Resultados () {
           <TableHeader columns={data}>
             {(column) => (
               <TableColumn
-                className="bg-[#525B5F] text-white text-lg"
+                className="bg-[#273468] text-white text-lg"
                 key={column.uid}
                 align={column.uid === "actions" ? "center" : "start"}
                 allowsSorting={column.sortable}
@@ -572,9 +572,9 @@ export function Resultados () {
 
   return (
     <ResultadoProvider>
-    <div className='bg-gray-200 h-screen max-h-max'>
+    <div className='bg-[#EAEDF6] h-screen max-h-max'>
         <Header title="Resultado de los análisis" />
-          <div className='bg-[#D2D4C7]'> 
+          <div className='bg-[#EAEDF6]'> 
             <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
 
             {/* <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)}>

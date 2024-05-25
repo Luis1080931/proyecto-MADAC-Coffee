@@ -263,7 +263,7 @@ function Ejemplo() {
   <TableHeader columns={data}>
     {(column) => (
       <TableColumn
-        className="bg-[#525B5F] text-white text-lg"
+        className="bg-[#273468] text-white text-lg"
         key={column.uid}
         align={column.uid === "actions" ? "center" : "start"}
         allowsSorting={column.sortable}

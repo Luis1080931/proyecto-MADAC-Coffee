@@ -219,6 +219,7 @@ function Ejemplo() {
     );
   }, [
     filterValue,
+    filteredItems,
     onRowsPerPageChange,
     onSearchChange,
     onClear,
@@ -276,7 +277,7 @@ function Ejemplo() {
   <TableHeader columns={data}>
     {(column) => (
       <TableColumn
-        className="bg-[#525B5F] text-white text-lg"
+        className="bg-[#273468] text-white text-lg"
         key={column.uid}
         align={column.uid === "actions" ? "center" : "start"}
         allowsSorting={column.sortable}
@@ -452,8 +453,9 @@ const handleActivar = async (codigo) => {
     return (
 
         <div>
-            <Header title="Lotes"/>
-              <div className='bg-[#D2D4C7]'>
+          <div className='bg-[#EAEDF6] h-screen max-h-max'>
+          <Header title="Lotes"/>
+              <div className='bg-[#EAEDF6]'>
                 <div className='w-full max-w-[90%] ml-28 items-center p-10'>
                     <AccionesModal
                     isOpen={modalAcciones}
@@ -476,6 +478,8 @@ const handleActivar = async (codigo) => {
                 </div>
 
               </div>
+          </div>
+            
         </div>
     )
 }

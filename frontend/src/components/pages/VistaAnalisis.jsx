@@ -222,6 +222,7 @@ function Ejemplo() {
     );
   }, [
     filterValue,
+    filteredItems,
     onRowsPerPageChange,
     onSearchChange,
     onClear,
@@ -280,7 +281,7 @@ function Ejemplo() {
   <TableHeader columns={data}>
     {(column) => (
       <TableColumn
-        className="bg-[#525B5F] text-white text-lg"
+        className="bg-[#273468] text-white text-lg"
         key={column.uid}
         align={column.uid === "actions" ? "center" : "start"}
         allowsSorting={column.sortable}
@@ -444,8 +445,9 @@ function Ejemplo() {
 
     return (
         <div>
-            <Header title='Análisis físico y sensorial' />
-              <div className='bg-[#D2D4C7]'>
+          <div className='bg-[#EAEDF6] h-screen max-h-max' >
+          <Header title='Análisis físico y sensorial' />
+              <div className='bg-[#EAEDF6]'>
                 <div className='w-full max-w-[90%] ml-28 items-center p-10'>
                     <AccionesModal 
                         isOpen={modalAccionesOpen}
@@ -472,6 +474,8 @@ function Ejemplo() {
                 </div>
 
               </div>
+          </div>
+            
         </div>
     );
 }

@@ -359,7 +359,7 @@ export function Reportes () {
           <TableHeader columns={data}>
             {(column) => (
               <TableColumn
-                className="bg-[#525B5F] text-white text-lg"
+                className="bg-[#273468] text-white text-lg"
                 key={column.uid}
                 align={column.uid === "actions" ? "center" : "start"}
                 allowsSorting={column.sortable}
@@ -451,16 +451,19 @@ export function Reportes () {
   
   return (
     <>
-        <div className='bg-[#D2D4C7] h-full'>
+        <div className='bg-[#EAEDF6] h-screen max-h-max'>
             <Header title="Reportes de los análisis" />
-            <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
+            <div className='bg-[#EAEDF6]'>
+              <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
 
                 <Ejemplo
                     data={data}
                     results={results} 
                 />
 
+              </div>
             </div>
+            
 
         </div>
     </>
