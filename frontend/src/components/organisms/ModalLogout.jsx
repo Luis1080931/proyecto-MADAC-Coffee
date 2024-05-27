@@ -23,7 +23,7 @@ export default function LogoutModal({ isOpen, onClose }) {
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Close
                 </Button>
-                <Button color="primary" onPress={onClose} onClick={Logout}>
+                <Button className="bg-[#273468] text-white" onPress={onClose} onClick={Logout}>
                   Confirmar
                 </Button>
               </ModalFooter>

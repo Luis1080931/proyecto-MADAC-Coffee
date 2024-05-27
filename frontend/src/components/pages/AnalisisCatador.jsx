@@ -171,6 +171,7 @@ function Ejemplo() {
                 aria-label="Menu de acciones"
                 aria-labelledby="Acciones"
                 closeOnSelect={false}
+                color='secondary'
                 selectedKeys={statusFilter}
                 selectionMode="multiple"
                 onSelectionChange={onStatusFilter}
@@ -229,10 +230,10 @@ function Ejemplo() {
           onChange={setPage}
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
-          <Button className="text-xl" color="primary" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
+          <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
             Atras
           </Button>
-          <Button className="text-xl" color='primary' isDisabled={pages === 1} size="md" variant="ghost" onPress={onNextPage}>
+          <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="ghost" onPress={onNextPage}>
             Siguiente
           </Button>
         </div>
@@ -361,8 +362,9 @@ function Ejemplo() {
 
     return (
         <div>
+          <div className='bg-[#EAEDF6] h-screen max-h-max'>
             <Header title='Análisis físico y sensorial' />
-              <div className='bg-[#D2D4C7]'>
+              <div className='bg-[#EAEDF6]'>
                 <div className='w-full max-w-[90%] ml-28 items-center p-10'>
                     <AccionesModal 
                         isOpen={modalAccionesOpen}
@@ -387,6 +389,8 @@ function Ejemplo() {
                 </div>
 
               </div>
+
+          </div>
         </div>
     );
 }

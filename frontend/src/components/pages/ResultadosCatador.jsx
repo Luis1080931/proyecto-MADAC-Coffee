@@ -153,7 +153,7 @@ export function ResultadosCatador () {
         case "actions":
           return (
             <div className="flex flex-row">
-              {result.estado === 'asignado' || result.estado === 'calificado' ? (
+              {result.estado === 'activo' || result.estado === 'calificado' ? (
                 <ButtonActualizar click={() =>  handleToggle('update', setResultadoSeleccionado(result))} />
               ) : (
                 ''
@@ -252,7 +252,7 @@ export function ResultadosCatador () {
                   ))}
                 </DropdownMenu>
               </Dropdown>
-              <Button className="text-xl" color="primary" endContent={<PlusIcon />} onClick={() => setModalRegister(true)}>
+              <Button className="text-xl bg-[#273468] text-white" endContent={<PlusIcon />} onClick={() => setModalRegister(true)}>
                 Registrar
               </Button>
             </div>
@@ -293,10 +293,10 @@ export function ResultadosCatador () {
             onChange={setPage}
           />
           <div className="hidden sm:flex w-[30%] justify-end gap-2">
-            <Button className="text-xl" color="primary" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
+            <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
               Atras
             </Button>
-            <Button className="text-xl" color='primary' isDisabled={pages === 1} size="md" variant="ghost" onPress={onNextPage}>
+            <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="ghost" onPress={onNextPage}>
               Siguiente
             </Button>
           </div>
@@ -549,79 +549,79 @@ export function ResultadosCatador () {
 
   return (
     <ResultadoProvider>
-    <div className='bg-[#D2D4C7] h-screen max-h-max'>
-        <Header title="Resultado de los análisis" />
-          <div className='bg-[#D2D4C7]'>
-            <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
+      <div className='bg-[#EAEDF6] h-screen max-h-max'>
+          <Header title="Resultado de los análisis" />
+            <div className='bg-[#EAEDF6]'>
+              <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
 
-            <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)}>
-                  <ModalContent>
-                    <ModalHeader> Registro de resultados de los análisis </ModalHeader>
-                    <ModalBody>
-                    <Select 
-                        label="Seleccione el análisis"
-                        value={selectedAnalysis}
-                        onChange={handleAnalysisChange}
-                        required
-                      >
-                        {analisis.map(analisi => (
-                          <SelectItem key={analisi.codigo} value={analisi.codigo} textValue={analisi.codigo}>
-                            {analisi.codigo}
-                          </SelectItem>
-                        ))}
-                      </Select>
-                      <Input 
-                        type='date'
-                        placeholder='Ingrese la fecha'
-                        value={selectedDate}
-                        onChange={handleDateChange}
-                      />
-                      {currentIndex < variables.length ? (
-                        <>
-                          <h2>{`Variable ${currentIndex + 1}:`} {variablesBase[currentIndex]?.nombre} </h2>
-                          <Input
-                            placeholder="Ingrese el valor"
-                            required={true}
-                            value={variables[currentIndex]}
-                            onChange={(e) => handleChange(e, currentIndex)}
-                          />
-                          <Button color='primary' onClick={handleNext}>Next</Button>
-                        </>
-                      ) : (
-                        <>
-                          <h2>Registro completo</h2>
-                          <Button color='primary' onClick={handleSubmitRegister}>Registrar</Button>
-                        </>
-                      )}
-                    </ModalBody>
-                  </ModalContent>
-                </Modal>
+              <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)}>
+                    <ModalContent>
+                      <ModalHeader> Registro de resultados de los análisis </ModalHeader>
+                      <ModalBody>
+                      <Select 
+                          label="Seleccione el análisis"
+                          value={selectedAnalysis}
+                          onChange={handleAnalysisChange}
+                          required
+                        >
+                          {analisis.map(analisi => (
+                            <SelectItem key={analisi.codigo} value={analisi.codigo} textValue={analisi.codigo}>
+                              {analisi.codigo}
+                            </SelectItem>
+                          ))}
+                        </Select>
+                        <Input 
+                          type='date'
+                          placeholder='Ingrese la fecha'
+                          value={selectedDate}
+                          onChange={handleDateChange}
+                        />
+                        {currentIndex < variables.length ? (
+                          <>
+                            <h2>{`Variable ${currentIndex + 1}:`} {variablesBase[currentIndex]?.nombre} </h2>
+                            <Input
+                              placeholder="Ingrese el valor"
+                              required={true}
+                              value={variables[currentIndex]}
+                              onChange={(e) => handleChange(e, currentIndex)}
+                            />
+                            <Button color='primary' onClick={handleNext}>Next</Button>
+                          </>
+                        ) : (
+                          <>
+                            <h2>Registro completo</h2>
+                            <Button color='primary' onClick={handleSubmitRegister}>Registrar</Button>
+                          </>
+                        )}
+                      </ModalBody>
+                    </ModalContent>
+                  </Modal>
 
-            <AccionesModal 
-                isOpen={modalAcciones}
-                onClose={() => setModalAcciones(false)}
-                label={mensaje}
-            />
-            
-                <ResultadosModal 
-                    open={modalOpen} 
-                    onClose={() => setModalOpen(false)} 
-                    title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
-                    actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                    handleSubmit={handleSubmit}
-                    mode={mode}
-                />
-
-              <Ejemplo 
-                    data={data}
-                    results={results}
+              <AccionesModal 
+                  isOpen={modalAcciones}
+                  onClose={() => setModalAcciones(false)}
+                  label={mensaje}
               />
-                
-                
-            </div>
+              
+                  <ResultadosModal 
+                      open={modalOpen} 
+                      onClose={() => setModalOpen(false)} 
+                      title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
+                      actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                      handleSubmit={handleSubmit}
+                      mode={mode}
+                  />
 
-          </div>
-    </div>
+                <Ejemplo 
+                      data={data}
+                      results={results}
+                />
+                  
+                  
+              </div>
+
+            </div>
+      </div>
     </ResultadoProvider>
   )
 }

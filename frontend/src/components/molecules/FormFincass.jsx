@@ -93,6 +93,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                             value={caficultor}
                             onChange={(e) => setCaficultor(e.target.value)}
                         >
+                            <option value="" hidden> Seleccione catador ... </option>
                             {caficultores.map((cafi) => (
                                 <option key={cafi.identificacion} value={cafi.identificacion}>
                                     {cafi.nombre}
@@ -109,6 +110,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                             value={municipio}
                             onChange={(e) => setMunicipio(e.target.value)}
                         >
+                            <option value="" hidden> Seleccione municipio ... </option>
                             {municipios.map(municipio => (
                                 <option key={municipio.id_municipio} value={municipio.id_municipio}>
                                     {municipio.nombre}

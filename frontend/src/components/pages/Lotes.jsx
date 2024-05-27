@@ -194,7 +194,7 @@ function Ejemplo() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button className="text-xl" color="primary" endContent={<PlusIcon />} onClick={() => handleToggle('create')}>
+            <Button className="text-xl bg-[#273468] text-white" endContent={<PlusIcon />} onClick={() => handleToggle('create')}>
               Registrar
             </Button>
           </div>
@@ -244,10 +244,10 @@ function Ejemplo() {
           onChange={setPage}
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
-          <Button className="text-xl" color="primary" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
+          <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
             Atras
           </Button>
-          <Button className="text-xl" color='primary' isDisabled={pages === 1} size="md" variant="ghost" onPress={onNextPage}>
+          <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="ghost" onPress={onNextPage}>
             Siguiente
           </Button>
         </div>
