@@ -10,18 +10,52 @@ Font.register({
 });
 
 const styles = StyleSheet.create({
-  page: {
-    fontFamily: 'Roboto',
-    padding: 20,
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  headerText: {
+    fontSize: 12,
+    fontWeight: 'bold',
   },
   section: {
     marginBottom: 10,
+  },
+  sectionTitle: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  table: {
+    display: 'table',
+    width: 'auto',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+    marginBottom: 10,
+  },
+  tableRow: {
+    flexDirection: 'row',
+  },
+  tableCol: {
+    width: '50%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+  page: {
+    fontFamily: 'Roboto',
+    padding: 20,
+    fontSize: 20,
   },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 10,
-  },
+  }, /* ,
   table: {
     display: 'table',
     width: 'auto',
@@ -29,8 +63,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRightWidth: 0,
     borderBottomWidth: 0,
-  },
-  tableRow: { flexDirection: 'row' },
+  }, */
   tableCell: {
     margin: 5,
     fontSize: 10,
@@ -48,15 +81,67 @@ const styles = StyleSheet.create({
     borderRightWidth: 0,
     borderBottomWidth: 0,
   },
+  tableColHeader: {
+    width: '50%',
+    backgroundColor: '#eee',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+  tableCellHeader: {
+    margin: 5,
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
+  tableCellHeaderFisicos: {
+    margin: 5,
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
+  tableFisicos: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: 10,
+  },
+  tableRowFisicos: {
+    flexDirection: 'column', // Cambiado de 'row' a 'column'
+    width: '50%', // Ancho para cada fila, ya que quieres 4 filas en una fila
+  },
+  tableColVariable: {
+    width: '40%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+  tableColValor: {
+    width: '10%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+  plusCol: {
+    display: 'flex',
+    flexDirection: 'row'
+
+  }
 });
 
 const PDFReport = ({ data }) => (
   <Document>
     <Page size="A4" style={styles.page}>
+      <View style={styles.header}>
+        <Text>Centro de Gestión y Desarrollo Sostenible Surcolombiano</Text>
+        <Text>INFORME SERVICIO ANALISIS FISICO SENSORIAL</Text>
+        <Text>VERSIÓN: 01</Text>
+        <Text>FECHA: 2023-05-05</Text>
+        <Text>PAGINA: 1 de 4</Text>
+      </View>
+      <View style={styles.section} >
+        <Text style={styles.sectionTitle}> 1. Objetivo </Text>
+        <Text>El objetivo del siguiente informe es presentar los resultados del análisis físico-sensorial obtenidos para la muestra de café {data.muestra_id} descrita a continuación.</Text>
+      </View>
       <View style={styles.section}>
-        <Text style={styles.title}>1. Objetivo</Text>
-        <Text>El objetivo del siguiente informe es presentar los resultados del análisis físico-sensorial obtenidos para la muestra de café {data.codigo} descrita a continuación.</Text>
-        <Text style={styles.title}>Información General:</Text>
+        <Text style={styles.sectionTitle}>Información General:</Text>
         <Text>Caficultor: {data.caficultor_nombre}</Text>
         <Text>Departamento: {data.municipio}</Text>
         <Text>Vereda: {data.vereda}</Text>
@@ -64,42 +149,72 @@ const PDFReport = ({ data }) => (
         <Text>Código de la muestra: {data.muestra_id}</Text>
       </View>
       <View style={styles.section}>
-        <Text style={styles.title}>Especificaciones del Café:</Text>
+        <Text style={styles.sectionTitle}>Especificaciones del Café:</Text>
         <View style={styles.table}>
-          <View style={styles.tableRow}>
-            <Text style={[styles.tableCell, styles.tableHeader]}>Variedad del Café</Text>
-            <Text style={styles.tableCell}>{data.variedad}</Text>
+          <View style={[ styles.tableRow, styles.tableHeader ]}>
+            <View style={styles.tableCol}>
+              <Text style={[styles.tableCell, styles.tableHeader]}>Variedad del Café</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{data.variedad}</Text>
+            </View>
           </View>
           <View style={styles.tableRow}>
-            <Text style={[styles.tableCell, styles.tableHeader]}>Altura sobre el nivel del mar</Text>
-            <Text style={styles.tableCell}>{data.altura}</Text>
+            <View style={styles.tableCol}>
+              <Text style={[styles.tableCell, styles.tableHeader]}>Altura sobre el nivel del mar</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{data.altura}</Text>
+            </View>
           </View>
         </View>
       </View>
       <View style={styles.section}>
-        <Text style={styles.title}>Datos Generales del Café:</Text>
+        <Text style={styles.sectionTitle}>Datos Generales del Café:</Text>
         <View style={styles.table}>
-          <View style={styles.tableRow}>
-            <Text style={[styles.tableCell, styles.tableHeader]}>Tipo de Molienda</Text>
-            <Text style={styles.tableCell}>{data.tipoMolienda}</Text>
+          <View style={[ styles.tableRow, styles.tableHeader ]}>
+            <View style={styles.tableCol}>
+              <Text style={[styles.tableCell, styles.tableHeader]}>Tipo de Fermentacion</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{data.proceso_fermentacion}</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}> {data.muestra_id} </Text>
+            </View>
           </View>
-          {/* Agregar más filas para los datos generales del café */}
         </View>
       </View>
       <View style={styles.section}>
-        <Text style={styles.title}>Análisis Físico:</Text>
-        <View style={styles.table}>
-          <View style={styles.tableRow}>
-            <Text style={[styles.tableCell, styles.tableHeader]}>Variable</Text>
-            <Text style={[styles.tableCell, styles.tableHeader]}>Resultado</Text>
-          </View>
-          {/* Renderizar los resultados del análisis físico */}
-          {data.resultados.map((resultado, index) => (
-            <View key={index} style={styles.tableRow}>
-              <Text style={styles.tableCell}>{resultado.variable}</Text>
-              <Text style={styles.tableCell}>{resultado.valor}</Text>
+        <Text style={styles.sectionTitle}>Análisis Físico:</Text>
+        <View style={styles.tableFisicos} >
+            <View style={styles.tableColHeader}>
+              <Text style={styles.tableCellHeaderFisicos} rowSpan={4}> Análisis Fisicos </Text>
+            </View>
+            <View style={styles.plusCol}>
+
+          {[...Array(15)].map((_, index) => (
+            <View key={index} style={styles.tableRowFisicos}>
+              <View style={styles.tableColVariable}>
+                <Text style={styles.tableCell}>{data.resultados[index].variable}</Text>
+              </View>
+              <View style={styles.tableColValor}>
+                <Text style={styles.tableCell}>{data.resultados[index].valor}</Text>
+              </View>
             </View>
           ))}
+          {/* Renderizar las siguientes 15 variables y sus valores */}
+          {[...Array(15)].map((_, index) => (
+            <View key={index} style={styles.tableRowFisicos}>
+              <View style={styles.tableColVariable}>
+                <Text style={styles.tableCell}>{data.resultados[index + 15].variable}</Text>
+              </View>
+              <View style={styles.tableColValor}>
+                <Text style={styles.tableCell}>{data.resultados[index + 15].valor}</Text>
+              </View>
+            </View>
+          ))}
+            </View>
         </View>
       </View>
     </Page>
