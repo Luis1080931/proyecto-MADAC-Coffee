@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   tableRow: {
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   tableCol: {
     width: '50%',
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
   plusCol: {
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'column'
 
   }
 });
@@ -164,7 +164,7 @@ const PDFReport = ({ data }) => (
               <Text style={[styles.tableCell, styles.tableHeader]}>Altura sobre el nivel del mar</Text>
             </View>
             <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>{data.altura}</Text>
+              <Text style={styles.tableCell}>{data.altura_MSNM}</Text>
             </View>
           </View>
         </View>
