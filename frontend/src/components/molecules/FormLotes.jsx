@@ -4,6 +4,7 @@ import { ModalFooter,Button, Input, Select, SelectItem } from '@nextui-org/react
 
 export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel }) => {
 
+    //ESTADOS
     const [fincas, setFincas] = useState([])
     const [variedades, setVariedades] = useState([])
 
@@ -14,18 +15,23 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
     const fk_variedad = useRef(null);
 
     useEffect(() => {
+                //Acceder en la url de la fincas y traer todas las filas
+
         axios.get('http://localhost:3000/fincas/listar', {headers: {token: token} }).then((response) => {
             console.log(response.data)
 
+              //LA FINCA LA VA A FILTRAR SI ESTA EN ACTIVO
             const fincasFilter = response.data.filter(finca => finca.estado == 'activo')
             setFincas(fincasFilter)
         })
     }, [])
 
     useEffect(() => {
+        //Acceder en la url de la variadades y traer todas las filas
         axios.get('http://localhost:3000/variedades/listar', {headers: {token: token}}).then((response) => {
             console.log(response.data)
-
+        
+        //LA FINCA LA VA A FILTRAR SI ESTA EN ACTIVO
             const variedadesFilter = response.data.filter(variedad => variedad.estado == 'activo')
             setVariedades(variedadesFilter)
         })
@@ -70,7 +76,9 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
                         <label className='text-xl font-bold'> Finca: </label>
                         <Select className='p-2 rounded-lg w-80 h-12' label='Seleccione la finca' ref={fk_finca} required={true} >
                             {fincas.map(finca => (
+                                //Con el selectItem para trer el nombre del caficultor como un selectItem
                                 <SelectItem key={finca.codigo} value={finca.codigo} textValue={finca.codigo}>
+                                    {/*el fk_caficultor hace referencia al alias que le colocamos el join */},
                                     {finca.codigo} - {finca.fk_caficultor}
                                 </SelectItem>
                             ))}
@@ -80,7 +88,9 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
                         <label className='text-xl font-bold'> Variedad: </label>
                         <Select className='p-2 rounded-lg w-80 h-12' label='Seleccione la variedad' ref={fk_variedad} required={true} >
                             {variedades.map(variedad => (
+                                {/*el value significa que es el valor que corresponde al codigo y ese codigo es el que se envia a la base de datos*/},
                                 <SelectItem key={variedad.codigo} value={variedad.codigo}>
+                                    {/*se esta trayendo el nombre de variedas*/},
                                     {variedad.nombre}
                                 </SelectItem>
                             ))}
