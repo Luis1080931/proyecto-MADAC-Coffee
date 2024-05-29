@@ -14,7 +14,7 @@ routeUsuarios.put("/desactivar/:identificacion",desactivarUsuarios)
 
 routeUsuarios.get("/listar" ,listarUsuarios)
 
-routeUsuarios.get("/buscar/:identificacion",validarToken,buscarUsuarios)
+routeUsuarios.get("/buscar/:identificacion",buscarUsuarios)
 
 
 export default routeUsuarios

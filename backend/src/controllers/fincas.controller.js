@@ -8,7 +8,7 @@ export const getFincas = async (req, res) => {
             FROM fincas f
             JOIN usuarios u ON f.fk_caficultor = u.identificacion
             JOIN municipios AS m ON municipio = id_municipio
-
+            ORDER BY f.codigo ASC
         `;
         const [rows] = await pool.query(query);
         if (rows.length > 0) {
@@ -48,6 +48,28 @@ export const getFinca = async (req,res)=>{
     }
 };
 
+export const getBuscarIdCaficultor=async(req,res)=>{
+    try{
+        const [rows]=await pool.query(`
+        SELECT f.codigo, f.dimension_mt2, u.nombre AS fk_caficultor, m.nombre AS municipio, f.vereda, f.estado
+        FROM fincas f
+        JOIN usuarios u ON f.fk_caficultor = u.identificacion
+        JOIN municipios AS m ON municipio = id_municipio
+        WHERE f.fk_caficultor = ?
+    `,[req.params.fk_caficultor])
+        if(rows.length > 0){
+            res.status(200).json(rows)
+        }else{
+            res.status(404).json({
+                message: "No se encontraron fincas"
+            });
+        }
+    }catch (error) {
+        res.status(500).json({
+            message: "Error en el servidor: " + error
+        });
+    }
+}
 
 export const postFincas=async(req,res)=>{
     try{
@@ -81,6 +103,26 @@ export const desactivar_Fincas=async(req,res)=>{
         if(result.affectedRows > 0){
             res.status(200).json({
                 message:"Finca desactivada exitosamente"})
+        }
+        else{
+            res.status(404).json({
+                message:"No se pudo desactivar la finca"
+            })
+        }
+    }catch(error){
+        res.status(500).json({
+            message:"error en el servidor"+error
+        })
+    }
+}
+export const activar_Fincas=async(req,res)=>{
+    try{
+        const {codigo}=req.params
+        const [result]=await pool.query('UPDATE fincas SET estado=1 WHERE codigo=?',[codigo])
+        
+        if(result.affectedRows > 0){
+            res.status(200).json({
+                message:"Finca activada exitosamente"})
         }
         else{
             res.status(404).json({

@@ -5,9 +5,9 @@ import { validarToken } from "../controllers/seguridad.controller.js";
 
 
 const routeLotes = Router()
-routeLotes.get("/listar",validarToken, getLotes)
-routeLotes.get("/buscar/:codigo",validarToken, getLote)
-routeLotes.post("/registrar",validarLotes,postLotes)
-routeLotes.put("/desactivar/:codigo",validarToken, desactivar_Lotes)
-routeLotes.put('/actualizar/:codigo', validarLotes ,actualizarLotes)
+routeLotes.get("/listar", getLotes)
+routeLotes.get("/buscar/:codigo", getLote)
+routeLotes.post("/registrar",postLotes)
+routeLotes.put("/desactivar/:codigo", desactivar_Lotes)
+routeLotes.put('/actualizar/:codigo' ,actualizarLotes)
 export default routeLotes;
