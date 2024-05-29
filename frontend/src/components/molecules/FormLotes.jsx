@@ -1,100 +1,91 @@
-import React, { useRef,useEffect,useState } from 'react';
-import axios from 'axios';
+import React, { useRef,useEffect,useState, useContext } from 'react';
+import axiosClient from '../axiosClient';
 import { ModalFooter,Button, Input, Select, SelectItem } from '@nextui-org/react';
+import LotesContext from './../../context/LotesContext.jsx'
 
-export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel }) => {
+export const FormLotes = ({ mode,handleSubmit,onClose,actionLabel }) => {
 
     //ESTADOS
     const [fincas, setFincas] = useState([])
     const [variedades, setVariedades] = useState([])
 
-    const token = localStorage.getItem('token')
- 
-    const numero_arboles = useRef(null);
-    const fk_finca = useRef(null);
-    const fk_variedad = useRef(null);
+    const [numero, setNumero] = useState('')
+    const [finca, setFinca] = useState('')
+    const [variedadFk, setVariedadFk] = useState('')
+    const { idLote } = useContext(LotesContext)
 
     useEffect(() => {
-                //Acceder en la url de la fincas y traer todas las filas
-
-        axios.get('http://localhost:3000/fincas/listar', {headers: {token: token} }).then((response) => {
+        axiosClient.get('/fincas/activas').then((response) => {
             console.log(response.data)
-
-              //LA FINCA LA VA A FILTRAR SI ESTA EN ACTIVO
-            const fincasFilter = response.data.filter(finca => finca.estado == 'activo')
-            setFincas(fincasFilter)
+            setFincas(response.data)
         })
     }, [])
 
     useEffect(() => {
-        //Acceder en la url de la variadades y traer todas las filas
-        axios.get('http://localhost:3000/variedades/listar', {headers: {token: token}}).then((response) => {
+        axiosClient.get('/variedades/activas').then((response) => {
             console.log(response.data)
-        
-        //LA FINCA LA VA A FILTRAR SI ESTA EN ACTIVO
-            const variedadesFilter = response.data.filter(variedad => variedad.estado == 'activo')
-            setVariedades(variedadesFilter)
+            setVariedades(response.data)
         })
     }, [])
 
 
     useEffect(()=>{
-        if(mode=='update' && initialData){
-            console.log("ESTA MANDANDO ESTO",initialData);
-
-            numero_arboles.current.value=initialData.numero_arboles
-            fk_finca.current.value=initialData.fk_finca
-            fk_variedad.current.value=initialData.fk_variedad
+        if(mode=='update' && idLote){
+            setNumero(idLote.numero_arboles)
+            setFinca(idLote.fk_finca)
+            setVariedadFk(idLote.fk_variedad)
         }
-    },[mode,initialData])
+    },[mode,idLote])
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            const datosForm = {
-                numero_arboles:parseInt(numero_arboles.current.value),
-                fk_finca: parseInt(fk_finca.current.value),
-                fk_variedad: parseInt(fk_variedad.current.value)
-            };
-            handleSubmit(datosForm,e)
+            const formData = {
+                numero_arboles: parseInt(numero),
+                fk_finca: parseInt(finca),
+                fk_variedad: parseInt(variedadFk)
+            }
+            handleSubmit(formData,e)
         } catch (error) {
             console.log(error);
             alert('Hay un error en el sistema ' + error);
         }
-    };
-
+    }
 
     return (
         <> 
             <form method="post" onSubmit={handleFormSubmit}>
                 <div className='flex flex-col'>
-                    <div className='flex flex-col m-5'>
-                        <label className='text-xl font-bold'> Numero de arboles: </label>
-                        <Input className='p-2 rounded-lg w-80 h-12' id='numero_arboles' type="number" name='numero_arboles' label='Ingrese el número de árboles' ref={numero_arboles} required={true} />
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <Input 
+                            id='numero'
+                            type="number" 
+                            name='numero'
+                            label='Ingrese el número de árboles'
+                            value={numero}
+                            onChange={(e) => setNumero(e.target.value)}
+                            required={true}
+                        />
                     </div>
-                    <div className='flex flex-col m-5'  >
-                        <label className='text-xl font-bold'> Finca: </label>
-                        <Select className='p-2 rounded-lg w-80 h-12' label='Seleccione la finca' ref={fk_finca} required={true} >
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4" >
+                        <select className='w-[400px] rounded-xl bg-gray-100 h-[40px]' name='finca' label='Seleccione la finca' value={finca} onChange={(e) => setFinca(e.target.value)} required={true} >
+                            <option value="" hidden> Seleccione finca ... </option>
                             {fincas.map(finca => (
-                                //Con el selectItem para trer el nombre del caficultor como un selectItem
-                                <SelectItem key={finca.codigo} value={finca.codigo} textValue={finca.codigo}>
-                                    {/*el fk_caficultor hace referencia al alias que le colocamos el join */},
+                                <option key={finca.codigo} value={finca.codigo}>
                                     {finca.codigo} - {finca.fk_caficultor}
-                                </SelectItem>
+                                </option>
                             ))}
-                        </Select>
+                        </select>
                     </div>
-                    <div className='flex flex-col m-5'>
-                        <label className='text-xl font-bold'> Variedad: </label>
-                        <Select className='p-2 rounded-lg w-80 h-12' label='Seleccione la variedad' ref={fk_variedad} required={true} >
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <select className='w-[400px] rounded-xl bg-gray-100 h-[40px]' name='variedadFk' label='Seleccione la variedad' value={variedadFk} onChange={(e) => setVariedadFk(e.target.value)} required={true} >
+                            <option value="" hidden> Seleccione variedad ... </option>
                             {variedades.map(variedad => (
-                                {/*el value significa que es el valor que corresponde al codigo y ese codigo es el que se envia a la base de datos*/},
-                                <SelectItem key={variedad.codigo} value={variedad.codigo}>
-                                    {/*se esta trayendo el nombre de variedas*/},
+                                <option key={variedad.codigo} value={variedad.codigo}>
                                     {variedad.nombre}
-                                </SelectItem>
+                                </option>
                             ))}
-                        </Select>
+                        </select>
                     </div>
                     <ModalFooter>
                         <Button

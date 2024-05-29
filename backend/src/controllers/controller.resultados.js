@@ -6,7 +6,7 @@ export const listarResultados = async (req, res) => {
 
     try {
         
-        let sql = `SELECT codigo, fecha, fk_analisis AS analisis, nombre AS variable, observaciones, valor, r.estado FROM resultados AS r JOIN variables ON fk_variables = v_codigo`
+        let sql = `SELECT codigo, fecha, fk_analisis AS analisis, nombre AS variable, valor, r.estado FROM resultados AS r JOIN variables ON fk_variables = v_codigo`
 
         const [result] = await pool.query(sql)
 
@@ -35,11 +35,11 @@ export const registrarResultados = async (req, res) => {
             return res.status(403).json(errors)
         }
         
-        const{fecha, fk_analisis, fk_variables, valor, observaciones} = req.body
+        const{fecha, fk_analisis, fk_variables, valor} = req.body
         
-        let sql = `INSERT INTO resultados (fecha, fk_analisis, fk_variables, observaciones, valor, estado) values (?, ?, ?, ?, ?, 1)`
+        let sql = `INSERT INTO resultados (fecha, fk_analisis, fk_variables, valor, estado) values (?, ?, ?, ?, 1)`
 
-        const[rows] = await pool.query(sql, [fecha, fk_analisis, fk_variables, observaciones, valor])
+        const[rows] = await pool.query(sql, [fecha, fk_analisis, fk_variables, valor])
 
         if(rows.affectedRows>0){
             res.status(200).json({
@@ -70,11 +70,11 @@ export const actualizarResultado = async (req, res) => {
             return res.status(403).json(errors)
         }
 
-        const{fecha, fk_analisis, fk_variables, observaciones, valor} = req.body
+        const{fecha, fk_analisis, fk_variables, valor} = req.body
         const {id} = req.params
         console.log(id);
 
-        const[rows] = await pool.query(`UPDATE resultados SET fecha=IFNULL(?,fecha), fk_analisis=IFNULL(?,fk_analisis), fk_variables=IFNULL(?,fk_variables), observaciones=IFNULL(?,observaciones), valor=IFNULL(?,valor), estado=1 WHERE codigo= ?`,[fecha, fk_analisis, fk_variables, observaciones, valor, id]);
+        const[rows] = await pool.query(`UPDATE resultados SET fecha=IFNULL(?,fecha), fk_analisis=IFNULL(?,fk_analisis), fk_variables=IFNULL(?,fk_variables), valor=IFNULL(?,valor), estado=1 WHERE codigo= ?`,[fecha, fk_analisis, fk_variables, valor, id]);
 
         if(rows.affectedRows>0){
             res.status(200).json({
@@ -121,6 +121,32 @@ export const desactivarResultado = async (req, res) => {
         res.status(500).json({
             'status': 500,
             'message': 'Error de servidor' + error
+        })
+    }
+}
+
+export const activarResultado = async (req, res) => {
+    try {
+        let id = req.params.id
+        let sql = `UPDATE resultados SET estado = 1 WHERE codigo = ?`
+
+        const [rows] = await pool.query(sql, [id])
+
+        if(rows.affectedRows>0){
+            res.status(200).json({
+                status: 200,
+                message: 'Se activo el resultado con exito'
+            })
+        }else{
+            res.status(403).json({
+                status: 403,
+                message: 'No se pudo activar el resultado'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: 'Error del servidor' + error
         })
     }
 }

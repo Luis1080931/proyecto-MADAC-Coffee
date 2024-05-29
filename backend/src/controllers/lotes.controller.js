@@ -90,6 +90,32 @@ export const desactivar_Lotes=async(req,res)=>{
     }
 }
 
+export const activarLotes = async (req, res) => {
+    try {
+        const { codigo } = req.params
+        let sql = `UPDATE lotes SET estado = 1 WHERE codigo = ?`
+
+        const [rows] = await pool.query(sql, [codigo])
+
+        if(rows.affectedRows>0){
+            res.status(200).json({
+                status: 200,
+                message: 'Se activó con éxito el lote'
+            })
+        }else{
+            res.status(403).json({
+                status: 403,
+                message: 'No se pudo activar el lote'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: "Error del servidor" + error
+        })
+    }
+}
+
 export const actualizarLotes =async(req,res)=>{
     try{
 
@@ -115,3 +141,23 @@ export const actualizarLotes =async(req,res)=>{
         })
     }
 }
+
+export const lotesActivos = async (req, res) => {
+    try {
+        const [rows]=await pool.query(`SELECT l.codigo, l.numero_arboles, l.fk_finca, v.nombre AS fk_variedad, l.estado
+        FROM lotes l
+        LEFT JOIN variedades v ON l.fk_variedad = v.codigo WHERE l.estado = 1`)
+      
+        if (rows.length > 0) {
+            res.status(200).json(rows);
+        } else {
+            res.status(404).json({
+                message:"No encontramos a ningun lote"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Error en el servidor: " + error
+        });
+    }
+};

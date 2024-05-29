@@ -1,16 +1,17 @@
 import { Router } from "express";
-import { getFincas, getFinca, postFincas, desactivar_Fincas, actualizarFincas,activar_Fincas,getBuscarIdCaficultor } from '../controllers/fincas.controller.js';
+import { getFincas, getFinca, postFincas, desactivar_Fincas, actualizarFincas, activarFinca, fincasActivas,getBuscarIdCaficultor } from '../controllers/fincas.controller.js';
 import { validarFincas } from "../../validate/fincas.validate.js";
-import { } from "../controllers/seguridad.controller.js";
+import { validarToken} from "../controllers/seguridad.controller.js";
 
 const routerFincas = Router();
 
-routerFincas.get("/listar", getFincas);
-routerFincas.get("/buscar/:codigo", getFinca);
-routerFincas.get("/buscarCafi/:fk_caficultor",getBuscarIdCaficultor)
+routerFincas.get("/listar",validarToken, getFincas);
+routerFincas.get("/activas",validarToken, fincasActivas);
+routerFincas.get("/buscar/:codigo",validarToken, getFinca);
 routerFincas.post("/registrar", validarFincas,postFincas);
- routerFincas.put("/desactivar/:codigo", desactivar_Fincas);
- routerFincas.put("/activar/:codigo", activar_Fincas);
+ routerFincas.put("/desactivar/:codigo",validarToken, desactivar_Fincas)
+ routerFincas.put("/activar/:id",validarToken, activarFinca)
+ routerFincas.get("/buscarFincaCaficultor/:fk_caficultor",getBuscarIdCaficultor)
 routerFincas.put("/actualizar/:codigo",validarFincas,actualizarFincas);
 
 export default routerFincas;

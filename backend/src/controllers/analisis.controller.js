@@ -16,17 +16,17 @@ export const registrarAnalisis = async (req, res) => {
 
         if (resultado.affectedRows > 0) {
             res.status(201).json({
-                "mensaje": "Analisis creado con exito!"
+                message: "Analisis creado con exito!"
             })
         } else {
             res.status(403).json({
-                "mensaje": "No se pudo crear el analisis"
+                message: "No se pudo crear el analisis"
             })
         }
 
     } catch (error) {
         res.status(500).json({
-            "mensaje": error
+            message: error
         })
     }
 }
@@ -43,16 +43,16 @@ export const actualizarAnalisis = async (req, res) => {
         const { codigo } = req.params
         const { fecha, analista, fk_muestra, fk_tipo_analisis, estado } = req.body
         
-        const[resultado] = await pool.query(`UPDATE analisis SET fecha=IFNULL(?,fecha), analista=IFNULL(?,analista), fk_muestra=IFNULL(?,fk_muestra), fk_tipo_analisis=IFNULL(?,fk_tipo_analisis), estado=IFNULL(?,estado) WHERE codigo= ?`,[fecha, analista, fk_muestra, fk_tipo_analisis, estado, codigo]);
+        const[resultado] = await pool.query(`UPDATE analisis SET fecha=IFNULL(?,fecha), fk_analista=IFNULL(?,fk_analista), fk_muestra=IFNULL(?,fk_muestra), fk_tipo_analisis=IFNULL(?,fk_tipo_analisis), estado=IFNULL(?,estado) WHERE codigo= ?`,[fecha, analista, fk_muestra, fk_tipo_analisis, estado, codigo]);
 
 
         if (resultado.affectedRows > 0) {
             res.status(201).json({
-                "mensaje": "Analisis actualizado con exito!"
+                message: "Analisis actualizado con exito!"
             })
         } else {
             res.status(403).json({
-                "mensaje": "No se pudo actualizar el analisis"
+                message: "No se pudo actualizar el analisis"
             })
         }
 
@@ -63,70 +63,84 @@ export const actualizarAnalisis = async (req, res) => {
     }
 }
 
-//Desactivar
-// export const desactivarAnalisis = async (req, res) => {
-//     try {
-//         const { codigo } = req.params
-//         const [ resultado ] = await pool.query("update analisis set estado='inactivo' where codigo=?", [codigo])
-
-//         if (resultado.affectedRows > 0) {
-//             res.status(201).json({
-//                 "mensaje": "Analisis desactivado con exito!"
-//             })
-//         } else {
-//             res.status(403).json({
-//                 "mensaje": "No se pudo desactivar el analisis"
-//             })
-//         }
-
-//     } catch (error) {
-//         res.status(500).json({
-//             "mensaje": error
-//         })
-//     }
-// }
-
 export const desactivarAnalisis = async (req, res) => {
     try {
         const { codigo } = req.params;
 
-        // Obtener el estado actual del análisis
-        const [analisis] = await pool.query("SELECT estado FROM analisis WHERE codigo = ?", [codigo]);
+        let sqlAnalisis = `UPDATE analisis SET estado = 3 WHERE codigo = ?`
+        let sqlResultados = `UPDATE resultados SET estado = 2 WHERE fk_analisis = ?`
 
-        // Verificar si el análisis existe
-        if (analisis.length === 0) {
-            return res.status(404).json({
-                "mensaje": "El análisis no existe"
-            });
-        }
+        const [rowsAnalisis] = await pool.query(sqlAnalisis, [codigo]);
 
-        const estadoActual = analisis[0].estado;
-
-        // Determinar la acción a realizar según el estado actual
-        let nuevaEstado = '';
-        if (estadoActual === 'activo') {
-            nuevaEstado = 'inactivo';
-        } else if (estadoActual === 'inactivo') {
-            nuevaEstado = 'activo';
-        }
-
-        // Cambiar el estado del análisis
-        const [resultado] = await pool.query("UPDATE analisis SET estado = ? WHERE codigo = ?", [nuevaEstado, codigo]);
-
-        if (resultado.affectedRows > 0) {
+        if (rowsAnalisis.affectedRows > 0) {
+            const [rowsResultados] = await pool.query(sqlResultados, [codigo]);
+            
             res.status(200).json({
-                "mensaje": `El análisis ha sido ${nuevaEstado === 'activo' ? 'activado' : 'desactivado'} exitosamente`
-            });
+                message: "Se desactivó con exito el analisis y los resultados asociados"
+            })
         } else {
-            res.status(403).json({
-                "mensaje": "No se pudo cambiar el estado del análisis"
-            });
+            res.status(404).json({
+                status: 404,
+                message: 'El analisis no existe'
+            })
         }
+        
 
     } catch (error) {
         res.status(500).json({
-            "mensaje": error.message || "Ocurrió un error interno"
+            message: error.message || "Ocurrió un error interno"
         });
+    }
+}
+
+export const activarAnalisis = async (req, res) => {
+    try {
+        const { codigo } = req.params
+
+        let sqlAnalisis = `UPDATE analisis SET estado = 1 WHERE codigo = ?`
+        let sqlResultados = `UPDATE resultados SET estado = 1 WHERE fk_analisis = ?`
+
+        const [rowsAnalisis] = await pool.query(sqlAnalisis, [codigo])
+
+        if(rowsAnalisis.affectedRows>0){
+            
+            const [rowsResultados] = await pool.query(sqlResultados, [codigo])
+            res.status(200).json({
+                message: "Se activó con exito el analisis y los resultados asociados"
+            })
+        }else{
+            res.status(404).json({
+                status: 404,
+                message: 'El analisis no existe'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({status: 500, message: 'Error del servidor' + error})
+    }
+}
+
+export const calificarAnalisis = async (req, res) => {
+    try {
+        const {id} = req.params
+        let sql = `UPDATE analisis SET estado = 2 WHERE codigo = ?`
+        const [rows] = await pool.query(sql, [id])
+
+        if(rows.affectedRows>0){
+            res.status(200).json({
+                status: 200,
+                message: 'Resultado cafilicado'
+            })
+        }else{
+            res.status(403).json({
+                status: 403,
+                message: 'No fue posible calificar el resultado'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: 'Error del servidor' + error
+        })
     }
 }
 
@@ -141,7 +155,7 @@ export const listarAnalisis = async (req,res) => {
             res.status(200).json(analisis)
         } else {
         res.status(404).json({
-            "mensaje":"No hay analisis registrados"
+            message:"No hay analisis registrados"
         })
         }
         
@@ -164,32 +178,26 @@ export const buscarAnalisis=async(req,res)=>{
             res.status(200).json(analisis)
         } else {
             res.status(404).json({
-                "mensaje":"El analisis no existe"
+                message:"El analisis no existe"
             })
         }
     } catch (error) {
         res.status(500).json({
-            "mensaje":error
+            message:error
         })
     }
 }
 
-
-
-
-/// listar usuarios  ------------------------------------------------------------------------
-
-
-export const listarUsuarios=async(req,res)=>{
+export const analisisActivos = async (req,res) => {
     try {
 
-        const [usuarios] = await pool.query(`SELECT * from usuarios WHERE tipo_usuario = 'catador'`)
+        const [analisis] = await pool.query(`SELECT codigo, fecha, nombre AS analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id WHERE a.estado = 1`)
 
-        if (usuarios.length>0) {
-            res.status(200).json(usuarios)
+        if (analisis.length>0) {
+            res.status(200).json(analisis)
         } else {
         res.status(404).json({
-            "mensaje":"No hay muestras registrados"
+            message:"No hay analisis registrados"
         })
         }
         
@@ -201,25 +209,68 @@ export const listarUsuarios=async(req,res)=>{
     }
 }
 
-/// listar muestras  ------------------------------------------------------------------------
-export const listarMuestras=async(req,res)=>{
-try {
+export const analisisFisicos = async (req,res) => {
+    try {
 
-    const [muestras] = await pool.query(`SELECT *, codigo as fk_muestra from muestras`)
+        const [analisis] = await pool.query(`SELECT codigo, fecha, nombre AS analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id WHERE fk_tipo_analisis = 1`)
 
-    if (muestras.length>0) {
-        res.status(200).json(muestras)
-    } else {
-    res.status(404).json({
-        "mensaje":"No hay muestras registradas"
-    })
+        if (analisis.length>0) {
+            res.status(200).json(analisis)
+        } else {
+        res.status(404).json({
+            message:"No hay analisis registrados"
+        })
+        }
+        
+        
+    } catch (error) {
+        res.status(500).json({
+            message: "Error del servidor" + error
+        })
     }
-    
-    
-} catch (error) {
-    res.status(500).json({
-        message: "Error del servidor" + error
-    })
 }
 
+export const analisisCatador = async (req, res) => {
+    try {
+        const {id} = req.params
+        let sql = `SELECT codigo, fecha, nombre AS analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id WHERE fk_analista = ?`
+        const [result] = await pool.query(sql, [id])
+
+        if(result.length>0){
+            res.status(200).json(result)
+        }else{
+            res.status(404).json({
+                status: 404,
+                message: 'No se encontraron analisis'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: 'Error del servidor' + error   
+        })
+    }
+}
+
+export const analisisFisicosCatador = async (req, res) => {
+    try {
+        const {id} = req.params
+        let sql = `SELECT codigo, fecha, nombre AS analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id WHERE fk_analista = ? AND fk_tipo_analisis = 1`
+
+        const [rows] = await pool.query(sql, [id])
+
+        if(rows.length>0){
+            res.status(200).json(rows)
+        }else{
+            res.status(404).json({
+                status: 404,
+                message: 'No se encontraron analisis'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: 'Error del servidor' + error
+        })
+    }
 }

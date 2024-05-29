@@ -11,7 +11,7 @@ export const Dashboard = () => {
       url: 'https://diariodelhuila.com/wp-content/uploads/Foto-4-ENCC-jpg.webp'
     },
     {
-      url: 'https://i2.wp.com/lavozdelaregion.co/wp-content/uploads/2023/09/ENCC-Pitalito.jpg?resize=350%2C200&ssl=1'
+      url: 'https://lavozdelaregion.co/wp-content/uploads/2023/09/ENCC-Pitalito.jpg'
     }
   ];
 
@@ -57,10 +57,11 @@ export const Dashboard = () => {
 
   return (
     <div>
-      <div className="bg-[#336699]/75 w-full h-20 flex">
+      <div className="bg-[#273468] w-full h-20 flex">
         <Sidebar />
-        <h2 className="text-white text-2xl font-bold ml-auto mr-10 flex items-center">
+        <h2 className="text-white text-2xl font-bold ml-auto mr-10 flex items-end justify-center flex-col">
           Bienvenido {user.nombre}
+          <label className='text-lg flex justify-end items-end'> {user.tipo_usuario} </label>
         </h2>
         <SideBarUser />
       </div>

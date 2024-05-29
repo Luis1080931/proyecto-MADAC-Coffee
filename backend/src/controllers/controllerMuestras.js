@@ -31,9 +31,9 @@ export const CrearMuestra = async (req, res) => {
         const [resultado] = await pool.query("INSERT INTO muestras (fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)", [fecha, cantidad, quien_recibe, proceso_fermentacion, humedad_cafe, altura_MSNM, tipo_secado, observaciones, fk_lote]);
 
         if (resultado.affectedRows > 0) {
-            res.status(200).json({ mensaje: "Se creó una muestra" });
+            res.status(200).json({ message: "Se creó una muestra" });
         } else {
-            res.status(403).json({ mensaje: "No se creó una muestra" });
+            res.status(403).json({ message: "No se creó una muestra" });
         }
     } catch (error) {
         // Manejo de errores generales
@@ -101,7 +101,7 @@ export const activarMuestras = async (req, res) => {
         if (result.affectedRows > 0) {
             res.status(200).json({
                 status: 200,
-                message: 'Se activó con éxito',
+                message: 'Se activó con éxito la muestra',
             });
         } else {
             res.status(403).json({
@@ -127,6 +127,22 @@ export const BuscarMuestra = async (req, res) => {
             res.status(404).json({
                 status: 404,
                 message: 'No se encontraron resultados para la búsqueda'
+            });
+        }
+    } catch (error) {
+        res.status(500).json({message:"Error en el servidor" + error})
+    }
+}
+
+export const muestrasActivas = async (req, res) => {
+    try {
+        const [result] = await pool.query("SELECT * FROM muestras WHERE estado = 1")
+
+        if (result.length > 0 ) {
+            res.status(200).json(result)
+        } else {
+            res.status(404).json({
+                "Mensaje":"No hay muestras"
             });
         }
     } catch (error) {

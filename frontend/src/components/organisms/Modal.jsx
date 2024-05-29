@@ -6,7 +6,7 @@ export const ModalAcciones = ({ open, onClose, children, title }) => {
   return (
     <>
 
-<Modal isOpen={open} onClose={onClose} placement="top-center">
+      <Modal isOpen={open} onClose={onClose} placement="top-center">
         <ModalContent>
           {(onClose) => (
             <>
@@ -21,6 +21,6 @@ export const ModalAcciones = ({ open, onClose, children, title }) => {
         </ModalContent>
       </Modal>
 
-</>
+    </>
   ) 
 }

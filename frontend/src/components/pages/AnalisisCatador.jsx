@@ -1,33 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import { Header } from '../molecules/Header.jsx';
+import AccionesModal from '../organisms/ModalAcciones.jsx';
+import AnalisisModal from '../templates/Analisis.jsx';
+import axiosClient from '../axiosClient.js';
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  Input,
-  Button,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-  Chip,
-  Pagination,
-} from "@nextui-org/react";
-import { PlusIcon } from "./../NextUI/PlusIcon.jsx";
-import { VerticalDotsIcon } from "./../NextUI/VerticalDotsIcon.jsx";
-import { SearchIcon } from "./../NextUI/SearchIcon.jsx";
-import { ChevronDownIcon } from "./../NextUI/ChevronDownIcon.jsx";
-import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
-import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
+    Table,
+    TableHeader,
+    TableColumn,
+    TableBody,
+    TableRow,
+    TableCell,
+    Input,
+    Button,
+    DropdownTrigger,
+    Dropdown,
+    DropdownMenu,
+    DropdownItem,
+    Chip,
+    Pagination,
+  } from "@nextui-org/react";
+  import { PlusIcon } from "./../atoms/PlusIcon.jsx";
+  import { SearchIcon } from "./../atoms/SearchIcon.jsx";
+  import { ChevronDownIcon } from "./../atoms/ChevronDownIcon.jsx";
+  import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
+
+function VistaAnalisisCatador() {
 
 const statusColorMap = {
-  activo: "success",
-  inactivo: "danger",
+  asignado: "success",
+  calificado: "warning",
+  terminado: "danger",
 };
 
-export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, data, results }) {
+function Ejemplo() {
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
@@ -40,8 +45,9 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
   const [page, setPage] = React.useState(1);
  
   const statusOptions = [
-    {name: "Activo", uid: "activo"},
-    {name: "Inactivo", uid: "inactivo"},
+    {name: "Asignado", uid: "asignado"},
+    {name: "Calificado", uid: "calificado"},
+    {name: "Terminado", uid: "terminado"},
   ];
 
   const hasSearchFilter = Boolean(filterValue);
@@ -51,11 +57,11 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
 
     if (hasSearchFilter) {
       filteredResults = filteredResults.filter(result =>
-        String(result.identificacion).toLowerCase().includes(filterValue.toLowerCase()) ||
-        result.telefono.toLowerCase().includes(filterValue.toLowerCase()) ||
-        result.nombre.toLowerCase().includes(filterValue.toLowerCase()) ||
-        result.correo_electronico.toLowerCase().includes(filterValue.toLowerCase()) ||
-        result.tipo_usuario.toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(result.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
+        result.fecha.toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(result.analista).toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(result.muestra).toLowerCase().includes(filterValue.toLowerCase()) ||
+        result.tipo_analisis.toLowerCase().includes(filterValue.toLowerCase()) ||
         result.estado.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
@@ -91,28 +97,13 @@ export default function Ejemplo({ clickEditar, clickDesactivar, clickRegistrar, 
   const renderCell = React.useCallback((result, columnKey) => {
     const cellValue = result[columnKey];
 
-  
-const handleUpdateClick = (id) => {
- 
-  localStorage.setItem('idUser', id)
-  clickEditar(id)
-};
-
     switch (columnKey) {
       case "estado":
         return (
           <Chip className="capitalize" color={statusColorMap[result.estado]} size="sm" variant="flat">
             {cellValue}
           </Chip>
-        );
-      case "actions":
-        return (
-          <div className="flex flex-row">
-            <ButtonActualizar click={() =>  handleUpdateClick(result.identificacion)} /> 
-            <ButtonDesactivar click={() => clickDesactivar(result.identificacion)} />
-          </div>
-          
-        );
+        )
       default:
         return cellValue;
     }
@@ -160,7 +151,7 @@ const handleUpdateClick = (id) => {
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
-            className="w-full sm:max-w-[44%]"
+            className="w-full sm:max-w-[44%] text-xl"
             placeholder="Buscar..."
             startContent={<SearchIcon />}
             value={filterValue}
@@ -171,7 +162,7 @@ const handleUpdateClick = (id) => {
   
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
+                <Button className="text-xl" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
                   Estado
                 </Button>
               </DropdownTrigger>
@@ -180,6 +171,7 @@ const handleUpdateClick = (id) => {
                 aria-label="Menu de acciones"
                 aria-labelledby="Acciones"
                 closeOnSelect={false}
+                color='secondary'
                 selectedKeys={statusFilter}
                 selectionMode="multiple"
                 onSelectionChange={onStatusFilter}
@@ -191,17 +183,14 @@ const handleUpdateClick = (id) => {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />} onClick={clickRegistrar}>
-              Registrar
-            </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {results.length} resultados</span>
-          <label className="flex items-center text-default-400 text-small">
+          <span className="text-default-400 text-xl">Total {results.length} resultados</span>
+          <label className="flex items-center text-default-400 text-xl">
             Columnas por página:
             <select
-              className="bg-transparent outline-none text-default-400 text-small"
+              className="bg-transparent outline-none text-default-400 text-xl"
               onChange={onRowsPerPageChange}
             >
               <option value="5">5</option>
@@ -216,6 +205,7 @@ const handleUpdateClick = (id) => {
     );
   }, [
     filterValue,
+    filteredItems,
     onRowsPerPageChange,
     onSearchChange,
     onClear,
@@ -225,7 +215,7 @@ const handleUpdateClick = (id) => {
   const bottomContent = React.useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-between items-center">
-        {<span className="w-[30%] text-small text-default-400">
+        {<span className="w-[30%] text-xl text-default-400">
           {selectedKeys === "all"
             ? "All items selected"
             : `${selectedKeys.size} de ${filteredItems.length} seleccionados`}
@@ -240,10 +230,10 @@ const handleUpdateClick = (id) => {
           onChange={setPage}
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
+          <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
             Atras
           </Button>
-          <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
+          <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="ghost" onPress={onNextPage}>
             Siguiente
           </Button>
         </div>
@@ -274,6 +264,7 @@ const handleUpdateClick = (id) => {
   <TableHeader columns={data}>
     {(column) => (
       <TableColumn
+        className="bg-[#273468] text-white text-lg"
         key={column.uid}
         align={column.uid === "actions" ? "center" : "start"}
         allowsSorting={column.sortable}
@@ -282,9 +273,9 @@ const handleUpdateClick = (id) => {
       </TableColumn>
     )}
   </TableHeader>
-  <TableBody emptyContent={"No hay resultados registrados"} items={sortedItems}>
+  <TableBody emptyContent={"No hay análisis registrados"} items={sortedItems}>
     {(item) => (
-      <TableRow key={item.identificacion}>
+      <TableRow key={item.codigo}>
         {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
       </TableRow>
     )}
@@ -294,3 +285,114 @@ const handleUpdateClick = (id) => {
     
   );
 }
+
+
+    const [results, setResults] = useState([]);
+    const [modalAccionesOpen, setModalAccionesOpen] = useState(false)
+    const [modalOpen, setModalOpen] = useState(false)
+    const [mensaje, setMensaje] = useState('')
+    const [mode, setMode] = useState('create')
+    const [initialData, setInitialData] = useState(null)
+
+    const data = [
+        { 
+            uid: "codigo",
+            name: "CÓDIGO",
+            sortable: true 
+        },
+        { 
+            uid: "analista",
+            name: "ANALISTA" ,
+            sortable: true 
+        },
+        { 
+            uid: "fecha",
+            name: "FECHA", 
+            sortable: true,
+            render: (fecha) => formatDate(fecha)
+        },
+        { 
+            uid: "muestra",
+            name: "MUESTRA",
+            sortable: true
+        },
+        { 
+            uid: "tipo_analisis",
+            name: "TIPO ANALISIS",
+            sortable: true
+        },
+        { 
+            uid: "estado",
+            name: "ESTADO",
+            sortable: true
+        }
+    ];
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('es-ES'); 
+    }
+
+    const stored = localStorage.getItem('user');
+    const user = stored ? JSON.parse(stored) : null;
+
+    const fetchData = async () => {
+        try {
+            const response = await axiosClient.get(`/analisis/analisisCatador/${user.identificacion}`)
+
+            const formattedResults = response.data.map((result) => ({
+                ...result,
+                fecha: formatDate(result.fecha),
+              }));
+              setResults(formattedResults);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const handleToggle = (mode, initialData) => {
+        setInitialData(initialData)
+        setModalOpen(true)
+        setMode(mode)
+    }
+
+    return (
+        <div>
+          <div className='bg-[#EAEDF6] h-screen max-h-max'>
+            <Header title='Análisis físico y sensorial' />
+              <div className='bg-[#EAEDF6]'>
+                <div className='w-full max-w-[90%] ml-28 items-center p-10'>
+                    <AccionesModal 
+                        isOpen={modalAccionesOpen}
+                        onClose={() => setModalAccionesOpen(false)}
+                        label={mensaje}
+                    />
+                    
+                    <AnalisisModal 
+                        open={modalOpen}
+                        onClose={() => setModalOpen(false)}
+                        title={mode === 'create' ? 'Registrar Análisis' : 'Actualizar Análisis'}
+                        actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                        mode={mode}
+                        initialData={initialData}
+                    />
+                    <Ejemplo  
+                        clickEditar={() => handleToggle('update', id)}
+                        clickRegistrar={() => handleToggle('create')}
+                        data={data}
+                        results={results}
+                    />
+                </div>
+
+              </div>
+
+          </div>
+        </div>
+    );
+}
+
+export default VistaAnalisisCatador

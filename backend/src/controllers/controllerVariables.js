@@ -4,7 +4,7 @@ import { validationResult } from "express-validator";
 
 export const listarVariables = async (req, res) => {
     try {
-        let sql = 'SELECT v_codigo, nombre, fk_tipo_analisis AS tipo_analisis, tipo_analisis, v.estado FROM variables AS v JOIN tipo_analisis ON fk_tipo_analisis = id'
+        let sql = 'SELECT v_codigo, nombre, fk_tipo_analisis AS tipo_analisis, v.estado FROM variables AS v JOIN tipo_analisis ON fk_tipo_analisis = id'
         const [result] = await pool.query(sql)
 
         if (result.length > 0 ) {
@@ -123,6 +123,52 @@ export const buscarvariable = async (req, res) => {
                 status: 404,
                 message: 'No se encontraron resultados para la búsqueda'
             });
+        }
+    } catch (error) {
+        res.status(500).json({
+            status:500,
+            message: "Error del servidor" + error
+        })
+    }
+}
+
+export const activarVariable = async (req, res) => {
+    try {
+        const { codigo } = req.params
+        let sql = `UPDATE variables SET estado = 1 WHERE v_codigo = ?`
+
+        const [rows] = await pool.query(sql, [codigo])
+
+        if(rows.affectedRows>0){
+            res.status(200).json({
+                status: 200,
+                message: 'Se activó con exito la variable'
+            })
+        }else{
+            res.status(403).json({
+                status: 403,
+                message: 'Error  al intentar activar la variable'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: "Error del servidor" + error
+        })
+    }
+}
+
+export const variablesActivas = async (req, res) => {
+    try {
+        let sql = 'SELECT v_codigo, nombre, fk_tipo_analisis AS tipo_analisis, tipo_analisis, v.estado FROM variables AS v JOIN tipo_analisis ON fk_tipo_analisis = id WHERE v.estado = 1'
+        const [result] = await pool.query(sql)
+
+        if (result.length > 0 ) {
+            res.status(200).json(result)
+        } else {
+            res.status(404).json({
+                "Mensaje":"No hay variables"
+            })
         }
     } catch (error) {
         res.status(500).json({
