@@ -6,13 +6,15 @@ import MuestrasContext from './../../context/MuestrasContext.jsx'
 const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
 
     const [fecha, setFecha] = useState('')
-    const [cantidad, setCantidad] = useState('')
-    const [quien_recibe, setQuienRecibe] = useState('')
+    const [tipoMolienda, setTipoMolienda] = useState('')
+    const [densidadCafe, setDensidadCafe] = useState('')
     const [proceso, setProceso] = useState('')
-    const [humedad, setHumedad] = useState('')
+    const [tipoTostion, setipoTostion] = useState('')
     const [altura, setAltura] = useState('')
-    const [secado, setSecado] = useState('')
-    const [observaciones, setObservaciones] = useState('')
+    const [tiempoFermento, setTiempoFermento] = useState('')
+    const [actividadAgua, setActividadAgua] = useState('')
+    const [tiempoSecado, setTiempoSecado] = useState('')
+    const [presentacion, setPresentacion] = useState('')
     const [loteFk, setLoteFk] = useState('') 
     const { idMuestras } = useContext(MuestrasContext)
 
@@ -29,13 +31,15 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
       if(mode === 'update' && idMuestras) {
         
           setFecha(idMuestras.fecha),
-          setCantidad(idMuestras.cantidad),
-          setQuienRecibe(idMuestras.quien_recibe),
+          setTipoMolienda(idMuestras.tipo_molienda),
+          setDensidadCafe(idMuestras.densidad_cafe),
           setProceso(idMuestras.proceso_fermentacion),
-          setHumedad(idMuestras.humedad_cafe),
+          setipoTostion(idMuestras.tipo_tostion),
           setAltura(idMuestras.altura_MSNM),
-          setSecado(idMuestras.tipo_secado),
-          setObservaciones(idMuestras.observaciones),
+          setTiempoFermento(idMuestras.tiempo_fermentacion),
+          setActividadAgua(idMuestras.actividad_agua),
+          setTiempoSecado(idMuestras.tiempo_secado)
+          setPresentacion(idMuestras.presentacion)
           setLoteFk(idMuestras.fk_lote)
         
       }
@@ -49,13 +53,15 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
 
           const datosForm = {
             fecha: fechaValue,
-            cantidad: cantidad,
-            quien_recibe: quien_recibe,
+            tipo_molienda: tipoMolienda,
+            densidad_cafe: densidadCafe,
             proceso_fermentacion: proceso,
-            humedad_cafe: humedad,
+            tipo_tostion: tipoTostion,
             altura_MSNM: altura,
-            tipo_secado: secado,
-            observaciones: observaciones,
+            tiempo_fermentacion: tiempoFermento,
+            actividad_agua: actividadAgua,
+            tiempo_secado: tiempoSecado,
+            presentacion: presentacion,
             fk_lote : parseInt(loteFk)
           }
           handleSubmit(datosForm, e);
@@ -84,25 +90,25 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input
-                            id='cantidad'
-                            name='cantidad'
+                            id='tipoMolienda'
+                            name='tipoMolienda'
                             type="decimal"
-                            value={cantidad}
-                            onChange={(e) => setCantidad(e.target.value)}
+                            value={tipoMolienda}
+                            onChange={(e) => setTipoMolienda(e.target.value)}
                             required={true}
-                            placeholder='Cantidad muestra'
+                            placeholder='Tipo molienda'
                         />
                     
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input
-                            id='quien_recibe'
+                            id='densidadCafe'
                             type="text"
-                            name="quien_recibe"
-                            value={quien_recibe}
-                            onChange={(e) => setQuienRecibe(e.target.value)}
+                            name="densidadCafe"
+                            value={densidadCafe}
+                            onChange={(e) => setDensidadCafe(e.target.value)}
                             required={true}
-                            placeholder='Quien recibe la muestra'
+                            placeholder='Densidad café'
                         />
                     
                     </div>
@@ -116,22 +122,21 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             onChange={(e) => setProceso(e.target.value)}
                             placeholder='Proceso fermetación'
                         />
-                        
                     </div>
-                </div>
-                <div className='flex flex-col ml-2 w-[190px]'>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input
-                            id='humedad_cafe'
+                            id='tipoTostion_cafe'
                             type="text"
-                            name="humedad_cafe"
+                            name="tipoTostion_cafe"
                             required={true}
-                            value={humedad}
-                            onChange={(e) => setHumedad(e.target.value) }
-                            placeholder='Humedad del café'
+                            value={tipoTostion}
+                            onChange={(e) => setipoTostion(e.target.value) }
+                            placeholder='Tostion del café'
                         />
                     
                     </div>
+                </div>
+                <div className='flex flex-col ml-2 w-[190px]'>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input
                             id='altura_MSNM'
@@ -146,43 +151,67 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input
-                            id='tipo_secado'
+                            id='tipo_tiempoFermento'
                             type="text"
-                            name="tipo_secado"
-                            value={secado}
-                            onChange={(e) => setSecado(e.target.value)}
+                            name="tipo_tiempoFermento"
+                            value={tiempoFermento}
+                            onChange={(e) => setTiempoFermento(e.target.value)}
                             required={true}
-                            placeholder='Tipo de secado'
+                            placeholder='Tiempo de Fermento'
+                        />
+                    
+                    </div>
+                    <div className="flex flex-wrap md:flex-nowrap mb-4 w-full">
+                        <Input
+                            id='actividadAgua'
+                            name="actividadAgua"
+                            value={actividadAgua}
+                            onChange={(e) => setActividadAgua(e.target.value)}
+                            required={true}
+                            placeholder='Actividad del agua'
+                            rows="3"
+                        />
+                        
+                        </div>
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <Input
+                            id='tiempo_secado'
+                            type="text"
+                            name="tipempo_secado"
+                            value={tiempoSecado}
+                            onChange={(e) => setTiempoSecado(e.target.value)}
+                            required={true}
+                            placeholder='Tiempo de secado'
                         />
                     
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                        <select className='w-[400px] rounded-xl bg-gray-100 h-[40px]' label='Selecciones el lote' value={loteFk} onChange={(e) => setLoteFk(e.target.value)} required={true}>
-                            <option value='' hidden> Seleccione el lote... </option>
-                        {lotes.map(lote => (
-                            <option key={lote.codigo} value={lote.codigo} textValue={lote.codigo}>
-                            {lote.codigo}
-                            </option>
-                        ))}
-                        </select>
-                        
-                    </div>        
+                        <Input
+                            id='presentacion'
+                            type="text"
+                            name="presentacion"
+                            value={presentacion}
+                            onChange={(e) => setPresentacion(e.target.value)}
+                            required={true}
+                            placeholder='Presentacion'
+                        />
+                    
+                    </div>
                 </div>
-            
+                            
             </div>
             <div>
-                <div className="flex flex-wrap md:flex-nowrap mb-4 w-[400px]">
-                    <Textarea
-                        id='observaciones'
-                        name="observaciones"
-                        value={observaciones}
-                        onChange={(e) => setObservaciones(e.target.value)}
-                        required={true}
-                        placeholder='Ingresa las Observaciones'
-                        rows="3"
-                    />
-                
-                </div>
+                <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                    <select className='w-[400px] rounded-xl bg-gray-100 h-[40px]' label='Selecciones el lote' value={loteFk} onChange={(e) => setLoteFk(e.target.value)} required={true}>
+                        <option value='' hidden> Seleccione el lote... </option>
+                    {lotes.map(lote => (
+                        <option key={lote.codigo} value={lote.codigo} textValue={lote.codigo}>
+                        {lote.codigo}
+                        </option>
+                    ))}
+                    </select>
+                            
+                </div> 
             </div>
             
             

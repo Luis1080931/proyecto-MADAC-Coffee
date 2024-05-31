@@ -32,7 +32,7 @@ export const SideBarUser = ({ children }) => {
                 <FaRegUserCircle size={40} className="cursor-pointer mr-8 text-white" onClick={showSideBar}/>
             </Link>
         </div>
-        <IconContext.Provider value={{ color: '#000' }}>
+        <IconContext.Provider value={{ color: '#fff ', }}>
         <nav className={sidebar ? 'nav-menu-user active' : 'nav-menu-user'}>
             <ul className='w-full mt-6 flex flex-col justify-center p-2' onClick={showSideBar}>
                 <li className='mr-7 flex justify-end text-3xl bg-none'>
@@ -41,15 +41,15 @@ export const SideBarUser = ({ children }) => {
                     </Link>
                 </li>
                
-                <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh bg-[#3E4749] hover:bg-[#D2D4C7] hover:text-black rounded-lg p-2'>
-                    <CiUser className='text-3xl text-white font-bold' />
-                    <label className='flex text-white hover:text-black text-xl font-bold w-full h-full items-center px-4 rounded-lg cursor-pointer' onClick={() => setModalUser(true)}>
+                <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh border-2 border-transparent hover:border-[#EAEDF6] rounded-lg p-2'>
+                    <CiUser className='text-3xl text-white' />
+                    <label className='flex text-white text-xl font-bold w-full h-full items-center px-4 rounded-lg cursor-pointer' onClick={() => setModalUser(true)}>
                         Perfil de usuario
                     </label>
                 </li>
-                <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh bg-[#3E4749] hover:bg-[#D2D4C7] hover:text-black rounded-lg p-2'>
+                <li className='flex justify-end align-center mt-4 mb-2 list-none max-h-30vh border-2 border-transparent hover:border-[#EAEDF6] rounded-lg p-2'>
                     <IoLogOutOutline className='text-3xl text-white font-bold' />
-                    <label className='flex text-white hover:text-black text-xl font-bold w-full h-full items-center px-4 rounded-lg cursor-pointer' onClick={() => setModalOpen(true)}>
+                    <label className='flex text-white text-xl font-bold w-full h-full items-center px-4 rounded-lg cursor-pointer' onClick={() => setModalOpen(true)}>
                         Cerrar sesión
                     </label>
                 </li>

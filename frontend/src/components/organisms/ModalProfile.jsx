@@ -170,7 +170,7 @@ export default function ProfileModal({ isOpen, onClose }) {
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Close
                 </Button>
-                <Button type="submit" color="primary">
+                <Button type="submit" className="bg-[#273468] text-white">
                   Actualizar
                 </Button>
               </ModalFooter>

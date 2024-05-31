@@ -96,13 +96,17 @@ export const desactivarAnalisis = async (req, res) => {
 export const activarAnalisis = async (req, res) => {
     try {
         const { codigo } = req.params
-        let sql = `UPDATE analisis SET estado = 1 WHERE codigo = ?`
 
-        const [rows] = await pool.query(sql, [codigo])
+        let sqlAnalisis = `UPDATE analisis SET estado = 1 WHERE codigo = ?`
+        let sqlResultados = `UPDATE resultados SET estado = 1 WHERE fk_analisis = ?`
 
-        if(rows.affectedRows>0){
+        const [rowsAnalisis] = await pool.query(sqlAnalisis, [codigo])
+
+        if(rowsAnalisis.affectedRows>0){
+            
+            const [rowsResultados] = await pool.query(sqlResultados, [codigo])
             res.status(200).json({
-                message: "Se activó con exito el analisis"
+                message: "Se activó con exito el analisis y los resultados asociados"
             })
         }else{
             res.status(404).json({

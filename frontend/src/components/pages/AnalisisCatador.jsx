@@ -171,6 +171,7 @@ function Ejemplo() {
                 aria-label="Menu de acciones"
                 aria-labelledby="Acciones"
                 closeOnSelect={false}
+                color='secondary'
                 selectedKeys={statusFilter}
                 selectionMode="multiple"
                 onSelectionChange={onStatusFilter}
@@ -229,10 +230,17 @@ function Ejemplo() {
           onChange={setPage}
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
+<<<<<<< HEAD
           <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onPreviousPage}>
             Atras
           </Button>
           <Button isDisabled={pages === 1} size="sm" variant="flat" onPress={onNextPage}>
+=======
+          <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
+            Atras
+          </Button>
+          <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="ghost" onPress={onNextPage}>
+>>>>>>> ab1b6241c51a9ab042a632d977c45f4ff739f6a1
             Siguiente
           </Button>
         </div>
@@ -263,7 +271,7 @@ function Ejemplo() {
   <TableHeader columns={data}>
     {(column) => (
       <TableColumn
-        className="bg-[#525B5F] text-white text-lg"
+        className="bg-[#273468] text-white text-lg"
         key={column.uid}
         align={column.uid === "actions" ? "center" : "start"}
         allowsSorting={column.sortable}
@@ -361,8 +369,9 @@ function Ejemplo() {
 
     return (
         <div>
+          <div className='bg-[#EAEDF6] h-screen max-h-max'>
             <Header title='Análisis físico y sensorial' />
-              <div className='bg-[#D2D4C7]'>
+              <div className='bg-[#EAEDF6]'>
                 <div className='w-full max-w-[90%] ml-28 items-center p-10'>
                     <AccionesModal 
                         isOpen={modalAccionesOpen}
@@ -387,6 +396,8 @@ function Ejemplo() {
                 </div>
 
               </div>
+
+          </div>
         </div>
     );
 }

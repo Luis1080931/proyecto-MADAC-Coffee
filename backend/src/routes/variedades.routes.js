@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { desactivarVariedades, actualizarVariedades, registrarVariedades, listarVariedades, buscarVariedades, activarVariedades, variedadesActivas} from '../controllers/variedades.controller.js'
+import { desactivarVariedades, actualizarVariedades, registrarVariedades, listarVariedades, buscarVariedades, variedadesActivas} from '../controllers/variedades.controller.js'
 import { validarVariedades } from '../../validate/variedades.validate.js'
 import { validarToken } from '../controllers/seguridad.controller.js'
 

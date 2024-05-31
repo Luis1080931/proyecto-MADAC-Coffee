@@ -55,6 +55,7 @@ const FormVariables = ({ actionLabel , handleSubmit, mode, onClose}) => {
               </div>
           <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
               <select className='w-[400px] rounded-xl bg-gray-100 h-[40px]' name='analisisType' label='Seleccione el tipo de análisis' value={analisisType} onChange={(e) => setAnalisisType(e.target.value)} required={true}>
+                <option value="" hidden> Tipo de análisis ... </option>
                 {tipoAnalisis.map(tipo => (
                   <option key={tipo.id} value={tipo.id}>
                     {tipo.tipo_analisis}

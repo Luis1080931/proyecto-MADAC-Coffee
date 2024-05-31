@@ -96,7 +96,7 @@ const handleAccept = () => {
         height: '100vh'
       }}
       >
-            <Button className='w-28 m-10 rounded-lg bg-[#3E4749] text-white font-bold text-xl' onPress={() => setModalOpen(true)}>
+            <Button className='w-28 m-10 rounded-lg bg-[#273468] text-white font-bold text-xl' onPress={() => setModalOpen(true)}>
                 Login
             </Button>
         </div>
@@ -146,12 +146,9 @@ const handleAccept = () => {
                     />
                   </div> 
                 
-                <ModalFooter>
-                <Button color="danger" variant="flat" onPress={onClose}>
-                  Close
-                </Button>
-                <Button type='submit' color="primary" onSubmit={handleSubmit}>
-                  Sign in
+                <ModalFooter className='flex justify-center items-center'>
+                <Button type='submit' className='bg-[#273468] text-white font-bold' onSubmit={handleSubmit}>
+                  Iniciar sesión
                 </Button>
               </ModalFooter>
                 </form>

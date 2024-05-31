@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getFincas, getFinca, postFincas, desactivar_Fincas, actualizarFincas, activarFinca, fincasActivas } from '../controllers/fincas.controller.js';
+import { getFincas, getFinca, postFincas, desactivar_Fincas, actualizarFincas, fincasActivas } from '../controllers/fincas.controller.js';
 import { validarFincas } from "../../validate/fincas.validate.js";
 import { validarToken } from "../controllers/seguridad.controller.js";
 

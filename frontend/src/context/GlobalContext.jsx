@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import { AuthProvider } from './authContext.jsx'
 import { AnalisisProvider } from './AnalisisContext.jsx'
 import { ResultadoProvider } from './ResultadosContext.jsx'
@@ -11,11 +11,19 @@ import { MuestrasProvider } from './MuestrasContext.jsx'
 export const GlobalContext = createContext()
 
 const GlobalProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    }, []);
 
 const globalContextValue = {}
 
   return (
-    <GlobalContext.Provider value={ globalContextValue }>
+    <GlobalContext.Provider value={{ globalContextValue, user, setUser }}>
         <AuthProvider>
             <AnalisisProvider>
                 <ResultadoProvider>

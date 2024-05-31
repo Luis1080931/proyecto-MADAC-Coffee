@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {getLotes,getLote,postLotes,desactivar_Lotes,actualizarLotes, activarLotes, lotesActivos} from '..//controllers/lotes.controller.js'
+import {getLotes,getLote,postLotes,desactivar_Lotes,actualizarLotes, lotesActivos} from '..//controllers/lotes.controller.js'
 import { validarLotes } from "../../validate/lotes.validate.js";
 import { validarToken } from "../controllers/seguridad.controller.js";
 

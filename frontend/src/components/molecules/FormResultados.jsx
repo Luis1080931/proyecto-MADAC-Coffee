@@ -84,6 +84,7 @@ const FormResultados = ({ mode, handleSubmit, onClose, actionLabel }) => {
                     onChange={(e) => e.target.value}
                     required={true} 
                 >
+                    <option value="" hidden> Seleccion el analisis ... </option>
                         {analisis.map(anali => (
                             <option key={anali.codigo} value={anali.codigo} >
                                 {anali.codigo}
@@ -101,6 +102,7 @@ const FormResultados = ({ mode, handleSubmit, onClose, actionLabel }) => {
                     onChange={(e) => e.target.value}
                     required={true} 
                 >
+                    <option value="" hidden> Seleccione la variable ... </option>
                         {variables.map(varia => (
                             <option key={varia.v_codigo} value={varia.v_codigo}>
                                 {varia.nombre}

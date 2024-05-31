@@ -3,7 +3,7 @@ import axiosClient from '../axiosClient';
 import { ModalFooter,Button, Input, Select, SelectItem } from '@nextui-org/react';
 import LotesContext from './../../context/LotesContext.jsx'
 
-export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel }) => {
+export const FormLotes = ({ mode,handleSubmit,onClose,actionLabel }) => {
 
     const [fincas, setFincas] = useState([])
     const [variedades, setVariedades] = useState([])
@@ -32,7 +32,7 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
         if(mode=='update' && idLote){
             setNumero(idLote.numero_arboles)
             setFinca(idLote.fk_finca)
-            setVariedadFk(idLote.fk_variedad)
+            setVariedadFk(idLote.codigo)
         }
     },[mode,idLote])
 
@@ -68,6 +68,7 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4" >
                         <select className='w-[400px] rounded-xl bg-gray-100 h-[40px]' name='finca' label='Seleccione la finca' value={finca} onChange={(e) => setFinca(e.target.value)} required={true} >
+                            <option value="" hidden> Seleccione finca ... </option>
                             {fincas.map(finca => (
                                 <option key={finca.codigo} value={finca.codigo}>
                                     {finca.codigo} - {finca.fk_caficultor}
@@ -77,6 +78,7 @@ export const FormLotes = ({ mode,initialData,handleSubmit,onClose,actionLabel })
                     </div>
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <select className='w-[400px] rounded-xl bg-gray-100 h-[40px]' name='variedadFk' label='Seleccione la variedad' value={variedadFk} onChange={(e) => setVariedadFk(e.target.value)} required={true} >
+                            <option value="" hidden> Seleccione variedad ... </option>
                             {variedades.map(variedad => (
                                 <option key={variedad.codigo} value={variedad.codigo}>
                                     {variedad.nombre}

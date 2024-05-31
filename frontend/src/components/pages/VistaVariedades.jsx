@@ -192,7 +192,7 @@ function TableVariedades() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button className="text-xl" color="primary" endContent={<PlusIcon />} onClick={() => handleToogle('create')}>
+            <Button className="text-xl bg-[#273468] text-white" endContent={<PlusIcon />} onClick={() => handleToogle('create')}>
               Registrar
             </Button>
           </div>
@@ -241,10 +241,10 @@ function TableVariedades() {
           onChange={setPage}
         />
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
-          <Button className="text-xl" color="primary" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
+          <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
             Atras
           </Button>
-          <Button className="text-xl" color='primary' isDisabled={pages === 1} size="md" variant="ghost" onPress={onNextPage}>
+          <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="ghost" onPress={onNextPage}>
             Siguiente
           </Button>
         </div>
@@ -275,7 +275,7 @@ function TableVariedades() {
   <TableHeader columns={data}>
     {(column) => (
       <TableColumn
-        className="bg-[#525B5F] text-white text-lg"
+        className="bg-[#273468] text-white text-lg"
         key={column.uid}
         align={column.uid === "actions" ? "center" : "start"}
         allowsSorting={column.sortable}
@@ -418,8 +418,9 @@ const {setVariedadId, variedadId} = useContext(VariedadesContext)
 
     return (
         <div>
-            <Header title='Variedades del café' />
-              <div className='bg-[#D2D4C7]'>
+          <div className='bg-[#EAEDF6] h-screen max-h-max' >
+          <Header title='Variedades del café' />
+              <div className='bg-[#EAEDF6]'>
                 <div className='w-full max-w-[90%] ml-28 items-center p-10'>
 
                     <AccionesModal 
@@ -446,6 +447,8 @@ const {setVariedadId, variedadId} = useContext(VariedadesContext)
                 </div>
 
               </div>
+          </div>
+            
         </div>
     );
 }
