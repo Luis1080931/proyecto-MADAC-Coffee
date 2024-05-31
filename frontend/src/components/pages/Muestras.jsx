@@ -60,13 +60,15 @@ function Ejemplo() {
       filteredMuestras = filteredMuestras.filter(muestra =>
         String(muestra.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
         muestra.fecha.toLowerCase().includes(filterValue.toLowerCase()) ||
-        String(muestra.cantidad).toLowerCase().includes(filterValue.toLowerCase()) ||
-        muestra.quien_recibe.toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(muestra.tipo_molienda).toLowerCase().includes(filterValue.toLowerCase()) ||
+        muestra.densidad_cafe.toLowerCase().includes(filterValue.toLowerCase()) ||
         muestra.proceso_fermentacion.toLowerCase().includes(filterValue.toLowerCase()) ||
-        muestra.humedad_cafe.toLowerCase().includes(filterValue.toLowerCase()) ||
+        muestra.tipo_tostion.toLowerCase().includes(filterValue.toLowerCase()) ||
         muestra.altura_MSNM.toLowerCase().includes(filterValue.toLowerCase()) ||
-        muestra.tipo_secado.toLowerCase().includes(filterValue.toLowerCase()) ||
-        muestra.observaciones.toLowerCase().includes(filterValue.toLowerCase()) ||
+        muestra.tiempo_fermentacion.toLowerCase().includes(filterValue.toLowerCase()) ||
+        muestra.actividad_agua.toLowerCase().includes(filterValue.toLowerCase()) ||
+        muestra.tiempo_secado.toLowerCase().includes(filterValue.toLowerCase()) ||
+        muestra.presentacion.toLowerCase().includes(filterValue.toLowerCase()) ||
         String (muestra.fk_lote).toLowerCase().includes(filterValue.toLowerCase()) 
       );
     }
