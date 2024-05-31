@@ -10,7 +10,7 @@ const RouteMuestras = Router();
 
 RouteMuestras.get("/listarMuestra", validarToken, listarMuestras);
 //validation datos 
-RouteMuestras.post("/crearMuestra",validarToken, validacionMuestra,CrearMuestra);
+RouteMuestras.post("/crearMuestra",validarToken, CrearMuestra);
 
 RouteMuestras.put("/actualizarMuestra/:codigo",validarToken, actualizarMuestra);
 RouteMuestras.put("/desactivarMuestra/:codigo",validarToken, desactivarMuestras)
