@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext} from 'react'
 import { Header } from './../molecules/Header.jsx'
 import MuestrasModal from '../templates/MuestrasModal.jsx';
 import AccionesModal from '../organisms/ModalAcciones.jsx';
+import VerMuestras from '../templates/VerMuestras.jsx';
 import axiosClient from '../axiosClient.js';
 import {
     Table,
@@ -26,6 +27,7 @@ import {
   import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
   import ButtonActivar from "../atoms/ButtonActivar.jsx";
 import MuestrasContext from '../../context/MuestrasContext.jsx';
+import { FaEye } from "react-icons/fa";
 
 export function Muestras () {
 
@@ -115,6 +117,7 @@ function Ejemplo() {
         return (
           <div className="relative flex justify-end items-center gap-2">
             <ButtonActualizar click={() => handleToggle('update', setMuestrasId(muestra))} />
+            <FaEye onClick={() => ver(setMuestrasId(muestra.codigo))} />
             {muestra.estado === 'activo' ? (
               <ButtonDesactivar click={() => handleDesactivar(muestra.codigo)} />
             ) : (
@@ -311,15 +314,22 @@ function Ejemplo() {
     const [initialData, setInitialData ] = useState(null)
     const [mensaje, setMensaje] = useState('')
     const [muestras, setMuestras] = useState([])
-    const { idMuestras, setMuestrasId } = useContext(MuestrasContext)
+    const { idMuestras, setMuestrasId, muestra, getMuestra } = useContext(MuestrasContext)
+    const [modalVer, setModalVer] = useState(false)
+
+    const ver = (id) => {
+      setModalVer(true)
+      getMuestra(id)
+    }
 
     useEffect(() => {
         fetchData()
+        ver(idMuestras)
     }, [])
 
     const fetchData = async () => {
         try {
-            const response = await axiosClient.get('/muestras/listarMuestra')
+            const response = await axiosClient.get('/muestras/table')
             const formattedMuestras = response.data.map((result) => ({
                 ...result,
                 fecha: formatDate(result.fecha),
@@ -334,6 +344,8 @@ function Ejemplo() {
         const date = new Date(dateString)
         return date.toLocaleDateString('es-ES')
     };
+
+
     const data = [
         {
             uid : 'codigo',
@@ -347,38 +359,13 @@ function Ejemplo() {
             sortable: true
         },
         {
-            uid: 'cantidad',
-            name: 'Cantidad',
+            uid: 'nombre',
+            name: 'Caficultor',
             sortable: true
         },
         {
-            uid: 'quien_recibe',
-            name: 'Quien Recibe',
-            sortable: true
-        },
-        {
-            uid: 'proceso_fermentacion',
-            name: 'Proceso de Fermentación',
-            sortable: true
-        },
-        {
-            uid: 'humedad_cafe',
-            name: 'Humedad Café',
-            sortable: true
-        },
-        {
-            uid: 'altura_MSNM',
-            name: 'Altura MSNM',
-            sortable: true
-        },
-        {
-            uid: 'tipo_secado',
-            name: 'Tipo de Secado',
-            sortable: true
-        },
-        {
-            uid: 'observaciones',
-            name: 'Observaciones',
+            uid: 'nombre_finca',
+            name: 'Finca',
             sortable: true
         },
         {
@@ -497,6 +484,12 @@ function Ejemplo() {
                     initialData={initialData}
                     handleSubmit={handleSubmit}
                     mode={mode}
+                />
+                <VerMuestras 
+                  title='Datos de la muestra'
+                  open={modalVer}
+                  onClose={() => setModalVer(false)}
+                  data={muestra}
                 />
               <Ejemplo
                     data={data}
