@@ -149,3 +149,34 @@ export const muestrasActivas = async (req, res) => {
         res.status(500).json({message:"Error en el servidor" + error})
     }
 }
+
+export const muestrasTable = async (req, res) => {
+    try {
+        let sql = `
+        SELECT 
+            m.codigo, 
+            m.fecha, 
+            m.estado,
+            m.fk_lote,
+            c.nombre, 
+            f.nombre_finca
+        FROM 
+            muestras m
+        JOIN lotes l ON fk_lote = l.codigo
+        JOIN fincas f ON fk_finca = f.codigo  
+        JOIN usuarios c ON fk_caficultor = c.identificacion`
+
+        const [result] = await pool.query(sql)
+        if (result.length > 0) {
+            res.status(200).json(result)
+        }else{
+            res.status(404).json({
+                "Mensaje":"No hay muestras"
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error del servidor' + error
+        })
+    }
+}
