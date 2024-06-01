@@ -864,6 +864,7 @@ export function Reportes() {
         <Modal
           isOpen={modalPdfOpen}
           onClose={closeModal}
+          size='full'
         >
           <ModalContent>
             <ModalHeader>

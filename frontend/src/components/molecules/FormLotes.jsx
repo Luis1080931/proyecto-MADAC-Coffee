@@ -33,7 +33,7 @@ export const FormLotes = ({ mode,handleSubmit,onClose,actionLabel }) => {
         if(mode=='update' && idLote){
             setNumero(idLote.numero_arboles)
             setFinca(idLote.fk_finca)
-            setVariedadFk(idLote.fk_variedad)
+            setVariedadFk(idLote.codigo)
         }
     },[mode,idLote])
 

@@ -105,15 +105,15 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   table: {
-    display: 'table',
-    width: 'auto',
+    display: 'flex',
+    flexDirection: 'row',
     borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: '#000',
-    marginBottom: 10,
+    borderColor: '#000'
   },
   tableRow: {
     flexDirection: 'row',
+    width: '100%'
   },
   tableCol: {
     width: '50%',
@@ -134,25 +134,37 @@ const styles = StyleSheet.create({
   tableCell: {
     margin: 5,
     fontSize: 10,
-    padding: 3,
+    padding: 3,/* 
     borderWidth: 0,
-    borderStyle: 'solid',
+    borderStyle: 'solid', */
     /* borderRightWidth: 0,
     borderBottomWidth: 0, */
   },
+  tableCellDatos: {
+    fontSize: 10,
+    padding: 3,
+    borderWidth: 1,
+    borderStyle: 'solid', 
+    borderColor: 'black'
+  },
+  tableCellValorDatos: {
+    fontSize: 10,
+    padding: 3,
+    borderWidth: 1,
+    borderStyle: 'solid', 
+    borderColor: 'black'
+  },
+  tableColDatos: {
+    width: '80%'
+  },
   tableHeader: {
     fontWeight: 'bold',
-    backgroundColor: '#f2f2f2',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderRightWidth: 0,
-    borderBottomWidth: 0,
   },
   tableColHeader: {
     width: '96%',
     flex: 1,
+    backgroundColor: '#C6E0B4',
     textAlign: 'center',
-    backgroundColor: '#eee',
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: '#000',
@@ -193,6 +205,9 @@ const styles = StyleSheet.create({
   },
   halfTable: {
     width: '48%',
+  },
+  plusColDatos: {
+    flexDirection: 'column',
   },
 });
 
@@ -240,47 +255,72 @@ const PDFReport = ({ data }) => (
         <Text style={styles.sectionText}>Caficultor: {data.caficultor_nombre}</Text>
         <Text style={styles.sectionText}>Departamento: {data.municipio}</Text>
         <Text style={styles.sectionText}>Vereda: {data.vereda}</Text>
-        <Text style={styles.sectionText}>Nombre de la finca: {data.finca_id}</Text>
+        <Text style={styles.sectionText}>Nombre de la finca: {data.nombre_finca}</Text>
         <Text style={styles.sectionText}>Código de la muestra: {data.muestra_id}</Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>3. Especificaciones del Café:</Text>
         <View style={styles.table}>
-          <View style={[styles.tableRow, styles.tableHeader]}>
-            <View style={styles.tableCol}>
-              <Text style={[styles.tableCell, styles.tableHeader]}>Variedad del Café</Text>
+          <View style={[styles.plusColDatos]}>
+            <View style={[styles.tableRow, styles.tableHeader]}>
+              <View style={styles.tableCol}>
+                <Text style={[styles.tableCell, styles.tableHeader]}>Variedad del Café</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{data.variedad}</Text>
+              </View>
             </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>{data.variedad}</Text>
+            <View style={[styles.tableRow, styles.tableHeader]}>
+              <View style={styles.tableCol}>
+                <Text style={[styles.tableCell, styles.tableHeader]}>Altura sobre el nivel del mar</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{data.altura_MSNM}</Text>
+              </View>
             </View>
           </View>
-          <View style={styles.tableRow}>
-            <View style={styles.tableCol}>
-              <Text style={[styles.tableCell, styles.tableHeader]}>Altura sobre el nivel del mar</Text>
+          <View style={[styles.plusColDatos]}>
+            <View style={[styles.tableRow, styles.tableHeader]}>
+              <View style={styles.tableCol}>
+                <Text style={[styles.tableCell, styles.tableHeader]}>Método de muestreo: </Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{data.variedad}</Text>
+              </View>
             </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>{data.altura_MSNM}</Text>
+            <View style={[styles.tableRow, styles.tableHeader]}>
+              <View style={styles.tableCol}>
+                <Text style={[styles.tableCell, styles.tableHeader]}>Método para la preparacion de la muestra:</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{data.altura_MSNM}</Text>
+              </View>
             </View>
           </View>
         </View>
       </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>4. Datos Generales del Café:</Text>
-        <View style={styles.table}>
-          <View style={[styles.tableRow, styles.tableHeader]}>
-            <View style={styles.tableCol}>
-              <Text style={[styles.tableCell, styles.tableHeader]}>Tipo de Fermentacion</Text>
-            </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>{data.proceso_fermentacion}</Text>
-            </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>{data.muestra_id}</Text>
+        <View style={styles.plusCol}>
+          <View style={styles.halfTable}>
+            <View style={[styles.tableRowFisicos]}>
+              <View style={styles.tableColDatos}>
+                <Text style={[styles.tableCellDatos]}>Tipo de Fermentacion</Text>
+                <Text style={ styles.tableCellDatos }> Código de la muestra: </Text>
+              </View>
+              <View style={styles.tableColDatos}>
+                <Text style={styles.tableCellValorDatos}>{data.proceso_fermentacion}</Text>
+                <Text style={styles.tableCellValorDatos}>{data.muestra_id}</Text>
+              </View>
+              {/* <View style={[ styles.tableColVariable ]}>
+              </View>
+              <View style={styles.tableColValor}>
+              </View> */}
             </View>
           </View>
         </View>
       </View>
-      <View>
+      <View style={styles.section}>
         <Text style={styles.sectionTitle}>5. Análisis Físico:</Text>
         <View style={styles.tableFisicos}>
           <View style={styles.tableColHeader}>
@@ -288,34 +328,37 @@ const PDFReport = ({ data }) => (
           </View>
           <View style={styles.plusCol}>
             <View style={styles.halfTable}>
-            {[...Array(15)].map((_, index) => (
-            <View key={index} style={styles.tableRowFisicos}>
-              <View style={styles.tableColVariable}>
-                <Text style={styles.tableCell}>{data.resultados[index].variable}</Text>
+              {[...Array(15)].map((_, index) => (
+              <View key={index} style={styles.tableRowFisicos}>
+                <View style={styles.tableColVariable}>
+                  <Text style={styles.tableCell}>{data.resultados[index].variable}</Text>
+                </View>
+                <View style={styles.tableColValor}>
+                  <Text style={styles.tableCell}>{data.resultados[index].valor}</Text>
+                </View>
               </View>
-              <View style={styles.tableColValor}>
-                <Text style={styles.tableCell}>{data.resultados[index].valor}</Text>
-              </View>
-            </View>
-          ))}
+              ))}
             </View>
             <View style={styles.halfTable}>
-            {[...Array(15)].map((_, index) => (
-            <View key={index} style={styles.tableRowFisicos}>
-              <View style={styles.tableColVariable}>
-                <Text style={styles.tableCell}>{data.resultados[index + 15].variable}</Text>
-              </View>
-              <View style={styles.tableColValor}>
-                <Text style={styles.tableCell}>{data.resultados[index + 15].valor}</Text>
-              </View>
-            </View>
-          ))}
+              {[...Array(15)].map((_, index) => (
+                <View key={index} style={styles.tableRowFisicos}>
+                  <View style={styles.tableColVariable}>
+                    <Text style={styles.tableCell}>{data.resultados[index + 15].variable}</Text>
+                  </View>
+                  <View style={styles.tableColValor}>
+                    <Text style={styles.tableCell}>{data.resultados[index + 15].valor}</Text>
+                  </View>
+                </View>
+              ))}
             </View>
           </View>
         </View>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>6. Resultados:</Text>
       </View>
     </Page>
   </Document>
 );
 
-export default PDFReport;
+export default PDFReport; 
