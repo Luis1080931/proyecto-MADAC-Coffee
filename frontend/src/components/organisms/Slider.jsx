@@ -1,8 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './../../styles/Slider.css'; // Estilos CSS
-import { Checkbox } from '@nextui-org/react';
+import { Button, Checkbox, Input, Select, SelectItem } from '@nextui-org/react';
+import axiosClient from '../axiosClient';
+import axios from 'axios';
 
 const SliderVertical = () => {
+
+  const [analisisSensorial, setAnalisisSensorial ] = useState([])
+  const [mensaje, setMensaje] = useState('')
+  const [modalAccionesOpen, setModalAccionesOpen] = useState(false)
+
+  const stored = localStorage.getItem('user');
+  const user = stored ? JSON.parse(stored) : null;
+
+  useEffect(() => {
+    axiosClient.get(`/analisis/analisisSensorialCatador/${user.identificacion}`).then((response) => {
+      console.log(response.data)
+      setAnalisisSensorial(response.data)
+    })
+  }, [])
+
   const [nivel, setnivel] = useState(0); 
   const [seco, setSeco] = useState(0)
   const [nata, setNata] = useState(0)
@@ -226,6 +243,10 @@ const [total, setTotal] = useState(0);
 const [taza, setTaza] = useState(0)
 const [dulzura, setDulzura] = useState(0)
 
+const [notas, setNotas] = useState('')
+const [fecha, setFecha] = useState('')
+const [analisis, setAnalisis] = useState('')
+
 const handleCheckboxUniformidad = (index) => {
     const updatedValues = values.map((_, i) => (i === index));
     setValues(updatedValues);
@@ -281,305 +302,361 @@ const handleCheckboxUniformidad = (index) => {
   const punteoTotal = parseInt(totalAroma) + parseInt(labelSabor) + parseInt(labelPostgusto) + parseInt(labelAcidez) + parseInt(labelBalance) + parseInt(labelCuerpo) +parseInt(labelGeneral) + parseInt(total) + parseInt(taza) + parseInt(dulzura)
   const totalPunteoFinal = parseInt(punteoTotal) - parseInt(resultado)
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    try {
+      const data = {
+        fecha, 
+        aroma: totalAroma,
+        sabor: labelSabor,
+        postgusto: labelPostgusto,
+        acidez: labelAcidez, 
+        cuerpo: labelCuerpo,
+        uniformidad: total,
+        balance: labelBalance,
+        taza_limpia: taza,
+        dulzura: dulzura,
+        general: labelGeneral,
+        punteo: punteoTotal, 
+        taza_defecto: numeroTazas,
+        intensidad_defecto: numeroIntensidad,
+        sub_defecto: resultado,
+        punteo_final: totalPunteoFinal, 
+        notas: notas,
+        fk_analisis: analisis
+      }
+
+      axiosClient.post(`/resultados/sensorial`, data).then((response) => {
+        console.log(response.data)
+        if(response.status == 200){
+          alert('Registro exitoso')
+        }else{
+          alert('Error al registrar')
+        }
+      })
+    } catch (error) {
+      console.log('Error del servidor' + error);
+    }
+  }
+
   return (
-    <div className='flex flex-col justify-center '>
-    <div className='flex flex-row h-44'>
-        <div className='border-2 border-black p-2'>
-            <label className='text-xl font-bold'> Muestra </label>
-            <div className='w-20 h-20 bg-black flex justify-center items-center rounded-full mt-5'>
-                <label className='text-6xl font-bold text-white'> 1 </label>    
-            </div>    
-        </div>
-        <div className='border-t-2 border-b-2 border-r-2 border-black p-2 flex flex-col justify-between'>
-            <div className='flex flex-col items-center justify-center'>
-                <label className='font-bold'> Nivel </label>
-                <label className='font-bold'> Tostado </label>
+    <>
+    <form onSubmit={handleSubmit}>
+      <Input 
+        type='date'
+        className='w-40'
+        value={fecha}
+        onChange={(e) => setFecha(e.target.value)}
+      />
+      <select value={analisis} onChange={(e) => setAnalisis(e.target.value)}>
+        <option hidden> Seleccione analisis ... </option>
+        {analisisSensorial.map(analisis => (
+          <option value={analisis.codigo} key={analisis.codigo}> {analisis.codigo} </option>
+        ))}
+      </select>
+      <div className='flex flex-col justify-center '>
+        <div className='flex flex-row h-44'>
+            <div className='border-2 border-black p-2'>
+                <label className='text-xl font-bold'> Muestra </label>
+                <div className='w-20 h-20 bg-black flex justify-center items-center rounded-full mt-5'>
+                    <label className='text-6xl font-bold text-white'> 1 </label>    
+                </div>    
             </div>
-            
-            <div className="slider-container">
-               
-                <div className="lines">
-                    
-                    {[...Array(5)].map((_, index) => (
-                    <div
-                        key={index}
-                        className={`line ${nivel >= (index + 1) * 5 ? 'dark' : 'light'}`}
-                        onClick={() => handleNivel(index)}
-                    />
-                    ))}
+            <div className='border-t-2 border-b-2 border-r-2 border-black p-2 flex flex-col justify-between'>
+                <div className='flex flex-col items-center justify-center'>
+                    <label className='font-bold'> Nivel </label>
+                    <label className='font-bold'> Tostado </label>
                 </div>
-            </div>
-        </div>
-        <div className='border-t-2 border-b-2 border-r-2 border-black'>
-            <div className='flex flex-row ml-2'>
-                <label className='text-xl font-bold mr-2'> Frag/Aroma </label>
-                <div className='w-12 h-7 border-2 border-black mb-3'>
-                    <label> {totalAroma} </label>
-                </div>
-            </div>
-            <RulerAroma />
-            <div className='flex flex-row ml-2'>
+                
                 <div className="slider-container">
-                    <label>Seco</label>
+                  
                     <div className="lines">
+                        
                         {[...Array(5)].map((_, index) => (
+                        <div
+                            key={index}
+                            className={`line ${nivel >= (index + 1) * 5 ? 'dark' : 'light'}`}
+                            onClick={() => handleNivel(index)}
+                        />
+                        ))}
+                    </div>
+                </div>
+            </div>
+            <div className='border-t-2 border-b-2 border-r-2 border-black'>
+                <div className='flex flex-row ml-2'>
+                    <label className='text-xl font-bold mr-2'> Frag/Aroma </label>
+                    <div className='w-12 h-7 border-2 border-black mb-3'>
+                      <input className='w-full' value={totalAroma} />
+                    </div>
+                </div>
+                <RulerAroma />
+                <div className='flex flex-row ml-2'>
+                    <div className="slider-container">
+                        <label>Seco</label>
+                        <div className="lines">
+                            {[...Array(5)].map((_, index) => (
+                                <div
+                                    key={index}
+                                    className={`line ${seco >= (index + 1) * 5 ? 'dark' : 'light'}`}
+                                    onClick={() => handleSecoValue(index)}
+                                />
+                              
+                            ))}
+                        </div>
+                    </div>
+                    <div className='m-2 mt-7'>
+                        <hr className='border-2 border-black w-16 mb-4 mt-5' />
+                        <hr className='border-2 border-black w-16' />
+                    </div>
+                    <div className="slider-container">
+                        <label>Nata</label>
+                        <div className="lines">
+                            {[...Array(5)].map((_, index) => (
                             <div
                                 key={index}
-                                className={`line ${seco >= (index + 1) * 5 ? 'dark' : 'light'}`}
-                                onClick={() => handleSecoValue(index)}
+                                className={`line ${nata >= (index + 1) * 5 ? 'dark' : 'light'}`}
+                                onClick={() => handleNataValue(index)}
                             />
-                           
-                        ))}
-                    </div>
-                </div>
-                <div className='m-2 mt-7'>
-                    <hr className='border-2 border-black w-16 mb-4 mt-5' />
-                    <hr className='border-2 border-black w-16' />
-                </div>
-                <div className="slider-container">
-                    <label>Nata</label>
-                    <div className="lines">
-                        {[...Array(5)].map((_, index) => (
-                        <div
-                            key={index}
-                            className={`line ${nata >= (index + 1) * 5 ? 'dark' : 'light'}`}
-                            onClick={() => handleNataValue(index)}
-                        />
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </div>  
-        <div className='border-t-2 border-b-2 border-r-2 border-black'>
-            <div className='flex flex-row ml-2'>
-                <label className='text-xl font-bold mr-16'> Sabor </label>
-                <div className='w-12 h-7 border-2 border-black mb-3'>
-                    <label> {labelSabor} </label>
-                </div>
-            </div>
-            <RulerSabor />
-            <div className='flex flex-row ml-2'>
-                <label className='text-xl font-bold mr-6'> Postgusto </label>
-                <div className='w-12 h-7 border-2 border-black mb-3'>
-                    <label> {labelPostgusto} </label>
-                </div>
-            </div>
-            <RulerPostgusto />
-        </div>
-        <div className='border-t-2 border-b-2 border-r-2 border-black'>
-            <div className='flex flex-row ml-2'>
-                <label className='text-xl font-bold mr-14'> Acidez </label>
-                <div className='w-12 h-7 border-2 border-black mb-3'>
-                    <label> {labelAcidez} </label>
-                </div>
-            </div>
-            <RulerAcidez />
-            <div className='flex flex-row'>
-                <div className="slider-container">
-                    <label> Intensidad </label>
-                    <div className="lines">
-                        {[...Array(5)].map((_, index) => (
-                        <div
-                            key={index}
-                            className={`line ${intensidad >= (index + 1) * 5 ? 'dark' : 'light'}`}
-                            onClick={() => handleIntensidad(index)}
-                        />
-                        ))}
-                    </div>
-                </div>
-                <div  className='flex flex-col mt-6'>
-                    <label className='text-sm mb-7'> Alto </label>
-                    <label className='text-sm'> Bajo </label>
-                </div>
-            </div>
-        </div>
-        <div className='border-t-2 border-b-2 border-r-2 border-black'>
-            <div className='flex flex-row ml-2'>
-                <label className='text-xl font-bold mr-14'> Cuerpo </label>
-                <div className='w-12 h-7 border-2 border-black mb-3'>
-                    <label> {labelCuerpo} </label>
-                </div>
-            </div>
-            <RulerCuerpo />
-            <div className='flex flex-row ml-2'>
-                <div className="slider-container">
-                    <label> Nivel </label>
-                    <div className="lines">
-                        {[...Array(5)].map((_, index) => (
-                        <div
-                            key={index}
-                            className={`line ${cuerpo >= (index + 1) * 5 ? 'dark' : 'light'}`}
-                            onClick={() => handleCuerpo(index)}
-                        />
-                        ))}
-                    </div>
-                </div>
-                <div className='flex flex-col mt-6 ml-4'>
-                    <label className='text-sm mb-7'> Pesado </label>
-                    <label className='text-sm'> Delgado </label>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div className='border-t-2 border-b-2 border-r-2 border-black'>
-                <div className='flex flex-row ml-2'>
-                    <label className='text-xl font-bold'> Uniformidad </label>
-                    <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
-                        <label>{total}</label>
-                    </div>
-                </div>
-                <div className='flex justify-center items-centerx mb-9'>
-                    <div className="checkbox-group">
-                    {[...Array(5)].map((_, index) => (
-                        <React.Fragment key={index}>
-                        <input
-                            type="checkbox"
-                            className="checkbox"
-                            checked={values[index]}
-                            onChange={() => handleCheckboxUniformidad(index)}
-                        />
-                        </React.Fragment>
-                    ))}
-                    </div>
-                </div>
-                </div>
-            <div className='border-b-2 border-r-2 border-black'>
-                <div className='flex flex-row ml-2'>
-                    <label className='text-xl font-bold mr-12'> Balance </label>
-                    <div className='w-12 h-7 border-2 border-black mb-2'>
-                        <label> {labelBalance} </label>
-                    </div>
-                </div>
-                <div className='mb-3'>
-                    <RulerBalance />
-                </div>
-            </div>
-        </div>
-        <div>
-            <div className='border-t-2 border-b-2 border-r-2 border-black'>
-                <div className='flex flex-row ml-2'>
-                    <label className='text-xl font-bold'> Taza limpia </label>
-                    <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
-                        <label>{taza}</label>
-                    </div>
-                </div>
-                <div className='flex justify-center items-centerx mb-9'>
-                    <div className="checkbox-group">
-                    {[...Array(5)].map((_, index) => (
-                        <React.Fragment key={index}>
-                        <input
-                            type="checkbox"
-                            className="checkbox"
-                            checked={tazaValues[index]}
-                            onChange={() => handleCheckboxTaza(index)}
-                        />
-                        </React.Fragment>
-                    ))}
-                    </div>
-                </div>
-            </div>
-            <div className='border-t-2 border-b-2 border-r-2 border-black'>
-                <div className='flex flex-row ml-2'>
-                    <label className='text-xl font-bold mr-8'> Dulzura </label>
-                    <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
-                        <label>{dulzura}</label>
-                    </div>
-                </div>
-                <div className='flex justify-center items-centerx mb-7'>
-                    <div className="checkbox-group">
-                    {[...Array(5)].map((_, index) => (
-                        <React.Fragment key={index}>
-                        <input
-                            type="checkbox"
-                            className="checkbox"
-                            checked={dulzuraValues[index]}
-                            onChange={() => handleCheckboxDulzura(index)}
-                        />
-                        </React.Fragment>
-                    ))}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div className='flex flex-row'>
-                <div className='w-44 border-t-2 border-b-2 border-r-2 border-black'>
-                    <div className='flex flex-row ml-2 mb-4'>
-                        <label className='text-xl font-bold mr-2'> Ap. General </label>
-                        <div className='w-12 h-7 border-2 border-black mb-3'>
-                            <label> {labelGeneral} </label>
+                            ))}
                         </div>
                     </div>
-                    <RulerGeneral />
                 </div>
-                <div className='flex flex-row ml-3'>
-                    <div className='flex flex-col mr-2 items-center'>
-                        <label className='text-xs font-bold'> Punteo </label>
-                        <label className='text-xs font-bold'> total </label>
+            </div>  
+            <div className='border-t-2 border-b-2 border-r-2 border-black'>
+                <div className='flex flex-row ml-2'>
+                    <label className='text-xl font-bold mr-16'> Sabor </label>
+                    <div className='w-12 h-7 border-2 border-black mb-3'>
+                      <input className='w-full' value={labelSabor} />
                     </div>
-                    <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
-                        <label>{punteoTotal}</label>
-                    </div>
-                    
                 </div>
+                <RulerSabor />
+                <div className='flex flex-row ml-2'>
+                    <label className='text-xl font-bold mr-6'> Postgusto </label>
+                    <div className='w-12 h-7 border-2 border-black mb-3'>
+                      <input className='w-full' value={labelPostgusto} />
+                    </div>
+                </div>
+                <RulerPostgusto />
             </div>
-            <div className='ml-2'>
-                <div>
-                    <label className='text-xs font-bold'> Defectos </label>
-                    <label className='text-xs font-bold'> (datos) </label>
+            <div className='border-t-2 border-b-2 border-r-2 border-black'>
+                <div className='flex flex-row ml-2'>
+                    <label className='text-xl font-bold mr-14'> Acidez </label>
+                    <div className='w-12 h-7 border-2 border-black mb-3'>
+                      <input className='w-full' value={labelAcidez} />
+                    </div>
                 </div>
+                <RulerAcidez />
                 <div className='flex flex-row'>
-                    <div className='flex flex-col'>
-                        <label className='text-xs font-bold'> Ligero = 2 </label>
-                        <label className='text-xs font-bold'> Rechazo = 4 </label>
+                    <div className="slider-container">
+                        <label> Intensidad </label>
+                        <div className="lines">
+                            {[...Array(5)].map((_, index) => (
+                            <div
+                                key={index}
+                                className={`line ${intensidad >= (index + 1) * 5 ? 'dark' : 'light'}`}
+                                onClick={() => handleIntensidad(index)}
+                            />
+                            ))}
+                        </div>
                     </div>
-                    <div className='flex flex-row ml-4'>
-                        <div className='flex flex-col'>
-                            <label className='text-xs font-bold'> # Tazas </label>
-                            <div className='w-10 h-7 border-2 border-black mb-3'>
-                                <input className='w-9' type="number" value={numeroTazas} onChange={handleNumeroTazas}/>
+                    <div  className='flex flex-col mt-6'>
+                        <label className='text-sm mb-7'> Alto </label>
+                        <label className='text-sm'> Bajo </label>
+                    </div>
+                </div>
+            </div>
+            <div className='border-t-2 border-b-2 border-r-2 border-black'>
+                <div className='flex flex-row ml-2'>
+                    <label className='text-xl font-bold mr-14'> Cuerpo </label>
+                    <div className='w-12 h-7 border-2 border-black mb-3'>
+                      <input className='w-full' value={labelCuerpo} />
+                    </div>
+                </div>
+                <RulerCuerpo />
+                <div className='flex flex-row ml-2'>
+                    <div className="slider-container">
+                        <label> Nivel </label>
+                        <div className="lines">
+                            {[...Array(5)].map((_, index) => (
+                            <div
+                                key={index}
+                                className={`line ${cuerpo >= (index + 1) * 5 ? 'dark' : 'light'}`}
+                                onClick={() => handleCuerpo(index)}
+                            />
+                            ))}
+                        </div>
+                    </div>
+                    <div className='flex flex-col mt-6 ml-4'>
+                        <label className='text-sm mb-7'> Pesado </label>
+                        <label className='text-sm'> Delgado </label>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div className='border-t-2 border-b-2 border-r-2 border-black'>
+                    <div className='flex flex-row ml-2'>
+                        <label className='text-xl font-bold'> Uniformidad </label>
+                        <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
+                          <input className='w-full' value={total} />
+                        </div>
+                    </div>
+                    <div className='flex justify-center items-centerx mb-9'>
+                        <div className="checkbox-group">
+                        {[...Array(5)].map((_, index) => (
+                            <React.Fragment key={index}>
+                            <input
+                                type="checkbox"
+                                className="checkbox"
+                                checked={values[index]}
+                                onChange={() => handleCheckboxUniformidad(index)}
+                            />
+                            </React.Fragment>
+                        ))}
+                        </div>
+                    </div>
+                    </div>
+                <div className='border-b-2 border-r-2 border-black'>
+                    <div className='flex flex-row ml-2'>
+                        <label className='text-xl font-bold mr-12'> Balance </label>
+                        <div className='w-12 h-7 border-2 border-black mb-2'>
+                          <input className='w-full' value={labelBalance} />
+                        </div>
+                    </div>
+                    <div className='mb-3'>
+                        <RulerBalance />
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div className='border-t-2 border-b-2 border-r-2 border-black'>
+                    <div className='flex flex-row ml-2'>
+                        <label className='text-xl font-bold'> Taza limpia </label>
+                        <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
+                          <input className='w-full' value={taza} />
+                        </div>
+                    </div>
+                    <div className='flex justify-center items-centerx mb-9'>
+                        <div className="checkbox-group">
+                        {[...Array(5)].map((_, index) => (
+                            <React.Fragment key={index}>
+                            <input
+                                type="checkbox"
+                                className="checkbox"
+                                checked={tazaValues[index]}
+                                onChange={() => handleCheckboxTaza(index)}
+                            />
+                            </React.Fragment>
+                        ))}
+                        </div>
+                    </div>
+                </div>
+                <div className='border-t-2 border-b-2 border-r-2 border-black'>
+                    <div className='flex flex-row ml-2'>
+                        <label className='text-xl font-bold mr-8'> Dulzura </label>
+                        <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
+                          <input className='w-full' value={dulzura} />
+                        </div>
+                    </div>
+                    <div className='flex justify-center items-centerx mb-7'>
+                        <div className="checkbox-group">
+                        {[...Array(5)].map((_, index) => (
+                            <React.Fragment key={index}>
+                            <input
+                                type="checkbox"
+                                className="checkbox"
+                                checked={dulzuraValues[index]}
+                                onChange={() => handleCheckboxDulzura(index)}
+                            />
+                            </React.Fragment>
+                        ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div className='flex flex-row'>
+                    <div className='w-44 border-t-2 border-b-2 border-r-2 border-black'>
+                        <div className='flex flex-row ml-2 mb-4'>
+                            <label className='text-xl font-bold mr-2'> Ap. General </label>
+                            <div className='w-12 h-7 border-2 border-black mb-3'>
+                              <input className='w-full' value={labelGeneral} />
                             </div>
                         </div>
-                        <div className='flex items-center justify-center'>
-                            <label className='text-xl font-bold mr-4'> X </label>
+                        <RulerGeneral />
+                    </div>
+                    <div className='flex flex-row ml-3'>
+                        <div className='flex flex-col mr-2 items-center'>
+                            <label className='text-xs font-bold'> Punteo </label>
+                            <label className='text-xs font-bold'> total </label>
                         </div>
+                        <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
+                          <input className='w-full' value={punteoTotal} />
+                        </div>
+                        
+                    </div>
+                </div>
+                <div className='ml-2'>
+                    <div>
+                        <label className='text-xs font-bold'> Defectos </label>
+                        <label className='text-xs font-bold'> (datos) </label>
+                    </div>
+                    <div className='flex flex-row'>
                         <div className='flex flex-col'>
-                            <label className='text-xs font-bold'> Intensidad </label>
-                            <div className='w-10 h-7 border-2 border-black mb-3'>
-                                <input className='w-9' type="number" name="numeroIntensidad" value={numeroIntensidad} onChange={handleNumeroIntensidad} />
+                            <label className='text-xs font-bold'> Ligero = 2 </label>
+                            <label className='text-xs font-bold'> Rechazo = 4 </label>
+                        </div>
+                        <div className='flex flex-row ml-4'>
+                            <div className='flex flex-col'>
+                                <label className='text-xs font-bold'> # Tazas </label>
+                                <div className='w-10 h-7 border-2 border-black mb-3'>
+                                    <input className='w-9' type="number" value={numeroTazas} onChange={handleNumeroTazas}/>
+                                </div>
                             </div>
-                        </div>
-                        <div className='flex items-center justify-center'>
-                            <label className='text-xl font-bold'> = </label>
-                        </div>
-                        <div className='flex flex-col mt-4 ml-4'>
-                            <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
-                                <label>{resultado}</label>
+                            <div className='flex items-center justify-center'>
+                                <label className='text-xl font-bold mr-4'> X </label>
+                            </div>
+                            <div className='flex flex-col'>
+                                <label className='text-xs font-bold'> Intensidad </label>
+                                <div className='w-10 h-7 border-2 border-black mb-3'>
+                                    <input className='w-9' type="number" name="numeroIntensidad" value={numeroIntensidad} onChange={handleNumeroIntensidad} />
+                                </div>
+                            </div>
+                            <div className='flex items-center justify-center'>
+                                <label className='text-xl font-bold'> = </label>
+                            </div>
+                            <div className='flex flex-col mt-4 ml-4'>
+                                <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
+                                  <input className='w-full' value={resultado} />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    </div>
-    <div className='border-b-2 border-r-2 border-t-2 border-black w-[90%]'>
-        <div className='flex justify-between'>
-            <div className='flex items-end'>
-                <label className='font-bold'> Notas: </label>
-                <textarea name="" id="" cols="160" rows="2"></textarea>
-            </div>
-            <div className='flex flex-row items-center'>
-                <label className='font-bold'> Punteo Final </label>
-                <div className='w-16 h-12 border-2 border-black flex justify-center items-center'>
-                    <label>{totalPunteoFinal}</label>
+        </div>
+        <div className='border-b-2 border-r-2 border-t-2 border-black w-[90%]'>
+            <div className='flex justify-between'>
+                <div className='flex items-end'>
+                    <label className='font-bold'> Notas: </label>
+                    <textarea name="" id="" cols="160" rows="2" value={notas} onChange={(e) => setNotas(e.target.value)}></textarea>
                 </div>
-            </div>
-            
+                <div className='flex flex-row items-center'>
+                    <label className='font-bold'> Punteo Final </label>
+                    <div className='w-16 h-12 border-2 border-black flex justify-center items-center'>
+                      <input className='w-full' value={totalPunteoFinal} />
+                    </div>
+                </div>
+                
 
+            </div>
         </div>
-    </div>
-    </div>
+      </div>
+      <Button type='submit' color='primary'>
+        Terminar
+      </Button>
+    </form>
+    </>
   );
 };
 
