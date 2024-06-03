@@ -1,7 +1,7 @@
 import { pool } from "../database/conexion.js";
 import { validationResult } from "express-validator";
 
-
+//1 listar
 export const listarVariables = async (req, res) => {
     try {
         let sql = 'SELECT v_codigo, nombre, fk_tipo_analisis AS tipo_analisis, v.estado FROM variables AS v JOIN tipo_analisis ON fk_tipo_analisis = id'
@@ -22,9 +22,8 @@ export const listarVariables = async (req, res) => {
     }
 }
 
-// crear variable 
+//2 crear variable 
 
-//crud listar
 export const CrearVariable = async (req, res) => {
     try {
 
@@ -56,7 +55,7 @@ export const CrearVariable = async (req, res) => {
     }
 }
 
-// actualizar variable 
+//3 actualizar variable 
 
 export const ActualizarVariable = async (req, res) => {
     try {
@@ -84,7 +83,7 @@ export const ActualizarVariable = async (req, res) => {
 };
 
 
-//activar desactivar variables 
+//4 desactivar variables 
 
 export const desactivarVariable = async (req, res) => {
     try {
@@ -93,12 +92,10 @@ export const desactivarVariable = async (req, res) => {
 
         if (result.affectedRows > 0) {
             res.status(200).json({
-                status: 200,
-                message: 'Se desactivó con éxito',
+                message: 'Se desactivó con éxito la variable',
             });
         } else {
             res.status(403).json({
-                status: 403,
                 message: 'No se pudo desactivar la variable'
             });
         }
@@ -110,7 +107,7 @@ export const desactivarVariable = async (req, res) => {
     }
 }
 
-//buscar variable 
+//5 buscar variable 
 export const buscarvariable = async (req, res) => {
     try {
         const { codigo } = req.params; 
@@ -120,7 +117,6 @@ export const buscarvariable = async (req, res) => {
             res.status(200).json(result);
         } else {
             res.status(404).json({
-                status: 404,
                 message: 'No se encontraron resultados para la búsqueda'
             });
         }
@@ -131,7 +127,7 @@ export const buscarvariable = async (req, res) => {
         })
     }
 }
-
+//6 activar
 export const activarVariable = async (req, res) => {
     try {
         const { codigo } = req.params
@@ -157,7 +153,7 @@ export const activarVariable = async (req, res) => {
         })
     }
 }
-
+//7 buscar activas
 export const variablesActivas = async (req, res) => {
     try {
         let sql = 'SELECT v_codigo, nombre, fk_tipo_analisis AS tipo_analisis, tipo_analisis, v.estado FROM variables AS v JOIN tipo_analisis ON fk_tipo_analisis = id WHERE v.estado = 1'
@@ -167,7 +163,7 @@ export const variablesActivas = async (req, res) => {
             res.status(200).json(result)
         } else {
             res.status(404).json({
-                "Mensaje":"No hay variables"
+                "Mensaje":"No hay variables encontradas"
             })
         }
     } catch (error) {

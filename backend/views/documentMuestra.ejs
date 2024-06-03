@@ -22,18 +22,21 @@
     <tr><td>verbo HTTP</td><td>post</td></tr>
     <tr><td>HEADER</td> <td> Token: token </td></tr>
     <tr><td>Usuario</td><td>administrador </td></tr>
-    <tr><td>petición json</td><td>{
-      "fecha": "2024-02-11",
-      "cantidad": 1500,
-      "quien_recibe": "Miguel",
-      "proceso_fermentacion": "24 horas en cilo",
-      "humedad_cafe": 15,
-      "altura_MSNM": 1500,
-      "tipo_secado": "full",
-      "observaciones": "Todo melo",
-      "fk_lote": 5,
-      "estado": 1
-  }</td></tr>
+    <tr><td>petición json</td><td>
+    {
+      "fecha": "2002-09-23",
+      "tipo_molienda":"12.2",
+      "densidad_cafe": "12",
+      "proceso_fermentacion": "seco",
+      "tipo_tostion": "12",
+      "altura_MSNM": "12",
+      "tiempo_fermentacion": "12 horas",
+      "actividad_agua": "12 %",
+      "tiempo_secado": "12 horas",
+      "presentacion": "ninguna molestia",
+      "fk_lote": 1
+   }
+   </td></tr>
     <tr><td>Respuesta json</td><td>
 
     correcto:
@@ -51,7 +54,6 @@
         Status: 500,
         Body Json: 
         {
-          "Status": 500,
           "Message": "Error en el servidor": + error
         }
         </td></tr>
@@ -82,15 +84,17 @@
         json:
         {
             "codigo": 1,
-            "fecha": "2024-02-01T05:00:00.000Z",
-            "cantidad": "12.00",
-            "quien_recibe": "Maria fernanda",
-            "proceso_fermentacion": "bueno",
-            "humedad_cafe": "12.20",
-            "altura_MSNM": "11.20",
-            "tipo_secado": "seco",
-            "observaciones": "ninguna",
-            "fk_lote": 3,
+            "fecha": "2002-09-23",
+            "tipo_molienda":"12.2",
+            "densidad_cafe": "12",
+            "proceso_fermentacion": "seco derretido",
+            "tipo_tostion": "12",
+            "altura_MSNM": "12",
+            "tiempo_fermentacion": "12 horas",
+            "actividad_agua": "12 %",
+            "tiempo_secado": "12 horas",
+            "presentacion": "ninguna molestia",
+            "fk_lote": 1
             "estado": "inactivo"
           }
             incorrecto:
@@ -101,7 +105,6 @@
             Status: 500,
             Body Json: 
             {
-              "Status": 500,
               "Message": "Error en el servidor": + error
             }
             </td></tr>
@@ -123,7 +126,21 @@
         <tr><td>verbo HTTP</td><td>put</td></tr>
         <tr><td>HEADER</td> <td> Token: token </td></tr>
         <tr><td>Usuario</td><td>administrador </td></tr>
-        <tr><td>petición json</td><td>{"fecha": "2024-02-01T05:00:00.000Z","cantidad": "12.00","quien_recibe": "Maria fernanda","proceso_fermentacion": "bueno","humedad_cafe": "12.20","altura_MSNM": "11.20","tipo_secado": "seco","observaciones": "ninguna","fk_lote": 3"}</td></tr>
+        <tr><td>petición json</td>
+          <td>
+            {
+              "fecha": "2002-09-23",
+              "tipo_molienda":"12.2",
+              "densidad_cafe": "12",
+              "proceso_fermentacion": "seco derretido",
+              "tipo_tostion": "12",
+              "altura_MSNM": "12",
+              "tiempo_fermentacion": "12 horas",
+              "actividad_agua": "12 %",
+              "tiempo_secado": "12 horas",
+              "presentacion": "ninguna molestia",
+              "fk_lote": 1
+            }</td></tr>
         <tr><td>Respuesta json</td><td>
 
         correcto:
@@ -168,11 +185,11 @@
     json:
     {
         "status": 200,
-        "message": "Se cambió el estado de la muestra a '${nuevoEstado}' con éxito",
+        "message": "Se desactivo con éxito",
       }
         incorrecto:
         status:403
-        "Mensaje": 'No se encontró la muestra para cambiar el estado'
+        "Mensaje": 'No se pudo desactivar la muestra'
 
         Error: 
         Status: 500,
@@ -206,20 +223,116 @@
     json:
     {
         "codigo": 1,
-        "fecha": "2024-02-01T05:00:00.000Z",
-        "cantidad": "12.00",
-        "quien_recibe": "Maria fernanda",
-        "proceso_fermentacion": "bueno",
-        "humedad_cafe": "12.20",
-        "altura_MSNM": "11.20",
-        "tipo_secado": "seco",
-        "observaciones": "ninguna",
-        "fk_lote": 3,
-        "estado": null
+        "fecha": "2002-09-23",
+        "tipo_molienda":"12.2",
+        "densidad_cafe": "12",
+        "proceso_fermentacion": "seco derretido",
+        "tipo_tostion": "12",
+        "altura_MSNM": "12",
+        "tiempo_fermentacion": "12 horas",
+        "actividad_agua": "12 %",
+        "tiempo_secado": "12 horas",
+        "presentacion": "ninguna molestia",
+        "fk_lote": 1
+        "estado": "activo"
       }
         incorrecto:
         status:404
         message: 'No se encontraron resultados para la búsqueda'
+
+        Error: 
+        Status: 500,
+        Body Json: 
+        {
+          "Status": 500,
+          "Message": "Error en el servidor": + error
+        }
+
+        </td></tr>
+        <tr>
+          <td> Programador </td>
+          <td> Alejandro David Pasaje </td>
+        </tr>
+</table>
+</table>
+<hr>
+<h3> Requerimiento activar muestras </h3>
+<!-- Muestras activas -->
+<table>
+    <tr><td>numero</td><td>26</td></tr>
+    <tr><td>Nombre del servicio</td><td>Activar muestras</td></tr>
+    <tr><td>URI</td><td>/muestras/activarMuestra/1</td></tr>
+    <tr><td>Descripción</td><td>Permite activar las muestras registradas en la base de datos </td></tr>
+    <tr><td>verbo HTTP</td><td>put</td></tr>
+    <tr><td>HEADER</td> <td> Token: token </td></tr>
+    <tr><td>Usuario</td><td>administrador </td></tr>
+    <tr><td>petición json</td><td>Null</td></tr>
+    <tr><td>Respuesta json</td><td>
+
+    correcto:
+    status: 200 
+    json:
+      {
+      status: 200,
+      message: 'Se activó con éxito la muestra',
+      }
+        incorrecto:{
+          status: 404,
+          message: 'No se pudo activar la muestra'
+        }
+        
+        Error: 
+        Status: 500,
+        Body Json: 
+        {
+          "Status": 500,
+          "Message": "Error en el servidor": + error
+        }
+
+        </td></tr>
+        <tr>
+          <td> Programador </td>
+          <td> Alejandro David Pasaje </td>
+        </tr>
+</table>
+</body>
+</html>
+<hr>
+<h3> Requerimiento muestras activas</h3>
+<!-- Muestras activas en la base -->
+<table>
+    <tr><td>numero</td><td>27</td></tr>
+    <tr><td>Nombre del servicio</td><td>Listar muestras activas</td></tr>
+    <tr><td>URI</td><td>/muestras/activas</td></tr>
+    <tr><td>Descripción</td><td>Permite al administrador listar las muestras activas, registradas en la base de datos </td></tr>
+    <tr><td>verbo HTTP</td><td>get</td></tr>
+    <tr><td>HEADER</td> <td> Token: token </td></tr>
+    <tr><td>Usuario</td><td>administrador </td></tr>
+    <tr><td>petición json</td><td>Null</td></tr>
+    <tr><td>Respuesta json</td><td>
+
+    correcto:
+    status: 200 
+    json:
+      {
+        "codigo": 1,
+        "fecha": "2002-09-23",
+        "tipo_molienda":"12.2",
+        "densidad_cafe": "12",
+        "proceso_fermentacion": "seco derretido",
+        "tipo_tostion": "12",
+        "altura_MSNM": "12",
+        "tiempo_fermentacion": "12 horas",
+        "actividad_agua": "12 %",
+        "tiempo_secado": "12 horas",
+        "presentacion": "ninguna molestia",
+        "fk_lote": 1
+        "estado": "activo"
+      }
+        incorrecto:{
+          status: 404,
+          "Mensaje":"No hay muestras"
+        }
 
         Error: 
         Status: 500,

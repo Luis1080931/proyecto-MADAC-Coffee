@@ -1,6 +1,6 @@
 import {pool} from "../database/conexion.js"
 import { validationResult } from 'express-validator';
-
+//1 listar
 export const listarMuestras = async (req, res) => {
     try {
         const [result] = await pool.query("SELECT * FROM muestras")
@@ -17,7 +17,7 @@ export const listarMuestras = async (req, res) => {
     }
 }
 
-//crear muestras 
+//2 crear muestras 
 
 export const CrearMuestra = async (req, res) => {
     try {
@@ -43,7 +43,7 @@ export const CrearMuestra = async (req, res) => {
 
 
 
-//actualizar muestra
+//3 actualizar muestra
 export const actualizarMuestra = async (req, res) => {
     try {
         // Validación de datos
@@ -70,7 +70,7 @@ export const actualizarMuestra = async (req, res) => {
 
 
 
-// desactivar muestras}
+//4 desactivar muestras}
 
 export const desactivarMuestras = async (req, res) => {
     try {
@@ -92,7 +92,7 @@ export const desactivarMuestras = async (req, res) => {
         res.status(500).json({message:"Error en el servidor" + error})
     }
 };
-
+//5 activar
 export const activarMuestras = async (req, res) => {
     try {
         const { codigo } = req.params;
@@ -104,8 +104,8 @@ export const activarMuestras = async (req, res) => {
                 message: 'Se activó con éxito la muestra',
             });
         } else {
-            res.status(403).json({
-                status: 403,
+            res.status(404).json({
+                status: 404,
                 message: 'No se pudo activar la muestra'
             });
         }
@@ -114,7 +114,7 @@ export const activarMuestras = async (req, res) => {
     }
 };
 
-
+//6 buscar
 export const BuscarMuestra = async (req, res) => {
     try {
         const {codigo} = req.params; //esta es la caracterica
@@ -133,7 +133,7 @@ export const BuscarMuestra = async (req, res) => {
         res.status(500).json({message:"Error en el servidor" + error})
     }
 }
-
+//7 muestras activas
 export const muestrasActivas = async (req, res) => {
     try {
         const [result] = await pool.query("SELECT * FROM muestras WHERE estado = 1")
@@ -142,6 +142,7 @@ export const muestrasActivas = async (req, res) => {
             res.status(200).json(result)
         } else {
             res.status(404).json({
+                status: 404,
                 "Mensaje":"No hay muestras"
             });
         }
