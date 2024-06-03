@@ -274,3 +274,26 @@ export const analisisFisicosCatador = async (req, res) => {
         })
     }
 }
+
+export const analisisSensorialCatador = async (req, res) => {
+    try {
+        const {id} = req.params
+        let sql = `SELECT codigo, fecha, nombre AS analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id WHERE fk_analista = ? AND fk_tipo_analisis = 2`
+
+        const [rows] = await pool.query(sql, [id])
+
+        if(rows.length>0){
+            res.status(200).json(rows)
+        }else{
+            res.status(404).json({
+                status: 404,
+                message: 'No se encontraron analisis'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: 'Error del servidor' + error
+        })
+    }
+}
