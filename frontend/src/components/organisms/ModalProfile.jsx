@@ -16,7 +16,6 @@ import axios from "axios";
 export default function ProfileModal({ isOpen, onClose }) {
   const stored = localStorage.getItem("user");
   const user = stored ? JSON.parse(stored) : null;
-  const token = localStorage.getItem("token");
   const [modalAcciones, setModalAcciones] = useState(false)
   const [mensaje, setMensaje] = useState('')
 

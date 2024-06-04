@@ -18,8 +18,13 @@ export const generarPDF = async (req, res) => {
             m.altura_MSNM,
             m.fecha AS fecha,
             m.proceso_fermentacion,
-            m.humedad_cafe,
-            m.tipo_secado,
+            m.tipo_molienda,
+            m.densidad_cafe,
+            m.tipo_tostion,
+            m.tiempo_fermentacion,
+            m.actividad_agua,
+            m.tiempo_secado,
+            m.presentacion,
             var.nombre AS variable,
             r.valor
         FROM 

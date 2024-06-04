@@ -116,8 +116,8 @@ function Ejemplo() {
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
+            <FaEye className='cursor-pointer text-3xl text-black mr-5' onClick={() => ver(muestra.codigo)} />
             <ButtonActualizar click={() => handleToggle('update', setMuestrasId(muestra))} />
-            <FaEye onClick={() => ver(setMuestrasId(muestra.codigo))} />
             {muestra.estado === 'activo' ? (
               <ButtonDesactivar click={() => handleDesactivar(muestra.codigo)} />
             ) : (
@@ -316,15 +316,18 @@ function Ejemplo() {
     const [muestras, setMuestras] = useState([])
     const { idMuestras, setMuestrasId, muestra, getMuestra } = useContext(MuestrasContext)
     const [modalVer, setModalVer] = useState(false)
+    const [datosMuestras, setDatosMuestras] = useState([])
 
-    const ver = (id) => {
+    const ver = (codigo) => {
       setModalVer(true)
-      getMuestra(id)
+      axiosClient.get(`/muestras/buscarmuestra/${codigo}`).then((response) => {
+        console.log(response.data)
+        setDatosMuestras(response.data)
+      })
     }
 
     useEffect(() => {
         fetchData()
-        ver(idMuestras)
     }, [])
 
     const fetchData = async () => {
@@ -489,7 +492,7 @@ function Ejemplo() {
                   title='Datos de la muestra'
                   open={modalVer}
                   onClose={() => setModalVer(false)}
-                  data={muestra}
+                  data={datosMuestras}
                 />
               <Ejemplo
                     data={data}
