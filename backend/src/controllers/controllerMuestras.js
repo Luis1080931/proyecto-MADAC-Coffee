@@ -177,7 +177,7 @@ export const muestrasTable = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({
-            message: 'Error del servidor' + error
+            message: 'Error en el servidor' + error
         })
     }
 }

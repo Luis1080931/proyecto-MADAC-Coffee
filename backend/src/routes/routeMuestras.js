@@ -10,9 +10,9 @@ const RouteMuestras = Router();
 
 RouteMuestras.get("/listarMuestra", validarToken, listarMuestras);
 //validation datos 
-RouteMuestras.post("/crearMuestra",validarToken, CrearMuestra);
+RouteMuestras.post("/crearMuestra",validarToken,validacionMuestra, CrearMuestra);
 
-RouteMuestras.put("/actualizarMuestra/:codigo",validarToken, actualizarMuestra);
+RouteMuestras.put("/actualizarMuestra/:codigo",validarToken, validacionMuestra,actualizarMuestra);
 RouteMuestras.put("/desactivarMuestra/:codigo",validarToken, desactivarMuestras)
 RouteMuestras.put("/activarMuestra/:codigo",validarToken, activarMuestras)
 RouteMuestras.get("/buscarmuestra/:codigo",validarToken, BuscarMuestra);
