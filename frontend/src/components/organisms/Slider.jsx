@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import './../../styles/Slider.css'; // Estilos CSS
 import { Button, Checkbox, Input, Select, SelectItem } from '@nextui-org/react';
