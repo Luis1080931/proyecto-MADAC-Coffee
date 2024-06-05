@@ -7,6 +7,7 @@ const VerMuestras = ({ open, onClose, title, data }) => {
 
   const {idMuestras} = useContext(MuestrasContext)
 
+
   return (
     <>
       <ModalAcciones open={open} title={title} onClose={onClose}>
@@ -15,7 +16,7 @@ const VerMuestras = ({ open, onClose, title, data }) => {
             <div className='flex flex-row'>
               <div className='flex flex-col mr-2 w-[190px]'>
                 <div className="flex w-[190px] flex-wrap md:flex-nowrap mb-4">
-                  <Input id='fecha' type="date" name="fecha" value={idMuestras.fecha} readOnly />
+                <Input id='fecha' type="date" name="fecha" value={new Date(datos.fecha).toISOString().split('T')[0]} readOnly />
                 </div>
                 <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                   <Input id='tipoMolienda' name='tipoMolienda' type="decimal" value={datos.tipo_molienda} readOnly />
