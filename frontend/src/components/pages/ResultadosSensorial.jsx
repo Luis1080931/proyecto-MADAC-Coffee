@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Header } from './../molecules/Header.jsx'
 import AccionesModal from '../organisms/ModalAcciones.jsx';
-import ResultadosModal from './../templates/Resultados.jsx';
-import { ResultadoProvider } from '../../context/ResultadosContext.jsx';
 import {
   Table,
   TableHeader,
@@ -33,8 +31,9 @@ import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
 import ButtonActivar from "../atoms/ButtonActivar.jsx";
 import axiosClient from "../axiosClient.js";
 import ResultadoContext from '../../context/ResultadosContext.jsx';
+import SliderVertical from '../organisms/Slider.jsx';
 
-export function ResultadosCatador () {
+export function ResultadosSensorialCatador () {
 
   
   const statusColorMap = {
@@ -252,7 +251,7 @@ export function ResultadosCatador () {
                   ))}
                 </DropdownMenu>
               </Dropdown>
-              <Button className="text-xl bg-[#273468] text-white" endContent={<PlusIcon />} onClick={() => setModalRegister(true)}>
+              <Button className="text-xl bg-[#273468] text-white" endContent={<PlusIcon />} onClick={() => setModalOpen(true)}>
                 Registrar
               </Button>
             </div>
@@ -359,7 +358,7 @@ export function ResultadosCatador () {
 
   const fetchData = async () => {
     try {
-      const response = await axiosClient.get('/resultados/listar');
+      const response = await axiosClient.get('/analisis/sensorial');
       const formattedResults = response.data.map((result) => ({
         ...result,
         fecha: formatDate(result.fecha),
@@ -387,20 +386,20 @@ export function ResultadosCatador () {
             sortable: true,
             render: (fecha) => formatDate(fecha)
         },
-        { 
-            uid: "analisis",
-            name: "Análisis", 
-            sortable: true 
+        {
+            uid: "catador",
+            name: 'Catador',
+            sortable: true            
         },
-        { 
-            uid: "variable",
-            name: "Variable",
-            sortable: true 
+        {
+            uid: "nombre",
+            name: 'Caficultor',
+            sortable: true            
         },
-        { 
-            uid: "valor",
-            name: "Valor",
-            sortable: true 
+        {
+            uid: "finca",
+            name: 'Finca',
+            sortable: true            
         },
         { 
             uid: "estado",
@@ -463,44 +462,8 @@ export function ResultadosCatador () {
 
   
     
-        const [variables, setVariables] = useState([]);
-        const [currentIndex, setCurrentIndex] = useState(0);
-        const [variablesBase, setVariablesBase] = useState([]);
-        const [selectedDate, setSelectedDate] = useState(new Date());
-        const [selectedAnalysis, setSelectedAnalysis] = useState('');
-        const [analisis, setAnalisis] = useState([])
-        const [modalRegister, setModalRegister] = useState(false)
         
-      
-        const handleChange = (e, index) => {
-          const newVariables = [...variables];
-          newVariables[index] = e.target.value;
-          setVariables(newVariables);
-        };
-      
-        const handleNext = () => {
-          setCurrentIndex(currentIndex + 1);
-        };
-      
-        const handleDateChange = (e) => {
-          setSelectedDate(e.target.value);
-        };
-      
-        const handleAnalysisChange = (e) => {
-          setSelectedAnalysis(e.target.value);
-        };
-      
-        useEffect(() => {
-          axiosClient.get('/variables/listarVariable')
-            .then((response) => {
-              console.log(response.data)
-              setVariablesBase(response.data);
-              setVariables(Array(response.data.length).fill(''));
-            })  
-            .catch((error) => {
-              console.error('Error fetching variables:', error);
-            });
-        }, []);
+        const [selectedAnalysis, setSelectedAnalysis] = useState('');
 
         const stored = localStorage.getItem('user');
         const user = stored ? JSON.parse(stored) : null;
@@ -511,106 +474,28 @@ export function ResultadosCatador () {
             setAnalisis(response.data)
           })
         },[])
-        
-        const handleSubmitRegister = async () => {
-          try {
-           
-            for (let i = 0; i < variables.length; i++) {
-              const variable = variables[i]
-              const variableBase = variablesBase[currentIndex]
-              
-              const data = {
-                fk_analisis: selectedAnalysis,
-                fecha: new Date(selectedDate).toISOString(),
-                fk_variables: variablesBase[i]?.v_codigo, 
-                valor: variable 
-              };
-        
-              await axiosClient.post('/resultados/registrar', data).then((response) => {
-                console.log('Selected Analysis:', selectedAnalysis); 
-                console.log(`Variable ${i + 1} registrada correctamente:`, data);
-                console.log(response.data)
-                if(response.status == 200){
-                    setMensaje(response.data.message)
-                    setModalAcciones(true)
-                    setModalRegister(false)
-                    handleCalificado()
-                    fetchData()
-                }
-              })
-        
-              
-            }
-            setModalRegister(false);
-          } catch (error) {
-            console.error('Error al enviar variables:', error);
-          }
-      };
 
   return (
-    <ResultadoProvider>
+    
       <div className='bg-[#EAEDF6] h-screen max-h-max'>
-          <Header title="Resultado de los análisis fisicos" />
+          <Header title="Resultado de los análisis sensoriales" />
             <div className='bg-[#EAEDF6]'>
               <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
 
-              <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)}>
-                    <ModalContent>
-                      <ModalHeader> Registro de resultados de los análisis </ModalHeader>
-                      <ModalBody>
-                      <Select 
-                          label="Seleccione el análisis"
-                          value={selectedAnalysis}
-                          onChange={handleAnalysisChange}
-                          required
-                        >
-                          {analisis.map(analisi => (
-                            <SelectItem key={analisi.codigo} value={analisi.codigo} textValue={analisi.codigo}>
-                              {analisi.codigo}
-                            </SelectItem>
-                          ))}
-                        </Select>
-                        <Input 
-                          type='date'
-                          placeholder='Ingrese la fecha'
-                          value={selectedDate}
-                          onChange={handleDateChange}
-                        />
-                        {currentIndex < variables.length ? (
-                          <>
-                            <h2>{`Variable ${currentIndex + 1}:`} {variablesBase[currentIndex]?.nombre} </h2>
-                            <Input
-                              placeholder="Ingrese el valor"
-                              required={true}
-                              value={variables[currentIndex]}
-                              onChange={(e) => handleChange(e, currentIndex)}
-                            />
-                            <Button color='primary' onClick={handleNext}>Next</Button>
-                          </>
-                        ) : (
-                          <>
-                            <h2>Registro completo</h2>
-                            <Button color='primary' onClick={handleSubmitRegister}>Registrar</Button>
-                          </>
-                        )}
-                      </ModalBody>
-                    </ModalContent>
-                  </Modal>
+                <Modal size='full' isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+                  <ModalContent>
+                    <ModalHeader> Registro de resultados de los análisis </ModalHeader>
+                    <ModalBody>
+                      <SliderVertical />
+                    </ModalBody>
+                  </ModalContent>
+                </Modal>
 
               <AccionesModal 
-                  isOpen={modalAcciones}
-                  onClose={() => setModalAcciones(false)}
-                  label={mensaje}
+                isOpen={modalAcciones}
+                onClose={() => setModalAcciones(false)}
+                label={mensaje}
               />
-              
-                  <ResultadosModal 
-                      open={modalOpen} 
-                      onClose={() => setModalOpen(false)} 
-                      title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
-                      actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                      handleSubmit={handleSubmit}
-                      mode={mode}
-                  />
 
                 <Ejemplo 
                       data={data}
@@ -622,6 +507,5 @@ export function ResultadosCatador () {
 
             </div>
       </div>
-    </ResultadoProvider>
   )
 }

@@ -7,8 +7,6 @@ import axios from 'axios';
 const SliderVertical = () => {
 
   const [analisisSensorial, setAnalisisSensorial ] = useState([])
-  const [mensaje, setMensaje] = useState('')
-  const [modalAccionesOpen, setModalAccionesOpen] = useState(false)
 
   const stored = localStorage.getItem('user');
   const user = stored ? JSON.parse(stored) : null;

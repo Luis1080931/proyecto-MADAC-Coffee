@@ -19,6 +19,7 @@ import VistaAnalisisCatador from "./pages/AnalisisCatador.jsx";
 import { ResultadosCatador } from "./pages/ResultadosCatador.jsx";
 import GlobalProvider from "../context/GlobalContext.jsx";
 import { Reportes } from "./pages/Reportes.jsx";
+import { ResultadosSensorialCatador } from "./pages/ResultadosSensorial.jsx";
 
 const stored = localStorage.getItem('user');
 const user = stored ? JSON.parse(stored) : null;
@@ -51,6 +52,7 @@ function App() {
                 <>
                   <Route path="/analisisCatador" element={<VistaAnalisisCatador />} />
                   <Route path="/resultadosCatador" element={<ResultadosCatador />} />
+                  <Route path="/resultadosSensorial" element={<ResultadosSensorialCatador />} />
                 </>
               )}
               <Route path="/reportes" element={<Reportes />} />
