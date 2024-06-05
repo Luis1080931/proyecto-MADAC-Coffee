@@ -79,10 +79,7 @@ export function ResultadosCatador () {
       const { value } = event.target;
       console.log('Analisis seleccionado:', value);
       setSelectedAnalysis(value);
-    };
-    
-    
-    
+    }
   
     const hasSearchFilter = Boolean(filterValue);
   

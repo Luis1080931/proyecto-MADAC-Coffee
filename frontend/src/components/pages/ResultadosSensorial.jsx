@@ -32,6 +32,7 @@ import ButtonActivar from "../atoms/ButtonActivar.jsx";
 import axiosClient from "../axiosClient.js";
 import ResultadoContext from '../../context/ResultadosContext.jsx';
 import SliderVertical from '../organisms/Slider.jsx';
+import { FaEye } from "react-icons/fa";
 
 export function ResultadosSensorialCatador () {
 
@@ -152,6 +153,7 @@ export function ResultadosSensorialCatador () {
         case "actions":
           return (
             <div className="flex flex-row">
+              <FaEye className='cursor-pointer text-3xl text-black mr-5' onClick={() => ver(result.codigo)} />
               {result.estado === 'activo' || result.estado === 'calificado' ? (
                 <ButtonActualizar click={() =>  handleToggle('update', setResultadoSeleccionado(result))} />
               ) : (
@@ -351,10 +353,20 @@ export function ResultadosSensorialCatador () {
     const [mensaje, setMensaje] = useState('')
     const [results, setResults] = useState([]);
     const { resultadoSeleccionado, setResultadoSeleccionado } = useContext(ResultadoContext)
+    const [datosSensorial, setDatosSensorial] = useState([])
+    const [modalVer, setModalVer] = useState(false)
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  const ver = (codigo) => {
+    setModalVer(true)
+    axiosClient.get(`/analisis/buscarmuestra/${codigo}`).then((response) => {
+      console.log(response.data)
+      setDatosSensorial(response.data)
+    })
+  }
 
   const fetchData = async () => {
     try {
@@ -428,8 +440,30 @@ export function ResultadosSensorialCatador () {
         }
       };
       
+      const handleSubmit = (data, e) => {
+        e.preventDefault()
+        try {
+          axiosClient.post(`/resultados/sensorial`, data).then((response) => {
+            console.log(response.data)
+            if(response.status == 200){
+              setMensaje(response.data.message)
+              setModalAcciones(true)
+              setModalOpen(false)
+              fetchData()
+            }else{
+              setMensaje(response.data.message)
+              setModalAcciones(true)
+              setModalOpen(false)
+            }
+          })
+          
+        } catch (error) {
+          setMensaje('Error del servidor' , error)
+          setModalAcciones(true)
+        }
+      } 
 
-    const handleSubmit = async (datosForm, e) => {
+   /*  const handleSubmit = async (datosForm, e) => {
         console.log(datosForm);
         e.preventDefault()
         try {
@@ -453,7 +487,7 @@ export function ResultadosSensorialCatador () {
             console.log('Error del servidor' + error)
             alert('Error del servidor' + error)
         }
-    }
+    } */
 
     const handleToggle = (mode) => {
         setModalOpen(true)
@@ -469,7 +503,7 @@ export function ResultadosSensorialCatador () {
         const user = stored ? JSON.parse(stored) : null;
       
         useEffect(() => {
-          axiosClient.get(`/analisis/analisisFisicosCatador/${user.identificacion}`).then((response) => {
+          axiosClient.get(`/analisis/analisisSensorialCatador/${user.identificacion}`).then((response) => {
             console.log(response.data)
             setAnalisis(response.data)
           })
@@ -486,7 +520,9 @@ export function ResultadosSensorialCatador () {
                   <ModalContent>
                     <ModalHeader> Registro de resultados de los análisis </ModalHeader>
                     <ModalBody>
-                      <SliderVertical />
+                      <SliderVertical 
+                        handleSubmit={handleSubmit}
+                      />
                     </ModalBody>
                   </ModalContent>
                 </Modal>

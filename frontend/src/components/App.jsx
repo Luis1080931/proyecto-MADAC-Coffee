@@ -43,6 +43,7 @@ function App() {
                   <Route path="/fincas" element={<Fincas />} />
                   <Route path="/lotes" element={<Lotes />} />
                   <Route path="/resultados" element={<Resultados />} />
+                  <Route path="/sensorial" element={<ResultadosSensorialCatador />} />
                   <Route path="/variables" element={<Variables />} />
                   <Route path="/muestras" element={<Muestras />} />
                   <Route path="/variedades" element={<VistaVariedades />} />
