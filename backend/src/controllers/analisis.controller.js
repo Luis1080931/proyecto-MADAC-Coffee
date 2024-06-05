@@ -302,15 +302,15 @@ export const analisisSensorial = async (req, res) => {
     try {
         let sql = `
         SELECT 
-            a.codigo, 
+            s.codigo, 
             a.fecha, 
             s.estado,
             cat.nombre AS catador,
             c.nombre, 
             f.nombre_finca
         FROM 
-            analisis a
-        JOIN sensoriales s ON a.codigo = s.fk_analisis
+            sensoriales s
+        JOIN analisis a ON fk_analisis = a.codigo
         JOIN muestras m ON fk_muestra = m.codigo
         JOIN lotes l ON fk_lote = l.codigo
         JOIN fincas f ON fk_finca = f.codigo  
@@ -320,6 +320,29 @@ export const analisisSensorial = async (req, res) => {
         const [result] = await pool.query(sql)
         if(result.length>0){
             res.status(200).json(result)
+        }else{
+            res.status(404).json({
+                status: 404,
+                message: 'No se encontraron analisis'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: 'Error del servidor' + error
+        })
+    }
+}
+
+export const analisisSensorialListar = async (req, res) => {
+    try {
+        const {id} = req.params
+        let sql = `SELECT * FROM sensoriales WHERE codigo = ?`
+
+        const [rows] = await pool.query(sql, [id])
+
+        if(rows.length>0){
+            res.status(200).json(rows)
         }else{
             res.status(404).json({
                 status: 404,

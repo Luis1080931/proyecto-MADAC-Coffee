@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { desactivarAnalisis, actualizarAnalisis, registrarAnalisis, listarAnalisis, buscarAnalisis, activarAnalisis, analisisActivos, analisisFisicos, analisisCatador, calificarAnalisis, analisisFisicosCatador, analisisSensorialCatador, analisisSensorial } from '../controllers/analisis.controller.js'
+import { desactivarAnalisis, actualizarAnalisis, registrarAnalisis, listarAnalisis, buscarAnalisis, activarAnalisis, analisisActivos, analisisFisicos, analisisCatador, calificarAnalisis, analisisFisicosCatador, analisisSensorialCatador, analisisSensorial, analisisSensorialListar } from '../controllers/analisis.controller.js'
 import { validarAnalisis } from '../../validate/analisis.validate.js'
 import { validarToken } from '../controllers/seguridad.controller.js'
 
@@ -16,6 +16,7 @@ routeAnalisis.get('/activos', validarToken, analisisActivos)
 routeAnalisis.get('/buscar/:codigo',validarToken, buscarAnalisis)
 routeAnalisis.get('/fisicos',validarToken, analisisFisicos)
 routeAnalisis.get('/sensorial',validarToken, analisisSensorial)
+routeAnalisis.get('/sensorialListar',validarToken, analisisSensorialListar)
 routeAnalisis.get('/analisisCatador/:id',validarToken, analisisCatador)
 routeAnalisis.get('/analisisFisicosCatador/:id',validarToken, analisisFisicosCatador)
 routeAnalisis.get('/analisisSensorialCatador/:id',validarToken, analisisSensorialCatador)
