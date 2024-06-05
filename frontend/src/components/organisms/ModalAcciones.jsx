@@ -14,7 +14,7 @@ export default function AccionesModal({ label, isOpen, onClose, onAccept }) {
 
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" onClick={onClose} onPress={onAccept}>
+                <Button className="bg-[#273468] text-white" onClick={onClose} onPress={onAccept}>
                   Aceptar
                 </Button>
               </ModalFooter>

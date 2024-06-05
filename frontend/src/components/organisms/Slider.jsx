@@ -5,11 +5,9 @@ import { Button, Checkbox, Input, Select, SelectItem } from '@nextui-org/react';
 import axiosClient from '../axiosClient';
 import axios from 'axios';
 
-const SliderVertical = () => {
+const SliderVertical = ({ handleSubmit }) => {
 
   const [analisisSensorial, setAnalisisSensorial ] = useState([])
-  const [mensaje, setMensaje] = useState('')
-  const [modalAccionesOpen, setModalAccionesOpen] = useState(false)
 
   const stored = localStorage.getItem('user');
   const user = stored ? JSON.parse(stored) : null;
@@ -303,7 +301,7 @@ const handleCheckboxUniformidad = (index) => {
   const punteoTotal = parseInt(totalAroma) + parseInt(labelSabor) + parseInt(labelPostgusto) + parseInt(labelAcidez) + parseInt(labelBalance) + parseInt(labelCuerpo) +parseInt(labelGeneral) + parseInt(total) + parseInt(taza) + parseInt(dulzura)
   const totalPunteoFinal = parseInt(punteoTotal) - parseInt(resultado)
 
-  const handleSubmit = (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault()
     try {
       const data = {
@@ -326,15 +324,16 @@ const handleCheckboxUniformidad = (index) => {
         notas: notas,
         fk_analisis: analisis
       }
+      handleSubmit(data, e)
 
-      axiosClient.post(`/resultados/sensorial`, data).then((response) => {
+      /* axiosClient.post(`/resultados/sensorial`, data).then((response) => {
         console.log(response.data)
         if(response.status == 200){
           alert('Registro exitoso')
         }else{
           alert('Error al registrar')
         }
-      })
+      }) */
     } catch (error) {
       console.log('Error del servidor' + error);
     }
@@ -342,7 +341,7 @@ const handleCheckboxUniformidad = (index) => {
 
   return (
     <>
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleFormSubmit}>
       <Input 
         type='date'
         className='w-40'

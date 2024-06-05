@@ -53,12 +53,14 @@ export const Sidebar = () => {
     { title: "Análisis", link: "/analisis", icon: MdOutlineCoffeeMaker},
     { title: "Variables", link: "/variables", icon: IoIosPaper},
     { title: "Resultados", link: "/resultados", icon: BsCardChecklist},
+    { title: "Sensorial", link: "/sensorial", icon: BsCardChecklist},
     { title: "Reportes", link: "/reportes", icon: IoDocuments}
 ];
 const MenusCatador = [
   { title: "Dashboard", link: "/dashboard", icon: MdDashboard },
   { title: "Análisis", link: "/analisisCatador", icon: MdOutlineCoffeeMaker},
   { title: "Resultados", link: "/resultadosCatador", icon: BsCardChecklist},
+  { title: "Sensorial", link: "/resultadosSensorial", icon: BsCardChecklist},
   { title: "Reportes", link: "/reportes", icon: IoDocuments}
 ];
 
