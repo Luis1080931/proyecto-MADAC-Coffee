@@ -149,7 +149,7 @@ export const calificarAnalisis = async (req, res) => {
 export const listarAnalisis = async (req,res) => {
     try {
 
-        const [analisis] = await pool.query(`SELECT codigo, fecha, nombre AS analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id`)
+        const [analisis] = await pool.query(`SELECT codigo, fecha, c.nombre AS analista,c.identificacion, fk_muestra AS muestra, tipo_analisis,t.id AS codeTipo, a.estado FROM analisis AS a JOIN usuarios c ON fk_analista = identificacion JOIN tipo_analisis t ON fk_tipo_analisis = id`)
 
         if (analisis.length>0) {
             res.status(200).json(analisis)
