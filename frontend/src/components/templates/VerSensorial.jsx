@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ModalAcciones } from '../organisms/Modal.jsx';
 import ResultadoContext from '../../context/ResultadosContext.jsx';
-import { Input } from '@nextui-org/react';
+import { Input, Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
+import axiosClient from '../axiosClient.js';
 
 const VerSensorial = ({ open, onClose, title, data }) => {
 
-  const {idMuestras} = useContext(MuestrasContext)
+  /* const {idMuestras} = useContext(MuestrasContext) */
 
   const SliderVertical = ({ data }) => {
 
@@ -347,10 +348,9 @@ const VerSensorial = ({ open, onClose, title, data }) => {
         <Input 
           type='date'
           className='w-40'
-          value={fecha}
-          onChange={(e) => setFecha(e.target.value)}
+          value={data.fecha}
         />
-        <select value={analisis} onChange={(e) => setAnalisis(e.target.value)}>
+        <select value={data.fk_analisis} className='w-[400px] rounded-xl bg-gray-100 h-[40px]'>
           <option hidden> Seleccione analisis ... </option>
           {analisisSensorial.map(analisis => (
             <option value={analisis.codigo} key={analisis.codigo}> {analisis.codigo} </option>
@@ -628,7 +628,7 @@ const VerSensorial = ({ open, onClose, title, data }) => {
                               </div>
                               <div className='flex flex-col mt-4 ml-4'>
                                   <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
-                                    <input className='w-full' value={data.subdefecto} readOnly />
+                                    <input className='w-full' value={data.sub_defecto} readOnly />
                                   </div>
                               </div>
                           </div>
@@ -664,11 +664,23 @@ const VerSensorial = ({ open, onClose, title, data }) => {
 
   return (
     <>
-      <ModalAcciones open={open} title={title} onClose={onClose}>
+    <Modal size='full' isOpen={open} onClose={onClose} title={title}>
+        <ModalContent>
+          <ModalHeader>
+            Ver datos de la gráfica
+          </ModalHeader>
+          <ModalBody>
+            {data.map(data => (
+                <SliderVertical data={data}/>
+            ))} 
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+      {/* <ModalAcciones open={open} title={title} onClose={onClose}>
         {data.map(data => (
             <SliderVertical data={data}/>
         ))}
-      </ModalAcciones>
+      </ModalAcciones> */}
     </>
   );
 };

@@ -460,8 +460,7 @@ function Ejemplo() {
     }
     
 
-    const handleToggle = (mode, initialData) => {
-        setInitialData(initialData)
+    const handleToggle = (mode) => {
         setModalOpen(true)
         setMode(mode)
     }
@@ -480,13 +479,13 @@ function Ejemplo() {
                 />
                 <MuestrasModal 
                     
-                    open={modalOpen} 
-                    onClose={()=>setModalOpen(false)} 
-                    title={mode === 'create' ? 'Registrar Muestra' : 'Actualizar Muestra'}
-                    actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                    initialData={initialData}
-                    handleSubmit={handleSubmit}
-                    mode={mode}
+                  open={modalOpen} 
+                  onClose={()=>setModalOpen(false)} 
+                  title={mode === 'create' ? 'Registrar Muestra' : 'Actualizar Muestra'}
+                  actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+                  initialData={initialData}
+                  handleSubmit={handleSubmit}
+                  mode={mode}
                 />
                 <VerMuestras 
                   title='Datos de la muestra'

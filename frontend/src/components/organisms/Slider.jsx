@@ -324,15 +324,7 @@ const handleCheckboxUniformidad = (index) => {
         fk_analisis: analisis
       }
       handleSubmit(data, e)
-
-      /* axiosClient.post(`/resultados/sensorial`, data).then((response) => {
-        console.log(response.data)
-        if(response.status == 200){
-          alert('Registro exitoso')
-        }else{
-          alert('Error al registrar')
-        }
-      }) */
+      /* handleCalificado(analisis) */
     } catch (error) {
       console.log('Error del servidor' + error);
     }
@@ -341,13 +333,17 @@ const handleCheckboxUniformidad = (index) => {
   return (
     <>
     <form onSubmit={handleFormSubmit}>
-      <Input 
-        type='date'
-        className='w-40'
-        value={fecha}
-        onChange={(e) => setFecha(e.target.value)}
-      />
-      <select value={analisis} onChange={(e) => setAnalisis(e.target.value)}>
+      <div className='flex flex-row'>
+        <label className='mt-2 mr-2'> Seleccione la fecha: </label>
+        <Input 
+          type='date'
+          className='w-[200px] mb-5'
+          value={fecha}
+          onChange={(e) => setFecha(e.target.value)}
+        />
+      </div>
+      <label className='mr-2'> Seleccione el codigo del análisis: </label>
+      <select className='w-[200px] rounded-xl bg-gray-100 h-[40px] mb-5' value={analisis} onChange={(e) => setAnalisis(e.target.value)}>
         <option hidden> Seleccione analisis ... </option>
         {analisisSensorial.map(analisis => (
           <option value={analisis.codigo} key={analisis.codigo}> {analisis.codigo} </option>

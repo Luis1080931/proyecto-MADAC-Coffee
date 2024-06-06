@@ -33,6 +33,7 @@ import axiosClient from "../axiosClient.js";
 import ResultadoContext from '../../context/ResultadosContext.jsx';
 import SliderVertical from '../organisms/Slider.jsx';
 import { FaEye } from "react-icons/fa";
+import VerSensorial from '../templates/VerSensorial.jsx';
 
 export function ResultadosSensorialCatador () {
 
@@ -362,8 +363,8 @@ export function ResultadosSensorialCatador () {
 
   const ver = (codigo) => {
     setModalVer(true)
-    axiosClient.get(`/analisis/buscarmuestra/${codigo}`).then((response) => {
-      console.log(response.data)
+    axiosClient.get(`/analisis/buscarSensorial/${codigo}`).then((response) => {
+      console.log('Datos de sensorial', response.data)
       setDatosSensorial(response.data)
     })
   }
@@ -426,18 +427,14 @@ export function ResultadosSensorialCatador () {
         },
       ];
     
-      const handleCalificado = () => {
-        if (selectedAnalysis) {
-          axiosClient.put(`/analisis/calificar/${selectedAnalysis}`, null)
-            .then((response) => {
-              console.log(response.data);
-            })
-            .catch((error) => {
-              console.error('Error del servidor:', error);
-            });
-        } else {
-          console.error('No analysis selected.');
-        }
+      const handleCalificado = (analisis) => {
+        axiosClient.put(`/analisis/calificar/${analisis}`, null)
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.error('Error del servidor:', error);
+        });
       };
       
       const handleSubmit = (data, e) => {
@@ -449,6 +446,7 @@ export function ResultadosSensorialCatador () {
               setMensaje(response.data.message)
               setModalAcciones(true)
               setModalOpen(false)
+              handleCalificado(data.analisis)
               fetchData()
             }else{
               setMensaje(response.data.message)
@@ -463,40 +461,10 @@ export function ResultadosSensorialCatador () {
         }
       } 
 
-   /*  const handleSubmit = async (datosForm, e) => {
-        console.log(datosForm);
-        e.preventDefault()
-        try {
-            if(mode === 'update'){
-
-                    axiosClient.put(`/resultados/actualizar/${resultadoSeleccionado.codigo}`, datosForm).then((response) => {
-                        console.log(response)
-    
-                        if(response.status == 200){
-                            setMensaje(response.data.message)
-                            setModalAcciones(true)
-                            setModalOpen(false)
-                            fetchData()
-                        }else{
-                            alert('Error de actualizar')
-                        }
-                    })
-            } 
-            setModalOpen(false)
-        } catch (error) {
-            console.log('Error del servidor' + error)
-            alert('Error del servidor' + error)
-        }
-    } */
-
     const handleToggle = (mode) => {
         setModalOpen(true)
         setMode(mode)
-    }
-
-  
-    
-        
+    }    
         const [selectedAnalysis, setSelectedAnalysis] = useState('');
 
         const stored = localStorage.getItem('user');
@@ -533,10 +501,15 @@ export function ResultadosSensorialCatador () {
                 label={mensaje}
               />
 
-                <Ejemplo 
-                      data={data}
-                      results={results}
-                />
+              <VerSensorial 
+                open={modalVer}
+                onClose={() => setModalVer(false)}
+                data={datosSensorial}
+              />
+              <Ejemplo 
+                data={data}
+                results={results}
+              />
                   
                   
               </div>

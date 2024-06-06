@@ -19,6 +19,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
     const { idMuestras } = useContext(MuestrasContext)
 
     const [lotes, setLotes] = useState([])
+    const [data, setData] = useState([])
 
     useEffect(() => {
       axiosClient.get('/lotes/activos').then((response) => {
@@ -30,8 +31,12 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
     useEffect(() => {
       if(mode === 'update' && idMuestras) {
         
+        axiosClient.get(`/muestras/buscarMuestra/${idMuestras.codigo}`).then((response) => {
+            console.log(response.data[0])
+            setData(response.data[0])
+        })
           setFecha(idMuestras.fecha),
-          setTipoMolienda(idMuestras.tipo_molienda),
+          setTipoMolienda(idMuestras.nombre),
           setDensidadCafe(idMuestras.densidad_cafe),
           setProceso(idMuestras.proceso_fermentacion),
           setipoTostion(idMuestras.tipo_tostion),
@@ -42,6 +47,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
           setPresentacion(idMuestras.presentacion)
           setLoteFk(idMuestras.fk_lote)
         
+          console.log(idMuestras.nombre);
       }
     }, [mode, idMuestras]);
 
@@ -140,7 +146,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input
                             id='altura_MSNM'
-                            type="decimal"
+                            type="text"
                             name="altura_MSNM"
                             value={altura}
                             onChange={(e) => setAltura(e.target.value)}
