@@ -37,8 +37,8 @@ function App() {
               <Route path="/estadisticas" element={<AnalisisFisicosChart />} />
               <Route path="/pdf" element={<PDFReport />} />
               <Route path="/analisis" element={<VistaAnalisis />} />
-              {user && user.tipo_usuario === 'admin' && (
-                <>
+              {/* {user && user.tipo_usuario === 'admin' && (
+                <> */}
                   <Route path="/usuarios" element={<Usuarios />} />
                   <Route path="/fincas" element={<Fincas />} />
                   <Route path="/lotes" element={<Lotes />} />
@@ -47,17 +47,17 @@ function App() {
                   <Route path="/variables" element={<Variables />} />
                   <Route path="/muestras" element={<Muestras />} />
                   <Route path="/variedades" element={<VistaVariedades />} />
-                </>
-              )}
-              {user && user.tipo_usuario === 'catador' && (
-                <>
+                {/* </>
+              )} */}
+             {/*  {user && user.tipo_usuario === 'catador' && (
+                <> */}
                   <Route path="/analisisCatador" element={<VistaAnalisisCatador />} />
                   <Route path="/resultadosCatador" element={<ResultadosCatador />} />
                   <Route path="/resultadosSensorial" element={<ResultadosSensorialCatador />} />
-                </>
-              )}
+                {/* </>
+              )} */}
               <Route path="/reportes" element={<Reportes />} />
-            </Route>
+              </Route>
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>

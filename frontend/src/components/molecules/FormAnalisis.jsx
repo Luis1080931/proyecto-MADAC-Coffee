@@ -42,9 +42,10 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
       
         
         setFecha(analisisId.fecha)
-        setAnalista(analisisId.analista)
+        setAnalista(analisisId.identificacion)
         setMuestra(analisisId.muestra)
-        setTipo(analisisId.tipo)
+        setTipo(analisisId.codeTipo)
+        console.log(analisisId);
       
     }
     

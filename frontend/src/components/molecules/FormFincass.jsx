@@ -32,10 +32,11 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
         if (mode === 'update' && idFinca) {
             
             setNombre(idFinca.nombre_finca)
-            setCaficultor(idFinca.fk_caficultor)
+            setCaficultor(idFinca.identificacion)
             setDimension(idFinca.dimension_mt2)
-            setMunicipio(idFinca.municipio)
+            setMunicipio(idFinca.id_municipio)
             setVereda(idFinca.vereda)
+            console.log(idFinca);
         }
     }, [mode, idFinca]);
 
@@ -93,7 +94,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                             value={caficultor}
                             onChange={(e) => setCaficultor(e.target.value)}
                         >
-                            <option value="" hidden> Seleccione catador ... </option>
+                            <option value="" hidden> Seleccione caficultor ... </option>
                             {caficultores.map((cafi) => (
                                 <option key={cafi.identificacion} value={cafi.identificacion}>
                                     {cafi.nombre}

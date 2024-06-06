@@ -304,53 +304,19 @@ const VerSensorial = ({ open, onClose, title, data }) => {
     const punteoTotal = parseInt(totalAroma) + parseInt(labelSabor) + parseInt(labelPostgusto) + parseInt(labelAcidez) + parseInt(labelBalance) + parseInt(labelCuerpo) +parseInt(labelGeneral) + parseInt(total) + parseInt(taza) + parseInt(dulzura)
     const totalPunteoFinal = parseInt(punteoTotal) - parseInt(resultado)
   
-   /*  const handleFormSubmit = (e) => {
-      e.preventDefault()
-      try {
-        const data = {
-          fecha, 
-          aroma: totalAroma,
-          sabor: labelSabor,
-          postgusto: labelPostgusto,
-          acidez: labelAcidez, 
-          cuerpo: labelCuerpo,
-          uniformidad: total,
-          balance: labelBalance,
-          taza_limpia: taza,
-          dulzura: dulzura,
-          general: labelGeneral,
-          punteo: punteoTotal, 
-          taza_defecto: numeroTazas,
-          intensidad_defecto: numeroIntensidad,
-          sub_defecto: resultado,
-          punteo_final: totalPunteoFinal, 
-          notas: notas,
-          fk_analisis: analisis
-        }
-        handleSubmit(data, e)
-  
-        axiosClient.post(`/resultados/sensorial`, data).then((response) => {
-          console.log(response.data)
-          if(response.status == 200){
-            alert('Registro exitoso')
-          }else{
-            alert('Error al registrar')
-          }
-        })
-      } catch (error) {
-        console.log('Error del servidor' + error);
-      }
-    } */
-  
     return (
       <>
       <form>
-        <Input 
-          type='date'
-          className='w-40'
-          value={data.fecha}
-        />
-        <select value={data.fk_analisis} className='w-[400px] rounded-xl bg-gray-100 h-[40px]'>
+        <div className='flex flex-row'>
+          <label className='mt-2 mr-2'> Fecha del registro: </label>
+          <Input 
+            type='date'
+            className='w-[200px] mb-5'
+            value={data.fecha}
+          />
+        </div>
+        <label className='mr-2'> Código del análisis: </label>
+        <select value={data.fk_analisis} className='w-[200px] rounded-xl bg-gray-100 h-[40px] mb-5'>
           <option hidden> Seleccione analisis ... </option>
           {analisisSensorial.map(analisis => (
             <option value={analisis.codigo} key={analisis.codigo}> {analisis.codigo} </option>
