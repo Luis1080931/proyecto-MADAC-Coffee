@@ -356,3 +356,23 @@ export const analisisSensorialListar = async (req, res) => {
         })
     }
 }
+
+export const buscarSensorial = async (req, res) => {
+    try {
+        const {codigo} = req.params
+        let sql = `SELECT * FROM sensoriales WHERE codigo = ?`
+        const [rows] = await pool.query(sql, [codigo])
+        if(rows.length>0){
+            res.status(200).json(rows)
+        }else{
+            res.status(404).json({
+                status: 404,
+                message: 'No se encontraron analisis'
+            })
+        }
+    } catch (error) {
+        res.sgtatus(500).json({
+            message: 'Error del servidor' , error
+        })
+    }
+}

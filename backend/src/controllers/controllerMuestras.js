@@ -154,10 +154,7 @@ export const muestrasTable = async (req, res) => {
     try {
         let sql = `
         SELECT 
-            m.codigo, 
-            m.fecha, 
-            m.estado,
-            m.fk_lote,
+            m.*,
             c.nombre, 
             f.nombre_finca
         FROM 

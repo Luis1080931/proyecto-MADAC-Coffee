@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-06-2024 a las 05:55:15
+-- Tiempo de generación: 06-06-2024 a las 05:55:09
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -45,7 +45,7 @@ INSERT INTO `analisis` (`codigo`, `fecha`, `fk_analista`, `fk_muestra`, `fk_tipo
 (14, '2024-05-16', 1080934, 8, 1, 'terminado'),
 (15, '2024-05-26', 1111, 9, 1, 'terminado'),
 (16, '2024-12-20', 12245, 8, 1, 'asignado'),
-(17, '2024-05-19', 12234140, 10, 2, 'asignado'),
+(17, '2024-05-19', 12234140, 10, 2, 'terminado'),
 (18, '2024-05-20', 12234140, 10, 2, 'asignado'),
 (19, '2024-05-31', 1111, 11, 1, 'asignado');
 
@@ -140,7 +140,7 @@ INSERT INTO `muestras` (`codigo`, `fecha`, `tipo_molienda`, `densidad_cafe`, `pr
 (9, '2024-05-09', '50.00', 'Jose', 'En tula', '12.00', 1200.00, 'En cilo', 'hola', '', '', 5, 'activo'),
 (10, '2024-05-20', '500.00', 'Laura', '24 horas en baba', '12.00', 1200.00, 'secadero', 'Sobre peso de almendra', '', '', 21, 'activo'),
 (11, '2024-05-26', '1000.00', 'Daniela', 'En babita', '1.00', 2000.00, 'Cilo', 'Bofffff', '', '', 3, 'activo'),
-(12, '2024-05-31', 'No se', '15 %', '24 horas en baba', '50', 2100.00, '12 horas', 'humedad', '15 horas', 'C.P.S', 3, 'activo');
+(13, '2024-06-06', 'No se', '1 %', '24 horas en baba', '500', 2000.00, '12 horas', 'humedad', '10 horas', 'C.P.S', 22, 'activo');
 
 -- --------------------------------------------------------
 
@@ -367,15 +367,21 @@ CREATE TABLE `sensoriales` (
   `sub_defecto` varchar(50) DEFAULT NULL,
   `punteo_final` varchar(50) DEFAULT NULL,
   `notas` varchar(400) DEFAULT NULL,
-  `fk_analisis` int(11) DEFAULT NULL
+  `fk_analisis` int(11) DEFAULT NULL,
+  `estado` enum('activo','inactivo') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `sensoriales`
 --
 
-INSERT INTO `sensoriales` (`codigo`, `fecha`, `aroma`, `sabor`, `postgusto`, `acidez`, `cuerpo`, `uniformidad`, `balance`, `taza_limpia`, `dulzura`, `general`, `punteo`, `taza_defecto`, `intensidad_defecto`, `sub_defecto`, `punteo_final`, `notas`, `fk_analisis`) VALUES
-(2, '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 17);
+INSERT INTO `sensoriales` (`codigo`, `fecha`, `aroma`, `sabor`, `postgusto`, `acidez`, `cuerpo`, `uniformidad`, `balance`, `taza_limpia`, `dulzura`, `general`, `punteo`, `taza_defecto`, `intensidad_defecto`, `sub_defecto`, `punteo_final`, `notas`, `fk_analisis`, `estado`) VALUES
+(2, '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 17, 'activo'),
+(4, '2024-06-03', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '100', '2', '10', '20', '80', 'Buen aroma, analisis full', 18, 'activo'),
+(5, '2024-06-04', '9', '7.25', '7.5', '6.25', '8.25', '8', '9.25', '4', '6', '9.25', '73', '1', '10', '10', '63', 'El cafe presenta una deficiencia de cloro', 18, 'activo'),
+(6, '2024-06-10', '9', '7', '8.25', '7.25', '7', '2', '9.5', '6', '2', '6.75', '63', '2', '5', '10', '53', 'Hola probando', 18, 'activo'),
+(7, '2024-06-20', '8.5', '8.25', '6.5', '7.5', '6.25', '2', '7.5', '6', '2', '9', '61', '1', '10', '10', '51', 'hhhhhh', 18, 'activo'),
+(8, '2024-06-27', '10', '8.5', '7.25', '8', '7.25', '6', '6.5', '6', '4', '7.5', '69', '1', '20', '20', '49', 'aaaa', 18, 'activo');
 
 -- --------------------------------------------------------
 
@@ -615,7 +621,7 @@ ALTER TABLE `lotes`
 -- AUTO_INCREMENT de la tabla `muestras`
 --
 ALTER TABLE `muestras`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `municipios`
@@ -633,7 +639,7 @@ ALTER TABLE `resultados`
 -- AUTO_INCREMENT de la tabla `sensoriales`
 --
 ALTER TABLE `sensoriales`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_analisis`
