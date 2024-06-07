@@ -82,8 +82,13 @@ function reestructurarDatos(datos) {
         altura_MSNM: datos[0].altura_MSNM,
         fecha: datos[0].fecha,
         proceso_fermentacion: datos[0].proceso_fermentacion,
-        humedad_cafe: datos[0].humedad_cafe,
-        tipo_secado: datos[0].tipo_secado,
+        tipo_molienda: datos[0].tipo_molienda,
+        densidad_cafe: datos[0].densidad_cafe,
+        tipo_tostion: datos[0].tipo_tostion,
+        tiempo_fermentacion: datos[0].tiempo_fermentacion,
+        actividad_agua: datos[0].actividad_agua,
+        tiempo_secado: datos[0].tiempo_secado,
+        presentacion: datos[0].presentacion,
         resultados: []
     };
 
