@@ -200,6 +200,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#000',
   },
+  
   tableColGeneral: {
     width: '50%',
     borderStyle: 'solid',
@@ -281,9 +282,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     textAlign: 'center',
   },
+  tableCellDatosSensory: {
+    width: '100%',
+    height: '20px',
+    fontSize: 10,
+    padding: 3,
+    borderWidth: 1,
+    borderStyle: 'solid', 
+    borderColor: 'black'
+  }
 });
 
-const PDFReport = ({ data }) => (
+const PDFReport = ({ data, datos }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.header} fixed>
@@ -447,46 +457,54 @@ const PDFReport = ({ data }) => (
           </View>
         </View>
       </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>6. Resultados:</Text>
-          <View style={styles.headerSensorial}>
-            <Text style={styles.textHeaderSensorial}> Datos Generales De La Muestra </Text>
-          </View>
-        <View style={styles.tabelSensorial}>
-          <View style={styles.tableMayor}>
-              <View style={styles.plusCol}>
-                <View style={styles.halfTable}>
+      {datos ? (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>6. Resultados:</Text>
+            <View style={styles.headerSensorial}>
+              <Text style={styles.textHeaderSensorial}> Datos Generales De La Muestra </Text>
+            </View>
+          <View style={styles.tabelSensorial}>
+            <View style={styles.tableMayor}>
+                <View style={styles.plusCol}>
+                  <View style={styles.halfTable}>
+                    <View style={styles.tableRowFisicos}>
+                      <View style={styles.tableColSensorial}>
+                        <Text style={styles.headTable}> ATRIBUTO </Text>
+                        <Text style={styles.tableCellDatosSensory}> Fragancia Aroma: </Text>  
+                        <Text style={styles.tableCellDatosSensory}> Sabor: </Text>  
+                        <Text style={styles.tableCellDatosSensory}> Retrogusto: </Text>  
+                        <Text style={styles.tableCellDatosSensory}> Acidez: </Text>  
+                        <Text style={styles.tableCellDatosSensory}> Cuerpo: </Text>  
+                        <Text style={styles.tableCellDatosSensory}> Uniformidad: </Text>  
+                        <Text style={styles.tableCellDatosSensory}> Balance: </Text>  
+                        <Text style={styles.tableCellDatosSensory}> Taza limpia: </Text>  
+                        <Text style={styles.tableCellDatosSensory}> Dulzor: </Text>  
+                        <Text style={styles.tableCellDatosSensory}> Puntaje general: </Text>  
+                        <Text style={styles.tableCellDatosSensory}> Puntaje total: </Text>  
+                      </View>
+                    </View>
+                  </View>
+                  <View style={styles.halfTable}>
                   <View style={styles.tableRowFisicos}>
                     <View style={styles.tableColSensorial}>
-                      <Text style={styles.headTable}> ATRIBUTO </Text>
-                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
-                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
-                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
-                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
-                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
-                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
-                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
-                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
+                      <Text style={styles.headTable}> PUNTAJE </Text>
+                      <Text style={styles.tableCellDatosSensory}> {datos.aroma} </Text>  
+                    </View>
+                  </View>
+                  </View>
+                  <View style={styles.halfTable}>
+                    <View style={styles.tableColSenso}>
+                      <Text style={styles.headTableDes}> DESCRIPCIÓN </Text>
+                      <Text style={styles.headTableDes}> SENSORIAL </Text>
                     </View>
                   </View>
                 </View>
-                <View style={styles.halfTable}>
-                <View style={styles.tableRowFisicos}>
-                  <View style={styles.tableColSensorial}>
-                    <Text style={styles.headTable}> PUNTAJE </Text>
-                  </View>
-                </View>
-                </View>
-                <View style={styles.halfTable}>
-                  <View style={styles.tableColSenso}>
-                    <Text style={styles.headTableDes}> DESCRIPCIÓN </Text>
-                    <Text style={styles.headTableDes}> SENSORIAL </Text>
-                  </View>
-                </View>
-              </View>
+            </View>
           </View>
         </View>
-      </View>
+      ): (
+        ''
+      )}
     </Page>
   </Document>
 );
