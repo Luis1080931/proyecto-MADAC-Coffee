@@ -89,6 +89,22 @@ function reestructurarDatos(datos) {
         actividad_agua: datos[0].actividad_agua,
         tiempo_secado: datos[0].tiempo_secado,
         presentacion: datos[0].presentacion,
+       /*  aroma: datos[0].aroma,
+        sabor: datos[0].sabor, 
+        postgusto: datos[0].postgusto,
+        acidez: datos[0].acidez,
+        cuerpo: datos[0].cuerpo, 
+        uniformidad: datos[0].uniformidad,
+        balance: datos[0].balance,
+        taza_limpia: datos[0].taza_limpia,
+        dulzura: datos[0].dulzura,
+        general: datos[0].general,
+        punteo: datos[0].punteo,
+        taza_defecto: datos[0].taza_defecto, 
+        intensidad_defecto: datos[0].intensidad_defecto, 
+        sub_defecto: datos[0].sub_defecto,
+        punteo_final: datos[0].punteo_final,
+        notas: datos[0].notas, */
         resultados: []
     };
 
@@ -129,7 +145,7 @@ export const listarDatos = async (req, res) => {
                 usuarios cat ON a.fk_analista = cat.identificacion
             `
 
-            const [result] = await pool.query(sql   )
+            const [result] = await pool.query(sql)
             if(result.length>0){
                 res.status(200).json(result)
             }else{
@@ -145,3 +161,53 @@ export const listarDatos = async (req, res) => {
         })
     }
 }
+
+export const datosSensorialPdf = async (req, res) => {
+    try {
+        const {id} = req.params
+        let sql = `
+            SELECT 
+            s.*
+            FROM 
+                sensoriales s
+            JOIN 
+                analisis a ON s.fk_analisis = a.codigo
+            WHERE a.codigo = ?
+            `
+
+        const [result] = await pool.query(sql, [id])
+        if(result.length>0){
+            res.status(200).json(result)
+        }else{
+            res.status(404).json({
+                message: 'No se resultados para el analisis sensorial'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error del servidor' , error
+        })
+    }
+}
+
+/* s.aroma,
+            s.sabor, 
+            s.postgusto,
+            s.acidez,
+            s.cuerpo, 
+            s.uniformidad,
+            s.balance,
+            s.taza_limpia,
+            s.dulzura,
+            s.general,
+            s.punteo,
+            s.taza_defecto, 
+            s.intensidad_defecto, 
+            s.sub_defecto,
+            s.punteo_final,
+            s.notas 
+            
+            
+        JOIN 
+            sensoriales s ON a.codigo = s.fk_analisis
+            */
