@@ -573,7 +573,7 @@ export function Resultados () {
   return (
     <ResultadoProvider>
     <div className='bg-[#EAEDF6] h-screen max-h-max'>
-        <Header title="Resultado de los análisis" />
+        <Header title="Resultado de los análisis físicos" />
           <div className='bg-[#EAEDF6]'> 
             <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
 

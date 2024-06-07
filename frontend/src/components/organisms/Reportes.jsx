@@ -200,6 +200,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#000',
   },
+  tableColGeneral: {
+    width: '50%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+  },
   plusCol: {
     flexDirection: 'row',
   },
@@ -208,6 +214,72 @@ const styles = StyleSheet.create({
   },
   plusColDatos: {
     flexDirection: 'column',
+  },
+  tabelSensorial: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '100%',
+    height: '300px',
+    borderStyle:'solid',
+    borderWidth: 1,
+    borderColor: '#000'
+  },
+  headerSensorial: {
+    width: '100%',
+    height: '15px',
+    backgroundColor: '#C6E0B4',
+    alignItems: 'center',
+  },
+  textHeaderSensorial: {
+    fontSize: 13,
+    fontWeight: '700',
+    textAlign: 'center'
+  },
+  tableColSensorial: {
+    width: '100%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+  },
+  tableColSenso: {
+    flex: 1,
+    flexDirection: 'column',
+    height: '30px',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center'
+  },
+  tableMayor: {
+    width: '80%',
+    height: '90%',  
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+  headTable: {
+    fontSize: 14,
+    height: '30px',
+  },
+  headTableDes: {
+    fontSize: 14,
+    textAlign: 'center',
+    height: '30px',
+  },
+  tableColVar: {
+    height: '25px',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
   },
 });
 
@@ -299,25 +371,46 @@ const PDFReport = ({ data }) => (
           </View>
         </View>
       </View>
-      <View style={styles.section}>
+      <View style={styles.tableFisicos}>
         <Text style={styles.sectionTitle}>4. Datos Generales del Café:</Text>
         <View style={styles.plusCol}>
           <View style={styles.halfTable}>
             <View style={[styles.tableRowFisicos]}>
-              <View style={styles.tableColDatos}>
-                <Text style={[styles.tableCellDatos]}>Tipo de Fermentacion</Text>
+              <View style={styles.tableColVariable}>
+                <Text style={[styles.tableCellDatos]}>Tipo De Molienda: </Text>
+                <Text style={[styles.tableCellDatos]}>Tipo de Fermentacion: </Text>
+                <Text style={[styles.tableCellDatos]}>Densidad De Café Verede(g/l): </Text>
+                <Text style={[styles.tableCellDatos]}>Fecha De Procesamiento: </Text>
                 <Text style={ styles.tableCellDatos }> Código de la muestra: </Text>
               </View>
-              <View style={styles.tableColDatos}>
-                <Text style={styles.tableCellValorDatos}>{data.proceso_fermentacion}</Text>
+              <View style={styles.tableColGeneral}>
+                <Text style={styles.tableCellValorDatos}>{data.tipo_molienda}</Text>
+                <Text style={styles.tableCellValorDatos}>{data.tipo_fermentacion}</Text>
+                <Text style={styles.tableCellValorDatos}>{data.densidad_cafe}</Text>
+                <Text style={styles.tableCellValorDatos}>{data.fecha}</Text>
                 <Text style={styles.tableCellValorDatos}>{data.muestra_id}</Text>
               </View>
-              {/* <View style={[ styles.tableColVariable ]}>
-              </View>
-              <View style={styles.tableColValor}>
-              </View> */}
             </View>
           </View>
+          <View style={styles.halfTable}>
+            <View style={styles.tableRowFisicos}>
+              <View style={styles.tableColVariable}>
+                <Text style={styles.tableCellDatos}> Tipo de Tostión: </Text>
+                <Text style={styles.tableCellDatos}> Tiempo de Fermentación: </Text>
+                <Text style={styles.tableCellDatos}> Actividad De Agua(Aw): </Text>
+                <Text style={styles.tableCellDatos}> Tipo De Secado: </Text>
+                <Text style={styles.tableCellDatos}> Presentación: </Text>
+              </View>
+              <View style={styles.tableColGeneral}>
+                <Text style={styles.tableCellValorDatos}> {data.tipo_tostion} </Text>
+                <Text style={styles.tableCellValorDatos}> {data.tiempo_fermentacion} </Text>
+                <Text style={styles.tableCellValorDatos}> {data.actividad_agua} </Text>
+                <Text style={styles.tableCellValorDatos}> {data.tiempo_secado} </Text>
+                <Text style={styles.tableCellValorDatos}> {data.presentacion} </Text>
+              </View>
+            </View>
+          </View>
+          
         </View>
       </View>
       <View style={styles.section}>
@@ -356,6 +449,43 @@ const PDFReport = ({ data }) => (
       </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>6. Resultados:</Text>
+          <View style={styles.headerSensorial}>
+            <Text style={styles.textHeaderSensorial}> Datos Generales De La Muestra </Text>
+          </View>
+        <View style={styles.tabelSensorial}>
+          <View style={styles.tableMayor}>
+              <View style={styles.plusCol}>
+                <View style={styles.halfTable}>
+                  <View style={styles.tableRowFisicos}>
+                    <View style={styles.tableColSensorial}>
+                      <Text style={styles.headTable}> ATRIBUTO </Text>
+                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
+                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
+                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
+                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
+                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
+                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
+                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
+                      <Text style={styles.tableCellDatos}> Fragancia Aroma: </Text>  
+                    </View>
+                  </View>
+                </View>
+                <View style={styles.halfTable}>
+                <View style={styles.tableRowFisicos}>
+                  <View style={styles.tableColSensorial}>
+                    <Text style={styles.headTable}> PUNTAJE </Text>
+                  </View>
+                </View>
+                </View>
+                <View style={styles.halfTable}>
+                  <View style={styles.tableColSenso}>
+                    <Text style={styles.headTableDes}> DESCRIPCIÓN </Text>
+                    <Text style={styles.headTableDes}> SENSORIAL </Text>
+                  </View>
+                </View>
+              </View>
+          </View>
+        </View>
       </View>
     </Page>
   </Document>

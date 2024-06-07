@@ -83,24 +83,26 @@ const handleAccept = () => {
   setModalAcciones(false)
 }
 
-  return (
-    <div>
-
+return (
+  <div>
+    <div 
+      className='relative flex justify-center items-center'
+      style={{ height: '100vh' }}
+    >
       <div 
-      style={{
-        backgroundImage: `url(${fondo})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        height: '100vh'
-      }}
-      className='flex justify-center items-center'
-      >
-        <div className='bg-white rounded-lg w-[870px] bg-transparent'>
-          <div className='flex flex-row justify-center content-center items-center'>
-            <img className='w-[500px] h-[600px] mr-10' src={caficultor} alt="" />
+        className='absolute inset-0 bg-cover bg-no-repeat z-0' 
+        style={{ 
+          backgroundImage: `url(${fondo})`,
+          filter: 'blur(8px)', // Aplica el efecto borroso
+          opacity: 0.5 // Ajusta la opacidad según tus necesidades
+        }}
+      ></div>
+      <div className='relative bg-white rounded-lg w-[870px] bg-transparent z-10'>
+        <div className='flex flex-row justify-center content-center items-center'>
+          <img className='w-[500px] h-[600px] mr-10' src={caficultor} alt="" />
           <form method='post' onSubmit={handleSubmit} className='mr-8'>
             <div className='mb-5 text-center'>
-              <label className='text-2xl font-semibold'> Inicio de sesión</label>
+              <label className='text-2xl font-semibold'>Inicio de sesión</label>
               <Input
                 className='w-[300px] mt-5'
                 autoFocus
@@ -136,21 +138,19 @@ const handleAccept = () => {
                 <Link color="primary" href="#" size="sm">
                   Forgot password?
                 </Link>
+              </div>
             </div>
-          
-          </div>
           </form>
-          </div>  
-
         </div>
-        </div>
-
-        <AccionesModal 
-          isOpen={modalAcciones} 
-          onClose={()=>setModalAcciones(false)}
-          label={mensaje}
-          onAccept={handleAccept}
-        />
+      </div>
     </div>
-  )
+    <AccionesModal 
+      isOpen={modalAcciones} 
+      onClose={()=>setModalAcciones(false)}
+      label={mensaje}
+      onAccept={handleAccept}
+    />
+  </div>
+);
+
 }

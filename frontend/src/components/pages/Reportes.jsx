@@ -524,6 +524,7 @@ import axiosClient from "../axiosClient.js";
 import { FaFileDownload } from "react-icons/fa";
 import { PDFViewer } from '@react-pdf/renderer'; // Importar PDFViewer
 import PDFReport from '../organisms/Reportes.jsx';
+import { format } from 'date-fns';
 
 export function Reportes() {
   const statusColorMap = {
