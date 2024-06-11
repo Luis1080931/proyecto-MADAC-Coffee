@@ -395,9 +395,9 @@ const PDFReport = ({ data, datos }) => (
               </View>
               <View style={styles.tableColGeneral}>
                 <Text style={styles.tableCellValorDatos}>{data.tipo_molienda}</Text>
-                <Text style={styles.tableCellValorDatos}>{data.tipo_fermentacion}</Text>
+                <Text style={styles.tableCellValorDatos}>{data.proceso_fermentacion}</Text>
                 <Text style={styles.tableCellValorDatos}>{data.densidad_cafe}</Text>
-                <Text style={styles.tableCellValorDatos}>{data.fecha}</Text>
+                <Text style={styles.tableCellValorDatos}>{new Date(data.fecha).toLocaleDateString('es-CO')}</Text>
                 <Text style={styles.tableCellValorDatos}>{data.muestra_id}</Text>
               </View>
             </View>
@@ -510,3 +510,309 @@ const PDFReport = ({ data, datos }) => (
 );
 
 export default PDFReport; 
+
+/* import React from 'react';
+import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer';
+import logoSena from './../../assets/icons/logoPDFSENA.png'
+import logoSennova from './../../assets/icons/logoSennova.png'
+import logoENCC from './../../assets/icons/ENCC.jpg'
+
+Font.register({
+  family: 'Roboto',
+  fonts: [
+    { src: 'https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmWUlfCRc4EsA.woff2' },
+    { src: 'https://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Mu7GxKOzY.woff2', fontWeight: 'bold' },
+  ],
+});
+
+const styles = StyleSheet.create({
+  page: {
+    fontFamily: 'Roboto',
+    padding: 20,
+    fontSize: 20,
+  },
+  header: {
+    marginBottom: 20,
+  },
+  row1: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  col1: {
+    width: '45%',
+    textAlign: 'center',
+  },
+  image: {
+    width: 80,
+    height: 80,
+  },
+  row2: {
+    marginBottom: 20,
+  },
+  col2: {
+    textAlign: 'center',
+  },
+  text: {
+    fontSize: 12,
+  },
+  text2: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  row3: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  col3: {
+    width: '45%',
+  },
+  col3Text: {
+    textAlign: 'right',
+  },
+  textCol3: {
+    fontSize: 10,
+  },
+  section: {
+    marginBottom: 10,
+  },
+  sectionTitle: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  sectionText: {
+    fontSize: 10,
+  },
+  table: {
+    display: 'table',
+    width: '100%',
+    marginTop: 10,
+  },
+  tableRow: {
+    flexDirection: 'row',
+  },
+  tableCol: {
+    width: '50%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+  tableCell: {
+    margin: 5,
+    fontSize: 10,
+    padding: 3,
+  },
+  plusColDatos: {
+    flexDirection: 'column',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+    width: '50%',
+    textAlign: 'center',
+  },
+  tableCellDatos: {
+    margin: 5,
+    fontSize: 10,
+    fontWeight: 'bold',
+    padding: 3,
+  },
+  tableCellValorDatos: {
+    margin: 5,
+    fontSize: 10,
+    padding: 3,
+  },
+  tableFisicos: {
+    flex: 1,
+    flexDirection: 'column',
+    marginBottom: 10,
+  },
+  tableRowFisicos: {
+    flexDirection: 'row',
+  },
+  tableColVariable: {
+    width: '80%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+  tableColValor: {
+    width: '20%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+  tableCell: {
+    margin: 5,
+    fontSize: 10,
+    padding: 3,
+  },
+  tableHeader: {
+    fontWeight: 'bold',
+  },
+  tableColHeader: {
+    width: '96%',
+    flex: 1,
+    backgroundColor: '#C6E0B4',
+    textAlign: 'center',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+  tableCellHeaderFisicos: {
+    margin: 5,
+    fontSize: 10,
+    fontWeight: 'bold',
+    width: '100%',
+  },
+  halfTable: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  tableColGeneral: {
+    width: '50%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+});
+
+const PDFReport = ({ data, datos }) => {
+  const rowsPerPage = 15; // Número de filas por página
+
+  const splitData = (data) => {
+    const result = [];
+    for (let i = 0; i < data.length; i += rowsPerPage) {
+      result.push(data.slice(i, i + rowsPerPage));
+    }
+    return result;
+  };
+
+  const renderTable = (data) => (
+    <View style={styles.tableFisicos}>
+      <View style={styles.tableColHeader}>
+        <Text style={styles.tableCellHeaderFisicos}>Análisis Físicos</Text>
+      </View>
+      {data.map((row, index) => (
+        <View key={index} style={styles.tableRowFisicos}>
+          <View style={styles.tableColVariable}>
+            <Text style={styles.tableCell}>{row.variable}</Text>
+          </View>
+          <View style={styles.tableColValor}>
+            <Text style={styles.tableCell}>{row.valor}</Text>
+          </View>
+        </View>
+      ))}
+    </View>
+  );
+
+  const pages = splitData(data.resultados);
+
+  return (
+    <Document>
+      {pages.map((pageData, pageIndex) => (
+        <Page size="A4" style={styles.page} key={pageIndex}>
+          <View style={styles.header} fixed>
+            <View style={styles.row1}>
+              <View style={styles.col1}>
+                <Image style={styles.image} src={logoSena} />
+              </View>
+              <View style={styles.col1}>
+                <Image style={styles.image} src={logoENCC} />
+              </View>
+            </View>
+            <View style={styles.row2}>
+              <View style={styles.col2}>
+                <Text style={styles.text}>Centro de Gestión y Desarrollo Sostenible Surcolombiano</Text>
+                <Text style={styles.text}>Escuela Nacional de la Calidad del Café </Text>
+              </View>
+              <View style={styles.col2}>
+                <Text style={styles.text2}>INFORME SERVICIO ANALISIS FISICO SENSORIAL</Text>
+              </View>
+            </View>
+            <View style={styles.row3}>
+              <View style={styles.col3}>
+                <Image style={styles.image} src={logoSennova} />
+              </View>
+              <View style={styles.col3Text}>
+                <Text style={styles.textCol3}>VERSIÓN: 01</Text>
+                <Text style={styles.textCol3}>FECHA: 2023-05-05</Text>
+                <Text style={styles.textCol3}>PÁGINA: {pageIndex + 1} de {pages.length}</Text>
+              </View>
+            </View>
+          </View>
+          {pageIndex === 0 && (
+            <>
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>1. Objetivo</Text>
+                <Text style={styles.sectionText}>El objetivo del siguiente informe es presentar los resultados del análisis físico-sensorial obtenidos para la muestra de café {data.muestra_id} descrita a continuación.</Text>
+              </View>
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>2. Información General:</Text>
+                <Text style={styles.sectionText}>Caficultor: {data.caficultor_nombre}</Text>
+                <Text style={styles.sectionText}>Departamento: {data.municipio}</Text>
+                <Text style={styles.sectionText}>Vereda: {data.vereda}</Text>
+                <Text style={styles.sectionText}>Nombre de la finca: {data.nombre_finca}</Text>
+                <Text style={styles.sectionText}>Código de la muestra: {data.muestra_id}</Text>
+              </View>
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>3. Especificaciones del Café:</Text>
+                <View style={styles.table}>
+                  <View style={[styles.plusColDatos]}>
+                    <View style={[styles.tableRow, styles.tableHeader]}>
+                      <View style={styles.tableCol}>
+                        <Text style={[styles.tableCell, styles.tableHeader]}>Variedad del Café</Text>
+                      </View>
+                      <View style={styles.tableCol}>
+                        <Text style={styles.tableCell}>{data.variedad}</Text>
+                      </View>
+                    </View>
+                    <View style={[styles.tableRow, styles.tableHeader]}>
+                      <View style={styles.tableCol}>
+                        <Text style={[styles.tableCell, styles.tableHeader]}>Altura sobre el nivel del mar</Text>
+                      </View>
+                      <View style={styles.tableCol}>
+                        <Text style={styles.tableCell}>{data.altura_MSNM}</Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>4. Información de la Muestra:</Text>
+                <View style={styles.table}>
+                  <View style={styles.tableRow}>
+                    <View style={styles.plusColDatos}>
+                      <Text style={styles.tableCellDatos}>Fecha de Análisis</Text>
+                      <Text style={styles.tableCellValorDatos}>{data.fecha_analisis}</Text>
+                    </View>
+                    <View style={styles.plusColDatos}>
+                      <Text style={styles.tableCellDatos}>Tipo de Fermentación</Text>
+                      <Text style={styles.tableCellValorDatos}>{data.tipo_fermentacion}</Text>
+                    </View>
+                  </View>
+                  <View style={styles.tableRow}>
+                    <View style={styles.plusColDatos}>
+                      <Text style={styles.tableCellDatos}>Densidad de Café Verde</Text>
+                      <Text style={styles.tableCellValorDatos}>{data.densidad_cafe_verde}</Text>
+                    </View>
+                    <View style={styles.plusColDatos}>
+                      <Text style={styles.tableCellDatos}>Fecha de Ingreso</Text>
+                      <Text style={styles.tableCellValorDatos}>{data.fecha}</Text>
+                      <Text style={styles.tableCellValorDatos}>{data.muestra_id}</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </>
+          )}
+          {renderTable(pageData)}
+        </Page>
+      ))}
+    </Document>
+  );
+};
+
+export default PDFReport;
+ */
