@@ -69,11 +69,13 @@ export const desactivarAnalisis = async (req, res) => {
 
         let sqlAnalisis = `UPDATE analisis SET estado = 3 WHERE codigo = ?`
         let sqlResultados = `UPDATE resultados SET estado = 2 WHERE fk_analisis = ?`
+        let sqlSensoriales = `UPDATE sensoriales SET estado = 2 WHERE fk_analisis = ?`
 
         const [rowsAnalisis] = await pool.query(sqlAnalisis, [codigo]);
 
         if (rowsAnalisis.affectedRows > 0) {
             const [rowsResultados] = await pool.query(sqlResultados, [codigo]);
+            const [rowsSensoriales] = await pool.query(sqlSensoriales, [codigo]);
             
             res.status(200).json({
                 message: "Se desactivó con exito el analisis y los resultados asociados"
@@ -302,9 +304,8 @@ export const analisisSensorial = async (req, res) => {
     try {
         let sql = `
         SELECT 
-            s.codigo, 
-            a.fecha, 
-            s.estado,
+            s.*, 
+            a.fecha,
             cat.nombre AS catador,
             c.nombre, 
             f.nombre_finca

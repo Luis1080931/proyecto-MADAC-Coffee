@@ -5,6 +5,7 @@ const routeReportes = Router()
 
 routeReportes.get('/generar/:id', generarPDF)
 routeReportes.get('/sensory/:id', datosSensorialPdf)
+/* routeReportes.get('/productor/:id', datosProductor) */
 routeReportes.get('/listar', listarDatos)
 
 export default routeReportes
