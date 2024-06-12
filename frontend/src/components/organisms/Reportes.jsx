@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
-    height: '10%'
+    height: '15%'
   },
   row1: {
     flex: 1,
@@ -32,14 +32,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     border: 1,
     borderColor: 'black',
-    width: '60%',
+    width: '55%',
   },
   row3: {
-    flex: 1,
+    display: 'flex',
     flexDirection: 'column',
     border: 1,
     borderColor: 'black',
-    width: '20%'
+    width: '25%'
   },
   col1: {
     height: '50%',
@@ -71,10 +71,13 @@ const styles = StyleSheet.create({
   },
   textCol3: {
     borderBottomWidth: 1,
-    borderColor: 'black'
+    borderColor: 'black',
+    height: '20px',
+    fontSize: 9
   },
   text: {
     flex: 1,
+    width: '80%',
     textAlign: 'center',
     fontSize: 10 
   },
@@ -82,10 +85,13 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     fontSize: 10,
-    marginTop: 11
+    marginTop: 25
   },
   image: {
     width: 60,
+  },
+  imageSennova: {
+    width: 100
   },
   headerText: {
     fontSize: 12,
@@ -94,10 +100,14 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 10,
   },
+  sectionPrimera: {
+    marginTop: 25,
+    marginBottom: 10,
+  },
   sectionTitle: {
     fontSize: 11,
     fontWeight: 'extrabold',
-    marginBottom: 5,
+    marginBottom: 15,
   },
   sectionText: {
     fontSize: 11,
@@ -123,7 +133,7 @@ const styles = StyleSheet.create({
   },
   page: {
     fontFamily: 'Roboto',
-    padding: 20,
+    padding: 30,
     fontSize: 20,
   },
   title: {
@@ -134,25 +144,31 @@ const styles = StyleSheet.create({
   tableCell: {
     margin: 5,
     fontSize: 10,
-    padding: 3,/* 
-    borderWidth: 0,
-    borderStyle: 'solid', */
-    /* borderRightWidth: 0,
-    borderBottomWidth: 0, */
+    padding: 3,
+    height: '20px'
+  },
+  tableCellMuestra: {
+    fontSize: 10,
+    padding: 3,
+    width: '130px'
   },
   tableCellDatos: {
     fontSize: 10,
     padding: 3,
     borderWidth: 1,
     borderStyle: 'solid', 
-    borderColor: 'black'
+    borderColor: '#000',
+    width: '150px',
+    height: '30px'
   },
   tableCellValorDatos: {
     fontSize: 10,
     padding: 3,
     borderWidth: 1,
     borderStyle: 'solid', 
-    borderColor: 'black'
+    borderColor: '#000',
+    width: '115px',
+    height: '30px'
   },
   tableColDatos: {
     width: '80%'
@@ -181,6 +197,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   tableFisicos: {
+    width: '558px',
     flex: 1,
     flexDirection: 'column',
     marginBottom: 10,
@@ -189,7 +206,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   tableColVariable: {
-    width: '80%',
+    width: '300px',
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: '#000',
@@ -202,10 +219,12 @@ const styles = StyleSheet.create({
   },
   
   tableColGeneral: {
-    width: '50%',
+    width: '230px',
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: '#000',
+    textAlign: 'center',
+    justifyContent: 'center'
   },
   plusCol: {
     flexDirection: 'row',
@@ -307,7 +326,8 @@ const PDFReport = ({ data, datos }) => (
         </View>
         <View style={styles.row2}>
           <View style={styles.col2}>
-            <Text style={styles.text}>Centro de Gestión y Desarrollo Sostenible Surcolombiano</Text>
+            <Text style={styles.text}>Centro de Gestión y Desarrollo Sostenible </Text>
+            <Text style={styles.text}>Surcolombiano</Text>
             <Text style={styles.text}>Escuela Nacional de la Calidad del Café </Text>
           </View>
           <View style={styles.col2}>
@@ -316,9 +336,10 @@ const PDFReport = ({ data, datos }) => (
         </View>
         <View style={styles.row3}>
           <View style={styles.col3}>
-            <Image style={styles.image} src={logoSennova} />
+            <Image style={styles.imageSennova} src={logoSennova} />
           </View>
           <View style={styles.col3Text}>
+            <Text style={styles.textCol3}>CÓDIGO: {data.muestra_id}</Text>
             <Text style={styles.textCol3}>VERSIÓN: 01</Text>
             <Text style={styles.textCol3}>FECHA: 2023-05-05</Text>
             <Text style={styles.textCol3}>PÁGINA: 1 de 4</Text>
@@ -328,7 +349,7 @@ const PDFReport = ({ data, datos }) => (
           </View>
         </View>
       </View>
-      <View style={styles.section}>
+      <View style={styles.sectionPrimera}>
         <Text style={styles.sectionTitle}>1. Objetivo</Text>
         <Text style={styles.sectionText}>El objetivo del siguiente informe es presentar los resultados del análisis físico-sensorial obtenidos para la muestra de café {data.muestra_id} descrita a continuación.</Text>
       </View>
@@ -372,7 +393,7 @@ const PDFReport = ({ data, datos }) => (
             </View>
             <View style={[styles.tableRow, styles.tableHeader]}>
               <View style={styles.tableCol}>
-                <Text style={[styles.tableCell, styles.tableHeader]}>Método para la preparacion de la muestra:</Text>
+                <Text style={[styles.tableCellMuestra, styles.tableHeader]}>Método para la preparacion de la muestra:</Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{data.altura_MSNM}</Text>
@@ -381,7 +402,7 @@ const PDFReport = ({ data, datos }) => (
           </View>
         </View>
       </View>
-      <View style={styles.tableFisicos}>
+      <View style={[styles.tableFisicos]}>
         <Text style={styles.sectionTitle}>4. Datos Generales del Café:</Text>
         <View style={styles.plusCol}>
           <View style={styles.halfTable}>
@@ -423,40 +444,44 @@ const PDFReport = ({ data, datos }) => (
           
         </View>
       </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>5. Análisis Físico:</Text>
-        <View style={styles.tableFisicos}>
-          <View style={styles.tableColHeader}>
-            <Text style={styles.tableCellHeaderFisicos} >Análisis Físicos</Text>
-          </View>
-          <View style={styles.plusCol}>
-            <View style={styles.halfTable}>
-              {[...Array(15)].map((_, index) => (
-              <View key={index} style={styles.tableRowFisicos}>
-                <View style={styles.tableColVariable}>
-                  <Text style={styles.tableCell}>{data.resultados[index].variable}</Text>
-                </View>
-                <View style={styles.tableColValor}>
-                  <Text style={styles.tableCell}>{data.resultados[index].valor}</Text>
-                </View>
-              </View>
-              ))}
+      {data ? (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>5. Análisis Físico:</Text>
+          <View style={styles.tableFisicos}>
+            <View style={styles.tableColHeader}>
+              <Text style={styles.tableCellHeaderFisicos} >Análisis Físicos</Text>
             </View>
-            <View style={styles.halfTable}>
-              {[...Array(15)].map((_, index) => (
+            <View style={styles.plusCol}>
+              <View style={styles.halfTable}>
+                {[...Array(15)].map((_, index) => (
                 <View key={index} style={styles.tableRowFisicos}>
                   <View style={styles.tableColVariable}>
-                    <Text style={styles.tableCell}>{data.resultados[index + 15].variable}</Text>
+                    <Text style={styles.tableCell}>{data.resultados[index].variable}</Text>
                   </View>
                   <View style={styles.tableColValor}>
-                    <Text style={styles.tableCell}>{data.resultados[index + 15].valor}</Text>
+                    <Text style={styles.tableCell}>{data.resultados[index].valor}</Text>
                   </View>
                 </View>
-              ))}
+                ))}
+              </View>
+              <View style={styles.halfTable}>
+                {[...Array(15)].map((_, index) => (
+                  <View key={index} style={styles.tableRowFisicos}>
+                    <View style={styles.tableColVariable}>
+                      <Text style={styles.tableCell}>{data.resultados[index + 15].variable}</Text>
+                    </View>
+                    <View style={styles.tableColValor}>
+                      <Text style={styles.tableCell}>{data.resultados[index + 15].valor}</Text>
+                    </View>
+                  </View>
+                ))}
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      ): (
+        'No hay resultados'
+      )}
       {datos ? (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>6. Resultados:</Text>

@@ -572,6 +572,7 @@ export function Reportes() {
 
     const [datosPdf, setDatosPdf] = useState(null);
     const [datosPdfSensory, setDatosPdfSensory] = useState(null);
+    const [datosPdfProductor, setDatosPdfProductor] = useState(null);
     const [loadingPdf, setLoadingPdf] = useState(false);
     const [modalPdfOpen, setModalPdfOpen] = useState(false)
 
@@ -581,9 +582,14 @@ export function Reportes() {
         const response = await axiosClient.get(`/reportes/generar/${id}`);
         console.log('Response data fisicos:', response.data);
         setDatosPdf(response.data);
+
         const responseSensory = await axiosClient.get(`/reportes/sensory/${id}`)
         console.log('Response data sensorial:', responseSensory.data);
         setDatosPdfSensory(responseSensory.data)
+
+        const responseProductor = await axiosClient.get(`/reportes/productor/${id}`)
+        console.log('Response data productor:', responseProductor.data);
+        setDatosPdfProductor(responseProductor.data)
       } catch (error) {
         console.error('Error al obtener los datos del PDF:', error);
       } finally {
@@ -882,7 +888,7 @@ export function Reportes() {
               ) : (
                 datosPdf && (
                   <PDFViewer width="100%" height="100%">
-                    <PDFReport data={datosPdf} datos={datosPdfSensory} />
+                    <PDFReport data={datosPdf} datos={datosPdfSensory} productor={datosPdfProductor} />
                   </PDFViewer>
                 )
               )}

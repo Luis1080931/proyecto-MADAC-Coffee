@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './../../styles/Slider.css'; // Estilos CSS
 import { Button, Checkbox, Input, Select, SelectItem } from '@nextui-org/react';
 import axiosClient from '../axiosClient';
-import axios from 'axios';
+import ResultadoContext from '../../context/ResultadosContext';
 
-const SliderVertical = ({ handleSubmit }) => {
+const SliderVertical = ({ handleSubmit, mode }) => {
 
   const [analisisSensorial, setAnalisisSensorial ] = useState([])
 
@@ -299,6 +299,31 @@ const handleCheckboxUniformidad = (index) => {
 
   const punteoTotal = parseInt(totalAroma) + parseInt(labelSabor) + parseInt(labelPostgusto) + parseInt(labelAcidez) + parseInt(labelBalance) + parseInt(labelCuerpo) +parseInt(labelGeneral) + parseInt(total) + parseInt(taza) + parseInt(dulzura)
   const totalPunteoFinal = parseInt(punteoTotal) - parseInt(resultado)
+
+  const {resultadoSeleccionado} = useContext(ResultadoContext)
+
+  useEffect(() => {
+    if(mode === 'update' && resultadoSeleccionado){
+      setlabelAroma(resultadoSeleccionado.aroma)
+      setLabelSabor(resultadoSeleccionado.sabor)
+      setLabelPostgusto(resultadoSeleccionado.postgusto)
+      setLabelAcidez(resultadoSeleccionado.acidez)
+      setLabelCuerpo(resultadoSeleccionado.cuerpo)
+      setLabelBalance(resultadoSeleccionado.balance)
+      setLabelGeneral(resultadoSeleccionado.general)
+      setTotal(resultadoSeleccionado.uniformidad)
+      setTaza(resultadoSeleccionado.taza_limpia)
+      setDulzura(resultadoSeleccionado.dulzura)
+      setNumeroTazas(resultadoSeleccionado.taza_defecto)
+      setNumeroIntensidad(resultadoSeleccionado.intensidad_defecto)
+      setResultado(resultadoSeleccionado.sub_defecto)
+      setTotal(resultadoSeleccionado.punteo)
+      setNotas(resultadoSeleccionado.notas)
+      setAnalisis(resultadoSeleccionado.fk_analisis)
+
+      console.log('Datos a actualizar aquiii: ', resultadoSeleccionado);
+    }
+  }, [mode, resultadoSeleccionado])
 
   const handleFormSubmit = (e) => {
     e.preventDefault()

@@ -35,7 +35,7 @@ import SliderVertical from '../organisms/Slider.jsx';
 import { FaEye } from "react-icons/fa";
 import VerSensorial from '../templates/VerSensorial.jsx';
 
-export function ResultadosSensorialCatador () {
+export function VistaAdminSensory () {
 
   
   const statusColorMap = {
@@ -155,11 +155,11 @@ export function ResultadosSensorialCatador () {
           return (
             <div className="flex flex-row">
               <FaEye className='cursor-pointer text-3xl text-black mr-5' onClick={() => ver(result.codigo)} />
-              {result.estado === 'activo' || result.estado === 'calificado' ? (
+              {/* {result.estado === 'activo' || result.estado === 'calificado' ? (
                 <ButtonActualizar click={() =>  handleToggle('update', setResultadoSeleccionado(result))} />
               ) : (
                 ''
-              )}
+              )} */}
               
             </div>
           );
@@ -254,9 +254,6 @@ export function ResultadosSensorialCatador () {
                   ))}
                 </DropdownMenu>
               </Dropdown>
-              <Button className="text-xl bg-[#273468] text-white" endContent={<PlusIcon />} onClick={() => handleToggle('create')}>
-                Registrar
-              </Button>
             </div>
           </div>
           <div className="flex justify-between items-center">
@@ -447,7 +444,7 @@ export function ResultadosSensorialCatador () {
               setMensaje(response.data.message)
               setModalAcciones(true)
               setModalOpen(false)
-              handleCalificado(data.fk_analisis)
+              handleCalificado(data.analisis)
               fetchData()
             }else{
               setMensaje(response.data.message)

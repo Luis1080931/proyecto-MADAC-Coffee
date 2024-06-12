@@ -111,7 +111,7 @@ function Ejemplo() {
         return (
           <div className="flex flex-row">
             <ButtonActualizar click={() =>  handleToggle('update', setAnalisisId(result))} /> 
-            {result.estado === 'asignado' ? (
+            {result.estado === 'asignado' || result.estado === 'calificado' ? (
               <ButtonDesactivar click={() => handleDesactivar(result.codigo)} />
             ) : (
               <ButtonActivar click={() => handleActivar(result.codigo)} />

@@ -31,10 +31,6 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
     useEffect(() => {
       if(mode === 'update' && idMuestras) {
         
-        axiosClient.get(`/muestras/buscarMuestra/${idMuestras.codigo}`).then((response) => {
-            console.log(response.data[0])
-            setData(response.data[0])
-        })
           setFecha(idMuestras.fecha),
           setTipoMolienda(idMuestras.nombre),
           setDensidadCafe(idMuestras.densidad_cafe),
