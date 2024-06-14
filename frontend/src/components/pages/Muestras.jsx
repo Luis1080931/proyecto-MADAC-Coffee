@@ -28,11 +28,13 @@ import {
   import ButtonActivar from "../atoms/ButtonActivar.jsx";
 import MuestrasContext from '../../context/MuestrasContext.jsx';
 import { FaEye } from "react-icons/fa";
+import { IoEyeOutline } from "react-icons/io5";
+import { VscEye } from "react-icons/vsc";
 
 export function Muestras () {
 
 const statusColorMap = {
-  activo: "success",
+  activo: "primary",
   inactivo: "danger",
 };
 
@@ -109,14 +111,19 @@ function Ejemplo() {
     switch (columnKey) {
       case "estado":
         return (
-          <Chip className="capitalize" color={statusColorMap[muestra.estado]} size="sm" variant="flat">
-            {cellValue}
-          </Chip>
+          <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={statusColorMap[muestra.estado]}
+                size="sm"
+                variant="dot"
+            >
+                {cellValue}
+            </Chip>
         );
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
-            <FaEye className='cursor-pointer text-3xl text-black mr-5' onClick={() => ver(muestra.codigo)} />
+            <VscEye className='cursor-pointer text-3xl text-gray-500 mr-5' onClick={() => ver(muestra.codigo)} />
             <ButtonActualizar click={() => handleToggle('update', setMuestrasId(muestra))} />
             {muestra.estado === 'activo' ? (
               <ButtonDesactivar click={() => handleDesactivar(muestra.codigo)} />

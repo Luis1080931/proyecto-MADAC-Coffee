@@ -528,9 +528,9 @@ import { format } from 'date-fns';
 
 export function Reportes() {
   const statusColorMap = {
-    asignado: "success",
+    asignado: "primary",
     terminado: "danger",
-    calificado: 'primary',
+    calificado: 'warning',
   };
 
   function Ejemplo({ data, results }) {
@@ -672,8 +672,13 @@ export function Reportes() {
       switch (columnKey) {
         case "estado":
           return (
-            <Chip className="capitalize" color={statusColorMap[result.estado]} size="md" variant="flat">
-              {cellValue}
+            <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={statusColorMap[result.estado]}
+                size="sm"
+                variant="dot"
+            >
+                {cellValue}
             </Chip>
           );
         case "actions":

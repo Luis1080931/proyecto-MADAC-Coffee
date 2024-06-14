@@ -38,7 +38,7 @@ export function ResultadosCatador () {
 
   
   const statusColorMap = {
-    activo: "success",
+    activo: "primary",
     inactivo: "danger",
     todos: 'primary'
   };
@@ -143,8 +143,13 @@ export function ResultadosCatador () {
       switch (columnKey) {
         case "estado":
           return (
-            <Chip className="capitalize" color={statusColorMap[result.estado]} size="md" variant="flat">
-              {cellValue}
+            <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={statusColorMap[result.estado]}
+                size="sm"
+                variant="dot"
+            >
+                {cellValue}
             </Chip>
           );
         case "actions":
