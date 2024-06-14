@@ -5,7 +5,6 @@ import { validarToken } from '../controllers/seguridad.controller.js'
 
 const routeAnalisis = Router()
 
-// localhost:3333/analisis/1
 routeAnalisis.post("/registrar",validarAnalisis, registrarAnalisis)
 routeAnalisis.put("/actualizar/:codigo",validarToken, validarAnalisis, actualizarAnalisis)
 routeAnalisis.put("/desactivar/:codigo",validarToken, desactivarAnalisis)
