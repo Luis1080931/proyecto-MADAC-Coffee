@@ -18,7 +18,7 @@ import PDFReport from "./organisms/Reportes.jsx";
 import VistaAnalisisCatador from "./pages/AnalisisCatador.jsx";
 import { ResultadosCatador } from "./pages/ResultadosCatador.jsx";
 import GlobalProvider from "../context/GlobalContext.jsx";
-import { Reportes } from "./pages/Reportes.jsx";
+
 
 const stored = localStorage.getItem('user');
 const user = stored ? JSON.parse(stored) : null;
@@ -53,7 +53,6 @@ function App() {
                   <Route path="/resultadosCatador" element={<ResultadosCatador />} />
                 </>
               )}
-              <Route path="/reportes" element={<Reportes />} />
             </Route>
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
