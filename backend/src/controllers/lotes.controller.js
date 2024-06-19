@@ -5,7 +5,7 @@ import { validationResult } from 'express-validator'
 export const getLotes = async (req, res) => {
     try {
         const [rows] = await pool.query(`
-            SELECT l.codigo, l.numero_arboles, l.fk_finca, f.nombre_finca AS finca_nombre, v.nombre AS fk_variedad, l.estado
+            SELECT l.codigo, l.numero_arboles, f.nombre_finca AS fk_finca, v.nombre AS fk_variedad, l.estado
             FROM lotes l
             LEFT JOIN variedades v ON l.fk_variedad = v.codigo
             LEFT JOIN fincas f ON l.fk_finca = f.codigo
@@ -24,11 +24,10 @@ export const getLotes = async (req, res) => {
         });
     }
 };
-
 export const getLote = async (req, res) => {
     try {
         const [rows] = await pool.query(`
-            SELECT l.codigo, l.numero_arboles, v.nombre AS fk_variedad, l.estado, f.nombre_finca AS finca_nombre
+            SELECT l.codigo, l.numero_arboles, v.nombre AS fk_variedad, l.estado, f.nombre_finca AS fk_finca
             FROM lotes l
             JOIN variedades v ON l.fk_variedad = v.codigo
             JOIN fincas f ON l.fk_finca = f.codigo
@@ -48,12 +47,11 @@ export const getLote = async (req, res) => {
         });
     }
 };
-
 export const buscarIdFinca = async (req, res) => {
     try {
         const { fk_finca } = req.params;
         const [rows] = await pool.query(`
-            SELECT l.codigo, l.numero_arboles, l.fk_finca, f.nombre_finca AS finca_nombre, v.nombre AS fk_variedad, l.estado
+            SELECT l.codigo, l.numero_arboles, f.nombre_finca AS fk_finca, v.nombre AS fk_variedad, l.estado
             FROM lotes l
             LEFT JOIN variedades v ON l.fk_variedad = v.codigo
             LEFT JOIN fincas f ON l.fk_finca = f.codigo
@@ -174,16 +172,20 @@ export const actualizarLotes =async(req,res)=>{
 
 export const lotesActivos = async (req, res) => {
     try {
-        const [rows]=await pool.query(`SELECT l.codigo, l.numero_arboles, l.fk_finca, v.nombre AS fk_variedad, l.estado
-        FROM lotes l
-        LEFT JOIN variedades v ON l.fk_variedad = v.codigo WHERE l.estado = 1`)
-      
+        const [rows] = await pool.query(`
+            SELECT l.codigo, l.numero_arboles, f.nombre_finca AS fk_finca, v.nombre AS fk_variedad, l.estado
+            FROM lotes l
+            LEFT JOIN variedades v ON l.fk_variedad = v.codigo
+            LEFT JOIN fincas f ON l.fk_finca = f.codigo
+            WHERE l.estado = 1
+        `);
+
         if (rows.length > 0) {
             res.status(200).json(rows);
         } else {
             res.status(404).json({
-                message:"No encontramos a ningun lote"
-            })
+                message: "No encontramos a ningun lote"
+            });
         }
     } catch (error) {
         res.status(500).json({

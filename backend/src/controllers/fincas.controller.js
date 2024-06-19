@@ -58,7 +58,7 @@ export const getBuscarIdCaficultor = async (req, res) => {
             [fk_caficultor]
         );
 
-        if (usuario[0].tipo_usuario == 'caficultor') {
+        if (usuario[0].tipo_usuario == 'caficultor' || usuario[0].tipo_usuario=='catador') {
             const [rows] = await pool.query(`
             SELECT f.codigo, f.nombre_finca, f.dimension_mt2, u.nombre AS fk_caficultor, m.nombre AS municipio, f.vereda, f.estado
             FROM fincas f
@@ -179,9 +179,9 @@ export const actualizarFincas = async(req,res)=>{
             return res.status(400).json(errorss.array());
         }
         const {codigo}=req.params
-        const {nombre, dimension_mt2,fk_caficultor,municipio,vereda}=req.body
+        const {nombre_finca, dimension_mt2,fk_caficultor,municipio,vereda}=req.body
     
-        const[result]=await pool.query('UPDATE fincas SET nombre_finca=IFNULL(?,nombre_finca),dimension_mt2=IFNULL(?,dimension_mt2),fk_caficultor=IFNULL(?,fk_caficultor),municipio=IFNULL(?,municipio),vereda=IFNULL(?,vereda) WHERE codigo=?',[nombre,dimension_mt2,fk_caficultor,municipio,vereda,codigo])
+        const[result]=await pool.query('UPDATE fincas SET nombre_finca=IFNULL(?,nombre_finca),dimension_mt2=IFNULL(?,dimension_mt2),fk_caficultor=IFNULL(?,fk_caficultor),municipio=IFNULL(?,municipio),vereda=IFNULL(?,vereda) WHERE codigo=?',[nombre_finca,dimension_mt2,fk_caficultor,municipio,vereda,codigo])
         if(result.affectedRows > 0){
             res.status(200).json({
                 message:"finca actualizada exitosamente"})
