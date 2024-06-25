@@ -291,6 +291,7 @@ const styles = StyleSheet.create({
   headTable: {
     fontSize: 14,
     height: '30px',
+    margin: 0
   },
   headTableDes: {
     fontSize: 14,
@@ -597,14 +598,25 @@ const PDFReport = ({ data, datos }) => (
                   <View style={styles.tableRowFisicos}>
                     <View style={styles.tableColSensorial}>
                       <Text style={styles.headTable}> PUNTAJE </Text>
-                      <Text style={styles.tableCellDatosSensory}> {datos.aroma} </Text>  
+                        <Text style={styles.tableCellDatosSensory}> {datos.aroma} </Text>  
+                        <Text style={styles.tableCellDatosSensory}> {datos.sabor} </Text>  
+                        <Text style={styles.tableCellDatosSensory}> {datos.postgusto} </Text>  
+                        <Text style={styles.tableCellDatosSensory}> {datos.acidez} </Text>  
+                        <Text style={styles.tableCellDatosSensory}> {datos.cuerpo} </Text>  
+                        <Text style={styles.tableCellDatosSensory}> {datos.uniformidad} </Text>  
+                        <Text style={styles.tableCellDatosSensory}> {datos.balance} </Text>  
+                        <Text style={styles.tableCellDatosSensory}> {datos.taza_limpia} </Text>  
+                        <Text style={styles.tableCellDatosSensory}> {datos.dulzura} </Text>  
+                        <Text style={styles.tableCellDatosSensory}> {datos.punteo} </Text>  
+                        <Text style={styles.tableCellDatosSensory}> {datos.punteo_final} </Text>  
                     </View>
                   </View>
                   </View>
                   <View style={styles.halfTable}>
-                    <View style={styles.tableColSenso}>
-                      <Text style={styles.headTableDes}> DESCRIPCIÓN </Text>
-                      <Text style={styles.headTableDes}> SENSORIAL </Text>
+                    <View style={styles.tableColSensorial}>
+                      <Text style={styles.headTable}> DESCRIPCIÓN SENSORIAL</Text>
+                     {/*  <Text style={styles.headTable}>  </Text> */}
+                      <Text style={styles.headTableDes}> {datos.notas} </Text>
                     </View>
                   </View>
                 </View>

@@ -686,7 +686,7 @@ export function Reportes() {
             <div className="flex flex-row justify-center items-center">
               {result.estado === 'terminado' && (
                 
-                <button onClick={() => handleDownloadClick(result.analisis_id)}>
+                <button onClick={() => handleDownloadClick(result.codigo)}>
                   Ver PDF
                 </button>
                     
