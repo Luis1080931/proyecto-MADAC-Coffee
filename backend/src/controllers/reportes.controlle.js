@@ -46,7 +46,7 @@ export const generarPDF = async (req, res) => {
         JOIN 
             variables var ON fk_variables = var.v_codigo
         WHERE 
-            a.codigo = ?;
+            m.codigo = ?;
     `
     const [result] = await pool.query(sql, [id])
     if(result.length>0){
@@ -151,17 +151,20 @@ export const datosSensorialPdf = async (req, res) => {
         const {id} = req.params
         let sql = `
             SELECT 
-            s.*
+            s.*,
+            m.codigo
             FROM 
                 sensoriales s
             JOIN 
                 analisis a ON s.fk_analisis = a.codigo
-            WHERE a.codigo = ?
+            JOIN 
+                muestras m ON m.codigo = fk_muestra
+            WHERE m.codigo = ?
             `
 
         const [result] = await pool.query(sql, [id])
         if(result.length>0){
-            res.status(200).json(result)
+            res.status(200).json(result[0])
         }else{
             res.status(404).json({
                 message: 'No se resultados para el analisis sensorial'
