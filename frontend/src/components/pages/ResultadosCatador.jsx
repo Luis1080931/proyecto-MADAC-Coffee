@@ -438,18 +438,17 @@ export function ResultadosCatador () {
         try {
             if(mode === 'update'){
 
-                    axiosClient.put(`/resultados/actualizar/${resultadoSeleccionado.codigo}`, datosForm).then((response) => {
-                        console.log(response)
-    
-                        if(response.status == 200){
-                            setMensaje(response.data.message)
-                            setModalAcciones(true)
-                            setModalOpen(false)
-                            fetchData()
-                        }else{
-                            alert('Error de actualizar')
-                        }
-                    })
+              axiosClient.put(`/resultados/actualizar/${resultadoSeleccionado.codigo}`, datosForm).then((response) => {
+                  console.log(response)
+                  if(response.status == 200){
+                      setMensaje(response.data.message)
+                      setModalAcciones(true)
+                      setModalOpen(false)
+                      fetchData()
+                  }else{
+                      alert('Error de actualizar')
+                  }
+              })
             } 
             setModalOpen(false)
         } catch (error) {

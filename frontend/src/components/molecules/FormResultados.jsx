@@ -12,7 +12,7 @@ const FormResultados = ({ mode, handleSubmit, onClose, actionLabel }) => {
 
     const [analisis, setAnalisis] = useState([])
     const [variables, setVariables] = useState([])
-    const { resultadosSeleccionado } = useContext(ResultadoContext)
+    const { resultadoSeleccionado } = useContext(ResultadoContext)
 
     useEffect(() => {
         axiosClient.get('/analisis/activos').then((response) => {
@@ -29,15 +29,16 @@ const FormResultados = ({ mode, handleSubmit, onClose, actionLabel }) => {
     }, [])
 
     useEffect(() => {
-        if (mode === 'update' && resultadosSeleccionado ) {
+        if (mode === 'update' && resultadoSeleccionado ) {
             
-                setFecha(resultadosSeleccionado.fecha)
-                setAnalisisFk(resultadosSeleccionado.fk_analisis)
-                setVariableFk(resultadosSeleccionado.fk_variables)
-                setValor(resultadosSeleccionado.valor)
+            setFecha(resultadoSeleccionado.fecha)
+            setAnalisisFk(resultadoSeleccionado.analisis)
+            setVariableFk(resultadoSeleccionado.variable)
+            setValor(resultadoSeleccionado.valor)
            
+            console.log('Va a actualizar', resultadoSeleccionado);
         } 
-    }, [mode, resultadosSeleccionado]);
+    }, [mode, resultadoSeleccionado]);
     
 
      const handleFormSubmit = async (e) => {

@@ -32,8 +32,8 @@ import ButtonActivar from "../atoms/ButtonActivar.jsx";
 import axiosClient from "../axiosClient.js";
 import ResultadoContext from '../../context/ResultadosContext.jsx';
 import SliderVertical from '../organisms/Slider.jsx';
-import { FaEye } from "react-icons/fa";
 import VerSensorial from '../templates/VerSensorial.jsx';
+import { VscEye } from "react-icons/vsc";
 
 export function ResultadosSensorialCatador () {
 
@@ -159,7 +159,7 @@ export function ResultadosSensorialCatador () {
         case "actions":
           return (
             <div className="flex flex-row">
-              <FaEye className='cursor-pointer text-3xl text-black mr-5' onClick={() => ver(result.codigo)} />
+              <VscEye className='cursor-pointer text-3xl text-black mr-5' onClick={() => ver(result.codigo)} />
               {result.estado === 'activo' || result.estado === 'calificado' ? (
                 <ButtonActualizar click={() =>  handleToggle('update', setResultadoSeleccionado(result))} />
               ) : (
@@ -416,7 +416,7 @@ export function ResultadosSensorialCatador () {
             sortable: true            
         },
         {
-            uid: "finca",
+            uid: "nombre_finca",
             name: 'Finca',
             sortable: true            
         },
@@ -446,20 +446,37 @@ export function ResultadosSensorialCatador () {
       const handleSubmit = (data, e) => {
         e.preventDefault()
         try {
-          axiosClient.post(`/resultados/sensorial`, data).then((response) => {
-            console.log(response.data)
-            if(response.status == 200){
-              setMensaje(response.data.message)
-              setModalAcciones(true)
-              setModalOpen(false)
-              handleCalificado(data.fk_analisis)
-              fetchData()
-            }else{
-              setMensaje(response.data.message)
-              setModalAcciones(true)
-              setModalOpen(false)
-            }
-          })
+          if(mode === 'create'){
+            axiosClient.post(`/resultados/sensorial`, data).then((response) => {
+              console.log(response.data)
+              if(response.status == 200){
+                setMensaje(response.data.message)
+                setModalAcciones(true)
+                setModalOpen(false)
+                handleCalificado(data.fk_analisis)
+                fetchData()
+              }else{
+                setMensaje(response.data.message)
+                setModalAcciones(true)
+                setModalOpen(false)
+              }
+            })
+          }else if(mode === 'update'){
+            axiosClient.put(`/resultados/actualizarSensory/${resultadoSeleccionado.codigo}`, data).then((response) => {
+              console.log(response.data)
+              if(response.status == 200){
+                setMensaje(response.data.message)
+                setModalAcciones(true)
+                setModalOpen(false)
+                handleCalificado(data.fk_analisis)
+                fetchData()
+              }else{
+                setMensaje(response.data.message)
+                setModalAcciones(true)
+                setModalOpen(false)
+              }
+            })
+          }
           
         } catch (error) {
           setMensaje('Error del servidor' , error)

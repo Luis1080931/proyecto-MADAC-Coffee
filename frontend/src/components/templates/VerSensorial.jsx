@@ -15,12 +15,12 @@ const VerSensorial = ({ open, onClose, title, data }) => {
     const stored = localStorage.getItem('user');
     const user = stored ? JSON.parse(stored) : null;
   
-    useEffect(() => {
+    /* useEffect(() => {
       axiosClient.get(`/analisis/analisisSensorialCatador/${user.identificacion}`).then((response) => {
-        console.log(response.data)
+        console.log('Ver datos:', response.data)
         setAnalisisSensorial(response.data)
       })
-    }, [])
+    }, []) */
   
     const [nivel, setnivel] = useState(0); 
     const [seco, setSeco] = useState(0)
@@ -318,9 +318,9 @@ const VerSensorial = ({ open, onClose, title, data }) => {
         <label className='mr-2'> Código del análisis: </label>
         <select value={data.fk_analisis} className='w-[200px] rounded-xl bg-gray-100 h-[40px] mb-5'>
           <option hidden> Seleccione analisis ... </option>
-          {analisisSensorial.map(analisis => (
-            <option value={analisis.codigo} key={analisis.codigo}> {analisis.codigo} </option>
-          ))}
+          
+            <option value={analisis.codigo} key={analisis.codigo}> {data.fk_analisis} </option>
+          
         </select>
         <div className='flex flex-col justify-center '>
           <div className='flex flex-row h-44'>

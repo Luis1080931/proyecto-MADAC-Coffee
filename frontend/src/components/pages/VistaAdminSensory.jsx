@@ -32,8 +32,8 @@ import ButtonActivar from "../atoms/ButtonActivar.jsx";
 import axiosClient from "../axiosClient.js";
 import ResultadoContext from '../../context/ResultadosContext.jsx';
 import SliderVertical from '../organisms/Slider.jsx';
-import { FaEye } from "react-icons/fa";
 import VerSensorial from '../templates/VerSensorial.jsx';
+import { VscEye } from "react-icons/vsc";
 
 export function VistaAdminSensory () {
 
@@ -159,7 +159,7 @@ export function VistaAdminSensory () {
         case "actions":
           return (
             <div className="flex flex-row">
-              <FaEye className='cursor-pointer text-3xl text-black mr-5' onClick={() => ver(result.codigo)} />
+              <VscEye className='cursor-pointer text-3xl text-black mr-5' onClick={() => ver(result.codigo)} />
               {/* {result.estado === 'activo' || result.estado === 'calificado' ? (
                 <ButtonActualizar click={() =>  handleToggle('update', setResultadoSeleccionado(result))} />
               ) : (
