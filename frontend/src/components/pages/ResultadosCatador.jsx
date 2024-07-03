@@ -135,8 +135,6 @@ export function ResultadosCatador () {
       });
     }, [sortDescriptor, items]);
   
-    const { resultadoSeleccionado, seleccionarResultado }  = useContext(ResultadoContext)
-  
     const renderCell = React.useCallback((result, columnKey) => {
       const cellValue = result[columnKey];
   
@@ -350,7 +348,7 @@ export function ResultadosCatador () {
 
     const [modalOpen, setModalOpen] = useState(false)
     const [ modalAcciones, setModalAcciones ] = useState(false)
-    const [mode, setMode] = useState('create')
+    const [mode, setMode] = useState('update')
     const [mensaje, setMensaje] = useState('')
     const [results, setResults] = useState([]);
     const { resultadoSeleccionado, setResultadoSeleccionado } = useContext(ResultadoContext)
@@ -549,7 +547,6 @@ export function ResultadosCatador () {
       };
 
   return (
-    <ResultadoProvider>
       <div className='bg-[#EAEDF6] h-screen max-h-max'>
           <Header title="Resultado de los análisis fisicos" />
             <div className='bg-[#EAEDF6]'>
@@ -623,6 +620,5 @@ export function ResultadosCatador () {
 
             </div>
       </div>
-    </ResultadoProvider>
   )
 }

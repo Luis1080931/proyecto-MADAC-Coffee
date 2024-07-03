@@ -33,7 +33,7 @@ const FormResultados = ({ mode, handleSubmit, onClose, actionLabel }) => {
             
             setFecha(resultadoSeleccionado.fecha)
             setAnalisisFk(resultadoSeleccionado.analisis)
-            setVariableFk(resultadoSeleccionado.variable)
+            setVariableFk(resultadoSeleccionado.v_codigo)
             setValor(resultadoSeleccionado.valor)
            
             console.log('Va a actualizar', resultadoSeleccionado);
