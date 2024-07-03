@@ -6,7 +6,7 @@ export const listarResultados = async (req, res) => {
 
     try {
         
-        let sql = `SELECT codigo, fecha, fk_analisis AS analisis, nombre AS variable, valor, r.estado FROM resultados AS r JOIN variables ON fk_variables = v_codigo`
+        let sql = `SELECT codigo, fecha, fk_analisis AS analisis, nombre AS variable, v_codigo, valor, r.estado FROM resultados AS r JOIN variables ON fk_variables = v_codigo`
 
         const [result] = await pool.query(sql)
 
