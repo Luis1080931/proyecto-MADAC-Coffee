@@ -21,6 +21,7 @@ import GlobalProvider from "../context/GlobalContext.jsx";
 import { Reportes } from "./pages/Reportes.jsx";
 import { ResultadosSensorialCatador } from "./pages/ResultadosSensorial.jsx";
 import { VistaAdminSensory } from "./pages/VistaAdminSensory.jsx";
+import RadarChart from "./organisms/RadarGraphic.jsx";
 
 const stored = localStorage.getItem('user');
 const user = stored ? JSON.parse(stored) : null;
@@ -32,6 +33,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/radar" element={<RadarChart />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/slider" element={<SliderVertical />} />

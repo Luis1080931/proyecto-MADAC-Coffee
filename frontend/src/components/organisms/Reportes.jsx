@@ -3,6 +3,7 @@ import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/
 import logoSena from './../../assets/icons/logoPDFSENA.png'
 import logoSennova from './../../assets/icons/logoSennova.png'
 import logoENCC from './../../assets/icons/ENCC.jpg'
+import RadarChart from './RadarGraphic';
 
 Font.register({
   family: 'Roboto',
@@ -622,10 +623,12 @@ const PDFReport = ({ data, datos }) => (
                 </View>
             </View>
           </View>
+          
         </View>
       ): (
         ''
       )}
+      <RadarChart />
     </Page>
   </Document>
 );
