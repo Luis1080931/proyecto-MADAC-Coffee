@@ -27,7 +27,7 @@ import {
 function VistaAnalisisCatador() {
 
 const statusColorMap = {
-  asignado: "success",
+  asignado: "primary",
   calificado: "warning",
   terminado: "danger",
 };
@@ -100,9 +100,14 @@ function Ejemplo() {
     switch (columnKey) {
       case "estado":
         return (
-          <Chip className="capitalize" color={statusColorMap[result.estado]} size="sm" variant="flat">
-            {cellValue}
-          </Chip>
+          <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={statusColorMap[result.estado]}
+                size="sm"
+                variant="dot"
+            >
+                {cellValue}
+            </Chip>
         )
       default:
         return cellValue;

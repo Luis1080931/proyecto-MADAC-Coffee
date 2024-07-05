@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import FormMuestras from '../molecules/FormMuestras.jsx';
 import { ModalAcciones } from '../organisms/Modal.jsx';
 import MuestrasContext from '../../context/MuestrasContext.jsx';
-import axiosClient from '../axiosClient.js';
+import { Input } from '@nextui-org/react';
 
 const VerMuestras = ({ open, onClose, title, data }) => {
+
+  const {idMuestras} = useContext(MuestrasContext)
+
   return (
     <>
       <ModalAcciones open={open} title={title} onClose={onClose}>
@@ -13,7 +15,7 @@ const VerMuestras = ({ open, onClose, title, data }) => {
             <div className='flex flex-row'>
               <div className='flex flex-col mr-2 w-[190px]'>
                 <div className="flex w-[190px] flex-wrap md:flex-nowrap mb-4">
-                  <Input id='fecha' type="date" name="fecha" value={datos.fecha} readOnly />
+                  <Input id='fecha' type="date" name="fecha" value={idMuestras.fecha} readOnly />
                 </div>
                 <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                   <Input id='tipoMolienda' name='tipoMolienda' type="decimal" value={datos.tipo_molienda} readOnly />

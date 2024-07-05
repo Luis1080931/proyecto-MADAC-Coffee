@@ -14,7 +14,7 @@ export const Login = () => {
 
     const [mensaje, setMensaje] = useState('')
     const [modalAcciones, setModalAcciones] = useState(false)
-    const [modalOpen, setModalOpen] = useState(false)
+    const [modalOpen, setModalOpen] = useState(true)
 
     const baseURL = "http://localhost:3000/validacion"
 
@@ -83,88 +83,74 @@ const handleAccept = () => {
   setModalAcciones(false)
 }
 
-  return (
-    <div>
-
-        <HeaderLogin title="MADAC-Coffee" />
-
+return (
+  <div>
+    <div 
+      className='relative flex justify-center items-center'
+      style={{ height: '100vh' }}
+    >
       <div 
-      style={{
-        backgroundImage: `url(${fondo})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        height: '100vh'
-      }}
-      >
-            <Button className='w-28 m-10 rounded-lg bg-[#273468] text-white font-bold text-xl' onPress={() => setModalOpen(true)}>
-                Login
-            </Button>
+        className='absolute inset-0 bg-cover bg-no-repeat z-0' 
+        style={{ 
+          backgroundImage: `url(${fondo})`,
+          filter: 'blur(8px)', // Aplica el efecto borroso
+          opacity: 0.5 // Ajusta la opacidad según tus necesidades
+        }}
+      ></div>
+      <div className='relative bg-white rounded-lg w-[870px] bg-transparent z-10'>
+        <div className='flex flex-row justify-center content-center items-center'>
+          <img className='w-[500px] h-[600px] mr-10' src={caficultor} alt="" />
+          <form method='post' onSubmit={handleSubmit} className='mr-8'>
+            <div className='mb-5 text-center'>
+              <label className='text-2xl font-semibold'>Inicio de sesión</label>
+              <Input
+                className='w-[300px] mt-5'
+                autoFocus
+                endContent={
+                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                }
+                required={true}
+                label="Email"
+                placeholder="Ingresa tu correo"
+                variant="bordered"
+                ref={correo_electronico}
+              />
+            </div>
+            <div>
+              <Input
+                className='w-[300px]'
+                endContent={
+                  <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                }
+                label="Password"
+                placeholder="Ingresa tu contraseña"
+                type="password"
+                variant="bordered"
+                required={true}
+                ref={password}
+              />
+            </div> 
+            <div className='flex flex-col items-center mt-5'>
+              <Button type='submit' className='bg-[#273468] text-white font-bold' onSubmit={handleSubmit}>
+                Iniciar sesión
+              </Button>
+              <div className="flex py-2 px-1 justify-between">
+                <Link color="primary" href="#" size="sm">
+                  Forgot password?
+                </Link>
+              </div>
+            </div>
+          </form>
         </div>
-
-        <AccionesModal 
-          isOpen={modalAcciones} 
-          onClose={()=>setModalAcciones(false)}
-          label={mensaje}
-          onAccept={handleAccept}
-        />
-
-      <Modal size='3xl' isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">Inicio de sesión</ModalHeader>
-              <ModalBody>
-                <div className='flex flex-row justify-center content-center items-center'>
-                  <img className='w-80 h-96 mr-10 rounded-lg' src={caficultor} alt="" />
-                <form method='post' onSubmit={handleSubmit}>
-                  <div className='mb-5'>
-                    <Input
-                      className='w-[300px]'
-                      autoFocus
-                      endContent={
-                        <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                      }
-                      required={true}
-                      label="Email"
-                      placeholder="Ingresa tu correo"
-                      variant="bordered"
-                      ref={correo_electronico}
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      className='w-[300px]'
-                      endContent={
-                        <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                      }
-                      label="Password"
-                      placeholder="Ingresa tu contraseña"
-                      type="password"
-                      variant="bordered"
-                      required={true}
-                      ref={password}
-                    />
-                  </div> 
-                
-                <ModalFooter className='flex justify-center items-center'>
-                <Button type='submit' className='bg-[#273468] text-white font-bold' onSubmit={handleSubmit}>
-                  Iniciar sesión
-                </Button>
-              </ModalFooter>
-                </form>
-                </div>  
-                
-                
-                <div className="flex py-2 px-1 justify-between">
-                  <Link color="primary" href="#" size="sm">
-                    Forgot password?
-                  </Link>
-                </div>
-              </ModalBody>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      </div>
     </div>
-  )
+    <AccionesModal 
+      isOpen={modalAcciones} 
+      onClose={()=>setModalAcciones(false)}
+      label={mensaje}
+      onAccept={handleAccept}
+    />
+  </div>
+);
+
 }

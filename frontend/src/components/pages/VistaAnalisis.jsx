@@ -30,7 +30,7 @@ import AnalisisContext from '../../context/AnalisisContext.jsx';
 function VistaAnalisis() {
 
 const statusColorMap = {
-  asignado: "success",
+  asignado: "primary",
   calificado: "warning",
   terminado: "danger",
 };
@@ -103,15 +103,20 @@ function Ejemplo() {
     switch (columnKey) {
       case "estado":
         return (
-          <Chip className="capitalize" color={statusColorMap[result.estado]} size="sm" variant="flat">
-            {cellValue}
-          </Chip>
+          <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={statusColorMap[result.estado]}
+                size="sm"
+                variant="dot"
+            >
+                {cellValue}
+            </Chip>
         );
       case "actions":
         return (
           <div className="flex flex-row">
             <ButtonActualizar click={() =>  handleToggle('update', setAnalisisId(result))} /> 
-            {result.estado === 'asignado' ? (
+            {result.estado === 'asignado' || result.estado === 'calificado' ? (
               <ButtonDesactivar click={() => handleDesactivar(result.codigo)} />
             ) : (
               <ButtonActivar click={() => handleActivar(result.codigo)} />

@@ -18,7 +18,10 @@ import PDFReport from "./organisms/Reportes.jsx";
 import VistaAnalisisCatador from "./pages/AnalisisCatador.jsx";
 import { ResultadosCatador } from "./pages/ResultadosCatador.jsx";
 import GlobalProvider from "../context/GlobalContext.jsx";
-
+import { Reportes } from "./pages/Reportes.jsx";
+import { ResultadosSensorialCatador } from "./pages/ResultadosSensorial.jsx";
+import { VistaAdminSensory } from "./pages/VistaAdminSensory.jsx";
+import RadarChart from "./organisms/RadarGraphic.jsx";
 
 const stored = localStorage.getItem('user');
 const user = stored ? JSON.parse(stored) : null;
@@ -30,30 +33,34 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/radar" element={<RadarChart />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/slider" element={<SliderVertical />} />
               <Route path="/estadisticas" element={<AnalisisFisicosChart />} />
               <Route path="/pdf" element={<PDFReport />} />
               <Route path="/analisis" element={<VistaAnalisis />} />
-              {user && user.tipo_usuario === 'admin' && (
-                <>
+              {/* {user && user.tipo_usuario === 'admin' && (
+                <> */}
                   <Route path="/usuarios" element={<Usuarios />} />
                   <Route path="/fincas" element={<Fincas />} />
                   <Route path="/lotes" element={<Lotes />} />
                   <Route path="/resultados" element={<Resultados />} />
+                  <Route path="/sensorial" element={<VistaAdminSensory/>} />
                   <Route path="/variables" element={<Variables />} />
                   <Route path="/muestras" element={<Muestras />} />
                   <Route path="/variedades" element={<VistaVariedades />} />
-                </>
-              )}
-              {user && user.tipo_usuario === 'catador' && (
-                <>
+                {/* </>
+              )} */}
+             {/*  {user && user.tipo_usuario === 'catador' && (
+                <> */}
                   <Route path="/analisisCatador" element={<VistaAnalisisCatador />} />
                   <Route path="/resultadosCatador" element={<ResultadosCatador />} />
-                </>
-              )}
-            </Route>
+                  <Route path="/resultadosSensorial" element={<ResultadosSensorialCatador />} />
+                {/* </>
+              )} */}
+              <Route path="/reportes" element={<Reportes />} />
+              </Route>
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>

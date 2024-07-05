@@ -6,7 +6,7 @@ export const listarResultados = async (req, res) => {
 
     try {
         
-        let sql = `SELECT codigo, fecha, fk_analisis AS analisis, nombre AS variable, valor, r.estado FROM resultados AS r JOIN variables ON fk_variables = v_codigo`
+        let sql = `SELECT codigo, fecha, fk_analisis AS analisis, nombre AS variable, v_codigo, valor, r.estado FROM resultados AS r JOIN variables ON fk_variables = v_codigo`
 
         const [result] = await pool.query(sql)
 
@@ -173,6 +173,59 @@ export const buscarResultados = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({
+            message: 'Error del servidor' + error
+        })
+    }
+}
+
+export const registrarSensorial = async (req, res) => {
+    try {
+        const {fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisis} = req.body
+
+        let sql = `INSERT INTO sensoriales (fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisis) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+
+        const [rows] = await pool.query(sql, [fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisis])
+
+        if(rows.affectedRows>0){
+            res.status(200).json({
+                status: 200,
+                message: 'Se realizó con exito el registro'
+            })
+        }else{
+            res.status(403).json({
+                status: 403,
+                message: 'No se pudo realizar el registro'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
+            message: 'Error del servidor' + error
+        })
+    }
+}
+
+export const actualizarSensorial = async (req, res) => {
+    try {
+        const {fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisis} = req.body
+        const {id} = req.params
+
+        const [rows] = await pool.query(`UPDATE sensoriales SET fecha=IFNULL(?, fecha), aroma=IFNULL(?, aroma), sabor=IFNULL(?, sabor), postgusto=IFNULL(?, postgusto), acidez=IFNULL(?, acidez), cuerpo=IFNULL(?, cuerpo), uniformidad=IFNULL(?, uniformidad), balance=IFNULL(?, balance), taza_limpia=IFNULL(?, taza_limpia), dulzura=IFNULL(?, dulzura), general=IFNULL(?, general), punteo=IFNULL(?, punteo), taza_defecto=IFNULL(?, taza_defecto), intensidad_defecto=IFNULL(?, intensidad_defecto), sub_defecto=IFNULL(?, sub_defecto), punteo_final=IFNULL(?, punteo_final), notas=IFNULL(?, notas), fk_analisis=IFNULL(?, fk_analisis) WHERE codigo = ?`, [fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisis, id])
+
+        if(rows.affectedRows>0){
+            res.status(200).json({
+                status: 200,
+                message: 'Se actualizó con exito el resultado'
+            })
+        }else{
+            res.status(403).json({
+                status: 403,
+                message: 'No se pudo realizar la actualizacion'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 500,
             message: 'Error del servidor' + error
         })
     }
