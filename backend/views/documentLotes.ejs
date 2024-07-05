@@ -21,18 +21,18 @@
         <tr><td>Header</td> <td> Token: token </td></tr>
         <tr><td>Usuarios</td><td>Administrador</td></tr>
         <tr><td>Peticion JSON</td><td>
-            {
-                "numero_arboles": 100,
-                "fk_finca":7,
-                "fk_variedad": 4,
-                "estado": 1
+            { <br>
+                "numero_arboles": 100, <br>
+                "fk_finca":7, <br>
+                "fk_variedad": 4, <br>
+                "estado": 1 <br>
               }
         </td></tr>
         <tr><td>Respuesta JSON</td><td>
-            Correcto:
-            Status:200
-            json:{
-            "message": "Lote registrado correctamente"
+            Correcto: 
+            Status:200 
+            json:{ 
+            "message": "Lote registrado correctamente" 
             }
           <br>
           Incorrecto:
@@ -68,16 +68,16 @@
         <tr><td>Peticion JSON</td><td>Null</td></tr>
         <tr><td>Respuesta JSON</td><td>
             Correcto:
-            Status:200
-            json:
-            [
-        {
-            "codigo": 3,
-             "numero_arboles": 300,
-            "fk_finca": 5,
-             "fk_variedad": 3,
-            "estado": "activo"
-        }
+            Status:200 <br>
+            json: <br>
+            [ <br>
+        { <br>
+            "codigo": 3, <br>
+             "numero_arboles": 300, <br>
+            "fk_finca": 5, <br>
+             "fk_variedad": 3, <br>
+            "estado": "activo" <br>
+        } <br>
             ]
           <br>
           Incorrecto:
@@ -137,10 +137,47 @@
             <td> Sergio Andrés Vargas </td>
         </tr>
     </table>
+    <h3> Requerimiento activar lote </h3>
+
+    <table>
+        <tr><td>Numero</td><td>19</td></tr>
+        <tr><td>Nombre del servicio</td><td>Activar lote</td></tr>
+        <tr><td>Url</td><td>/lotes/activar/3</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador activar el lote</td></tr>
+        <tr><td>Verbo HTTP</td><td>PUT</td></tr>
+        <tr><td>Header</td> <td> Token: token </td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+              Null
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:
+            Status:200
+            json:{
+                "message": "Se activó con éxito el lote"
+            }
+          <br>
+          Incorrecto:
+          Status:403
+           JSON:{
+            message:"No se pudo activar el lote"
+           }
+           <br>
+           Error:
+           Status:500
+           JSON:{
+            message:"error en el servidor"+error
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
     <hr>
     <h3> Requerimiento actualizar lote </h3>
     <table>
-        <tr><td>Numero</td><td>19</td></tr>
+        <tr><td>Numero</td><td>20</td></tr>
         <tr><td>Nombre del servicio</td><td>Actualizar Lotes</td></tr>
         <tr><td>Url</td><td>/lotes/actualizar/3</td></tr>
         <tr><td>Descripcion</td><td>Permite al administrador actualizar el lote</td></tr>
@@ -181,7 +218,7 @@
     
     <h3> Requerimiento buscar lote </h3>
     <table>
-        <tr><td>Numero</td><td>20</td></tr>
+        <tr><td>Numero</td><td>21</td></tr>
         <tr><td>Nombre del servicio</td><td>buscar lote</td></tr>
         <tr><td>Url</td><td>/lotes/buscar/3</td></tr>
         <tr><td>Descripcion</td><td>Permite al administrador buscar el lote por medio de su codigo</td></tr>
@@ -191,16 +228,16 @@
         <tr><td>Peticion JSON</td><td>Null</td></tr>
         <tr><td>Respuesta JSON</td><td>
             Correcto:
-            Status:200
-            json:
-                [
-                {
-                  "codigo": 3,
-                  "numero_arboles": 300,
-                  "fk_finca": 5,
-                  "fk_variedad": 3,
-                  "estado": "activo"
-                }
+            Status:200 <br>
+            json: <br>
+                [ <br>
+                { <br>
+                  "codigo": 3, <br>
+                  "numero_arboles": 300, <br>
+                  "fk_finca": 5, <br>
+                  "fk_variedad": 3, <br>
+                  "estado": "activo" <br>
+                } <br>
               ]
           <br>
           Incorrecto:
@@ -220,5 +257,57 @@
             <td> Sergio Andrés Vargas </td>
         </tr>
     </table>
+    <hr>
+    <h3> Requerimiento registrar lote </h3>
+
+    <table>
+        <tr><td>Numero</td><td>22</td></tr>
+        <tr><td>Nombre del servicio</td><td>listar lotes activos</td></tr>
+        <tr><td>Url</td><td>/lotes/activos</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador listar lotes activos</td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td> <td> Token: token </td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+           NULL
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto: <br>
+            Status:200 <br>
+            [ <br>
+            { <br>
+                "codigo": 2, <br>
+                "numero_arboles": 4000, <br>
+                "fk_finca": "El porvenir", <br>
+                "fk_variedad": "Aaa", <br>
+                "estado": "activo" <br>
+            }, <br>
+            { <br>
+                "codigo": 3, <br>
+                "numero_arboles": 5000, <br>
+                "fk_finca": "El porvenir", <br>
+                "fk_variedad": "Aaa", <br>
+                "estado": "activo" <br>
+            } <br>
+            ]
+          <br>
+          Incorrecto:
+          Status:403
+           JSON:{
+            message:"No se pudo registrar el lote"
+           }
+           <br>
+           Error:
+           Status:500
+           JSON:{
+            message:"error en el servidor"+error
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+
 </body>
 </html>

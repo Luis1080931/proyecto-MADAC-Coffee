@@ -48,7 +48,7 @@ export const getFinca = async (req,res)=>{
         });
     }
 };
-
+/*
 export const getBuscarIdCaficultor = async (req, res) => {
     try {
         const { fk_caficultor} = req.params;
@@ -79,7 +79,7 @@ export const getBuscarIdCaficultor = async (req, res) => {
         });
     }
 };
-
+*/
 export const postFincas=async(req,res)=>{
     try{
 

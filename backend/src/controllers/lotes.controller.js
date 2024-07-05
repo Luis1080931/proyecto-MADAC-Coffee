@@ -47,6 +47,7 @@ export const getLote = async (req, res) => {
         });
     }
 };
+/*
 export const buscarIdFinca = async (req, res) => {
     try {
         const { fk_finca } = req.params;
@@ -71,7 +72,7 @@ export const buscarIdFinca = async (req, res) => {
         });
     }
 };
-
+*/
 export const postLotes=async(req,res)=>{
     try{
         
