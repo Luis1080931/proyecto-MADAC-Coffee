@@ -1,0 +1,49 @@
+
+
+.nav-menu.active{
+  left: 0;
+  transition: 550ms;
+  scroll-behavior: smooth;
+  z-index: 500;
+  overflow-x: hidden;
+  transition: 550ms;
+  scroll-behavior: smooth;
+  z-index: 500;
+  overflow-x: hidden;
+}
+
+.nav-menu{
+  background-color: #336699/75;
+  width: 250px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  transition: 850ms;
+  scroll-behavior: smooth;
+  z-index: 500;
+}
+
+.nav-menu-user.active{
+  right: 0;
+  background-color: #273468;
+  transition: 550ms;
+  scroll-behavior: smooth;
+  z-index: 500;
+  overflow-x: hidden;
+}
+
+.nav-menu-user{
+  background-color: #336699;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  right: -100%;
+  transition: 850ms;
+  scroll-behavior: smooth;
+  z-index: 500;
+}
+

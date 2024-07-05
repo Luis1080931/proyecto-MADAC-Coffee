@@ -1,0 +1,44 @@
+/* Contenedor Menu hamburguesa */
+.bgMenu {
+  background-color: #e0e0e0;
+  height: auto;
+  width: 280px !important;
+  top: 0;
+}
+
+.imagenpersonal {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-left: 80px;
+}
+
+/* En el archivo Sidebar.css */
+.navbar-nav {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0; /* Eliminar el padding predeterminado de la lista */
+}
+
+.nav-item {
+  display: flex; /* Hacer que los elementos sean flexibles */
+  align-items: center; /* Alinear verticalmente los elementos */
+  width: 100%; /* Asegurar que los elementos ocupen todo el ancho disponible */
+}
+
+.nav-link {
+  display: flex; /* Hacer que los elementos sean flexibles */
+  align-items: center; /* Alinear verticalmente los elementos */
+  width: 100%; /* Asegurar que los elementos ocupen todo el ancho disponible */
+  padding: 10px; /* Añadir relleno para hacer clic más fácil */
+}
+
+.nav-link img {
+  width: 24px; /* Establecer un ancho fijo para los iconos */
+  height: 24px; /* Establecer una altura fija para los iconos */
+  margin-right: 10px; /* Espacio entre el icono y el texto */
+}
+
+.nav-link span {
+  flex: 1; /* Hacer que el texto ocupe el espacio restante */
+}

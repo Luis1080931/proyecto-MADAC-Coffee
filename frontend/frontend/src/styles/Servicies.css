@@ -1,0 +1,29 @@
+/* Services.css */
+.servicio-card:hover {
+    box-shadow: 5px 5px 10px #C89844, -5px -5px 10px #30b337;
+}
+
+
+/* Services.css */
+.servicio-card {
+    border: 1px solid #C89844;
+    border-radius: 10px; /* Para bordes redondeados */
+    width: 350px;
+    margin-left: 50px;
+}
+
+.copy2 {
+    background-color: rgb(230, 230, 230);
+    width: 100%; /* Ajusta el ancho al 100% */
+    position: absolute; /* Utiliza posición absoluta */
+    bottom: -340px; /* Coloca el div al fondo */
+    left: 15px; /* Alinea el div a la izquierda */
+    height: 60px;
+}
+
+.texto{
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-top: 18px;
+}

@@ -1,62 +1,59 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import {
-  ModalFooter,
-  Button,
-  Input,
-  Textarea,
-  Select,
-  SelectItem,
-} from "@nextui-org/react";
-import axiosClient from "../axiosClient";
-import MuestrasContext from "./../../context/MuestrasContext.jsx";
+import React, { useContext, useEffect, useState } from 'react';
+import { ModalFooter, Button, Input } from '@nextui-org/react';
+import axiosClient from '../axiosClient';
+import MuestrasContext from '../../context/MuestrasContext';
 
-const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose }) => {
-  const [fecha, setFecha] = useState("");
-  const [tipoMolienda, setTipoMolienda] = useState("");
-  const [densidadCafe, setDensidadCafe] = useState("");
-  const [proceso, setProceso] = useState("");
-  const [tipoTostion, setipoTostion] = useState("");
-  const [altura, setAltura] = useState("");
-  const [tiempoFermento, setTiempoFermento] = useState("");
-  const [actividadAgua, setActividadAgua] = useState("");
-  const [tiempoSecado, setTiempoSecado] = useState("");
-  const [presentacion, setPresentacion] = useState("");
-  const [loteFk, setLoteFk] = useState("");
+//melo 
+
+const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
+  const [fecha, setFecha] = useState('');
+  const [tipoMolienda, setTipoMolienda] = useState('');
+  const [densidadCafe, setDensidadCafe] = useState('');
+  const [proceso, setProceso] = useState('');
+  const [tipoTostion, setTipoTostion] = useState('');
+  const [altura, setAltura] = useState('');
+  const [tiempoFermento, setTiempoFermento] = useState('');
+  const [actividadAgua, setActividadAgua] = useState('');
+  const [tiempoSecado, setTiempoSecado] = useState('');
+  const [presentacion, setPresentacion] = useState('');
+  const [loteFk, setLoteFk] = useState('');
   const { idMuestras } = useContext(MuestrasContext);
-
   const [lotes, setLotes] = useState([]);
 
   useEffect(() => {
-    axiosClient.get("/lotes/activos").then((response) => {
-      console.log(response.data);
-      setLotes(response.data);
-    });
+    axiosClient.get('/lotes/activos')
+      .then((response) => {
+        console.log('Lotes recibidos:', response.data); // Ver los lotes recibidos
+        setLotes(response.data);
+      })
+      .catch((error) => {
+        console.error('Error al obtener los lotes:', error);
+      });
   }, []);
 
   useEffect(() => {
-    if (mode === "update" && idMuestras) {
-        const fechaParts = idMuestras.fecha.split('/'); // Dividir la fecha en partes
+    if (mode === 'update' && idMuestras) {
+        const fechaParts = idMuestras.fecha.split('/');
         const formattedFecha = new Date(fechaParts[2], fechaParts[1] - 1, fechaParts[0]).toISOString().slice(0, 10);
         setFecha(formattedFecha);
-        setTipoMolienda(idMuestras.tipo_molienda),
-        setDensidadCafe(idMuestras.densidad_cafe),
-        setProceso(idMuestras.proceso_fermentacion),
-        setipoTostion(idMuestras.tipo_tostion),
-        setAltura(idMuestras.altura_MSNM),
-        setTiempoFermento(idMuestras.tiempo_fermentacion),
-        setActividadAgua(idMuestras.actividad_agua),
+        setTipoMolienda(idMuestras.tipo_molienda);
+        setDensidadCafe(idMuestras.densidad_cafe);
+        setProceso(idMuestras.proceso_fermentacion);
+        setTipoTostion(idMuestras.tipo_tostion);
+        setAltura(idMuestras.altura_MSNM);
+        setTiempoFermento(idMuestras.tiempo_fermentacion);
+        setActividadAgua(idMuestras.actividad_agua);
         setTiempoSecado(idMuestras.tiempo_secado);
-      setPresentacion(idMuestras.presentacion);
-      setLoteFk(idMuestras.fk_lote);
+        setPresentacion(idMuestras.presentacion);
+        setLoteFk(idMuestras.fk_lote);
+        console.log('Datos de idMuestras recibidos:', idMuestras); // Ver los datos de idMuestras recibidos
     }
   }, [mode, idMuestras]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const fechaValue = new Date(fecha).toISOString().slice(0, 10);
-
       const datosForm = {
         fecha: fechaValue,
         tipo_molienda: tipoMolienda,
@@ -70,10 +67,11 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose }) => {
         presentacion: presentacion,
         fk_lote: parseInt(loteFk),
       };
+      console.log('Datos del formulario enviados:', datosForm); // Ver los datos enviados
       handleSubmit(datosForm, e);
     } catch (error) {
-      alert("Error al conectar con el servidor" + error);
-      console.log("Error al conectar con el servidor formulario " + error);
+      console.error('Error al conectar con el servidor:', error);
+      alert('Error al conectar con el servidor' + error);
     }
   };
 
@@ -90,7 +88,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose }) => {
                 value={fecha}
                 onChange={(e) => setFecha(e.target.value)}
                 required={true}
-                placeholder="Ingresa la fecha "
+                placeholder="Ingresa la fecha"
               />
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
@@ -123,7 +121,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose }) => {
                 required={true}
                 value={proceso}
                 onChange={(e) => setProceso(e.target.value)}
-                placeholder="Proceso fermetación"
+                placeholder="Proceso fermentación"
               />
             </div>
             <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
@@ -133,8 +131,8 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose }) => {
                 name="tipoTostion_cafe"
                 required={true}
                 value={tipoTostion}
-                onChange={(e) => setipoTostion(e.target.value)}
-                placeholder="Tostion del café"
+                onChange={(e) => setTipoTostion(e.target.value)}
+                placeholder="Tostión del café"
               />
             </div>
           </div>
@@ -154,7 +152,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose }) => {
               <Input
                 id="tipo_tiempoFermento"
                 type="text"
-                name="tipo_tiempoFermento"
+                name ="tipo_tiempoFermento"
                 value={tiempoFermento}
                 onChange={(e) => setTiempoFermento(e.target.value)}
                 required={true}
@@ -200,21 +198,16 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose }) => {
           <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
             <select
               className="w-[400px] rounded-xl bg-gray-100 h-[40px]"
-              label="Selecciones el lote"
+              label="Seleccione el lote"
               value={loteFk}
               onChange={(e) => setLoteFk(e.target.value)}
               required={true}
             >
               <option value="" hidden>
-                {" "}
-                Seleccione el lote...{" "}
+                Seleccione el lote...
               </option>
               {lotes.map((lote) => (
-                <option
-                  key={lote.codigo}
-                  value={lote.codigo}
-                  textValue={lote.codigo}
-                >
+                <option key={lote.codigo} value={lote.codigo}>
                   {lote.codigo}
                 </option>
               ))}

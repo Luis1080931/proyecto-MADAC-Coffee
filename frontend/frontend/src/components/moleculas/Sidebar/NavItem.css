@@ -1,0 +1,83 @@
+/*<li> menu hamburguesa */
+.nav-item {
+  color: #2C2929 !important;
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+/*Hover <li> menu hamburguesa */
+.nav-item:hover {
+  cursor: pointer;
+  border-radius: 15px;
+  background-color: green;
+  width: 200px;
+}
+
+.navbar-nav {
+  margin-top: 50px;
+}
+
+/* <a> menu hamburguesa */
+.navbar-nav .nav-link {
+  top: 30px;
+  margin-right: 100px;
+  margin-left: 25px;
+  align-items: left;
+  display: flex;
+}
+
+/* <a> hover menu hamburguesa */
+.navbar-nav .nav-link:hover {
+  color: white !important;
+}
+
+/* Boton Hamburguesa */
+/* Contenedor Menu hamburguesa */
+.bgMenu {
+  background-color: #1bc12e;
+  height: auto;
+  width: 200px !important;
+
+}
+
+.perfil {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.soporte {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.salir {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.perfil:hover {
+  background-color: rgb(46, 165, 46);
+  color: white !important;
+}
+
+.soporte:hover {
+  background-color: rgb(46, 165, 46);
+  color: white !important;
+}
+
+.salir:hover {
+  background-color: rgb(209, 40, 40);
+
+  color: white !important;
+}
+
+/* Mediauery */
+@media screen and (max-width: 767px) {
+  .navbar-brand {
+    display: none;
+  }
+
+  .nav-item {
+    font-size: 1.1em;
+  }
+}

@@ -1,0 +1,63 @@
+
+
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .lines {
+    width: 35px; 
+    height: 100%;
+    display: flex;
+    flex-direction: column-reverse; 
+  }
+  
+  .line {
+    width: 100%;
+    height: 10px;
+    margin-bottom: 2px; 
+  }
+  
+  .light {
+    background-color: #847d7d;
+  }
+  
+  .dark {
+    background-color: brown; 
+  }
+  
+  .ruler {
+    display: flex;
+    margin-left: 8px;
+  }
+  
+  .ruler-item {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+  }
+  
+  .lineRuler {
+    width: 2px;
+    height: 10px; 
+    background-color: #000; 
+  }
+  
+  .line-center {
+    height: 20px;
+  }
+  
+  .number {
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 18px; 
+  }
+
+  .checkbox-group {
+    display: flex;
+  }
+  
+  .checkbox {
+    margin-right: 15px; 
+  }

@@ -1,0 +1,63 @@
+/* Footer.css */
+
+.footer {
+    background-color: #026602; /* Cambiamos el color de fondo */
+    color: white;
+    padding: 50px 0;
+    padding: 50px 0;
+    margin: 0;
+    width: 100%; /* Ocupa todo el ancho */
+    bottom: 0; /* Se coloca al final de la página */
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 20px;
+}
+
+.footer-section h2 {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.socials {
+    margin-top: 20px;
+}
+
+.socials a {
+    color: white;
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-bottom {
+    background-color: #098009; /* Cambiamos el color de fondo */
+    padding: 10px 0;
+    text-align: center;
+}
+
+.footer-bottom p {
+    font-size: 14px;
+    margin: 0;
+}

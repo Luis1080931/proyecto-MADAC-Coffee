@@ -1,0 +1,26 @@
+/* styles.css */
+#inicio {
+    background: linear-gradient(rgba(107, 107, 107, 0.7), rgba(167, 167, 167, 0.7));
+    background-size: cover;
+    background-position: center center;
+    height: 100vh;
+}
+
+.dots-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #000;
+}
