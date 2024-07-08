@@ -36,7 +36,7 @@
         </tr>
         <tr>
             <td> Header </td>
-            <td> Null </td>
+            <td> Token </td>
         </tr>
         <tr>
             <td> Usuario </td>
@@ -114,7 +114,7 @@
         </tr>
         <tr>
             <td>Header</td>
-            <td>Null</td>
+            <td>Token</td>
         </tr>
         <tr>
             <td>Usuario</td>
@@ -188,7 +188,7 @@
         </tr>
         <tr>
             <td> Header </td>
-            <td> Null </td>
+            <td> Token </td>
         </tr>
         <tr>
             <td> Usuario </td>
@@ -266,7 +266,7 @@
         </tr>
         <tr>
             <td> Header </td>
-            <td> Null </td>
+            <td> Token </td>
         </tr>
         <tr>
             <td> Usuario </td>
@@ -315,11 +315,11 @@
     <table>
         <tr>
             <td> Numero </td>
-            <td> 29 </td>
+            <td> 30 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
-            <td> Desactivar analisis </td>
+            <td> Activar analisis </td>
         </tr>
         <tr>
             <td> Url </td>
@@ -336,7 +336,7 @@
         </tr>
         <tr>
             <td> Header </td>
-            <td> Null </td>
+            <td> Token </td>
         </tr>
         <tr>
             <td> Usuario </td>
@@ -385,7 +385,7 @@
     <table>
         <tr>
             <td> Numero </td>
-            <td> 30 </td>
+            <td> 31 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
@@ -405,7 +405,7 @@
         </tr>
         <tr>
             <td> Header </td>
-            <td> Null </td>
+            <td> Token </td>
         </tr>
         <tr>
             <td> Usuario </td>
@@ -453,24 +453,24 @@
     </table>
 
     <hr>
-    <h3> Requerimiento calificarAnalisis </h3>
+    <h3> Requerimiento calificar analisis</h3>
     <table>
         <tr>
             <td> Numero </td>
-            <td> 29 </td>
+            <td> 32 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
-            <td> Desactivar analisis </td>
+            <td> Calificar analisis </td>
         </tr>
         <tr>
             <td> Url </td>
-            <td> /analisis/calificar/104
+            <td> /analisis/calificar/1
             </td>
         </tr>
         <tr>
             <td> Descripción </td>
-            <td> Permite desactivar el analisis de la base de datos </td>
+            <td>Permite calificar el reporte de un analisis</td>
         </tr>
         <tr>
             <td> Verbo HTTP </td>
@@ -478,7 +478,7 @@
         </tr>
         <tr>
             <td> Header </td>
-            <td> Null </td>
+            <td> Token </td>
         </tr>
         <tr>
             <td> Usuario </td>
@@ -524,90 +524,15 @@
     </table>
 
     <hr> 
-    <h3> Requerimiento analisisActivos</h3>
+    <h3> Requerimiento listar analisis fisicos</h3>
     <table>
         <tr>
             <td>Numero</td>
-            <td> 27 </td>
+            <td> 33 </td>
         </tr>
         <tr>
             <td>Nombre del servicio</td>
-            <td>Listar analisis</td>
-        </tr>
-        <tr>
-            <td>Url</td>
-            <td>/analisis/activos</td>
-        </tr>
-        <tr>
-            <td>Descripción</td>
-            <td>Permite listar todos analisis registrados en la base de datos</td>
-        </tr>
-        <tr>
-            <td>Verbo http</td>
-            <td>Get</td>
-        </tr>
-        <tr>
-            <td>Header</td>
-            <td>Null</td>
-        </tr>
-        <tr>
-            <td>Usuario</td>
-            <td>Administrador</td>
-        </tr>
-        <tr>
-            <td>Petición body-form-data </td>
-            <td>Null</td>
-        </tr>
-        <tr>
-            <td>Respuesta json</td>
-            <td>
-                Correcto: 
-                Status: 200
-                Json: 
-               {
-        	    "codigo": 19,
-        	    "fecha": "2024-05-31T05:00:00.000Z",
-        	    "analista": "User prueba",
-        	    "muestra": 11,
-        	    "tipo_analisis": "Fisico",
-        	    "estado": "asignado"
-    		}
-
-                Incorrecto:
-                Status: 404
-                Body Json: 
-                {
-                    Status: 404
-                    Message:  "No hay analisis registrados"
-                },
-
-                Error:
-                Status: 500
-                Body Json:
-                {
-                    Status: 500
-                    Message: Error de servidor + error
-                }
-
-
-            </td>
-        </tr>
-        <tr>
-            <td> Programador </td>
-            <td> María de los Ángeles Torres </td>
-        </tr>
-    </table>    
-
-    <hr> 
-    <h3> Requerimiento analisisFisicos</h3>
-    <table>
-        <tr>
-            <td>Numero</td>
-            <td> 27 </td>
-        </tr>
-        <tr>
-            <td>Nombre del servicio</td>
-            <td>Listar analisis</td>
+            <td>Listar analisis fisicos</td>
         </tr>
         <tr>
             <td>Url</td>
@@ -615,7 +540,7 @@
         </tr>
         <tr>
             <td>Descripción</td>
-            <td>Permite listar todos analisis registrados en la base de datos</td>
+            <td>Permite listar todos analisis fisicos registrados en la base de datos</td>
         </tr>
         <tr>
             <td>Verbo http</td>
@@ -623,7 +548,7 @@
         </tr>
         <tr>
             <td>Header</td>
-            <td>Null</td>
+            <td>Token</td>
         </tr>
         <tr>
             <td>Usuario</td>
@@ -676,15 +601,15 @@
 
 
     <hr> 
-    <h3> Requerimiento analisisCatador</h3>
+    <h3> Requerimiento listar analisis asignados a un catador</h3>
     <table>
         <tr>
             <td>Numero</td>
-            <td> 27 </td>
+            <td> 34 </td>
         </tr>
         <tr>
             <td>Nombre del servicio</td>
-            <td>Listar analisis</td>
+            <td>Listar analisis asignados a un catador </td>
         </tr>
         <tr>
             <td>Url</td>
@@ -692,7 +617,7 @@
         </tr>
         <tr>
             <td>Descripción</td>
-            <td>Permite listar todos analisis registrados en la base de datos</td>
+            <td>Permite listar todos analisis asignados a un catador</td>
         </tr>
         <tr>
             <td>Verbo http</td>
@@ -700,7 +625,7 @@
         </tr>
         <tr>
             <td>Header</td>
-            <td>Null</td>
+            <td>Token</td>
         </tr>
         <tr>
             <td>Usuario</td>
@@ -754,24 +679,25 @@
         </tr>
     </table>   
 
+
     <hr> 
-    <h3> Requerimiento analisisSensorialCatador</h3>
+    <h3> Requerimiento listar analisis fisicos asignados a un catador</h3>
     <table>
         <tr>
             <td>Numero</td>
-            <td> 27 </td>
+            <td> 35 </td>
         </tr>
         <tr>
             <td>Nombre del servicio</td>
-            <td>Listar analisis</td>
+            <td>Listar analisis fisicos asignados a un catador</td>
         </tr>
         <tr>
             <td>Url</td>
-            <td>/analisisSensorialCatador/1</td>
+            <td>/analisis/analisisFisicosCatador/1</td>
         </tr>
         <tr>
             <td>Descripción</td>
-            <td>Permite listar todos analisis registrados en la base de datos</td>
+            <td>Permite listar todos analisis fisicos asignados a un catador</td>
         </tr>
         <tr>
             <td>Verbo http</td>
@@ -779,7 +705,81 @@
         </tr>
         <tr>
             <td>Header</td>
+            <td>Token</td>
+        </tr>
+        <tr>
+            <td>Usuario</td>
+            <td>Administrador</td>
+        </tr>
+        <tr>
+            <td>Petición body-form-data </td>
             <td>Null</td>
+        </tr>
+        <tr>
+            <td>Respuesta json</td>
+            <td>
+                Correcto: 
+                Status: 200
+                Json: 
+		        {
+        	    "codigo": 19,
+        	    "fecha": "2024-05-31T05:00:00.000Z",
+        	    "analista": "User prueba",
+        	    "muestra": 11,
+        	    "tipo_analisis": "Fisico",
+        	    "estado": "asignado"
+    		    }
+
+             
+                Incorrecto:
+                Status: 404
+                Body Json: 
+                {
+                    Status: 404
+                    Message:  'No se encontraron analisis'
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table> 
+
+    <hr> 
+    <h3> Requerimiento listar analisis sensoriales asignados a un catador</h3>
+    <table>
+        <tr>
+            <td>Numero</td>
+            <td> 36 </td>
+        </tr>
+        <tr>
+            <td>Nombre del servicio</td>
+            <td>Listar analisis sensoriales asignados a un catador</td>
+        </tr>
+        <tr>
+            <td>Url</td>
+            <td>/analisisSensorialCatador/1</td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td>Permite listar los analisis sensoriales asignados a un catador</td>
+        </tr>
+        <tr>
+            <td>Verbo http</td>
+            <td>Get</td>
+        </tr>
+        <tr>
+            <td>Header</td>
+            <td>Token</td>
         </tr>
         <tr>
             <td>Usuario</td>
@@ -836,15 +836,15 @@
     </table> 
 
     <hr> 
-    <h3> Requerimiento analisisSensorial</h3>
+    <h3> Requerimiento listar analisis sensoriales</h3>
     <table>
         <tr>
             <td>Numero</td>
-            <td> 27 </td>
+            <td> 37 </td>
         </tr>
         <tr>
             <td>Nombre del servicio</td>
-            <td>Listar analisis</td>
+            <td>Listar analisis sensoriales</td>
         </tr>
         <tr>
             <td>Url</td>
@@ -852,7 +852,7 @@
         </tr>
         <tr>
             <td>Descripción</td>
-            <td>Permite listar todos analisis registrados en la base de datos</td>
+            <td>Permite listar todos analisis sensoriales registrados en la base de datos</td>
         </tr>
         <tr>
             <td>Verbo http</td>
@@ -860,7 +860,7 @@
         </tr>
         <tr>
             <td>Header</td>
-            <td>Null</td>
+            <td>Token</td>
         </tr>
         <tr>
             <td>Usuario</td>
@@ -935,23 +935,23 @@
     </table> 
 
     <hr> 
-    <h3> Requerimiento analisisSensorialListar</h3>
+    <h3> Requerimiento listar analisis sensoriales por id</h3>
     <table>
         <tr>
             <td>Numero</td>
-            <td> 27 </td>
+            <td> 38 </td>
         </tr>
         <tr>
             <td>Nombre del servicio</td>
-            <td>Listar analisis</td>
+            <td>Listar analisis sensoriales por id</td>
         </tr>
         <tr>
             <td>Url</td>
-            <td>/analisis/sensorialListar</td>
+            <td>/analisis/sensorialListar/1</td>
         </tr>
         <tr>
             <td>Descripción</td>
-            <td>Permite listar todos analisis registrados en la base de datos</td>
+            <td>Permite listar analisis sensoriales  por su id</td>
         </tr>
         <tr>
             <td>Verbo http</td>
@@ -976,15 +976,28 @@
                 Status: 200
                 Json: 
 		        {
-        	    "codigo": 19,
-        	    "fecha": "2024-05-31T05:00:00.000Z",
-        	    "analista": "User prueba",
-        	    "muestra": 11,
-        	    "tipo_analisis": "Fisico",
-        	    "estado": "asignado"
+        	    "codigo": 4,
+        	    "fecha": "2024-06-03T05:00:00.000Z",
+        	    "aroma": "10",
+        	    "sabor": "10",
+        	    "postgusto": "10",
+        	    "acidez": "10",
+        	    "cuerpo": "10",
+        	    "uniformidad": "10",
+        	    "balance": "10",
+        	    "taza_limpia": "10",
+        	    "dulzura": "10",
+        	    "general": "10",
+        	    "punteo": "100",
+        	    "taza_defecto": "2",
+        	    "intensidad_defecto": "10",
+        	    "sub_defecto": "20",
+        	    "punteo_final": "80",
+        	    "notas": "Buen aroma, analisis full",
+        	    "fk_analisis": 18,
+        	    "estado": "activo"
     		    }
-
-             
+    		
                 Incorrecto:
                 Status: 404
                 Body Json: 
@@ -1010,15 +1023,15 @@
     </table> 
 
     <hr> 
-    <h3> Requerimiento buscarSensorial</h3>
+    <h3> Requerimiento buscar analisis sensoriales por su codigo</h3>
     <table>
         <tr>
             <td>Numero</td>
-            <td> 27 </td>
+            <td> 39 </td>
         </tr>
         <tr>
             <td>Nombre del servicio</td>
-            <td>Listar analisis</td>
+            <td>Buscar analisis sensoriales por su codigo</td>
         </tr>
         <tr>
             <td>Url</td>
@@ -1026,7 +1039,7 @@
         </tr>
         <tr>
             <td>Descripción</td>
-            <td>Permite listar todos analisis registrados en la base de datos</td>
+            <td>Permite buscar analisis sensoriales por su codigo</td>
         </tr>
         <tr>
             <td>Verbo http</td>
