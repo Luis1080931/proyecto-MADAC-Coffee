@@ -51,8 +51,7 @@
                     "fecha": "2024-02-12",
                     "fk_analisis": 1,
                     "fk_variables": 1,
-                    "valor": 1,
-                    "observaciones": "tus observaciones"
+                    "valor": 1
                 }
             </td>
         </tr>
@@ -317,6 +316,77 @@
 
     <hr>
 
+    <h3> Requerimiento activar resultado </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 40 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Activar resultado </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /resultados/activar/1 </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite activar resultados de la base de datos </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Put </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Token: token </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Body Json: 
+                {
+                    Status: 200,
+                    Message: Se activo el resultado con éxito
+                },
+
+                Incorrecto:
+                Status: 403
+                Body Json: 
+                {
+                    Status: 403,
+                    Message: No se pudo activar el resultado
+                },
+
+                Error:
+                Status: 500
+                Body Json: 
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> Luis Alfredo Ubaque Perdomo </td>
+        </tr>
+    </table>
+
+    <hr>
+
     <h3> Requerimiento buscar resultados </h3>
 
     <table>
@@ -385,6 +455,186 @@
                 {
                     Status: 500
                     Message: Error del servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> Luis Alfredo Ubaque Perdomo </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento registrar resultado sensorial </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 41 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Registrar resultado sensorial </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /resultados/sensorial </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite registrar resultados sensoriales a la base de datos </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Post </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Token: token </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Catador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td> {
+                "fecha": "2024-07-07", 
+                "aroma":"8", 
+                "sabor":"8", 
+                "postgusto":"8", 
+                "acidez":"8", 
+                "cuerpo": "8", 
+                "uniformidad": "8", 
+                "balance": "8", 
+                "taza_limpia": "8", 
+                "dulzura": "8", 
+                "general": "8", 
+                "punteo": "8", 
+                "taza_defecto": "8", 
+                "intensidad_defecto": "8", 
+                "sub_defecto": "8", 
+                "punteo_final": "8",
+                "notas": "8",
+                "fk_analisis": 17
+            } </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Body Json: 
+                {
+                    Status: 200,
+                    Message: Se realizó con exito el registro
+                },
+
+                Incorrecto:
+                Status: 403
+                Body Json: 
+                {
+                    Status: 403,
+                    Message: No se pudo realizar el registro
+                },
+
+                Error:
+                Status: 500
+                Body Json: 
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> Luis Alfredo Ubaque Perdomo </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3> Requerimiento actualizar resultado sensorial </h3>
+
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 42 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Actualizar resultado sensorial </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /resultados/actualizarSensory/1 </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite actualizar resultados sensoriales a la base de datos </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Put </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Token: token </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Catador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td> {
+                "fecha": "2024-07-07", 
+                "aroma":"10", 
+                "sabor":"8", 
+                "postgusto":"8", 
+                "acidez":"8", 
+                "cuerpo": "8", 
+                "uniformidad": "8", 
+                "balance": "8", 
+                "taza_limpia": "9", 
+                "dulzura": "8", 
+                "general": "8", 
+                "punteo": "8", 
+                "taza_defecto": "10", 
+                "intensidad_defecto": "8", 
+                "sub_defecto": "8", 
+                "punteo_final": "8",
+                "notas": "8",
+                "fk_analisis": 17
+            } </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Body Json: 
+                {
+                    Status: 200,
+                    Message: Se actualizó con exito el resultado
+                },
+
+                Incorrecto:
+                Status: 403
+                Body Json: 
+                {
+                    Status: 403,
+                    Message: No se pudo realizar la actualización
+                },
+
+                Error:
+                Status: 500
+                Body Json: 
+                {
+                    Status: 500
+                    Message: Error de servidor + error
                 }
             </td>
         </tr>
