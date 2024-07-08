@@ -3,7 +3,7 @@ import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/
 import logoSena from './../../assets/icons/logoPDFSENA.png'
 import logoSennova from './../../assets/icons/logoSennova.png'
 import logoENCC from './../../assets/icons/ENCC.jpg'
-import RadarChart from './RadarGraphic';
+import RadarChart from './RadarGraphic.jsx';
 
 Font.register({
   family: 'Roboto',
@@ -292,6 +292,8 @@ const styles = StyleSheet.create({
   headTable: {
     fontSize: 14,
     height: '30px',
+    width: '100%',
+    flexWrap: 'wrap',
     margin: 0
   },
   headTableDes: {
@@ -319,7 +321,27 @@ const styles = StyleSheet.create({
   },
   margins: {
     marginBottom: 200
-  }
+  },
+  firmas: {
+    flexDirection: 'row',
+    width: '100%',
+    marginTop: '300px'
+  },
+  recuadros: {
+    height: '80px',
+    width: '250px',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#000',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    textAlign: 'center',
+    flexDirection: 'column'
+  },
+  firmasText: {
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
 });
 
 const PDFReport = ({ data, datos }) => (
@@ -628,7 +650,67 @@ const PDFReport = ({ data, datos }) => (
       ): (
         ''
       )}
-      <RadarChart />
+      {/* <RadarChart datos={datos.aroma} /> */}
+    </Page>
+    <Page size='A4' style={styles.page}>
+    <View style={styles.header} fixed>
+        <View style={styles.row1}>
+          <View style={styles.col1}>
+            <Image style={styles.image} src={logoSena} />
+          </View>
+          <View style={styles.col1}>
+            <Image style={styles.image} src={logoENCC} />
+          </View>
+        </View>
+        <View style={styles.row2}>
+          <View style={styles.col2}>
+            <Text style={styles.text}>Centro de Gestión y Desarrollo Sostenible </Text>
+            <Text style={styles.text}>Surcolombiano</Text>
+            <Text style={styles.text}>Escuela Nacional de la Calidad del Café </Text>
+          </View>
+          <View style={styles.col2}>
+            <Text style={styles.text2}>INFORME SERVICIO ANALISIS FISICO SENSORIAL</Text>
+          </View>
+        </View>
+        <View style={styles.row3}>
+          <View style={styles.col3}>
+            <Image style={styles.imageSennova} src={logoSennova} />
+          </View>
+          <View style={styles.col3Text}>
+            <Text style={styles.textCol3}>CÓDIGO: {data.muestra_id}</Text>
+            <Text style={styles.textCol3}>VERSIÓN: 01</Text>
+            <Text style={styles.textCol3}>FECHA: 2023-05-05</Text>
+            <Text style={styles.textCol3}>PÁGINA: </Text>
+            {/* <Text style={styles.textCol3} render={({ pageNumber, totalPages }) => (
+              `PÁGINA: ${pageNumber} de ${totalPages}`
+            )}  /> */}
+          </View>
+        </View>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}> 7. Conclusión y recomendaciones: </Text>
+        <Text style={styles.sectionText}> Se recomienda hacer un análisis de suelo, para que pueda hacer una regulación de pH y así realizar una
+correcta fertilización del café, además se recomienda hacer una buena recolección seleccionando solo
+frutos maduros evitando granos inmaduros y sobre maduros. </Text>
+      </View>
+      <View style={styles.firmas}>
+        <View style={styles.recuadros}>
+              <Text style={styles.firmasText}> Álvaro Murcia </Text>
+              <Text style={styles.firmasText}> Instructor Análisis Sensorial - ENCC </Text>
+              <Text style={styles.firmasText}> Pitalito </Text>
+        </View>
+        <View style={styles.recuadros}>
+              <Text style={styles.firmasText}> Silvia Andrea Forero Artunduaga </Text>
+              <Text style={styles.firmasText}> Instructor Análisis Sensorial - ENCC </Text>
+              <Text style={styles.firmasText}> Pitalito </Text>
+        </View>
+        <View style={styles.recuadros}>
+              <Text style={styles.firmasText}> Julio Mario Artunduaga </Text>
+              <Text style={styles.firmasText}> Responsable Gestión Técnica - ENCC </Text>
+              <Text style={styles.firmasText}> Pitalito </Text>
+        </View>
+      </View>
+      {/* <RadarChart datos={datos.aroma} /> */}
     </Page>
   </Document>
 );
