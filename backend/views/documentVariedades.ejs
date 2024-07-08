@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Document API MADAC-Coffee </title>
-    <link rel="stylesheet" href="/estilos.css">
 </head>
 <body>
 
     <hr>
     <h2> Modulo variedades </h2>
+
     <hr>
-
     <h3> Requerimiento registrar variedades </h3>
-
     <table>
         <tr>
             <td> Numero </td>
@@ -37,7 +35,7 @@
         </tr>
         <tr>
             <td> Header </td>
-            <td> Token: token </td>
+            <td> Token </td>
         </tr>
         <tr>
             <td> Usuario </td>
@@ -113,7 +111,7 @@
         </tr>
         <tr>
             <td>Header</td>
-            <td> Token: token </td>
+            <td>Token </td>
         </tr>
         <tr>
             <td>Usuario</td>
@@ -159,13 +157,10 @@
         </tr>
     </table>
 
-    <hr>
+    
 
-   
     <hr>
-
     <h3> Requerimiento actualizar variedades </h3>
-
     <table>
         <tr>
             <td> Numero </td>
@@ -189,7 +184,7 @@
         </tr>
         <tr>
             <td> Header </td>
-            <td> Token: token </td>
+            <td> Token  </td>
         </tr>
         <tr>
             <td> Usuario </td>
@@ -240,9 +235,7 @@
     </table>
 
     <hr>
-
     <h3> Requerimiento desactivar variedades </h3>
-
     <table>
         <tr>
             <td> Numero </td>
@@ -266,7 +259,7 @@
         </tr>
         <tr>
             <td> Header </td>
-            <td> Token: token </td>
+            <td> Token  </td>
         </tr>
         <tr>
             <td> Usuario </td>
@@ -311,13 +304,80 @@
     </table>
 
     <hr>
-
-    <h3> Requerimiento buscar variedades </h3>
-
+    <h3> Requerimiento activar variedades </h3>
     <table>
         <tr>
             <td> Numero </td>
             <td> 15 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Activar variedades </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /variedades/activar/1 </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite activar las variedades de la base de datos </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Put </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Token  </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Json: 
+                {
+                   Message: 'Se activó con éxito la variedad'
+                },
+
+                Incorrecto:
+                Status: 403
+                Body Json: 
+                {
+                    Status: 403
+                    Message: 'No se pudo activar la variedad'
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>
+
+    <hr>
+    <h3> Requerimiento buscar variedades </h3>
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 16 </td>
         </tr>
         <tr>
             <td> Nombre del servicio </td>
@@ -337,7 +397,7 @@
         </tr>
         <tr>
             <td> Header </td>
-            <td> Token: token </td>
+            <td> Token  </td>
         </tr>
         <tr>
             <td> Usuario </td>
@@ -380,5 +440,82 @@
             <td> María de los Ángeles Torres </td>
         </tr>
     </table>
+
+    <hr>
+    <h3> Requerimiento listar variedades activas </h3>
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 17 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Listar variedades activas </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /variedades/activas </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite listar las variedades activas de la base de datos</td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Get </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Token  </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Peticion body-form-data </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Json: 
+               {
+        	    "codigo": 1,
+        	    "nombre": "Castillo",
+        	    "estado": "activo"
+    	       },
+               {
+      		    "codigo": 6,
+        	    "nombre": "Borbon",
+        	    "estado": "activo"
+   	            }
+  
+                Incorrecto:
+                Status: 404
+                Body Json: 
+                {
+                    Status: 404
+                    Message: "No hay variedades registradas"
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>
+
 </body>
 </html>
