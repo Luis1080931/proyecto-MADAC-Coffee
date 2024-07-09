@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-06-2024 a las 05:55:09
+-- Tiempo de generación: 10-07-2024 a las 01:58:17
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -41,13 +41,14 @@ CREATE TABLE `analisis` (
 --
 
 INSERT INTO `analisis` (`codigo`, `fecha`, `fk_analista`, `fk_muestra`, `fk_tipo_analisis`, `estado`) VALUES
-(13, '2024-04-30', 1080934, 8, 1, 'asignado'),
-(14, '2024-05-16', 1080934, 8, 1, 'terminado'),
+(13, '2024-06-06', 1080934, 8, 1, 'asignado'),
+(14, '2024-06-24', 1111, 9, 2, 'asignado'),
 (15, '2024-05-26', 1111, 9, 1, 'terminado'),
-(16, '2024-12-20', 12245, 8, 1, 'asignado'),
-(17, '2024-05-19', 12234140, 10, 2, 'terminado'),
-(18, '2024-05-20', 12234140, 10, 2, 'asignado'),
-(19, '2024-05-31', 1111, 11, 1, 'asignado');
+(16, '2024-12-20', 12245, 8, 1, 'terminado'),
+(17, '2024-06-24', 12234140, 10, 1, 'terminado'),
+(18, '2024-05-20', 12234140, 10, 2, 'calificado'),
+(19, '2024-05-31', 1111, 11, 1, 'asignado'),
+(20, '2024-06-18', 12234140, 10, 1, 'terminado');
 
 -- --------------------------------------------------------
 
@@ -70,17 +71,17 @@ CREATE TABLE `fincas` (
 --
 
 INSERT INTO `fincas` (`codigo`, `nombre_finca`, `dimension_mt2`, `fk_caficultor`, `municipio`, `vereda`, `estado`) VALUES
-(3, 'El porvenir', 13.00, 12345, 16, 'vereda', 'activo'),
+(3, 'El porvenir pa', 13.00, 12345, 16, 'Guayabal', 'activo'),
 (6, '', 12.00, 1080, 1, 'Palmito', 'inactivo'),
 (7, 'La bonita\r\n', 1300.00, 1080934638, 10, 'Puerto rico', 'activo'),
 (8, '', 1200.00, 12345, 7, 'Vereda', 'inactivo'),
-(9, '', 1200.00, 111111, 15, 'Patio bonito', 'activo'),
+(9, 'Las margaritas', 1200.00, 111111, 15, 'Patio bonito', 'activo'),
 (10, '', 1500.00, 12345, 6, 'Puerto rico', 'activo'),
 (11, '', 120.00, 12345, 4, 'Palmito', 'activo'),
 (12, '', 500.00, 12345, 5, 'Hola', 'activo'),
 (13, 'El porvenir', 3000.00, 111111, 36, 'Palmito', 'activo'),
 (14, 'La laguna', 1500.00, 111111, 18, 'gigante vereda', 'activo'),
-(15, 'Lucass', 12.00, 12235, 10, 'ver', 'activo');
+(15, 'Lucass', 12.00, 12235, 10, 'ver', 'inactivo');
 
 -- --------------------------------------------------------
 
@@ -101,7 +102,7 @@ CREATE TABLE `lotes` (
 --
 
 INSERT INTO `lotes` (`codigo`, `numero_arboles`, `fk_finca`, `fk_variedad`, `estado`) VALUES
-(2, 4000, 3, 1, 'activo'),
+(2, 8000, 11, 1, 'activo'),
 (3, 5000, 3, 1, 'activo'),
 (4, 4000, 7, 9, 'inactivo'),
 (5, 4000, 7, 11, 'inactivo'),
@@ -136,11 +137,11 @@ CREATE TABLE `muestras` (
 --
 
 INSERT INTO `muestras` (`codigo`, `fecha`, `tipo_molienda`, `densidad_cafe`, `proceso_fermentacion`, `tipo_tostion`, `altura_MSNM`, `tiempo_fermentacion`, `actividad_agua`, `tiempo_secado`, `presentacion`, `fk_lote`, `estado`) VALUES
-(8, '2024-05-26', '500.00', 'Mario', 'En tula', '12.00', 1200.00, 'secadero', 'Bajo peso de almendra', '', '', 21, 'activo'),
+(8, '2024-06-06', 'Aristobulo', 'Mario', 'En tula', 'negro', 1200.00, 'secadero', 'No especifica', '15 horas', 'C.P.S', 21, 'activo'),
 (9, '2024-05-09', '50.00', 'Jose', 'En tula', '12.00', 1200.00, 'En cilo', 'hola', '', '', 5, 'activo'),
 (10, '2024-05-20', '500.00', 'Laura', '24 horas en baba', '12.00', 1200.00, 'secadero', 'Sobre peso de almendra', '', '', 21, 'activo'),
 (11, '2024-05-26', '1000.00', 'Daniela', 'En babita', '1.00', 2000.00, 'Cilo', 'Bofffff', '', '', 3, 'activo'),
-(13, '2024-06-06', 'No se', '1 %', '24 horas en baba', '500', 2000.00, '12 horas', 'humedad', '10 horas', 'C.P.S', 22, 'activo');
+(13, '2024-06-06', 'Rosa Medina', '1 %', '24 horas en baba', '500', 2000.00, '17 horas', 'humedad', '10 horas', 'C.P.S', 3, 'activo');
 
 -- --------------------------------------------------------
 
@@ -216,36 +217,36 @@ CREATE TABLE `resultados` (
 --
 
 INSERT INTO `resultados` (`codigo`, `fecha`, `fk_analisis`, `fk_variables`, `observaciones`, `valor`, `estado`) VALUES
-(1, '2024-04-30', 13, 1, NULL, '20 g', 'inactivo'),
-(2, '2024-04-30', 13, 2, NULL, '10 g', 'inactivo'),
-(3, '2024-04-30', 13, 3, NULL, '12 g', 'inactivo'),
-(4, '2024-04-30', 13, 4, NULL, '1 g', 'inactivo'),
-(5, '2024-04-30', 13, 5, NULL, '2 g', 'inactivo'),
-(6, '2024-04-30', 13, 6, NULL, '1 g', 'inactivo'),
-(7, '2024-04-30', 13, 7, NULL, '4 g', 'inactivo'),
-(8, '2024-04-30', 13, 8, NULL, '5 g', 'inactivo'),
-(9, '2024-04-30', 13, 9, NULL, '12 g', 'inactivo'),
-(10, '2024-04-30', 13, 10, NULL, '11 g', 'inactivo'),
-(11, '2024-04-30', 13, 11, NULL, '10 g', 'inactivo'),
-(12, '2024-04-30', 13, 12, NULL, '15 g', 'inactivo'),
-(13, '2024-04-30', 13, 13, NULL, '10 g', 'inactivo'),
-(14, '2024-04-30', 13, 14, NULL, '9 g', 'inactivo'),
-(15, '2024-04-30', 13, 15, NULL, '5 g', 'inactivo'),
-(16, '2024-04-30', 13, 16, NULL, '12 %', 'inactivo'),
-(17, '2024-04-30', 13, 17, NULL, '12 g', 'inactivo'),
-(18, '2024-04-30', 13, 18, NULL, '10 %', 'inactivo'),
-(19, '2024-04-30', 13, 19, NULL, '5 %', 'inactivo'),
-(20, '2024-04-30', 13, 20, NULL, '5 kg', 'inactivo'),
-(21, '2024-04-30', 13, 21, NULL, '20 g', 'inactivo'),
-(22, '2024-04-30', 13, 22, NULL, '1 g', 'inactivo'),
-(23, '2024-04-30', 13, 23, NULL, '2 g', 'inactivo'),
-(24, '2024-04-30', 13, 24, NULL, '3 g', 'inactivo'),
-(25, '2024-04-30', 13, 25, NULL, '6 g', 'inactivo'),
-(26, '2024-04-30', 13, 26, NULL, '6 g', 'inactivo'),
-(27, '2024-04-30', 13, 27, NULL, '10 g', 'inactivo'),
-(28, '2024-04-30', 13, 28, NULL, '3 g', 'inactivo'),
-(29, '2024-04-30', 13, 29, NULL, '1 g', 'inactivo'),
-(30, '2024-04-30', 13, 30, NULL, '1 g', 'inactivo'),
+(1, '2024-10-20', 13, 1, NULL, '50g', 'activo'),
+(2, '2024-04-30', 13, 2, NULL, '10 g', 'activo'),
+(3, '2024-04-30', 13, 3, NULL, '12 g', 'activo'),
+(4, '2024-04-30', 13, 4, NULL, '1 g', 'activo'),
+(5, '2024-04-30', 13, 5, NULL, '2 g', 'activo'),
+(6, '2024-04-30', 13, 6, NULL, '1 g', 'activo'),
+(7, '2024-04-30', 13, 7, NULL, '4 g', 'activo'),
+(8, '2024-04-30', 13, 8, NULL, '5 g', 'activo'),
+(9, '2024-04-30', 13, 9, NULL, '12 g', 'activo'),
+(10, '2024-04-30', 13, 10, NULL, '11 g', 'activo'),
+(11, '2024-04-30', 13, 11, NULL, '10 g', 'activo'),
+(12, '2024-04-30', 13, 12, NULL, '15 g', 'activo'),
+(13, '2024-04-30', 13, 13, NULL, '10 g', 'activo'),
+(14, '2024-04-30', 13, 14, NULL, '9 g', 'activo'),
+(15, '2024-04-30', 13, 15, NULL, '5 g', 'activo'),
+(16, '2024-04-30', 13, 16, NULL, '12 %', 'activo'),
+(17, '2024-04-30', 13, 17, NULL, '12 g', 'activo'),
+(18, '2024-04-30', 13, 18, NULL, '10 %', 'activo'),
+(19, '2024-04-30', 13, 19, NULL, '5 %', 'activo'),
+(20, '2024-04-30', 13, 20, NULL, '5 kg', 'activo'),
+(21, '2024-04-30', 13, 21, NULL, '20 g', 'activo'),
+(22, '2024-04-30', 13, 22, NULL, '1 g', 'activo'),
+(23, '2024-04-30', 13, 23, NULL, '2 g', 'activo'),
+(24, '2024-04-30', 13, 24, NULL, '3 g', 'activo'),
+(25, '2024-04-30', 13, 25, NULL, '6 g', 'activo'),
+(26, '2024-04-30', 13, 26, NULL, '6 g', 'activo'),
+(27, '2024-04-30', 13, 27, NULL, '10 g', 'activo'),
+(28, '2024-04-30', 13, 28, NULL, '3 g', 'activo'),
+(29, '2024-04-30', 13, 29, NULL, '1 g', 'activo'),
+(30, '2024-04-30', 13, 30, NULL, '1 g', 'activo'),
 (31, '2024-05-08', 15, 1, NULL, '1', 'inactivo'),
 (32, '2024-05-08', 15, 2, NULL, '1', 'inactivo'),
 (33, '2024-05-08', 15, 3, NULL, '1', 'inactivo'),
@@ -277,70 +278,105 @@ INSERT INTO `resultados` (`codigo`, `fecha`, `fk_analisis`, `fk_variables`, `obs
 (59, '2024-05-08', 15, 29, NULL, '2', 'inactivo'),
 (60, '2024-05-08', 15, 30, NULL, '1', 'inactivo'),
 (61, '2024-05-08', 15, 31, NULL, '1', 'inactivo'),
-(62, '2024-05-20', 18, 1, NULL, '', 'activo'),
-(63, '2024-05-20', 18, 2, NULL, '', 'activo'),
-(64, '2024-05-20', 18, 3, NULL, '', 'activo'),
-(65, '2024-05-20', 18, 4, NULL, '', 'activo'),
-(66, '2024-05-20', 18, 5, NULL, '', 'activo'),
-(67, '2024-05-20', 18, 6, NULL, '', 'activo'),
-(68, '2024-05-20', 18, 7, NULL, '', 'activo'),
-(69, '2024-05-20', 18, 8, NULL, '', 'activo'),
-(70, '2024-05-20', 18, 9, NULL, '', 'activo'),
-(71, '2024-05-20', 18, 10, NULL, '', 'activo'),
-(72, '2024-05-20', 18, 11, NULL, '', 'activo'),
-(73, '2024-05-20', 18, 12, NULL, '', 'activo'),
-(74, '2024-05-20', 18, 13, NULL, '', 'activo'),
-(75, '2024-05-20', 18, 14, NULL, '', 'activo'),
-(76, '2024-05-20', 18, 15, NULL, '', 'activo'),
-(77, '2024-05-20', 18, 16, NULL, '', 'activo'),
-(78, '2024-05-20', 18, 17, NULL, '', 'activo'),
-(79, '2024-05-20', 18, 18, NULL, '', 'activo'),
-(80, '2024-05-20', 18, 19, NULL, '', 'activo'),
-(81, '2024-05-20', 18, 20, NULL, '', 'activo'),
-(82, '2024-05-20', 18, 21, NULL, '', 'activo'),
-(83, '2024-05-20', 18, 22, NULL, '', 'activo'),
-(84, '2024-05-20', 18, 23, NULL, '', 'activo'),
-(85, '2024-05-20', 18, 24, NULL, '', 'activo'),
-(86, '2024-05-20', 18, 25, NULL, '', 'activo'),
-(87, '2024-05-20', 18, 26, NULL, '', 'activo'),
-(88, '2024-05-20', 18, 27, NULL, '', 'activo'),
-(89, '2024-05-20', 18, 28, NULL, '', 'activo'),
-(90, '2024-05-20', 18, 29, NULL, '', 'activo'),
-(91, '2024-05-20', 18, 30, NULL, '', 'activo'),
-(92, '2024-05-20', 18, 31, NULL, '', 'activo'),
-(93, '2024-05-20', 18, 32, NULL, '', 'activo'),
-(94, '2024-05-19', 18, 1, NULL, '', 'activo'),
-(95, '2024-05-19', 18, 2, NULL, '', 'activo'),
-(96, '2024-05-19', 18, 3, NULL, '', 'activo'),
-(97, '2024-05-19', 18, 4, NULL, '', 'activo'),
-(98, '2024-05-19', 18, 5, NULL, '', 'activo'),
-(99, '2024-05-19', 18, 6, NULL, '', 'activo'),
-(100, '2024-05-19', 18, 7, NULL, '', 'activo'),
-(101, '2024-05-19', 18, 8, NULL, '', 'activo'),
-(102, '2024-05-19', 18, 9, NULL, '', 'activo'),
-(103, '2024-05-19', 18, 10, NULL, '', 'activo'),
-(104, '2024-05-19', 18, 11, NULL, '', 'activo'),
-(105, '2024-05-19', 18, 12, NULL, '', 'activo'),
-(106, '2024-05-19', 18, 13, NULL, '', 'activo'),
-(107, '2024-05-19', 18, 14, NULL, '', 'activo'),
-(108, '2024-05-19', 18, 15, NULL, '', 'activo'),
-(109, '2024-05-19', 18, 16, NULL, '', 'activo'),
-(110, '2024-05-19', 18, 17, NULL, '', 'activo'),
-(111, '2024-05-19', 18, 18, NULL, '', 'activo'),
-(112, '2024-05-19', 18, 19, NULL, '', 'activo'),
-(113, '2024-05-19', 18, 20, NULL, '', 'activo'),
-(114, '2024-05-19', 18, 21, NULL, '', 'activo'),
-(115, '2024-05-19', 18, 22, NULL, '', 'activo'),
-(116, '2024-05-19', 18, 23, NULL, '', 'activo'),
-(117, '2024-05-19', 18, 24, NULL, '', 'activo'),
-(118, '2024-05-19', 18, 25, NULL, '', 'activo'),
-(119, '2024-05-19', 18, 26, NULL, '', 'activo'),
-(120, '2024-05-19', 18, 27, NULL, '', 'activo'),
-(121, '2024-05-19', 18, 28, NULL, '', 'activo'),
-(122, '2024-05-19', 18, 29, NULL, '', 'activo'),
-(123, '2024-05-19', 18, 30, NULL, '', 'activo'),
-(124, '2024-05-19', 18, 31, NULL, '', 'activo'),
-(125, '2024-05-19', 18, 32, NULL, '', 'activo');
+(126, '2024-06-06', 16, 1, NULL, '1', 'inactivo'),
+(127, '2024-06-06', 16, 2, NULL, '2', 'inactivo'),
+(128, '2024-06-06', 16, 3, NULL, '3', 'inactivo'),
+(129, '2024-06-06', 16, 4, NULL, '4', 'inactivo'),
+(130, '2024-06-06', 16, 5, NULL, '5', 'inactivo'),
+(131, '2024-06-06', 16, 6, NULL, '6', 'inactivo'),
+(132, '2024-06-06', 16, 7, NULL, '7', 'inactivo'),
+(133, '2024-06-06', 16, 8, NULL, '8', 'inactivo'),
+(134, '2024-06-06', 16, 9, NULL, '9', 'inactivo'),
+(135, '2024-06-06', 16, 10, NULL, '10', 'inactivo'),
+(136, '2024-06-06', 16, 11, NULL, '11', 'inactivo'),
+(137, '2024-06-06', 16, 12, NULL, '12', 'inactivo'),
+(138, '2024-06-06', 16, 13, NULL, '13', 'inactivo'),
+(139, '2024-06-06', 16, 14, NULL, '14', 'inactivo'),
+(140, '2024-06-06', 16, 15, NULL, '15', 'inactivo'),
+(141, '2024-06-06', 16, 16, NULL, '16', 'inactivo'),
+(142, '2024-06-06', 16, 17, NULL, '17', 'inactivo'),
+(143, '2024-06-06', 16, 18, NULL, '18', 'inactivo'),
+(144, '2024-06-06', 16, 19, NULL, '19', 'inactivo'),
+(145, '2024-06-06', 16, 20, NULL, '20', 'inactivo'),
+(146, '2024-06-06', 16, 21, NULL, '21', 'inactivo'),
+(147, '2024-06-06', 16, 22, NULL, '22', 'inactivo'),
+(148, '2024-06-06', 16, 23, NULL, '23', 'inactivo'),
+(149, '2024-06-06', 16, 24, NULL, '24', 'inactivo'),
+(150, '2024-06-06', 16, 25, NULL, '25', 'inactivo'),
+(151, '2024-06-06', 16, 26, NULL, '26', 'inactivo'),
+(152, '2024-06-06', 16, 27, NULL, '27', 'inactivo'),
+(153, '2024-06-06', 16, 28, NULL, '28', 'inactivo'),
+(154, '2024-06-06', 16, 29, NULL, '29', 'inactivo'),
+(155, '2024-06-06', 16, 30, NULL, '30', 'inactivo'),
+(156, '2024-06-06', 16, 31, NULL, '31', 'inactivo'),
+(157, '2024-06-06', 16, 32, NULL, '32', 'inactivo'),
+(158, '2024-06-06', 16, 33, NULL, '33', 'inactivo'),
+(159, '2024-06-18', 20, 1, NULL, '1', 'inactivo'),
+(160, '2024-06-18', 20, 2, NULL, '2', 'inactivo'),
+(161, '2024-06-18', 20, 3, NULL, '3', 'inactivo'),
+(162, '2024-06-18', 20, 4, NULL, '4', 'inactivo'),
+(163, '2024-06-18', 20, 5, NULL, '5', 'inactivo'),
+(164, '2024-06-18', 20, 6, NULL, '6', 'inactivo'),
+(165, '2024-06-18', 20, 7, NULL, '7', 'inactivo'),
+(166, '2024-06-18', 20, 8, NULL, '8', 'inactivo'),
+(167, '2024-06-18', 20, 9, NULL, '', 'inactivo'),
+(168, '2024-06-18', 20, 10, NULL, '', 'inactivo'),
+(169, '2024-06-18', 20, 11, NULL, '', 'inactivo'),
+(170, '2024-06-18', 20, 12, NULL, '', 'inactivo'),
+(171, '2024-06-18', 20, 13, NULL, '', 'inactivo'),
+(172, '2024-06-18', 20, 14, NULL, '', 'inactivo'),
+(173, '2024-06-18', 20, 15, NULL, '', 'inactivo'),
+(174, '2024-06-18', 20, 16, NULL, '', 'inactivo'),
+(175, '2024-06-18', 20, 17, NULL, '', 'inactivo'),
+(176, '2024-06-18', 20, 18, NULL, '', 'inactivo'),
+(177, '2024-06-18', 20, 19, NULL, '', 'inactivo'),
+(178, '2024-06-18', 20, 20, NULL, '', 'inactivo'),
+(179, '2024-06-18', 20, 21, NULL, '', 'inactivo'),
+(180, '2024-06-18', 20, 22, NULL, '', 'inactivo'),
+(181, '2024-06-18', 20, 23, NULL, '', 'inactivo'),
+(182, '2024-06-18', 20, 24, NULL, '', 'inactivo'),
+(183, '2024-06-18', 20, 25, NULL, '', 'inactivo'),
+(184, '2024-06-18', 20, 26, NULL, '', 'inactivo'),
+(185, '2024-06-18', 20, 27, NULL, '', 'inactivo'),
+(186, '2024-06-18', 20, 28, NULL, '', 'inactivo'),
+(187, '2024-06-18', 20, 29, NULL, '', 'inactivo'),
+(188, '2024-06-18', 20, 30, NULL, '', 'inactivo'),
+(189, '2024-06-18', 20, 31, NULL, '', 'inactivo'),
+(190, '2024-06-18', 20, 32, NULL, '', 'inactivo'),
+(191, '2024-06-18', 20, 33, NULL, '', 'inactivo'),
+(192, '2024-06-24', 15, 1, NULL, '10', 'inactivo'),
+(193, '2024-06-24', 15, 2, NULL, '10', 'inactivo'),
+(194, '2024-06-24', 15, 3, NULL, '10', 'inactivo'),
+(195, '2024-06-24', 15, 4, NULL, '10', 'inactivo'),
+(196, '2024-06-24', 15, 5, NULL, '10', 'inactivo'),
+(197, '2024-06-24', 15, 6, NULL, '10', 'inactivo'),
+(198, '2024-06-24', 15, 7, NULL, '10', 'inactivo'),
+(199, '2024-06-24', 15, 8, NULL, '10', 'inactivo'),
+(200, '2024-06-24', 15, 9, NULL, '10', 'inactivo'),
+(201, '2024-06-24', 15, 10, NULL, '10', 'inactivo'),
+(202, '2024-06-24', 15, 11, NULL, '10', 'inactivo'),
+(203, '2024-06-24', 15, 12, NULL, '10', 'inactivo'),
+(204, '2024-06-24', 15, 13, NULL, '10', 'inactivo'),
+(205, '2024-06-24', 15, 14, NULL, '10', 'inactivo'),
+(206, '2024-06-24', 15, 15, NULL, '10', 'inactivo'),
+(207, '2024-06-24', 15, 16, NULL, '10', 'inactivo'),
+(208, '2024-06-24', 15, 17, NULL, '10', 'inactivo'),
+(209, '2024-06-24', 15, 18, NULL, '10', 'inactivo'),
+(210, '2024-06-24', 15, 19, NULL, '10', 'inactivo'),
+(211, '2024-06-24', 15, 20, NULL, '10', 'inactivo'),
+(212, '2024-06-24', 15, 21, NULL, '10', 'inactivo'),
+(213, '2024-06-24', 15, 22, NULL, '10', 'inactivo'),
+(214, '2024-06-24', 15, 23, NULL, '10', 'inactivo'),
+(215, '2024-06-24', 15, 24, NULL, '10', 'inactivo'),
+(216, '2024-06-24', 15, 25, NULL, '10', 'inactivo'),
+(217, '2024-06-24', 15, 26, NULL, '10', 'inactivo'),
+(218, '2024-06-24', 15, 27, NULL, '10', 'inactivo'),
+(219, '2024-06-24', 15, 28, NULL, '10', 'inactivo'),
+(220, '2024-06-24', 15, 29, NULL, '10', 'inactivo'),
+(221, '2024-06-24', 15, 30, NULL, '10', 'inactivo'),
+(222, '2024-06-24', 15, 31, NULL, '10', 'inactivo'),
+(223, '2024-06-24', 15, 32, NULL, '10', 'inactivo'),
+(224, '2024-06-24', 15, 33, NULL, '10', 'inactivo');
 
 -- --------------------------------------------------------
 
@@ -376,12 +412,16 @@ CREATE TABLE `sensoriales` (
 --
 
 INSERT INTO `sensoriales` (`codigo`, `fecha`, `aroma`, `sabor`, `postgusto`, `acidez`, `cuerpo`, `uniformidad`, `balance`, `taza_limpia`, `dulzura`, `general`, `punteo`, `taza_defecto`, `intensidad_defecto`, `sub_defecto`, `punteo_final`, `notas`, `fk_analisis`, `estado`) VALUES
-(2, '0000-00-00', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 17, 'activo'),
-(4, '2024-06-03', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '100', '2', '10', '20', '80', 'Buen aroma, analisis full', 18, 'activo'),
-(5, '2024-06-04', '9', '7.25', '7.5', '6.25', '8.25', '8', '9.25', '4', '6', '9.25', '73', '1', '10', '10', '63', 'El cafe presenta una deficiencia de cloro', 18, 'activo'),
-(6, '2024-06-10', '9', '7', '8.25', '7.25', '7', '2', '9.5', '6', '2', '6.75', '63', '2', '5', '10', '53', 'Hola probando', 18, 'activo'),
-(7, '2024-06-20', '8.5', '8.25', '6.5', '7.5', '6.25', '2', '7.5', '6', '2', '9', '61', '1', '10', '10', '51', 'hhhhhh', 18, 'activo'),
-(8, '2024-06-27', '10', '8.5', '7.25', '8', '7.25', '6', '6.5', '6', '4', '7.5', '69', '1', '20', '20', '49', 'aaaa', 18, 'activo');
+(4, '2024-06-03', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '100', '2', '10', '20', '80', 'Buen aroma, analisis full', 18, 'inactivo'),
+(5, '2024-06-04', '9', '7.25', '7.5', '6.25', '8.25', '8', '9.25', '4', '6', '9.25', '73', '1', '10', '10', '63', 'El cafe presenta una deficiencia de cloro', 18, 'inactivo'),
+(6, '2024-06-10', '9', '7', '8.25', '7.25', '7', '2', '9.5', '6', '2', '6.75', '63', '2', '5', '10', '53', 'Hola probando', 18, 'inactivo'),
+(7, '2024-06-20', '8.5', '8.25', '6.5', '7.5', '6.25', '2', '7.5', '6', '2', '9', '61', '1', '10', '10', '51', 'hhhhhh', 18, 'inactivo'),
+(8, '2024-06-27', '10', '8.5', '7.25', '8', '7.25', '6', '6.5', '6', '4', '7.5', '69', '1', '20', '20', '49', 'aaaa', 18, 'inactivo'),
+(9, '2024-06-11', '10', '7.5', '8.25', '6.5', '9.25', '4', '6.25', '6', '2', '7.75', '65', '1', '7', '7', '58', 'Probando', 18, 'inactivo'),
+(10, '0000-00-00', '8.5', '8.5', '9.25', '6.5', '8.5', '4', '6.5', '2', '4', '7.5', '62', '1', '5', '5', '57', 'Actualizando la prueba, analisis 17', 17, 'inactivo'),
+(11, '2024-06-24', '9', '7.25', '8.25', '7.25', '9.25', '4', '8.25', '4', '8', '8.75', '72', '5', '2', '10', '62', 'Defisis de potasio', 14, 'inactivo'),
+(12, '0000-00-00', '8.5', '7', '7.5', '6.25', '9.25', '71', '8.25', '8', '10', '6.5', '140', '1', '5', '5', '135', 'Prueba socia\n', 18, 'activo'),
+(13, '0000-00-00', '8', '7', '7.5', '6.25', '9.25', '193', '8.25', '8', '10', '6.5', '262', '1', '5', '5', '257', 'sapa sapa2', 18, 'activo');
 
 -- --------------------------------------------------------
 
@@ -423,7 +463,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`identificacion`, `telefono`, `nombre`, `correo_electronico`, `tipo_usuario`, `password`, `estado`) VALUES
-(1080, '3154051769', 'Luis Ubaque', 'luis@gmail.com', 'admin', 'luis123', 'inactivo'),
+(1080, '3154051769', 'Luis Perdomo', 'luis@gmail.com', 'admin', 'luis123', 'activo'),
 (1111, '3333333', 'User prueba', 'user@gmail.com', 'catador', 'user123', 'activo'),
 (12230, '31011111', 'Juan', 'juan@gmail.com', '', 'juan123', 'inactivo'),
 (12235, '3102934', 'Lucia', 'lucia@gmail.com', 'caficultor', 'lucia123', 'activo'),
@@ -484,8 +524,8 @@ INSERT INTO `variables` (`v_codigo`, `nombre`, `fk_tipo_analisis`, `estado`) VAL
 (29, 'Malla 14', 1, 'activo'),
 (30, 'Mallas menores', 1, 'activo'),
 (31, 'Prueba', 1, 'activo'),
-(32, 'Variable prueba 2', 2, 'activo'),
-(33, 'variable prueba 3', 1, 'inactivo');
+(32, 'Variable pruebas 2', 1, 'activo'),
+(33, 'variable prueba 3', 2, 'activo');
 
 -- --------------------------------------------------------
 
@@ -504,7 +544,7 @@ CREATE TABLE `variedades` (
 --
 
 INSERT INTO `variedades` (`codigo`, `nombre`, `estado`) VALUES
-(1, 'Aaa', 'activo'),
+(1, 'Papayo', 'activo'),
 (2, 'fj-16', 'inactivo'),
 (6, 'Borbon', 'activo'),
 (7, 'Catimore', 'inactivo'),
@@ -603,7 +643,7 @@ ALTER TABLE `variedades`
 -- AUTO_INCREMENT de la tabla `analisis`
 --
 ALTER TABLE `analisis`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `fincas`
@@ -633,13 +673,13 @@ ALTER TABLE `municipios`
 -- AUTO_INCREMENT de la tabla `resultados`
 --
 ALTER TABLE `resultados`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
 
 --
 -- AUTO_INCREMENT de la tabla `sensoriales`
 --
 ALTER TABLE `sensoriales`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_analisis`
