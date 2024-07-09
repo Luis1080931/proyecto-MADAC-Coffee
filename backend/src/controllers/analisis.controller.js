@@ -257,7 +257,24 @@ export const analisisCatador = async (req, res) => {
 export const analisisFisicosCatador = async (req, res) => {
     try {
         const {id} = req.params
-        let sql = `SELECT codigo, fecha, nombre AS analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id WHERE fk_analista = ? AND fk_tipo_analisis = 1 AND a.estado = 1`
+        let sql = `SELECT 
+                    a.codigo, 
+                    a.fecha, 
+                    u.nombre AS analista, 
+                    a.fk_muestra AS muestra, 
+                    t.tipo_analisis, 
+                    a.estado 
+                    FROM 
+                    analisis AS a 
+                    JOIN 
+                    usuarios AS u ON a.fk_analista = u.identificacion 
+                    JOIN 
+                    tipo_analisis AS t ON a.fk_tipo_analisis = t.id 
+                    WHERE 
+                    a.fk_tipo_analisis = 1 
+                    AND a.estado = 1 || a.estado = 2 
+                    AND a.fk_analista = ?
+                `
 
         const [rows] = await pool.query(sql, [id])
 
@@ -280,16 +297,32 @@ export const analisisFisicosCatador = async (req, res) => {
 export const analisisSensorialCatador = async (req, res) => {
     try {
         const {id} = req.params
-        let sql = `SELECT codigo, fecha, nombre AS analista, fk_muestra AS muestra, tipo_analisis , a.estado FROM analisis AS a JOIN usuarios ON fk_analista = identificacion JOIN tipo_analisis ON fk_tipo_analisis = id WHERE fk_analista = ? AND fk_tipo_analisis = 2 AND a.estado = 1`
+        let sql = `
+            SELECT 
+            a.codigo, 
+            a.fecha, 
+            u.nombre, 
+            a.fk_muestra, 
+            t.tipo_analisis, 
+            a.estado 
+            
+            FROM analisis AS a 
+            
+            JOIN 
+                usuarios u ON a.fk_analista = u.identificacion 
+            JOIN 
+                tipo_analisis t ON a.fk_tipo_analisis = t.id 
+            WHERE a.fk_tipo_analisis = 2 AND a.estado = 1 || a.estado = 2 AND a.fk_analista = ?`
+        /* let sql = `SELECT * FROM analisis a WHERE fk_analista = ?` */
 
         const [rows] = await pool.query(sql, [id])
 
         if(rows.length>0){
-            res.status(200).json(rows)
+            res.status(200).json(rows)  
         }else{
             res.status(404).json({
                 status: 404,
-                message: 'No se encontraron analisis'
+                message: 'No se encontraron analisis para este catador'
             })
         }
     } catch (error) {
