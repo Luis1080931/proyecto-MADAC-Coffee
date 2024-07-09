@@ -62,6 +62,7 @@ const FormUsuarios = ({ actionLabel, mode, onClose, handleSubmit }) => {
                         name='identificacion'
                         id='identificacion'
                         type="number"
+                        label='Ingrese su identificación'
                         placeholder='Ingrese su N° de identidad'
                         value={formData.identificacion}
                         onChange={handleChange}
@@ -72,6 +73,7 @@ const FormUsuarios = ({ actionLabel, mode, onClose, handleSubmit }) => {
                         name='nombre'
                         id='nombre'
                         type="text"
+                        label='Ingrese su nombre'
                         placeholder='Ingrese su Nombre(s)'
                         value={formData.nombre}
                         onChange={handleChange}
@@ -82,6 +84,7 @@ const FormUsuarios = ({ actionLabel, mode, onClose, handleSubmit }) => {
                         name='correo_electronico' 
                         id='correo_electronico'
                         type="text"
+                        label='Ingrese su correo'
                         placeholder='Ingrese su correo Electronico'
                         value={formData.correo_electronico}
                         onChange={handleChange}
@@ -92,6 +95,7 @@ const FormUsuarios = ({ actionLabel, mode, onClose, handleSubmit }) => {
                         name='telefono' 
                         type="text" 
                         id='telefono' 
+                        label='Ingrese su teléfono'
                         placeholder='Ingrese su N° de Telefono' 
                         value={formData.telefono}
                         onChange={handleChange}
@@ -102,6 +106,7 @@ const FormUsuarios = ({ actionLabel, mode, onClose, handleSubmit }) => {
                         type="password"  
                         placeholder='Ingrese la Contraseña'
                         name='password' 
+                        label='Ingrese su contraseña'
                         id='password' 
                         value={formData.password}
                         onChange={handleChange}

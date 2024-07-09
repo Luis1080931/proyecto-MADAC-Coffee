@@ -230,10 +230,10 @@ function Ejemplo() {
           showControls
           showShadow
           color="primary"
-          page={page}
+          page={page} 
           total={pages}
           onChange={setPage}
-        />
+        />  
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
           <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
             Atras

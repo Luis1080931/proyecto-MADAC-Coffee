@@ -343,7 +343,7 @@ const data = [
       sortable:true
     },
     {
-      uid:'fk_finca',
+      uid:'nombre_finca',
       name:'Finca',
       sortable:true
     },

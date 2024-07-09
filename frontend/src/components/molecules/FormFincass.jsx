@@ -67,6 +67,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                             id='nombre'
                             name='nombre'
                             type="text"
+                            label='Nombre de la finca'
                             placeholder='Nombre de la finca'
                             value={nombre}
                             onChange={(e) => setNombre(e.target.value)}
@@ -78,6 +79,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                             id='dimension_mt2'
                             name='dimension_mt2'
                             type="number"
+                            label='Dimensión de la finca'
                             placeholder='Ingrese las dimensiones de la finca'
                             value={dimension}
                             onChange={(e) => setDimension(e.target.value)}

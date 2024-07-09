@@ -304,6 +304,12 @@ const handleCheckboxUniformidad = (index) => {
 
   useEffect(() => {
     if(mode === 'update' && resultadoSeleccionado){
+      
+      const formatFecha = (fecha) => {
+        return new Date(fecha).toISOString().split('T')[0];
+      };
+
+      setFecha((resultadoSeleccionado.fecha))
       setlabelAroma(resultadoSeleccionado.aroma)
       setLabelSabor(resultadoSeleccionado.sabor)
       setLabelPostgusto(resultadoSeleccionado.postgusto)

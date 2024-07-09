@@ -303,6 +303,10 @@ const VerSensorial = ({ open, onClose, title, data }) => {
   
     const punteoTotal = parseInt(totalAroma) + parseInt(labelSabor) + parseInt(labelPostgusto) + parseInt(labelAcidez) + parseInt(labelBalance) + parseInt(labelCuerpo) +parseInt(labelGeneral) + parseInt(total) + parseInt(taza) + parseInt(dulzura)
     const totalPunteoFinal = parseInt(punteoTotal) - parseInt(resultado)
+
+    const formatFecha = (fecha) => {
+      return new Date(fecha).toISOString().split('T')[0];
+    };
   
     return (
       <>
@@ -312,7 +316,7 @@ const VerSensorial = ({ open, onClose, title, data }) => {
           <Input 
             type='date'
             className='w-[200px] mb-5'
-            value={data.fecha}
+            value={formatFecha(data.fecha)}
           />
         </div>
         <label className='mr-2'> Código del análisis: </label>

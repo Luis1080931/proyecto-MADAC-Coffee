@@ -31,7 +31,11 @@ const FormResultados = ({ mode, handleSubmit, onClose, actionLabel }) => {
     useEffect(() => {
         if (mode === 'update' && resultadoSeleccionado ) {
             
-            setFecha(resultadoSeleccionado.fecha)
+            const formatFecha = (fecha) => {
+                return new Date(fecha).toISOString().split('T')[0];
+              };
+
+            setFecha(formatFecha(resultadoSeleccionado.fecha))
             setAnalisisFk(resultadoSeleccionado.analisis)
             setVariableFk(resultadoSeleccionado.v_codigo)
             setValor(resultadoSeleccionado.valor)

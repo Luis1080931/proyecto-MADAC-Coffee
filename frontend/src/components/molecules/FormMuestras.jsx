@@ -29,23 +29,27 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
     }, [])
 
     useEffect(() => {
-      if(mode === 'update' && idMuestras) {
-        
-          setFecha(idMuestras.fecha),
-          setTipoMolienda(idMuestras.nombre),
-          setDensidadCafe(idMuestras.densidad_cafe),
-          setProceso(idMuestras.proceso_fermentacion),
-          setipoTostion(idMuestras.tipo_tostion),
-          setAltura(idMuestras.altura_MSNM),
-          setTiempoFermento(idMuestras.tiempo_fermentacion),
-          setActividadAgua(idMuestras.actividad_agua),
-          setTiempoSecado(idMuestras.tiempo_secado)
-          setPresentacion(idMuestras.presentacion)
-          setLoteFk(idMuestras.fk_lote)
-        
+        if (mode === 'update' && idMuestras) {
+          const formatFecha = (fecha) => {
+            return new Date(fecha).toISOString().split('T')[0];
+          };
+      
+          setFecha(formatFecha(idMuestras.fecha));
+          setTipoMolienda(idMuestras.nombre);
+          setDensidadCafe(idMuestras.densidad_cafe);
+          setProceso(idMuestras.proceso_fermentacion);
+          setipoTostion(idMuestras.tipo_tostion);
+          setAltura(idMuestras.altura_MSNM);
+          setTiempoFermento(idMuestras.tiempo_fermentacion);
+          setActividadAgua(idMuestras.actividad_agua);
+          setTiempoSecado(idMuestras.tiempo_secado);
+          setPresentacion(idMuestras.presentacion);
+          setLoteFk(idMuestras.fk_lote);
+      
           console.log(idMuestras.nombre);
-      }
-    }, [mode, idMuestras]);
+        }
+      }, [mode, idMuestras]);
+      
 
     const handleFormSubmit = async (e) => {
         e.preventDefault()
@@ -83,6 +87,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             id='fecha'
                             type="date"
                             name="fecha"
+                            label='Fecha de recepción'
                             value={fecha}
                             onChange={(e) => setFecha(e.target.value)}
                             required={true}
@@ -95,6 +100,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             id='tipoMolienda'
                             name='tipoMolienda'
                             type="decimal"
+                            label='Tipo de molienda'
                             value={tipoMolienda}
                             onChange={(e) => setTipoMolienda(e.target.value)}
                             required={true}
@@ -106,6 +112,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                         <Input
                             id='densidadCafe'
                             type="text"
+                            label='Densidad del café'
                             name="densidadCafe"
                             value={densidadCafe}
                             onChange={(e) => setDensidadCafe(e.target.value)}
@@ -119,6 +126,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             id='proceso_fermentacion'
                             type="text"
                             name="proceso_fermentacion"
+                            label='Proceso de fementación'
                             required={true}
                             value={proceso}
                             onChange={(e) => setProceso(e.target.value)}
@@ -130,6 +138,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             id='tipoTostion_cafe'
                             type="text"
                             name="tipoTostion_cafe"
+                            label='Tipo de tostión del café'
                             required={true}
                             value={tipoTostion}
                             onChange={(e) => setipoTostion(e.target.value) }
@@ -144,6 +153,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             id='altura_MSNM'
                             type="text"
                             name="altura_MSNM"
+                            label='Altura MSNM'
                             value={altura}
                             onChange={(e) => setAltura(e.target.value)}
                             required={true}
@@ -156,6 +166,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             id='tipo_tiempoFermento'
                             type="text"
                             name="tipo_tiempoFermento"
+                            label='Tiempo de fermentación'
                             value={tiempoFermento}
                             onChange={(e) => setTiempoFermento(e.target.value)}
                             required={true}
@@ -167,6 +178,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                         <Input
                             id='actividadAgua'
                             name="actividadAgua"
+                            label='Actividad del agua'
                             value={actividadAgua}
                             onChange={(e) => setActividadAgua(e.target.value)}
                             required={true}
@@ -180,6 +192,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             id='tiempo_secado'
                             type="text"
                             name="tipempo_secado"
+                            label='Tiempo de secado'
                             value={tiempoSecado}
                             onChange={(e) => setTiempoSecado(e.target.value)}
                             required={true}
@@ -192,6 +205,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             id='presentacion'
                             type="text"
                             name="presentacion"
+                            label='Presentación'
                             value={presentacion}
                             onChange={(e) => setPresentacion(e.target.value)}
                             required={true}
