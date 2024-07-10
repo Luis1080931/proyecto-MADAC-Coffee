@@ -1,5 +1,5 @@
 import { Router } from "express"; 
-import { listarResultados, registrarResultados, actualizarResultado, desactivarResultado, buscarResultados, activarResultado, registrarSensorial, actualizarSensorial } from "../controllers/controller.resultados.js"; 
+import { listarResultados, registrarResultados, actualizarResultado, desactivarResultado, buscarResultados, activarResultado, registrarSensorial, actualizarSensorial, cargarImagen } from "../controllers/controller.resultados.js"; 
 import { validarResultados } from "../../validate/resultados.validate.js";
 import { validarToken } from "../controllers/seguridad.controller.js";
 
@@ -7,7 +7,7 @@ const routeResultados = Router()
 
 routeResultados.get('/listar',validarToken, listarResultados)
 routeResultados.post('/registrar', validarToken, registrarResultados)
-routeResultados.post('/sensorial', validarToken, registrarSensorial)
+routeResultados.post('/sensorial', validarToken, cargarImagen, registrarSensorial)
 routeResultados.put('/actualizar/:id', validarToken, actualizarResultado)
 routeResultados.put('/actualizarSensory/:id', validarToken, actualizarSensorial)
 routeResultados.put('/desactivar/:idResultado',validarToken, desactivarResultado)

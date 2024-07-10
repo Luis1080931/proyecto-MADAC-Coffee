@@ -1,6 +1,7 @@
 import { query } from "express" 
 import { pool } from "../database/conexion.js" 
 import { validationResult } from "express-validator"
+import multer from 'multer'
 
 export const listarResultados = async (req, res) => {
 
@@ -178,32 +179,50 @@ export const buscarResultados = async (req, res) => {
     }
 }
 
+const storage = multer.diskStorage({
+    destination: function(req, file, cb){
+      cb(null, "public/graphics"); // Ruta donde se guardarán las imágenes
+    },
+    filename: function(req, file, cb) {
+      cb(null, file.grafica); // Nombre del archivo (puedes ajustarlo según tus necesidades)
+    }
+  });
+  
+  const upload = multer({ storage: storage });
+  export const cargarImagen = upload.single('image')
+
 export const registrarSensorial = async (req, res) => {
     try {
-        const {fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisis} = req.body
+        const { fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisis } = req.body;
 
-        let sql = `INSERT INTO sensoriales (fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisis) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        // Obtener el nombre de la imagen subida (si se ha subido una imagen)
+        let image = '';
+        if (req.file) {
+            image = req.file.filename;
+        }
 
-        const [rows] = await pool.query(sql, [fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisis])
+        let sql = `INSERT INTO sensoriales (fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisis, grafica) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-        if(rows.affectedRows>0){
+        const [rows] = await pool.query(sql, [fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisis, image]);
+
+        if (rows.affectedRows > 0) {
             res.status(200).json({
                 status: 200,
-                message: 'Se realizó con exito el registro'
-            })
-        }else{
+                message: 'Se realizó con éxito el registro'
+            });
+        } else {
             res.status(403).json({
                 status: 403,
                 message: 'No se pudo realizar el registro'
-            })
+            });
         }
     } catch (error) {
         res.status(500).json({
             status: 500,
             message: 'Error del servidor' + error
-        })
+        });
     }
-}
+};
 
 export const actualizarSensorial = async (req, res) => {
     try {
