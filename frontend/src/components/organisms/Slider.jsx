@@ -1,8 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import './../../styles/Slider.css'; // Estilos CSS
 import { Button, Checkbox, Input, Select, SelectItem } from '@nextui-org/react';
 import axiosClient from '../axiosClient';
 import ResultadoContext from '../../context/ResultadosContext';
+import html2canvas from 'html2canvas'
+import { VictoryChart, VictoryPolarAxis, VictoryLabel, VictoryGroup, VictoryArea } from 'victory';
 
 const SliderVertical = ({ handleSubmit, mode }) => {
 
@@ -300,6 +302,51 @@ const handleCheckboxUniformidad = (index) => {
   const punteoTotal = parseInt(totalAroma) + parseInt(labelSabor) + parseInt(labelPostgusto) + parseInt(labelAcidez) + parseInt(labelBalance) + parseInt(labelCuerpo) +parseInt(labelGeneral) + parseInt(total) + parseInt(taza) + parseInt(dulzura)
   const totalPunteoFinal = parseInt(punteoTotal) - parseInt(resultado)
 
+  const chartRef = useRef(null);
+  
+const RadarChart = () => {
+  // Datos de ejemplo para la gráfica radar
+  const data = [
+    { subject: 'Fragancia aroma', score: totalAroma },
+    { subject: 'Sabor', score: labelSabor },
+    { subject: 'Retrogusto', score: labelPostgusto },
+    { subject: 'Acidez', score: labelAcidez },
+    { subject: 'Cuerpo', score: labelCuerpo },
+    { subject: 'Uniformidad', score: total },
+    { subject: 'Balance', score: labelBalance },
+    { subject: 'Taza limpia', score: taza },
+    { subject: 'Dulzor', score: dulzura },
+    { subject: 'Puntaje general', score: labelGeneral }
+  ];
+
+  return (
+    <VictoryChart polar theme={{}}>
+      <VictoryPolarAxis
+        labelPlacement="perpendicular"
+        tickLabelComponent={<VictoryLabel labelPlacement="vertical" />}
+        style={{
+          axis: { stroke: 'none' },
+          tickLabels: { fontSize: 10, padding: 5 },
+        }}
+      />
+
+      <VictoryGroup
+        colorScale={['#ffcc00']}
+        style={{
+          data: { fillOpacity: 0.4, strokeWidth: 2 },
+        }}
+      >
+        <VictoryArea data={data} x="subject" y="score" />
+      </VictoryGroup>
+    </VictoryChart>
+  );
+};
+
+const captureChart = async () => {
+  const canvas = await html2canvas(chartRef.current);
+  return canvas.toDataURL('image/png');
+};
+
   const {resultadoSeleccionado} = useContext(ResultadoContext)
 
   useEffect(() => {
@@ -331,9 +378,11 @@ const handleCheckboxUniformidad = (index) => {
     }
   }, [mode, resultadoSeleccionado])
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault()
     try {
+      const imageData = await captureChart();
+
       const data = {
         fecha, 
         aroma: totalAroma,
@@ -352,7 +401,8 @@ const handleCheckboxUniformidad = (index) => {
         sub_defecto: resultado,
         punteo_final: totalPunteoFinal, 
         notas: notas,
-        fk_analisis: analisis
+        fk_analisis: analisis,
+        image: imageData
       }
       handleSubmit(data, e)
       /* handleCalificado(analisis) */

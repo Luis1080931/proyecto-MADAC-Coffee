@@ -139,7 +139,7 @@ const RadarChart = ({ data }) => {
 export default RadarChart;
  */
 
-import React from 'react';
+/* import React from 'react';
 import { VictoryChart, VictoryPolarAxis, VictoryLabel, VictoryGroup, VictoryArea } from 'victory';
 
 const RadarChart = () => {
@@ -160,7 +160,6 @@ const RadarChart = () => {
 
   return (
     <VictoryChart polar theme={{}}>
-      {/* Eje radial */}
       <VictoryPolarAxis
         labelPlacement="perpendicular"
         tickLabelComponent={<VictoryLabel labelPlacement="vertical" />}
@@ -170,7 +169,6 @@ const RadarChart = () => {
         }}
       />
 
-      {/* Gráfico de áreas */}
       <VictoryGroup
         colorScale={['#ffcc00']}
         style={{
@@ -183,4 +181,31 @@ const RadarChart = () => {
   );
 };
 
+export default RadarChart; */
+
+import React from 'react';
+import { VictoryChart, VictoryPolarAxis, VictoryLabel, VictoryGroup, VictoryArea } from 'victory';
+
+const RadarChart = ({ data }) => (
+  <VictoryChart polar theme={{}}>
+    <VictoryPolarAxis
+      labelPlacement="perpendicular"
+      tickLabelComponent={<VictoryLabel labelPlacement="vertical" />}
+      style={{
+        axis: { stroke: 'none' },
+        tickLabels: { fontSize: 10, padding: 5 },
+      }}
+    />
+    <VictoryGroup
+      colorScale={['#ffcc00']}
+      style={{
+        data: { fillOpacity: 0.4, strokeWidth: 2 },
+      }}
+    >
+      <VictoryArea data={data} x="subject" y="score" />
+    </VictoryGroup>
+  </VictoryChart>
+);
+
 export default RadarChart;
+
