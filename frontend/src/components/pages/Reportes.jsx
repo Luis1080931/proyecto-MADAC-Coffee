@@ -683,7 +683,7 @@ export function Reportes() {
           );
         case "actions":
           return (
-            <div className="flex flex-row justify-center items-center">
+            <div className="flex flex-row">
               {result.estado === 'terminado' && (
                 
                 <button onClick={() => handleDownloadClick(result.codigo)}>

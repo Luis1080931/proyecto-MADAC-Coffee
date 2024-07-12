@@ -650,7 +650,7 @@ const PDFReport = ({ data, datos }) => (
       ): (
         ''
       )}
-      {/* <RadarChart datos={datos.aroma} /> */}
+      {/* <RadarChart /> */}
     </Page>
     <Page size='A4' style={styles.page}>
     <View style={styles.header} fixed>

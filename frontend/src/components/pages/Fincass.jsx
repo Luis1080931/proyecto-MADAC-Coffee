@@ -114,7 +114,7 @@ function Ejemplo() {
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
+          <div className="flex flex-row">
             <ButtonActualizar click={() => handleToggle('update', setIdFinca(finca))} />
             {finca.estado === 'activo' ? (
               <ButtonDesactivar click={() => peticionDesactivar(finca.codigo)} />

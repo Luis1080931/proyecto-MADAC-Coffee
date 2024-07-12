@@ -95,7 +95,7 @@ export const actualizarUsuarios = async (req,res)=>{
 
 
         const { identificacion } = req.params
-        const{ telefono, nombre, correo_electronico, tipo_usuario } = req.body
+        const{ telefono, nombre, correo_electronico, tipo_usuario, password } = req.body
         
         const [ usuarioAnterior ] = await pool.query("select * from usuarios where identificacion=?", [identificacion])
 
@@ -104,6 +104,7 @@ export const actualizarUsuarios = async (req,res)=>{
         nombre='${nombre ? nombre : usuarioAnterior[0].nombre}', 
         correo_electronico='${correo_electronico ? correo_electronico : usuarioAnterior[0].correo_electronico}', 
         tipo_usuario='${tipo_usuario ? tipo_usuario : usuarioAnterior[0].tipo_usuario}', 
+        password='${password ? password : usuarioAnterior[0].password}',
         estado=1 where identificacion=? `, [identificacion])
 
          if (resultado.affectedRows > 0) {

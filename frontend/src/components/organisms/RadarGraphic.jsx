@@ -1,13 +1,35 @@
-/* import React from 'react';
+import React, { useRef } from 'react';
 import { Radar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+} from 'chart.js';
+import html2canvas from 'html2canvas';
 
-const RadarChart = ({ data }) => {
+// Registra los componentes necesarios
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+);
+
+const RadarChart = () => {
+  const chartRef = useRef(null);
+
   const chartData = {
-    labels: ['Atributo 1', 'Atributo 2', 'Atributo 3', 'Atributo 4', 'Atributo 5', 'Atributo 6'],
+    labels: ['Fragancia aroma', 'Puntaje general', 'Dulzor', 'Taza limpia', 'Balance', 'Uniformidad', 'Cuerpo', 'Acidez', 'Retrogusto', 'Sabor'],
     datasets: [
       {
         label: 'Análisis Sensorial',
-        data: data,
+        data: [10,2,10,5,10,10,10,10,10,10,],
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
@@ -23,10 +45,31 @@ const RadarChart = ({ data }) => {
     },
   };
 
-  return <Radar data={chartData} options={chartOptions} />;
+  const handleCapture = () => {
+    if (chartRef.current) {
+      html2canvas(chartRef.current).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = imgData;
+        link.download = 'radar-chart.png';
+        link.click();
+      });
+    }
+  };
+
+  return (
+    <div>
+      <div ref={chartRef} style={{ width: '300px', height: '300px' }}>
+        <Radar data={chartData} options={chartOptions} />
+      </div>
+      <button onClick={handleCapture}>Capturar Gráfica</button>
+    </div>
+  );
 };
 
-export default RadarChart; */
+export default RadarChart;
+
+
 
 
 
@@ -182,7 +225,7 @@ const RadarChart = () => {
 };
 
 export default RadarChart; */
-
+/* 
 import React from 'react';
 import { VictoryChart, VictoryPolarAxis, VictoryLabel, VictoryGroup, VictoryArea } from 'victory';
 
@@ -207,5 +250,5 @@ const RadarChart = ({ data }) => (
   </VictoryChart>
 );
 
-export default RadarChart;
+export default RadarChart; */
 

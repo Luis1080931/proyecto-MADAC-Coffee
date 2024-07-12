@@ -122,7 +122,7 @@ function Ejemplo() {
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
+          <div className="flex flex-row">
             <VscEye className='cursor-pointer text-3xl text-gray-500 mr-5' onClick={() => ver(muestra.codigo)} />
             <ButtonActualizar click={() => handleToggle('update', setMuestrasId(muestra))} />
             {muestra.estado === 'activo' ? (
@@ -318,7 +318,6 @@ function Ejemplo() {
     const [modalOpen, setModalOpen] = useState(false)
     const [ modalAcciones, setModalAcciones ] = useState(false)
     const [mode, setMode] = useState('create')
-    const [initialData, setInitialData ] = useState(null)
     const [mensaje, setMensaje] = useState('')
     const [muestras, setMuestras] = useState([])
     const { idMuestras, setMuestrasId, muestra, getMuestra } = useContext(MuestrasContext)
@@ -485,12 +484,10 @@ function Ejemplo() {
                 label={mensaje}
                 />
                 <MuestrasModal 
-                    
                   open={modalOpen} 
                   onClose={()=>setModalOpen(false)} 
                   title={mode === 'create' ? 'Registrar Muestra' : 'Actualizar Muestra'}
                   actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                  initialData={initialData}
                   handleSubmit={handleSubmit}
                   mode={mode}
                 />
