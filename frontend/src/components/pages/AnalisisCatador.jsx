@@ -27,7 +27,7 @@ import {
 function VistaAnalisisCatador() {
 
 const statusColorMap = {
-  asignado: "success",
+  asignado: "primary",
   calificado: "warning",
   terminado: "danger",
 };
@@ -100,9 +100,14 @@ function Ejemplo() {
     switch (columnKey) {
       case "estado":
         return (
-          <Chip className="capitalize" color={statusColorMap[result.estado]} size="sm" variant="flat">
-            {cellValue}
-          </Chip>
+          <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={statusColorMap[result.estado]}
+                size="sm"
+                variant="dot"
+            >
+                {cellValue}
+            </Chip>
         )
       default:
         return cellValue;
@@ -151,7 +156,7 @@ function Ejemplo() {
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
-            className="w-full sm:max-w-[44%]"
+            className="w-full sm:max-w-[44%] text-xl"
             placeholder="Buscar..."
             startContent={<SearchIcon />}
             value={filterValue}
@@ -162,7 +167,7 @@ function Ejemplo() {
   
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
-                <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">
+                <Button className="text-xl" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
                   Estado
                 </Button>
               </DropdownTrigger>
@@ -186,11 +191,11 @@ function Ejemplo() {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-default-400 text-small">Total {results.length} resultados</span>
-          <label className="flex items-center text-default-400 text-small">
+          <span className="text-default-400 text-xl">Total {results.length} resultados</span>
+          <label className="flex items-center text-default-400 text-xl">
             Columnas por página:
             <select
-              className="bg-transparent outline-none text-default-400 text-small"
+              className="bg-transparent outline-none text-default-400 text-xl"
               onChange={onRowsPerPageChange}
             >
               <option value="5">5</option>
@@ -215,7 +220,7 @@ function Ejemplo() {
   const bottomContent = React.useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-between items-center">
-        {<span className="w-[30%] text-small text-default-400">
+        {<span className="w-[30%] text-xl text-default-400">
           {selectedKeys === "all"
             ? "All items selected"
             : `${selectedKeys.size} de ${filteredItems.length} seleccionados`}
@@ -225,10 +230,10 @@ function Ejemplo() {
           showControls
           showShadow
           color="primary"
-          page={page}
+          page={page} 
           total={pages}
           onChange={setPage}
-        />
+        />  
         <div className="hidden sm:flex w-[30%] justify-end gap-2">
           <Button className="text-xl bg-[#273468] text-white" isDisabled={pages === 1} size="md" variant="solid" onPress={onPreviousPage}>
             Atras

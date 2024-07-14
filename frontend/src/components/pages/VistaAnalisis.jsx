@@ -30,7 +30,7 @@ import AnalisisContext from '../../context/AnalisisContext.jsx';
 function VistaAnalisis() {
 
 const statusColorMap = {
-  asignado: "success",
+  asignado: "primary",
   calificado: "warning",
   terminado: "danger",
 };
@@ -103,15 +103,20 @@ function Ejemplo() {
     switch (columnKey) {
       case "estado":
         return (
-          <Chip className="capitalize" color={statusColorMap[result.estado]} size="sm" variant="flat">
-            {cellValue}
-          </Chip>
+          <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={statusColorMap[result.estado]}
+                size="sm"
+                variant="dot"
+            >
+                {cellValue}
+            </Chip>
         );
       case "actions":
         return (
           <div className="flex flex-row">
             <ButtonActualizar click={() =>  handleToggle('update', setAnalisisId(result))} /> 
-            {result.estado === 'asignado' ? (
+            {result.estado === 'asignado' || result.estado === 'calificado' ? (
               <ButtonDesactivar click={() => handleDesactivar(result.codigo)} />
             ) : (
               <ButtonActivar click={() => handleActivar(result.codigo)} />
@@ -356,10 +361,10 @@ function Ejemplo() {
       }
 
     const handleDesactivar = async (id) => {
-        await axios.put(`http://localhost:3000/analisis/desactivar/${id}`, null, {headers: {token: token}}).then((response) => {
+        await axiosClient.put(`/analisis/desactivar/${id}`, null).then((response) => {
             console.log(response.data)
             if(response.status==200){
-                setMensaje('Se desactivó con exito el análisis')
+                setMensaje(response.data.message)
                 setModalAccionesOpen(true)
                 setModalOpen(false)
                 fetchData();
@@ -368,13 +373,26 @@ function Ejemplo() {
             }
             
         });
-    };
+    }
 
-    const url = 'http://localhost:3000/analisis/listar';
+    const handleActivar = async (codigo) => {
+        axiosClient.put(`/analisis/activar/${codigo}`).then((response) => {
+            console.log(response.data)
+            if(response.status==200){
+                setMensaje(response.data.message)
+                setModalAccionesOpen(true)
+                setModalOpen(false)
+                fetchData();
+            }else{
+                setMensaje(response.data.message)
+                setModalAccionesOpen(true)
+            }
+        })
+    }
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(url, {headers: {token: token}})
+            const response = await axiosClient.get('/analisis/listar')
 
             const formattedResults = response.data.map((result) => ({
                 ...result,
@@ -399,11 +417,10 @@ function Ejemplo() {
         e.preventDefault()
         try {
             if(mode == 'create'){
-                const baseURL = 'http://localhost:3000/analisis/registrar';
-                axios.post(baseURL, data, {headers: {token: token}}).then((response) => {
+                axiosClient.post('/analisis/registrar', data).then((response) => {
                     console.log(response.data)
                     if(response.status == 201){
-                        setMensaje('Análisis registrado con éxito')
+                        setMensaje(response.data.message)
                         setModalAccionesOpen(true)
                         setModalOpen(false)
                         fetchData();

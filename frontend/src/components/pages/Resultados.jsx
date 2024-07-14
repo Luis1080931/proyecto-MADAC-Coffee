@@ -38,7 +38,7 @@ export function Resultados () {
 
   
   const statusColorMap = {
-    activo: "success",
+    activo: "primary",
     inactivo: "danger",
     todos: 'primary'
   };
@@ -146,8 +146,13 @@ export function Resultados () {
       switch (columnKey) {
         case "estado":
           return (
-            <Chip className="capitalize" color={statusColorMap[result.estado]} size="md" variant="flat">
-              {cellValue}
+            <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={statusColorMap[result.estado]}
+                size="sm"
+                variant="dot"
+            >
+                {cellValue}
             </Chip>
           );
         case "actions":
@@ -573,7 +578,7 @@ export function Resultados () {
   return (
     <ResultadoProvider>
     <div className='bg-[#EAEDF6] h-screen max-h-max'>
-        <Header title="Resultado de los análisis" />
+        <Header title="Resultado de los análisis físicos" />
           <div className='bg-[#EAEDF6]'> 
             <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
 

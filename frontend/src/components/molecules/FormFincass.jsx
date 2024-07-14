@@ -32,10 +32,11 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
         if (mode === 'update' && idFinca) {
             
             setNombre(idFinca.nombre_finca)
-            setCaficultor(idFinca.fk_caficultor)
+            setCaficultor(idFinca.identificacion)
             setDimension(idFinca.dimension_mt2)
-            setMunicipio(idFinca.municipio)
+            setMunicipio(idFinca.id_municipio)
             setVereda(idFinca.vereda)
+            console.log(idFinca);
         }
     }, [mode, idFinca]);
 
@@ -66,6 +67,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                             id='nombre'
                             name='nombre'
                             type="text"
+                            label='Nombre de la finca'
                             placeholder='Nombre de la finca'
                             value={nombre}
                             onChange={(e) => setNombre(e.target.value)}
@@ -77,6 +79,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                             id='dimension_mt2'
                             name='dimension_mt2'
                             type="number"
+                            label='Dimensión de la finca'
                             placeholder='Ingrese las dimensiones de la finca'
                             value={dimension}
                             onChange={(e) => setDimension(e.target.value)}
@@ -93,7 +96,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                             value={caficultor}
                             onChange={(e) => setCaficultor(e.target.value)}
                         >
-                            <option value="" hidden> Seleccione catador ... </option>
+                            <option value="" hidden> Seleccione caficultor ... </option>
                             {caficultores.map((cafi) => (
                                 <option key={cafi.identificacion} value={cafi.identificacion}>
                                     {cafi.nombre}

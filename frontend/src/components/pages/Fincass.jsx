@@ -30,7 +30,7 @@ import {
 export function Fincas() {
 
 const statusColorMap = {
-  activo: "success",
+  activo: "primary",
   inactivo: "danger",
 };
 
@@ -103,13 +103,18 @@ function Ejemplo() {
     switch (columnKey) {
       case "estado":
         return (
-          <Chip className="capitalize" color={statusColorMap[finca.estado]} size="sm" variant="flat">
-            {cellValue}
-          </Chip>
+          <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={statusColorMap[finca.estado]}
+                size="sm"
+                variant="dot"
+            >
+                {cellValue}
+            </Chip>
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
+          <div className="flex flex-row">
             <ButtonActualizar click={() => handleToggle('update', setIdFinca(finca))} />
             {finca.estado === 'activo' ? (
               <ButtonDesactivar click={() => peticionDesactivar(finca.codigo)} />

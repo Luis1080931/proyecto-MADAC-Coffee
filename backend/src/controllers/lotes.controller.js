@@ -4,8 +4,9 @@ import { validationResult } from 'express-validator'
 
 export const getLotes = async (req, res) => {
     try {
-        const [rows]=await pool.query(`SELECT l.codigo, l.numero_arboles, l.fk_finca, v.nombre AS fk_variedad, l.estado
+        const [rows]=await pool.query(`SELECT l.codigo, l.numero_arboles, l.fk_finca, f.nombre_finca, v.nombre AS fk_variedad, v.codigo AS codeVariedad, l.estado
         FROM lotes l
+        LEFT JOIN fincas f ON l.fk_finca = f.codigo
         LEFT JOIN variedades v ON l.fk_variedad = v.codigo`)
       
         if (rows.length > 0) {

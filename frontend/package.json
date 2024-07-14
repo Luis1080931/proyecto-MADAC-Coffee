@@ -17,9 +17,17 @@
     "@nextui-org/react": "^2.3.6",
     "@react-pdf/renderer": "^3.4.4",
     "axios": "^1.6.8",
-    "chart.js": "^4.4.2",
+    "chart.js": "^4.4.3",
+    "echarts": "^5.5.1",
     "framer-motion": "^11.1.8",
+<<<<<<< HEAD
     "material-table": "^1.63.0",
+=======
+    "highcharts": "^11.4.4",
+    "highcharts-react-official": "^3.2.1",
+    "html2canvas": "^1.4.1",
+    "material-table": "^2.0.5",
+>>>>>>> 35b79d311e3ddee305816e4c1a1145a95e0ef90d
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-data-table-component": "^7.6.2",

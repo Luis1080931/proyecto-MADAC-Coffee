@@ -30,7 +30,7 @@ import {
 export function Lotes () {
 
 const statusColorMap = {
-  activo: "success",
+  activo: "primary",
   inactivo: "danger",
 };
 
@@ -101,13 +101,18 @@ function Ejemplo() {
     switch (columnKey) {
       case "estado":
         return (
-          <Chip className="capitalize" color={statusColorMap[lotes.estado]} size="sm" variant="flat">
-            {cellValue}
-          </Chip>
+          <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={statusColorMap[lotes.estado]}
+                size="sm"
+                variant="dot"
+            >
+                {cellValue}
+            </Chip>
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
+          <div className="flex flex-row">
             <ButtonActualizar click={() => handleToggle('update', setLoteId(lotes))} />
             {lotes.estado === 'activo' ? (
               <ButtonDesactivar click={() => peticionDesactivar(lotes.codigo)} />
@@ -316,7 +321,7 @@ function Ejemplo() {
     //PETICION GET PARA TRAER LOS DATOS DE LOS LOTES REGISTRADOS
     const peticionGet = async () => {
       try{
-        await axios.get(baseURL,{headers:{token: token}}).then((response)=>{
+        await axiosClient.get('/lotes/listar').then((response)=>{
             console.log(response.data)
             setLotes(response.data)
         })
@@ -338,7 +343,7 @@ const data = [
       sortable:true
     },
     {
-      uid:'fk_finca',
+      uid:'nombre_finca',
       name:'Finca',
       sortable:true
     },
@@ -365,10 +370,10 @@ const peticionDesactivar = async (codigo) => {
     // console.log("ID del lotes a desactivar:", codigo);
    
     try {
-        axios.put(`http://localhost:3000/lotes/desactivar/${codigo}`,null,{headers:{token:token}}).then((response)=>{
+        axiosClient.put(`/lotes/desactivar/${codigo}`,null).then((response)=>{
             console.log(response.data)
             if(response.status==200){
-                setMensaje('Se desactivo con exito el lote')
+                setMensaje(response.data.message)
                 setModalAcciones(true)
                 peticionGet()
             }else{
@@ -380,8 +385,19 @@ const peticionDesactivar = async (codigo) => {
     }
 }
 
-
-
+const handleActivar = async (codigo) => {
+    axiosClient.put(`/lotes/activar/${codigo}`).then((response) => {
+        console.log(response.data)
+        if(response.status==200){
+            setMensaje(response.data.message)
+            setModalAcciones(true)
+            peticionGet()
+        }else{
+            setMensaje(response.data.message)
+            setModalAcciones(true)
+        }
+    })
+}
 
 
 
@@ -394,13 +410,12 @@ const peticionDesactivar = async (codigo) => {
         try{
         
         if(mode === 'create'){
-            const baseURL = 'http://localhost:3000/lotes/registrar'
             
             await axiosClient.post('/lotes/registrar', formData).then((response)=>{
                 console.log(response)
 
                 if(response.status == 200){
-                    setMensaje('Lote registrado con exito')
+                    setMensaje(response.data.message)
                     setModalAcciones(true)
                     setModalOpen(false)
                     peticionGet()
@@ -409,13 +424,12 @@ const peticionDesactivar = async (codigo) => {
                 }
             })
         }else if(mode==='update'){
-            const updateURL = `http://localhost:3000/lotes/actualizar/${id}`
 
             await axiosClient.put(`/lotes/actualizar/${idLote.codigo}`,formData).then((response)=>{
                 console.log(response); 
 
                 if(response.status==200){
-                    setMensaje('Se actualizo el lote con exito')
+                    setMensaje(response.data.message)
                     setModalAcciones(true)
                     setModalOpen(false)
                     peticionGet()

@@ -524,12 +524,13 @@ import axiosClient from "../axiosClient.js";
 import { FaFileDownload } from "react-icons/fa";
 import { PDFViewer } from '@react-pdf/renderer'; // Importar PDFViewer
 import PDFReport from '../organisms/Reportes.jsx';
+import { format } from 'date-fns';
 
 export function Reportes() {
   const statusColorMap = {
-    asignado: "success",
+    asignado: "primary",
     terminado: "danger",
-    calificado: 'primary',
+    calificado: 'warning',
   };
 
   function Ejemplo({ data, results }) {
@@ -570,6 +571,8 @@ export function Reportes() {
     };
 
     const [datosPdf, setDatosPdf] = useState(null);
+    const [datosPdfSensory, setDatosPdfSensory] = useState(null);
+    const [datosPdfProductor, setDatosPdfProductor] = useState(null);
     const [loadingPdf, setLoadingPdf] = useState(false);
     const [modalPdfOpen, setModalPdfOpen] = useState(false)
 
@@ -577,8 +580,16 @@ export function Reportes() {
       setLoadingPdf(true);
       try {
         const response = await axiosClient.get(`/reportes/generar/${id}`);
-        console.log('Response data:', response.data);
+        console.log('Response data fisicos:', response.data);
         setDatosPdf(response.data);
+
+        const responseSensory = await axiosClient.get(`/reportes/sensory/${id}`)
+        console.log('Response data sensorial:', responseSensory.data);
+        setDatosPdfSensory(responseSensory.data)
+
+        const responseProductor = await axiosClient.get(`/reportes/productor/${id}`)
+        console.log('Response data productor:', responseProductor.data);
+        setDatosPdfProductor(responseProductor.data)
       } catch (error) {
         console.error('Error al obtener los datos del PDF:', error);
       } finally {
@@ -661,16 +672,21 @@ export function Reportes() {
       switch (columnKey) {
         case "estado":
           return (
-            <Chip className="capitalize" color={statusColorMap[result.estado]} size="md" variant="flat">
-              {cellValue}
+            <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={statusColorMap[result.estado]}
+                size="sm"
+                variant="dot"
+            >
+                {cellValue}
             </Chip>
           );
         case "actions":
           return (
-            <div className="flex flex-row justify-center items-center">
+            <div className="flex flex-row">
               {result.estado === 'terminado' && (
                 
-                <button onClick={() => handleDownloadClick(result.analisis_id)}>
+                <button onClick={() => handleDownloadClick(result.codigo)}>
                   Ver PDF
                 </button>
                     
@@ -877,7 +893,7 @@ export function Reportes() {
               ) : (
                 datosPdf && (
                   <PDFViewer width="100%" height="100%">
-                    <PDFReport data={datosPdf} />
+                    <PDFReport data={datosPdf} datos={datosPdfSensory} productor={datosPdfProductor} />
                   </PDFViewer>
                 )
               )}

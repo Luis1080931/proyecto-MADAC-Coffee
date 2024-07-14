@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ModalAcciones } from '../organisms/Modal.jsx';
 import ResultadoContext from '../../context/ResultadosContext.jsx';
-import { Input } from '@nextui-org/react';
+import { Input, Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
+import axiosClient from '../axiosClient.js';
 
 const VerSensorial = ({ open, onClose, title, data }) => {
 
-  const {idMuestras} = useContext(MuestrasContext)
+  /* const {idMuestras} = useContext(MuestrasContext) */
 
   const SliderVertical = ({ data }) => {
 
@@ -14,12 +15,12 @@ const VerSensorial = ({ open, onClose, title, data }) => {
     const stored = localStorage.getItem('user');
     const user = stored ? JSON.parse(stored) : null;
   
-    useEffect(() => {
+    /* useEffect(() => {
       axiosClient.get(`/analisis/analisisSensorialCatador/${user.identificacion}`).then((response) => {
-        console.log(response.data)
+        console.log('Ver datos:', response.data)
         setAnalisisSensorial(response.data)
       })
-    }, [])
+    }, []) */
   
     const [nivel, setnivel] = useState(0); 
     const [seco, setSeco] = useState(0)
@@ -302,59 +303,28 @@ const VerSensorial = ({ open, onClose, title, data }) => {
   
     const punteoTotal = parseInt(totalAroma) + parseInt(labelSabor) + parseInt(labelPostgusto) + parseInt(labelAcidez) + parseInt(labelBalance) + parseInt(labelCuerpo) +parseInt(labelGeneral) + parseInt(total) + parseInt(taza) + parseInt(dulzura)
     const totalPunteoFinal = parseInt(punteoTotal) - parseInt(resultado)
-  
-   /*  const handleFormSubmit = (e) => {
-      e.preventDefault()
-      try {
-        const data = {
-          fecha, 
-          aroma: totalAroma,
-          sabor: labelSabor,
-          postgusto: labelPostgusto,
-          acidez: labelAcidez, 
-          cuerpo: labelCuerpo,
-          uniformidad: total,
-          balance: labelBalance,
-          taza_limpia: taza,
-          dulzura: dulzura,
-          general: labelGeneral,
-          punteo: punteoTotal, 
-          taza_defecto: numeroTazas,
-          intensidad_defecto: numeroIntensidad,
-          sub_defecto: resultado,
-          punteo_final: totalPunteoFinal, 
-          notas: notas,
-          fk_analisis: analisis
-        }
-        handleSubmit(data, e)
-  
-        axiosClient.post(`/resultados/sensorial`, data).then((response) => {
-          console.log(response.data)
-          if(response.status == 200){
-            alert('Registro exitoso')
-          }else{
-            alert('Error al registrar')
-          }
-        })
-      } catch (error) {
-        console.log('Error del servidor' + error);
-      }
-    } */
+
+    const formatFecha = (fecha) => {
+      return new Date(fecha).toISOString().split('T')[0];
+    };
   
     return (
       <>
       <form>
-        <Input 
-          type='date'
-          className='w-40'
-          value={fecha}
-          onChange={(e) => setFecha(e.target.value)}
-        />
-        <select value={analisis} onChange={(e) => setAnalisis(e.target.value)}>
+        <div className='flex flex-row'>
+          <label className='mt-2 mr-2'> Fecha del registro: </label>
+          <Input 
+            type='date'
+            className='w-[200px] mb-5'
+            value={formatFecha(data.fecha)}
+          />
+        </div>
+        <label className='mr-2'> Código del análisis: </label>
+        <select value={data.fk_analisis} className='w-[200px] rounded-xl bg-gray-100 h-[40px] mb-5'>
           <option hidden> Seleccione analisis ... </option>
-          {analisisSensorial.map(analisis => (
-            <option value={analisis.codigo} key={analisis.codigo}> {analisis.codigo} </option>
-          ))}
+          
+            <option value={analisis.codigo} key={analisis.codigo}> {data.fk_analisis} </option>
+          
         </select>
         <div className='flex flex-col justify-center '>
           <div className='flex flex-row h-44'>
@@ -628,7 +598,7 @@ const VerSensorial = ({ open, onClose, title, data }) => {
                               </div>
                               <div className='flex flex-col mt-4 ml-4'>
                                   <div className='w-12 h-7 border-2 border-black mb-3 flex justify-center'>
-                                    <input className='w-full' value={data.subdefecto} readOnly />
+                                    <input className='w-full' value={data.sub_defecto} readOnly />
                                   </div>
                               </div>
                           </div>
@@ -664,11 +634,23 @@ const VerSensorial = ({ open, onClose, title, data }) => {
 
   return (
     <>
-      <ModalAcciones open={open} title={title} onClose={onClose}>
+    <Modal size='full' isOpen={open} onClose={onClose} title={title}>
+        <ModalContent>
+          <ModalHeader>
+            Ver datos de la gráfica
+          </ModalHeader>
+          <ModalBody>
+            {data.map(data => (
+                <SliderVertical data={data}/>
+            ))} 
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+      {/* <ModalAcciones open={open} title={title} onClose={onClose}>
         {data.map(data => (
             <SliderVertical data={data}/>
         ))}
-      </ModalAcciones>
+      </ModalAcciones> */}
     </>
   );
 };

@@ -155,7 +155,13 @@ export const muestrasTable = async (req, res) => {
     try {
         let sql = `
         SELECT 
+<<<<<<< HEAD
             m.*
+=======
+            m.*,
+            c.nombre, 
+            f.nombre_finca
+>>>>>>> 35b79d311e3ddee305816e4c1a1145a95e0ef90d
         FROM 
             muestras m
         JOIN lotes l ON m.fk_lote = l.codigo

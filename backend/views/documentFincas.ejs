@@ -178,12 +178,51 @@
             <td> Sergio Andrés Vargas </td>
         </tr>
     </table>
+
+    <hr>
+
+    <h3> Requerimiento activar finca </h3>
+    <table>
+        <tr><td>Numero</td><td>10</td></tr>
+        <tr><td>Nombre del servicio</td><td>Activar Finca</td></tr>
+        <tr><td>Uri</td><td>fincas/activar/5</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador activar la finca</td></tr>
+        <tr><td>Verbo HTTP</td><td>PUT</td></tr>
+        <tr><td>Header</td> <td> Token: token </td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>
+              Null
+        </td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:
+            Status:200
+            json:{
+                "message": "Finca activada correctamente"
+            }
+          <br>
+          Incorrecto:
+          Status:403
+           JSON:{
+            message:"No se pudo activar la finca"
+           }
+           <br>
+           Error:
+           Status:500
+           JSON:{
+            message:"error en el servidor"+error
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
     
     <hr>
 
     <h3> Requerimiento buscar finca </h3>
     <table>
-        <tr><td>Numero</td><td>10</td></tr>
+        <tr><td>Numero</td><td>11</td></tr>
         <tr><td>Nombre del servicio</td><td>buscar finca</td></tr>
         <tr><td>Uri</td><td>fincas/buscar/5</td></tr>
         <tr><td>Descripcion</td><td>Permite al administrador buscar a la finca por medio de su codigo</td></tr>
@@ -192,22 +231,75 @@
         <tr><td>Usuarios</td><td>Administrador</td></tr>
         <tr><td>Peticion JSON</td><td>Null</td></tr>
         <tr><td>Respuesta JSON</td><td>
-            Correcto:
-            Status:200
-            json:
-            {
-            "codigo": 5,
-            "dimension_mt2": "12.50",
-            "fk_caficultor": 1029880306,
-            "municipio": "patio bonito",
-            "vereda": "acevedo",
-            "estado": "activo"
-            }
+            Correcto: <br>
+            Status:200 <br>
+            json: <br>
+            { <br>
+            "codigo": 5, <br>
+            "dimension_mt2": "12.50", <br>
+            "fk_caficultor": 1029880306, <br>
+            "municipio": "patio bonito", <br>
+            "vereda": "acevedo", <br>
+            "estado": "activo" <br>
+            } <br>
           <br>
           Incorrecto:
           Status:404
            JSON:{
             message:"no encontramos a ninguna finca"
+           }
+           <br>
+           Error:
+           Status:500
+           JSON:{
+            message:"error en el servidor"+error
+           }
+        </td></tr>
+        <tr>
+            <td> Programador </td>
+            <td> Sergio Andrés Vargas </td>
+        </tr>
+    </table>
+    <hr>
+
+    <h3> Requerimiento buscar fincas activas </h3>
+    <table>
+        <tr><td>Numero</td><td>12</td></tr>
+        <tr><td>Nombre del servicio</td><td>buscar fincas activas</td></tr>
+        <tr><td>Uri</td><td>fincas/activas</td></tr>
+        <tr><td>Descripcion</td><td>Permite al administrador buscar fincas activas</td></tr>
+        <tr><td>Verbo HTTP</td><td>GET</td></tr>
+        <tr><td>Header</td> <td> Token: token </td></tr>
+        <tr><td>Usuarios</td><td>Administrador</td></tr>
+        <tr><td>Peticion JSON</td><td>Null</td></tr>
+        <tr><td>Respuesta JSON</td><td>
+            Correcto:  <br>
+            Status:200 <br>
+            [ <br>
+            { <br>
+                "codigo": 3, <br>
+                "nombre_finca": "El porvenir", <br>
+                "dimension_mt2": "13.00", <br>
+                "fk_caficultor": "Rosa Medina", <br>
+                "municipio": "Altamira ", <br>
+                "vereda": "vereda", <br>
+                "estado": "activo" <br>
+            },<br>
+            {<br>
+                "codigo": 7, <br>
+                "nombre_finca": "La bonita\r\n", <br>
+                "dimension_mt2": "1300.00", <br>
+                "fk_caficultor": "Aristobulo", <br>
+                "municipio": "Santa Maria ", <br>
+                "vereda": "Puerto rico", <br>
+                "estado": "activo" <br>
+            } <br>
+        ] <br>
+          <br>
+          Incorrecto:
+          Status:404
+           JSON:{
+            message:"no encontraron fincas"
            }
            <br>
            Error:

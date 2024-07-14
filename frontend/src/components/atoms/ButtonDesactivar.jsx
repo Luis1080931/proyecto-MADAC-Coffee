@@ -1,10 +1,10 @@
 import React from 'react'
 import { TbFileOff } from "react-icons/tb";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 export const ButtonDesactivar = (props) => {
   
   return (
-    <TbFileOff   className='cursor-pointer text-3xl text-[#ED6158]' onClick={props.click}/>
+    <IoIosCloseCircleOutline className='cursor-pointer text-3xl text-[#ED6158]' onClick={props.click}/>
   )
 }
-

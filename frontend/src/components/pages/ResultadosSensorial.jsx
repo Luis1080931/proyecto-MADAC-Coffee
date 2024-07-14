@@ -32,13 +32,14 @@ import ButtonActivar from "../atoms/ButtonActivar.jsx";
 import axiosClient from "../axiosClient.js";
 import ResultadoContext from '../../context/ResultadosContext.jsx';
 import SliderVertical from '../organisms/Slider.jsx';
-import { FaEye } from "react-icons/fa";
+import VerSensorial from '../templates/VerSensorial.jsx';
+import { VscEye } from "react-icons/vsc";
 
 export function ResultadosSensorialCatador () {
 
   
   const statusColorMap = {
-    activo: "success",
+    activo: "primary",
     inactivo: "danger",
     todos: 'primary'
   };
@@ -146,14 +147,19 @@ export function ResultadosSensorialCatador () {
       switch (columnKey) {
         case "estado":
           return (
-            <Chip className="capitalize" color={statusColorMap[result.estado]} size="md" variant="flat">
-              {cellValue}
+            <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={statusColorMap[result.estado]}
+                size="sm"
+                variant="dot"
+            >
+                {cellValue}
             </Chip>
           );
         case "actions":
           return (
             <div className="flex flex-row">
-              <FaEye className='cursor-pointer text-3xl text-black mr-5' onClick={() => ver(result.codigo)} />
+              <VscEye className='cursor-pointer text-3xl text-black mr-5' onClick={() => ver(result.codigo)} />
               {result.estado === 'activo' || result.estado === 'calificado' ? (
                 <ButtonActualizar click={() =>  handleToggle('update', setResultadoSeleccionado(result))} />
               ) : (
@@ -253,7 +259,7 @@ export function ResultadosSensorialCatador () {
                   ))}
                 </DropdownMenu>
               </Dropdown>
-              <Button className="text-xl bg-[#273468] text-white" endContent={<PlusIcon />} onClick={() => setModalOpen(true)}>
+              <Button className="text-xl bg-[#273468] text-white" endContent={<PlusIcon />} onClick={() => handleToggle('create')}>
                 Registrar
               </Button>
             </div>
@@ -362,8 +368,8 @@ export function ResultadosSensorialCatador () {
 
   const ver = (codigo) => {
     setModalVer(true)
-    axiosClient.get(`/analisis/buscarmuestra/${codigo}`).then((response) => {
-      console.log(response.data)
+    axiosClient.get(`/analisis/buscarSensorial/${codigo}`).then((response) => {
+      console.log('Datos de sensorial', response.data)
       setDatosSensorial(response.data)
     })
   }
@@ -375,6 +381,7 @@ export function ResultadosSensorialCatador () {
         ...result,
         fecha: formatDate(result.fecha),
       }));
+      console.log('Datos sensoriales aqui:', formattedResults);
       setResults(formattedResults);
     } catch (error) {
       console.error('Error al obtener los datos:', error);
@@ -409,7 +416,7 @@ export function ResultadosSensorialCatador () {
             sortable: true            
         },
         {
-            uid: "finca",
+            uid: "nombre_finca",
             name: 'Finca',
             sortable: true            
         },
@@ -426,36 +433,50 @@ export function ResultadosSensorialCatador () {
         },
       ];
     
-      const handleCalificado = () => {
-        if (selectedAnalysis) {
-          axiosClient.put(`/analisis/calificar/${selectedAnalysis}`, null)
-            .then((response) => {
-              console.log(response.data);
-            })
-            .catch((error) => {
-              console.error('Error del servidor:', error);
-            });
-        } else {
-          console.error('No analysis selected.');
-        }
+      const handleCalificado = (analisis) => {
+        axiosClient.put(`/analisis/calificar/${analisis}`, null)
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.error('Error del servidor:', error);
+        });
       };
       
       const handleSubmit = (data, e) => {
         e.preventDefault()
         try {
-          axiosClient.post(`/resultados/sensorial`, data).then((response) => {
-            console.log(response.data)
-            if(response.status == 200){
-              setMensaje(response.data.message)
-              setModalAcciones(true)
-              setModalOpen(false)
-              fetchData()
-            }else{
-              setMensaje(response.data.message)
-              setModalAcciones(true)
-              setModalOpen(false)
-            }
-          })
+          if(mode === 'create'){
+            axiosClient.post(`/resultados/sensorial`, data).then((response) => {
+              console.log(response.data)
+              if(response.status == 200){
+                setMensaje(response.data.message)
+                setModalAcciones(true)
+                setModalOpen(false)
+                handleCalificado(data.fk_analisis)
+                fetchData()
+              }else{
+                setMensaje(response.data.message)
+                setModalAcciones(true)
+                setModalOpen(false)
+              }
+            })
+          }else if(mode === 'update'){
+            axiosClient.put(`/resultados/actualizarSensory/${resultadoSeleccionado.codigo}`, data).then((response) => {
+              console.log(response.data)
+              if(response.status == 200){
+                setMensaje(response.data.message)
+                setModalAcciones(true)
+                setModalOpen(false)
+                handleCalificado(data.fk_analisis)
+                fetchData()
+              }else{
+                setMensaje(response.data.message)
+                setModalAcciones(true)
+                setModalOpen(false)
+              }
+            })
+          }
           
         } catch (error) {
           setMensaje('Error del servidor' , error)
@@ -463,40 +484,10 @@ export function ResultadosSensorialCatador () {
         }
       } 
 
-   /*  const handleSubmit = async (datosForm, e) => {
-        console.log(datosForm);
-        e.preventDefault()
-        try {
-            if(mode === 'update'){
-
-                    axiosClient.put(`/resultados/actualizar/${resultadoSeleccionado.codigo}`, datosForm).then((response) => {
-                        console.log(response)
-    
-                        if(response.status == 200){
-                            setMensaje(response.data.message)
-                            setModalAcciones(true)
-                            setModalOpen(false)
-                            fetchData()
-                        }else{
-                            alert('Error de actualizar')
-                        }
-                    })
-            } 
-            setModalOpen(false)
-        } catch (error) {
-            console.log('Error del servidor' + error)
-            alert('Error del servidor' + error)
-        }
-    } */
-
     const handleToggle = (mode) => {
         setModalOpen(true)
         setMode(mode)
-    }
-
-  
-    
-        
+    }    
         const [selectedAnalysis, setSelectedAnalysis] = useState('');
 
         const stored = localStorage.getItem('user');
@@ -518,10 +509,11 @@ export function ResultadosSensorialCatador () {
 
                 <Modal size='full' isOpen={modalOpen} onClose={() => setModalOpen(false)}>
                   <ModalContent>
-                    <ModalHeader> Registro de resultados de los análisis </ModalHeader>
+                    <ModalHeader> {mode === 'create' ? 'Registro de análisis sensorial' : 'Actualizar datos de análisis sensorial'} </ModalHeader>
                     <ModalBody>
                       <SliderVertical 
                         handleSubmit={handleSubmit}
+                        mode={mode}
                       />
                     </ModalBody>
                   </ModalContent>
@@ -533,10 +525,15 @@ export function ResultadosSensorialCatador () {
                 label={mensaje}
               />
 
-                <Ejemplo 
-                      data={data}
-                      results={results}
-                />
+              <VerSensorial 
+                open={modalVer}
+                onClose={() => setModalVer(false)}
+                data={datosSensorial}
+              />
+              <Ejemplo 
+                data={data}
+                results={results}
+              />
                   
                   
               </div>

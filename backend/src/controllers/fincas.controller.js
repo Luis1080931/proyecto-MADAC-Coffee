@@ -4,7 +4,7 @@ import {validationResult} from 'express-validator'
 export const getFincas = async (req, res) => {
     try {
         const query = `
-            SELECT f.codigo, f.nombre_finca, f.dimension_mt2, u.nombre AS fk_caficultor, m.nombre AS municipio, f.vereda, f.estado
+            SELECT f.codigo, f.nombre_finca, f.dimension_mt2, u.nombre AS fk_caficultor, u.identificacion, m.nombre AS municipio, m.id_municipio, f.vereda, f.estado
             FROM fincas f
             JOIN usuarios u ON f.fk_caficultor = u.identificacion
             JOIN municipios AS m ON municipio = id_municipio

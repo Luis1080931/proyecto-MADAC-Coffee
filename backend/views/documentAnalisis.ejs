@@ -12,9 +12,7 @@
     <h2> Modulo analisis </h2>
 
     <hr>
-
     <h3> Requerimiento registrar analisis </h3>
-
     <table>
         <tr>
             <td> Numero </td>
@@ -38,7 +36,7 @@
         </tr>
         <tr>
             <td> Header </td>
-            <td> Token: token </td>
+            <td> Null </td>
         </tr>
         <tr>
             <td> Usuario </td>
@@ -91,7 +89,6 @@
         </tr>
     </table>
 
-
     <hr> 
     <h3> Requerimiento listar analisis</h3>
     <table>
@@ -117,7 +114,7 @@
         </tr>
         <tr>
             <td>Header</td>
-            <td> Token: token </td>
+            <td>Null</td>
         </tr>
         <tr>
             <td>Usuario</td>
@@ -166,12 +163,8 @@
         </tr>
     </table>
 
-    
-    
     <hr>
-
     <h3> Requerimiento actualizar analisis </h3>
-
     <table>
         <tr>
             <td> Numero </td>
@@ -195,7 +188,7 @@
         </tr>
         <tr>
             <td> Header </td>
-            <td> Token: token </td>
+            <td> Null </td>
         </tr>
         <tr>
             <td> Usuario </td>
@@ -249,9 +242,7 @@
     </table>
 
     <hr>
-
     <h3> Requerimiento desactivar analisis </h3>
-
     <table>
         <tr>
             <td> Numero </td>
@@ -275,7 +266,7 @@
         </tr>
         <tr>
             <td> Header </td>
-            <td> Token: token </td>
+            <td> Null </td>
         </tr>
         <tr>
             <td> Usuario </td>
@@ -320,9 +311,77 @@
     </table>
 
     <hr>
+    <h3> Requerimiento activar analisis </h3>
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 29 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Desactivar analisis </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /analisis/activar/1
+            </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite activar el analisis de la base de datos </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Put </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Json: 
+                {
+                   Message: "Se activó con exito el analisis y los resultados asociados"
+                },
 
+                Incorrecto:
+                Status: 403
+                Body Json: 
+                {
+                    Status: 403
+                    Message: 'El analisis no existe'
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>
+
+    <hr>
     <h3> Requerimiento buscar analisis </h3>
-
     <table>
         <tr>
             <td> Numero </td>
@@ -346,7 +405,7 @@
         </tr>
         <tr>
             <td> Header </td>
-            <td> Token: token </td>
+            <td> Null </td>
         </tr>
         <tr>
             <td> Usuario </td>
@@ -392,5 +451,658 @@
             <td> María de los Ángeles Torres </td>
         </tr>
     </table>
+
+    <hr>
+    <h3> Requerimiento calificarAnalisis </h3>
+    <table>
+        <tr>
+            <td> Numero </td>
+            <td> 29 </td>
+        </tr>
+        <tr>
+            <td> Nombre del servicio </td>
+            <td> Desactivar analisis </td>
+        </tr>
+        <tr>
+            <td> Url </td>
+            <td> /analisis/calificar/104
+            </td>
+        </tr>
+        <tr>
+            <td> Descripción </td>
+            <td> Permite desactivar el analisis de la base de datos </td>
+        </tr>
+        <tr>
+            <td> Verbo HTTP </td>
+            <td> Put </td>
+        </tr>
+        <tr>
+            <td> Header </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Usuario </td>
+            <td> Administrador </td>
+        </tr>
+        <tr>
+            <td> Petición body-form-data </td>
+            <td> Null </td>
+        </tr>
+        <tr>
+            <td> Respuestas Json </td>
+            <td>
+                Correcto: 
+                Status: 200
+                Json: 
+               {
+   		        "status": 200,
+    		     "message": "Resultado cafilicado"
+		        }
+
+                Incorrecto:
+                Status: 403
+                Body Json: 
+                {
+                    Status: 403
+                    Message:  'No fue posible calificar el resultado'
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>
+
+    <hr> 
+    <h3> Requerimiento analisisActivos</h3>
+    <table>
+        <tr>
+            <td>Numero</td>
+            <td> 27 </td>
+        </tr>
+        <tr>
+            <td>Nombre del servicio</td>
+            <td>Listar analisis</td>
+        </tr>
+        <tr>
+            <td>Url</td>
+            <td>/analisis/activos</td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td>Permite listar todos analisis registrados en la base de datos</td>
+        </tr>
+        <tr>
+            <td>Verbo http</td>
+            <td>Get</td>
+        </tr>
+        <tr>
+            <td>Header</td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Usuario</td>
+            <td>Administrador</td>
+        </tr>
+        <tr>
+            <td>Petición body-form-data </td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Respuesta json</td>
+            <td>
+                Correcto: 
+                Status: 200
+                Json: 
+               {
+        	    "codigo": 19,
+        	    "fecha": "2024-05-31T05:00:00.000Z",
+        	    "analista": "User prueba",
+        	    "muestra": 11,
+        	    "tipo_analisis": "Fisico",
+        	    "estado": "asignado"
+    		}
+
+                Incorrecto:
+                Status: 404
+                Body Json: 
+                {
+                    Status: 404
+                    Message:  "No hay analisis registrados"
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+
+
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>    
+
+    <hr> 
+    <h3> Requerimiento analisisFisicos</h3>
+    <table>
+        <tr>
+            <td>Numero</td>
+            <td> 27 </td>
+        </tr>
+        <tr>
+            <td>Nombre del servicio</td>
+            <td>Listar analisis</td>
+        </tr>
+        <tr>
+            <td>Url</td>
+            <td>/analisis/fisicos</td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td>Permite listar todos analisis registrados en la base de datos</td>
+        </tr>
+        <tr>
+            <td>Verbo http</td>
+            <td>Get</td>
+        </tr>
+        <tr>
+            <td>Header</td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Usuario</td>
+            <td>Administrador</td>
+        </tr>
+        <tr>
+            <td>Petición body-form-data </td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Respuesta json</td>
+            <td>
+                Correcto: 
+                Status: 200
+                Json: 
+                {
+        	    "codigo": 13,
+        	    "fecha": "2024-04-30T05:00:00.000Z",
+        	    "analista": "Aristobulo",
+        	    "muestra": 8,
+        	    "tipo_analisis": "Fisico",
+        	    "estado": "calificado"
+    		    }
+
+                Incorrecto:
+                Status: 404
+                Body Json: 
+                {
+                    Status: 404
+                    Message:  "No hay analisis registrados"
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+
+
+
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>    
+
+
+    <hr> 
+    <h3> Requerimiento analisisCatador</h3>
+    <table>
+        <tr>
+            <td>Numero</td>
+            <td> 27 </td>
+        </tr>
+        <tr>
+            <td>Nombre del servicio</td>
+            <td>Listar analisis</td>
+        </tr>
+        <tr>
+            <td>Url</td>
+            <td>/analisis/analisisCatador/1</td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td>Permite listar todos analisis registrados en la base de datos</td>
+        </tr>
+        <tr>
+            <td>Verbo http</td>
+            <td>Get</td>
+        </tr>
+        <tr>
+            <td>Header</td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Usuario</td>
+            <td>Administrador</td>
+        </tr>
+        <tr>
+            <td>Petición body-form-data </td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Respuesta json</td>
+            <td>
+                Correcto: 
+                Status: 200
+                Json: 
+		        {
+        	    "codigo": 19,
+        	    "fecha": "2024-05-31T05:00:00.000Z",
+        	    "analista": "User prueba",
+        	    "muestra": 11,
+        	    "tipo_analisis": "Fisico",
+        	    "estado": "asignado"
+    		    }
+
+             
+                Incorrecto:
+                Status: 404
+                Body Json: 
+                {
+                    Status: 404
+                    Message:  'No se encontraron analisis'
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+
+
+
+
+
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table>   
+
+    <hr> 
+    <h3> Requerimiento analisisSensorialCatador</h3>
+    <table>
+        <tr>
+            <td>Numero</td>
+            <td> 27 </td>
+        </tr>
+        <tr>
+            <td>Nombre del servicio</td>
+            <td>Listar analisis</td>
+        </tr>
+        <tr>
+            <td>Url</td>
+            <td>/analisisSensorialCatador/1</td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td>Permite listar todos analisis registrados en la base de datos</td>
+        </tr>
+        <tr>
+            <td>Verbo http</td>
+            <td>Get</td>
+        </tr>
+        <tr>
+            <td>Header</td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Usuario</td>
+            <td>Administrador</td>
+        </tr>
+        <tr>
+            <td>Petición body-form-data </td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Respuesta json</td>
+            <td>
+                Correcto: 
+                Status: 200
+                Json: 
+		        {
+        	    "codigo": 18,
+        	    "fecha": "2024-05-20T05:00:00.000Z",
+        	    "analista": "Mario Lopez",
+        	    "muestra": 10,
+        	    "tipo_analisis": "Sensorial",
+        	    "estado": "asignado"
+    		    }
+
+             
+                Incorrecto:
+                Status: 404
+                Body Json: 
+                {
+                    Status: 404
+                    Message:  'No se encontraron analisis'
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+
+
+
+
+
+
+
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table> 
+
+    <hr> 
+    <h3> Requerimiento analisisSensorial</h3>
+    <table>
+        <tr>
+            <td>Numero</td>
+            <td> 27 </td>
+        </tr>
+        <tr>
+            <td>Nombre del servicio</td>
+            <td>Listar analisis</td>
+        </tr>
+        <tr>
+            <td>Url</td>
+            <td>/analisis/sensorial</td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td>Permite listar todos analisis registrados en la base de datos</td>
+        </tr>
+        <tr>
+            <td>Verbo http</td>
+            <td>Get</td>
+        </tr>
+        <tr>
+            <td>Header</td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Usuario</td>
+            <td>Administrador</td>
+        </tr>
+        <tr>
+            <td>Petición body-form-data </td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Respuesta json</td>
+            <td>
+                Correcto: 
+                Status: 200
+                Json: 
+		        {
+        	    "codigo": 4,
+        	    "fecha": "2024-05-20T05:00:00.000Z",
+        	    "aroma": "10",
+        	    "sabor": "10",
+        	    "postgusto": "10",
+        	    "acidez": "10",
+        	    "cuerpo": "10",
+        	    "uniformidad": "10",
+        	    "balance": "10",
+        	    "taza_limpia": "10",
+        	    "dulzura": "10",
+        	    "general": "10",
+        	    "punteo": "100",
+        	    "taza_defecto": "2",
+        	    "intensidad_defecto": "10",
+        	    "sub_defecto": "20",
+        	    "punteo_final": "80",
+        	    "notas": "Buen aroma, analisis full",
+        	    "fk_analisis": 18,
+        	    "estado": "activo",
+        	    "catador": "Mario Lopez",
+        	    "nombre": "Aristobulo",
+        	    "nombre_finca": "La bonita\r\n"
+    		    }
+
+             
+                Incorrecto:
+                Status: 404
+                Body Json: 
+                {
+                    Status: 404
+                    Message:  'No se encontraron analisis'
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+
+
+
+
+
+
+
+
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table> 
+
+    <hr> 
+    <h3> Requerimiento analisisSensorialListar</h3>
+    <table>
+        <tr>
+            <td>Numero</td>
+            <td> 27 </td>
+        </tr>
+        <tr>
+            <td>Nombre del servicio</td>
+            <td>Listar analisis</td>
+        </tr>
+        <tr>
+            <td>Url</td>
+            <td>/analisis/sensorialListar</td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td>Permite listar todos analisis registrados en la base de datos</td>
+        </tr>
+        <tr>
+            <td>Verbo http</td>
+            <td>Get</td>
+        </tr>
+        <tr>
+            <td>Header</td>
+            <td>Token</td>
+        </tr>
+        <tr>
+            <td>Usuario</td>
+            <td>Administrador</td>
+        </tr>
+        <tr>
+            <td>Petición body-form-data </td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Respuesta json</td>
+            <td>
+                Correcto: 
+                Status: 200
+                Json: 
+		        {
+        	    "codigo": 19,
+        	    "fecha": "2024-05-31T05:00:00.000Z",
+        	    "analista": "User prueba",
+        	    "muestra": 11,
+        	    "tipo_analisis": "Fisico",
+        	    "estado": "asignado"
+    		    }
+
+             
+                Incorrecto:
+                Status: 404
+                Body Json: 
+                {
+                    Status: 404
+                    Message:  'No se encontraron analisis'
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table> 
+
+    <hr> 
+    <h3> Requerimiento buscarSensorial</h3>
+    <table>
+        <tr>
+            <td>Numero</td>
+            <td> 27 </td>
+        </tr>
+        <tr>
+            <td>Nombre del servicio</td>
+            <td>Listar analisis</td>
+        </tr>
+        <tr>
+            <td>Url</td>
+            <td>/analisis/buscarSensorial/1</td>
+        </tr>
+        <tr>
+            <td>Descripción</td>
+            <td>Permite listar todos analisis registrados en la base de datos</td>
+        </tr>
+        <tr>
+            <td>Verbo http</td>
+            <td>Get</td>
+        </tr>
+        <tr>
+            <td>Header</td>
+            <td>Token</td>
+        </tr>
+        <tr>
+            <td>Usuario</td>
+            <td>Administrador</td>
+        </tr>
+        <tr>
+            <td>Petición body-form-data </td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Respuesta json</td>
+            <td>
+                Correcto: 
+                Status: 200
+                Json: 
+		        {
+        	    "codigo": 4,
+        	    "fecha": "2024-05-20T05:00:00.000Z",
+        	    "aroma": "10",
+        	    "sabor": "10",
+        	    "postgusto": "10",
+        	    "acidez": "10",
+        	    "cuerpo": "10",
+        	    "uniformidad": "10",
+        	    "balance": "10",
+        	    "taza_limpia": "10",
+        	    "dulzura": "10",
+        	    "general": "10",
+        	    "punteo": "100",
+        	    "taza_defecto": "2",
+        	    "intensidad_defecto": "10",
+        	    "sub_defecto": "20",
+        	    "punteo_final": "80",
+        	    "notas": "Buen aroma, analisis full",
+        	    "fk_analisis": 18,
+        	    "estado": "activo",
+        	    "catador": "Mario Lopez",
+        	    "nombre": "Aristobulo",
+        	    "nombre_finca": "La bonita     "
+    		    }
+
+
+             
+                Incorrecto:
+                Status: 404
+                Body Json: 
+                {
+                    Status: 404
+                    Message:  'No se encontraron analisis'
+                },
+
+                Error:
+                Status: 500
+                Body Json:
+                {
+                    Status: 500
+                    Message: Error de servidor + error
+                }
+
+
+            </td>
+        </tr>
+        <tr>
+            <td> Programador </td>
+            <td> María de los Ángeles Torres </td>
+        </tr>
+    </table> 
+
+
 </body>
 </html>

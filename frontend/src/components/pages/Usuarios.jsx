@@ -29,7 +29,7 @@ import AuthContext from '../../context/authContext.jsx';
 export function Usuarios() {
 
     const statusColorMap = {
-    activo: "success",
+    activo: "primary",
     inactivo: "danger",
     };
 
@@ -100,7 +100,13 @@ export function Usuarios() {
         switch (columnKey) {
         case "estado":
             return (
-            <Chip className="capitalize" color={statusColorMap[result.estado]} size="sm" variant="flat">
+           
+            <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={statusColorMap[result.estado]}
+                size="sm"
+                variant="dot"
+            >
                 {cellValue}
             </Chip>
             );

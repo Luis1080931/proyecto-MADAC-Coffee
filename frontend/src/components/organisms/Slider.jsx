@@ -1,11 +1,12 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import './../../styles/Slider.css'; // Estilos CSS
 import { Button, Checkbox, Input, Select, SelectItem } from '@nextui-org/react';
 import axiosClient from '../axiosClient';
-import axios from 'axios';
+import ResultadoContext from '../../context/ResultadosContext';
+import html2canvas from 'html2canvas'
+import { VictoryChart, VictoryPolarAxis, VictoryLabel, VictoryGroup, VictoryArea } from 'victory';
 
-const SliderVertical = ({ handleSubmit }) => {
+const SliderVertical = ({ handleSubmit, mode }) => {
 
   const [analisisSensorial, setAnalisisSensorial ] = useState([])
 
@@ -301,9 +302,87 @@ const handleCheckboxUniformidad = (index) => {
   const punteoTotal = parseInt(totalAroma) + parseInt(labelSabor) + parseInt(labelPostgusto) + parseInt(labelAcidez) + parseInt(labelBalance) + parseInt(labelCuerpo) +parseInt(labelGeneral) + parseInt(total) + parseInt(taza) + parseInt(dulzura)
   const totalPunteoFinal = parseInt(punteoTotal) - parseInt(resultado)
 
-  const handleFormSubmit = (e) => {
+  const chartRef = useRef(null);
+  
+const RadarChart = () => {
+  // Datos de ejemplo para la gráfica radar
+  const data = [
+    { subject: 'Fragancia aroma', score: totalAroma },
+    { subject: 'Sabor', score: labelSabor },
+    { subject: 'Retrogusto', score: labelPostgusto },
+    { subject: 'Acidez', score: labelAcidez },
+    { subject: 'Cuerpo', score: labelCuerpo },
+    { subject: 'Uniformidad', score: total },
+    { subject: 'Balance', score: labelBalance },
+    { subject: 'Taza limpia', score: taza },
+    { subject: 'Dulzor', score: dulzura },
+    { subject: 'Puntaje general', score: labelGeneral }
+  ];
+
+  return (
+    <VictoryChart polar theme={{}}>
+      <VictoryPolarAxis
+        labelPlacement="perpendicular"
+        tickLabelComponent={<VictoryLabel labelPlacement="vertical" />}
+        style={{
+          axis: { stroke: 'none' },
+          tickLabels: { fontSize: 10, padding: 5 },
+        }}
+      />
+
+      <VictoryGroup
+        colorScale={['#ffcc00']}
+        style={{
+          data: { fillOpacity: 0.4, strokeWidth: 2 },
+        }}
+      >
+        <VictoryArea data={data} x="subject" y="score" />
+      </VictoryGroup>
+    </VictoryChart>
+  );
+};
+
+const captureChart = async () => {
+  const canvas = await html2canvas(chartRef.current);
+  return canvas.toDataURL('image/png');
+};
+
+  const {resultadoSeleccionado} = useContext(ResultadoContext)
+
+  useEffect(() => {
+    if(mode === 'update' && resultadoSeleccionado){
+      
+      const formatFecha = (fecha) => {
+        return new Date(fecha).toISOString().split('T')[0];
+      };
+
+      setFecha((resultadoSeleccionado.fecha))
+      setlabelAroma(resultadoSeleccionado.aroma)
+      setLabelSabor(resultadoSeleccionado.sabor)
+      setLabelPostgusto(resultadoSeleccionado.postgusto)
+      setLabelAcidez(resultadoSeleccionado.acidez)
+      setLabelCuerpo(resultadoSeleccionado.cuerpo)
+      setLabelBalance(resultadoSeleccionado.balance)
+      setLabelGeneral(resultadoSeleccionado.general)
+      setTotal(resultadoSeleccionado.uniformidad)
+      setTaza(resultadoSeleccionado.taza_limpia)
+      setDulzura(resultadoSeleccionado.dulzura)
+      setNumeroTazas(resultadoSeleccionado.taza_defecto)
+      setNumeroIntensidad(resultadoSeleccionado.intensidad_defecto)
+      setResultado(resultadoSeleccionado.sub_defecto)
+      setTotal(resultadoSeleccionado.punteo)
+      setNotas(resultadoSeleccionado.notas)
+      setAnalisis(resultadoSeleccionado.fk_analisis)
+
+      console.log('Datos a actualizar aquiii: ', resultadoSeleccionado);
+    }
+  }, [mode, resultadoSeleccionado])
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault()
     try {
+      const imageData = await captureChart();
+
       const data = {
         fecha, 
         aroma: totalAroma,
@@ -322,18 +401,11 @@ const handleCheckboxUniformidad = (index) => {
         sub_defecto: resultado,
         punteo_final: totalPunteoFinal, 
         notas: notas,
-        fk_analisis: analisis
+        fk_analisis: analisis,
+        image: imageData
       }
       handleSubmit(data, e)
-
-      /* axiosClient.post(`/resultados/sensorial`, data).then((response) => {
-        console.log(response.data)
-        if(response.status == 200){
-          alert('Registro exitoso')
-        }else{
-          alert('Error al registrar')
-        }
-      }) */
+      /* handleCalificado(analisis) */
     } catch (error) {
       console.log('Error del servidor' + error);
     }
@@ -342,13 +414,17 @@ const handleCheckboxUniformidad = (index) => {
   return (
     <>
     <form onSubmit={handleFormSubmit}>
-      <Input 
-        type='date'
-        className='w-40'
-        value={fecha}
-        onChange={(e) => setFecha(e.target.value)}
-      />
-      <select value={analisis} onChange={(e) => setAnalisis(e.target.value)}>
+      <div className='flex flex-row'>
+        <label className='mt-2 mr-2'> Seleccione la fecha: </label>
+        <Input 
+          type='date'
+          className='w-[200px] mb-5'
+          value={fecha}
+          onChange={(e) => setFecha(e.target.value)}
+        />
+      </div>
+      <label className='mr-2'> Seleccione el codigo del análisis: </label>
+      <select className='w-[200px] rounded-xl bg-gray-100 h-[40px] mb-5' value={analisis} onChange={(e) => setAnalisis(e.target.value)}>
         <option hidden> Seleccione analisis ... </option>
         {analisisSensorial.map(analisis => (
           <option value={analisis.codigo} key={analisis.codigo}> {analisis.codigo} </option>

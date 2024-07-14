@@ -30,7 +30,7 @@ import {
 export function Variables () {
 
 const statusColorMap = {
-  activo: "success",
+  activo: "primary",
   inactivo: "danger",
 };
 
@@ -106,13 +106,18 @@ function Ejemplo() {
         );
       case "estado":
         return (
-          <Chip className="capitalize" color={statusColorMap[variable.estado]} size="sm" variant="flat">
-            {cellValue}
-          </Chip>
+          <Chip
+                className="capitalize border-none gap-1 text-default-600"
+                color={statusColorMap[variable.estado]}
+                size="sm"
+                variant="dot"
+            >
+                {cellValue}
+            </Chip>
         );
       case "actions":
         return (
-          <div className="relative flex justify-end items-center gap-2">
+          <div className="flex flex-row">
             <ButtonActualizar click={() => handleToggle('update', setVariableId(variable))} />
             {variable.estado === 'activo' ? (
               <ButtonDesactivar click={() => handleDesactivar(variable.v_codigo)} />
@@ -361,6 +366,7 @@ function Ejemplo() {
             axiosClient.put(`/variables/desactivarVariable/${codigo}`, null).then((response) => {
                 console.log(response.data);
             
+
             if(response.status == 200) {
                 setMensaje(response.data.message)
                 setModalAcciones(true)
