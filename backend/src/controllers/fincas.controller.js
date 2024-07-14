@@ -95,6 +95,32 @@ export const desactivar_Fincas=async(req,res)=>{
     }
 }
 
+export const activarFinca = async (req, res) => {
+    try {
+        const { id } = req.params
+        let sql = `UPDATE fincas SET estado = 1 WHERE codigo = ?`
+
+        const [rows] = await pool.query(sql, [id])
+
+        if(rows.affectedRows>0){
+            res.status(200).json({
+                status: 200,
+                message: 'Se activó con éxito la finca',
+            })
+        }else{
+            res.status(403).json({
+                status: 403,
+                message: 'No se pudo activar la finca',
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            status:500,
+            message: "Error del servidor" + error
+        })
+    }
+}
+
 export const actualizarFincas = async(req,res)=>{
     try{
 

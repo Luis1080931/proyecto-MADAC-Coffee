@@ -1,6 +1,6 @@
 import {pool} from "../database/conexion.js"
 import { validationResult } from 'express-validator';
-//1 listar
+
 export const listarMuestras = async (req, res) => {
     try {
         const [result] = await pool.query("SELECT * FROM muestras")
@@ -17,7 +17,7 @@ export const listarMuestras = async (req, res) => {
     }
 }
 
-//2 crear muestras 
+//crear muestras 
 
 export const CrearMuestra = async (req, res) => {
     try {
@@ -43,7 +43,7 @@ export const CrearMuestra = async (req, res) => {
 
 
 
-//3 actualizar muestra
+//actualizar muestra
 export const actualizarMuestra = async (req, res) => {
     try {
         // Validación de datos
@@ -70,7 +70,7 @@ export const actualizarMuestra = async (req, res) => {
 
 
 
-//4 desactivar muestras}
+// desactivar muestras}
 
 export const desactivarMuestras = async (req, res) => {
     try {
@@ -92,7 +92,7 @@ export const desactivarMuestras = async (req, res) => {
         res.status(500).json({message:"Error en el servidor" + error})
     }
 };
-//5 activar
+
 export const activarMuestras = async (req, res) => {
     try {
         const { codigo } = req.params;
@@ -104,8 +104,8 @@ export const activarMuestras = async (req, res) => {
                 message: 'Se activó con éxito la muestra',
             });
         } else {
-            res.status(404).json({
-                status: 404,
+            res.status(403).json({
+                status: 403,
                 message: 'No se pudo activar la muestra'
             });
         }
@@ -114,7 +114,7 @@ export const activarMuestras = async (req, res) => {
     }
 };
 
-//6 buscar
+
 export const BuscarMuestra = async (req, res) => {
     try {
         const {codigo} = req.params; //esta es la caracterica
@@ -133,7 +133,7 @@ export const BuscarMuestra = async (req, res) => {
         res.status(500).json({message:"Error en el servidor" + error})
     }
 }
-//7 muestras activas
+
 export const muestrasActivas = async (req, res) => {
     try {
         const [result] = await pool.query("SELECT * FROM muestras WHERE estado = 1")
@@ -142,7 +142,6 @@ export const muestrasActivas = async (req, res) => {
             res.status(200).json(result)
         } else {
             res.status(404).json({
-                status: 404,
                 "Mensaje":"No hay muestras"
             });
         }
@@ -150,36 +149,31 @@ export const muestrasActivas = async (req, res) => {
         res.status(500).json({message:"Error en el servidor" + error})
     }
 }
-/* controler  */
+
 export const muestrasTable = async (req, res) => {
     try {
         let sql = `
         SELECT 
-<<<<<<< HEAD
-            m.*
-=======
             m.*,
             c.nombre, 
             f.nombre_finca
->>>>>>> 35b79d311e3ddee305816e4c1a1145a95e0ef90d
         FROM 
             muestras m
-        JOIN lotes l ON m.fk_lote = l.codigo
-        JOIN fincas f ON l.fk_finca = f.codigo
-        JOIN usuarios c ON f.fk_caficultor = c.identificacion`
+        JOIN lotes l ON fk_lote = l.codigo
+        JOIN fincas f ON fk_finca = f.codigo  
+        JOIN usuarios c ON fk_caficultor = c.identificacion`
 
         const [result] = await pool.query(sql)
-
         if (result.length > 0) {
             res.status(200).json(result)
-        } else {
+        }else{
             res.status(404).json({
-                "Mensaje": "No hay muestras"
+                "Mensaje":"No hay muestras"
             });
         }
     } catch (error) {
         res.status(500).json({
-            message: 'Error en el servidor' + error
+            message: 'Error del servidor' + error
         })
     }
 }
