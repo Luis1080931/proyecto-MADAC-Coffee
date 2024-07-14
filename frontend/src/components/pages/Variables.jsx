@@ -361,7 +361,6 @@ function Ejemplo() {
             axiosClient.put(`/variables/desactivarVariable/${codigo}`, null).then((response) => {
                 console.log(response.data);
             
-
             if(response.status == 200) {
                 setMensaje(response.data.message)
                 setModalAcciones(true)

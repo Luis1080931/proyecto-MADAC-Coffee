@@ -16,7 +16,7 @@ export const Login = () => {
     const [modalAcciones, setModalAcciones] = useState(false)
     const [modalOpen, setModalOpen] = useState(false)
 
-    const baseURL = "http://10.193.144.95:3000/validacion"
+    const baseURL = "http://localhost:3000/validacion"
 
 
 const correo_electronico = useRef(null)

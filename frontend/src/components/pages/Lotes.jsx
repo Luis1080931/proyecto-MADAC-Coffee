@@ -365,7 +365,7 @@ const peticionDesactivar = async (codigo) => {
     // console.log("ID del lotes a desactivar:", codigo);
    
     try {
-        axios.put(`http://10.193.144.95:3000/lotes/desactivar/${codigo}`,null,{headers:{token:token}}).then((response)=>{
+        axios.put(`http://localhost:3000/lotes/desactivar/${codigo}`,null,{headers:{token:token}}).then((response)=>{
             console.log(response.data)
             if(response.status==200){
                 setMensaje('Se desactivo con exito el lote')
@@ -394,7 +394,7 @@ const peticionDesactivar = async (codigo) => {
         try{
         
         if(mode === 'create'){
-            const baseURL = 'http://10.193.144.95:3000/lotes/registrar'
+            const baseURL = 'http://localhost:3000/lotes/registrar'
             
             await axiosClient.post('/lotes/registrar', formData).then((response)=>{
                 console.log(response)
@@ -409,7 +409,7 @@ const peticionDesactivar = async (codigo) => {
                 }
             })
         }else if(mode==='update'){
-            const updateURL = `http://10.193.144.95:3000/lotes/actualizar/${id}`
+            const updateURL = `http://localhost:3000/lotes/actualizar/${id}`
 
             await axiosClient.put(`/lotes/actualizar/${idLote.codigo}`,formData).then((response)=>{
                 console.log(response); 

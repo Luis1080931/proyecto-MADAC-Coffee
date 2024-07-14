@@ -61,7 +61,7 @@ export default function ProfileModal({ isOpen, onClose }) {
         password: password.current.value,
       }
 
-      axios.put(`http://10.193.144.95:3000/usuarios/actualizar/${identificacionuser}`, data).then((response) => {
+      axios.put(`http://localhost:3000/usuarios/actualizar/${identificacionuser}`, data).then((response) => {
       console.log(data)
       if(response.status==201){
         setMensaje('Usuario actualizado con exito')

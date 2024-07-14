@@ -356,7 +356,7 @@ function Ejemplo() {
       }
 
     const handleDesactivar = async (id) => {
-        await axios.put(`http://10.193.144.95:3000/analisis/desactivar/${id}`, null, {headers: {token: token}}).then((response) => {
+        await axios.put(`http://localhost:3000/analisis/desactivar/${id}`, null, {headers: {token: token}}).then((response) => {
             console.log(response.data)
             if(response.status==200){
                 setMensaje('Se desactivó con exito el análisis')
@@ -370,7 +370,7 @@ function Ejemplo() {
         });
     };
 
-    const url = 'http://10.193.144.95:3000/analisis/listar';
+    const url = 'http://localhost:3000/analisis/listar';
 
     const fetchData = async () => {
         try {
@@ -399,7 +399,7 @@ function Ejemplo() {
         e.preventDefault()
         try {
             if(mode == 'create'){
-                const baseURL = 'http://10.193.144.95:3000/analisis/registrar';
+                const baseURL = 'http://localhost:3000/analisis/registrar';
                 axios.post(baseURL, data, {headers: {token: token}}).then((response) => {
                     console.log(response.data)
                     if(response.status == 201){
