@@ -142,7 +142,7 @@ export const muestrasActivas = async (req, res) => {
             res.status(200).json(result)
         } else {
             res.status(404).json({
-                "Mensaje":"No hay muestras"
+                "Mensaje":"No hay muestras activas"
             });
         }
     } catch (error) {

@@ -5,7 +5,7 @@ import { validarToken } from "../controllers/seguridad.controller.js";
 
 
 const RouteMuestras = Router();
-
+/* breve */
 //localhost:3000/actualizarMuestra
 
 RouteMuestras.get("/listarMuestra", validarToken, listarMuestras);
@@ -17,6 +17,6 @@ RouteMuestras.put("/desactivarMuestra/:codigo",validarToken, desactivarMuestras)
 RouteMuestras.put("/activarMuestra/:codigo",validarToken, activarMuestras)
 RouteMuestras.get("/buscarmuestra/:codigo",validarToken, BuscarMuestra);
 RouteMuestras.get("/activas",validarToken, muestrasActivas);
-RouteMuestras.get("/table",validarToken, muestrasTable);
+RouteMuestras.get("/table",/* validarToken, */ muestrasTable);
 
 export default RouteMuestras;

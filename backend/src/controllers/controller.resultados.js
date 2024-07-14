@@ -1,7 +1,7 @@
 import { query } from "express" 
 import { pool } from "../database/conexion.js" 
 import { validationResult } from "express-validator"
-import multer from 'multer'
+import multer from "multer"
 
 export const listarResultados = async (req, res) => {
 

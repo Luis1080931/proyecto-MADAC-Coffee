@@ -17,7 +17,7 @@
   <table>
     <tr><td>numero</td><td>21</td></tr>
     <tr><td>Nombre del servicio</td><td>Crear Muestra</td></tr>
-    <tr><td>URI</td><td>/muestras/CrearMuestra</td></tr>
+    <tr><td>URI</td><td>/muestras/crearMuestra</td></tr>
     <tr><td>Descripción</td><td>Permite crear las muestras para registrarlas en la base de datos </td></tr>
     <tr><td>verbo HTTP</td><td>post</td></tr>
     <tr><td>HEADER</td> <td> Token: token </td></tr>
@@ -71,7 +71,7 @@
     <table>
         <tr><td>numero</td><td>22</td></tr>
         <tr><td>Nombre del servicio</td><td>Listar Muestras</td></tr>
-        <tr><td>URI</td><td>/muestras/listarMuestras</td></tr>
+        <tr><td>URI</td><td>/muestras/listarMuestra</td></tr>
         <tr><td>Descripción</td><td>Permite listar las muestras registradas en la base de datos </td></tr>
         <tr><td>verbo HTTP</td><td>get</td></tr>
         <tr><td>HEADER</td> <td> Token: token </td></tr>
@@ -172,7 +172,7 @@
 <table>
     <tr><td>numero</td><td>24</td></tr>
     <tr><td>Nombre del servicio</td><td>desactivar muestras</td></tr>
-    <tr><td>URI</td><td>/muestras/desactivarmuestra/1</td></tr>
+    <tr><td>URI</td><td>/muestras/desactivarMuestra/1</td></tr>
     <tr><td>Descripción</td><td>Permite desactivar o activar las muestras registradas en la base de datos </td></tr>
     <tr><td>verbo HTTP</td><td>put</td></tr>
     <tr><td>HEADER</td> <td> Token: token </td></tr>
@@ -181,7 +181,7 @@
     <tr><td>Respuesta json</td><td>
 
     correcto:
-    status: 200 message: 'Se cambió el estado de la muestra a '${nuevoEstado}' con éxito'
+    status: 200 
     json:
     {
         "status": 200,
@@ -198,6 +198,46 @@
           "Status": 500,
           "Message": "Error en el servidor": + error
         }
+        </td></tr>
+        <tr>
+          <td> Programador </td>
+          <td> Alejandro David Pasaje </td>
+        </tr>
+</table>
+<hr>
+<h3> Requerimiento activar muestras </h3>
+<!--  activar muestras -->
+<table>
+    <tr><td>numero</td><td>26</td></tr>
+    <tr><td>Nombre del servicio</td><td>Activar muestras</td></tr>
+    <tr><td>URI</td><td>/muestras/activarMuestra/1</td></tr>
+    <tr><td>Descripción</td><td>Permite activar las muestras registradas en la base de datos </td></tr>
+    <tr><td>verbo HTTP</td><td>put</td></tr>
+    <tr><td>HEADER</td> <td> Token: token </td></tr>
+    <tr><td>Usuario</td><td>administrador </td></tr>
+    <tr><td>petición json</td><td>Null</td></tr>
+    <tr><td>Respuesta json</td><td>
+
+    correcto:
+    status: 200 
+    json:
+      {
+      status: 200,
+      message: 'Se activó con éxito la muestra',
+      }
+        incorrecto:{
+          status: 404,
+          message: 'No se pudo activar la muestra'
+        }
+        
+        Error: 
+        Status: 500,
+        Body Json: 
+        {
+          "Status": 500,
+          "Message": "Error en el servidor": + error
+        }
+
         </td></tr>
         <tr>
           <td> Programador </td>
@@ -254,49 +294,8 @@
           <td> Alejandro David Pasaje </td>
         </tr>
 </table>
-</table>
 <hr>
-<h3> Requerimiento activar muestras </h3>
-<!-- Muestras activas -->
-<table>
-    <tr><td>numero</td><td>26</td></tr>
-    <tr><td>Nombre del servicio</td><td>Activar muestras</td></tr>
-    <tr><td>URI</td><td>/muestras/activarMuestra/1</td></tr>
-    <tr><td>Descripción</td><td>Permite activar las muestras registradas en la base de datos </td></tr>
-    <tr><td>verbo HTTP</td><td>put</td></tr>
-    <tr><td>HEADER</td> <td> Token: token </td></tr>
-    <tr><td>Usuario</td><td>administrador </td></tr>
-    <tr><td>petición json</td><td>Null</td></tr>
-    <tr><td>Respuesta json</td><td>
-
-    correcto:
-    status: 200 
-    json:
-      {
-      status: 200,
-      message: 'Se activó con éxito la muestra',
-      }
-        incorrecto:{
-          status: 404,
-          message: 'No se pudo activar la muestra'
-        }
-        
-        Error: 
-        Status: 500,
-        Body Json: 
-        {
-          "Status": 500,
-          "Message": "Error en el servidor": + error
-        }
-
-        </td></tr>
-        <tr>
-          <td> Programador </td>
-          <td> Alejandro David Pasaje </td>
-        </tr>
-</table>
-<hr>
-<h3> Requerimiento muestras activas</h3>
+<h3> Requerimiento listar muestras activas</h3>
 <!-- Muestras activas en la base -->
 <table>
     <tr><td>numero</td><td>27</td></tr>
@@ -329,7 +328,7 @@
       }
         incorrecto:{
           status: 404,
-          "Mensaje":"No hay muestras"
+          "Mensaje":"No hay muestras activas"
         }
 
         Error: 
@@ -353,8 +352,8 @@
 <table>
     <tr><td>numero</td><td>28</td></tr>
     <tr><td>Nombre del servicio</td><td>Listar datos esenciales se las muestras</td></tr>
-    <tr><td>URI</td><td>/muestras/activas</td></tr>
-    <tr><td>Descripción</td><td>Permite al administrador listar algunos datos clave de las muestras, registradas en la base de datos </td></tr>
+    <tr><td>URI</td><td>/muestras/table</td></tr>
+    <tr><td>Descripción</td><td>Permite al administrador listar los datos de las muestras, registradas en la base de datos </td></tr>
     <tr><td>verbo HTTP</td><td>get</td></tr>
     <tr><td>HEADER</td> <td> Token: token </td></tr>
     <tr><td>Usuario</td><td>administrador </td></tr>
@@ -366,12 +365,23 @@
     json:
       {
         {
-          "codigo": 11,
-          "fecha": "2024-05-26T05:00:00.000Z",
-          "estado": "activo",
-          "fk_lote": 3,
-          "nombre": "Rosa Medina",
-          "nombre_finca": "El porvenir"
+          
+            "codigo": 10,
+            "fecha": "2024-05-29T05:00:00.000Z",
+            "tipo_molienda": "Rosa Medina",
+            "densidad_cafe": "12 ",
+            "proceso_fermentacion": "en cambio",
+            "tipo_tostion": "12",
+            "altura_MSNM": "12.00",
+            "tiempo_fermentacion": "12 ",
+            "actividad_agua": "12",
+            "tiempo_secado": "12",
+            "presentacion": "grano",
+            "fk_lote": 2,
+            "estado": "activo",
+            "nombre": "Rosa Medina",
+            "nombre_finca": "El porvenir"
+        
       },
       }
         incorrecto:{

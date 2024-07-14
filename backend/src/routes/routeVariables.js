@@ -4,7 +4,7 @@ import { validacionVariable } from "../../validate/variable.js";
 import { validarToken } from "../controllers/seguridad.controller.js";
 
 const routeVariables = Router()
-
+/* rutas */
 routeVariables.get("/listarvariable", validarToken, listarVariables)
 
 routeVariables.post("/crearvariable",/* validarToken, */ /* validacionVariable, */CrearVariable)
