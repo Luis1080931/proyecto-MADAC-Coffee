@@ -525,6 +525,7 @@ import { FaFileDownload } from "react-icons/fa";
 import { PDFViewer } from '@react-pdf/renderer'; // Importar PDFViewer
 import PDFReport from '../organisms/Reportes.jsx';
 import { format } from 'date-fns';
+import RadarChart from '../organisms/RadarGraphic.jsx';
 
 export function Reportes() {
   const statusColorMap = {
@@ -575,6 +576,7 @@ export function Reportes() {
     const [datosPdfProductor, setDatosPdfProductor] = useState(null);
     const [loadingPdf, setLoadingPdf] = useState(false);
     const [modalPdfOpen, setModalPdfOpen] = useState(false)
+    const [modalGraphic, setModalGraphic] = useState(false)
 
     const fetchDataPdf = useCallback(async (id) => {
       setLoadingPdf(true);
@@ -601,6 +603,11 @@ export function Reportes() {
       await fetchDataPdf(id); 
       setModalPdfOpen(true)
     };
+
+    const handleGraphic = async (id) => {
+      await fetchDataPdf(id)
+      setModalGraphic(true)
+    }
 
     useEffect(() => {
       console.log('datosPdf:', datosPdf);
@@ -685,10 +692,14 @@ export function Reportes() {
           return (
             <div className="flex flex-row">
               {result.estado === 'terminado' && (
-                
-                <button onClick={() => handleDownloadClick(result.codigo)}>
-                  Ver PDF
-                </button>
+                <>
+                  <button onClick={() => handleDownloadClick(result.codigo)}>
+                    Ver PDF
+                  </button>
+                  <button onClick={() => handleGraphic(result.codigo)}>
+                    Ver gráfica
+                  </button>
+                </>
                     
                
               )}
@@ -697,7 +708,7 @@ export function Reportes() {
         default:
           return cellValue;
       }
-    }, [handleDownloadClick, statusColorMap]);
+    }, [handleDownloadClick, handleGraphic, statusColorMap]);
 
     const onNextPage = useCallback(() => {
       if (page < pages) {
@@ -900,6 +911,24 @@ export function Reportes() {
             </ModalBody>
             <ModalFooter>
               <Button color='danger' onClick={closeModal}> Cerrar </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+
+        <Modal isOpen={modalGraphic} onClose={() => setModalGraphic(false)} >
+          <ModalContent>
+            <ModalHeader>
+              <h2>Ver Graphic</h2>
+            </ModalHeader>
+            <ModalBody>
+              {datosPdf ? (
+                <RadarChart datos={datosPdfSensory} />
+              ) : (
+                'No hay datos por mostrar'
+              )}
+            </ModalBody>
+            <ModalFooter>
+              <Button color='danger' onClick={() => setModalGraphic(false)} > Cerrar </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
