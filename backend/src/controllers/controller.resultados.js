@@ -201,9 +201,9 @@ export const registrarSensorial = async (req, res) => {
             image = req.file.filename;
         }
 
-        let sql = `INSERT INTO sensoriales (fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisis, grafica) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        let sql = `INSERT INTO sensoriales (fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisisÑ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-        const [rows] = await pool.query(sql, [fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisis, image]);
+        const [rows] = await pool.query(sql, [fecha, aroma, sabor, postgusto, acidez, cuerpo, uniformidad, balance, taza_limpia, dulzura, general, punteo, taza_defecto, intensidad_defecto, sub_defecto, punteo_final, notas, fk_analisis]);
 
         if (rows.affectedRows > 0) {
             res.status(200).json({
