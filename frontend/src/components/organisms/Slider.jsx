@@ -381,7 +381,7 @@ const captureChart = async () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault()
     try {
-      const imageData = await captureChart();
+     /*  const imageData = await captureChart(); */
 
       const data = {
         fecha, 
@@ -401,8 +401,7 @@ const captureChart = async () => {
         sub_defecto: resultado,
         punteo_final: totalPunteoFinal, 
         notas: notas,
-        fk_analisis: analisis,
-        image: imageData
+        fk_analisis: analisis
       }
       handleSubmit(data, e)
       /* handleCalificado(analisis) */
