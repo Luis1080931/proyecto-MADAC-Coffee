@@ -35,7 +35,7 @@ const FormResultados = ({ mode, handleSubmit, onClose, actionLabel }) => {
                 return new Date(fecha).toISOString().split('T')[0];
               };
 
-            setFecha(formatFecha(resultadoSeleccionado.fecha))
+            setFecha(resultadoSeleccionado.fecha)
             setAnalisisFk(resultadoSeleccionado.analisis)
             setVariableFk(resultadoSeleccionado.v_codigo)
             setValor(resultadoSeleccionado.valor)

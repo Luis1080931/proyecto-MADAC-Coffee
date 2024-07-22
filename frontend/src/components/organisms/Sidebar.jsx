@@ -46,9 +46,8 @@ export const Sidebar = () => {
   const Menus = [
     { title: "Dashboard", link: "/dashboard", icon: MdDashboard },
     { title: "Usuarios", link: "/usuarios", icon: AiOutlineUser },
-    { title: "Fincas", link: "/fincas", icon: GiFarmTractor},
+    { title: "Cultivos", link: "/cultivos", icon: GiFarmTractor},
     { title: "Variedades", link: "/variedades", icon: GiCoffeeCup },
-    { title: "Lotes", link: "/lotes", icon: RiPlantFill },
     { title: "Muestras", link: "/muestras", icon: BiSolidCoffeeBean},
     { title: "Análisis", link: "/analisis", icon: MdOutlineCoffeeMaker},
     { title: "Variables", link: "/variables", icon: IoIosPaper},

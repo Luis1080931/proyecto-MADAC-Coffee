@@ -2,8 +2,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Login } from "./pages/Login.jsx";
 import { Dashboard } from "./pages/Dashboard.jsx";
 import { Usuarios } from "./pages/Usuarios.jsx";
-import { Fincas } from "./pages/Fincass.jsx";
-import { Lotes } from "./pages/Lotes.jsx";
+import Fincas from "./pages/Fincass.jsx";
+import Lotes from "./pages/Lotes.jsx";
 import { Muestras } from "./pages/Muestras.jsx";
 import { Variables } from "./pages/Variables.jsx";
 import VistaVariedades from "./pages/VistaVariedades.jsx";
@@ -22,6 +22,7 @@ import { Reportes } from "./pages/Reportes.jsx";
 import { ResultadosSensorialCatador } from "./pages/ResultadosSensorial.jsx";
 import { VistaAdminSensory } from "./pages/VistaAdminSensory.jsx";
 import RadarChart from "./organisms/RadarGraphic.jsx";
+import { Cultivos } from "./pages/Cultivos.jsx";
 
 const stored = localStorage.getItem('user');
 const user = stored ? JSON.parse(stored) : null;
@@ -57,6 +58,7 @@ function App() {
                   <Route path="/analisisCatador" element={<VistaAnalisisCatador />} />
                   <Route path="/resultadosCatador" element={<ResultadosCatador />} />
                   <Route path="/resultadosSensorial" element={<ResultadosSensorialCatador />} />
+                  <Route path="/cultivos" element={<Cultivos />} />
                 {/* </>
               )} */}
               <Route path="/reportes" element={<Reportes />} />

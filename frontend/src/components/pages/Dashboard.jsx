@@ -4,9 +4,46 @@ import { FaAngleRight } from "react-icons/fa6";
 import { RxDotFilled } from 'react-icons/rx';
 import { Sidebar } from './../organisms/Sidebar.jsx';
 import { SideBarUser } from './../organisms/SideBarUser.jsx';
+import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
+import  AnalisisCalificados from '../organisms/TableCalificados.jsx';
+import AnalisisFisicosChart from '../organisms/Estadisticas.jsx';
+import { Header } from '../molecules/Header.jsx';
 
 export const Dashboard = () => {
-  const slides = [
+
+  return(
+    <div className='bg-[#EAEDF6] h-screen max-h-max'>
+    <Header title="Resultado de los análisis sensoriales" />
+      <div className='bg-[#EAEDF6]'>
+        <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
+
+          <div className="flex flex-col px-10 gap-x-4 pt-8 w-full bg-[#EAEDF6]">
+            <Tabs aria-label="Options" variant="bordered" >
+              <Tab key="departamentos" title="Análisis calificados">
+                <Card className=" ">
+                  <CardBody>
+                    <AnalisisCalificados />
+                  </CardBody>
+                </Card>
+              </Tab>
+              <Tab key="municipios" title="Estadísticas">
+                <Card className=" ">
+                  <CardBody>
+                    <AnalisisFisicosChart />
+                  </CardBody>
+                </Card>
+              </Tab>
+            </Tabs>
+          </div>
+        
+            
+            
+        </div>
+
+      </div>
+</div>
+  )
+  /* const slides = [
     {
       url: 'https://diariodelhuila.com/wp-content/uploads/Foto-4-ENCC-jpg.webp'
     },
@@ -85,5 +122,5 @@ export const Dashboard = () => {
         </div>
       </div>
     </div>
-  );
+  ); */
 };

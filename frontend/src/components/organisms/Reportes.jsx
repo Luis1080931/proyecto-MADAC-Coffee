@@ -284,17 +284,21 @@ const styles = StyleSheet.create({
   },
   tableMayor: {
     width: '80%',
-    height: '90%',  
+    height: '85%',  
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: '#000',
   },
   headTable: {
-    fontSize: 14,
+    fontSize: 10,
     height: '30px',
     width: '100%',
     flexWrap: 'wrap',
-    margin: 0
+    margin: 0,
+    fontWeight: '700',
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   headTableDes: {
     fontSize: 14,
@@ -555,6 +559,7 @@ const PDFReport = ({ data, datos }) => (
         'No hay resultados'
       )}
     </Page>
+    {datos ? (
     <Page size='A4' style={styles.page}>
     <View style={styles.header} fixed>
         <View style={styles.row1}>
@@ -590,7 +595,6 @@ const PDFReport = ({ data, datos }) => (
           </View>
         </View>
       </View>
-{datos ? (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>6. Resultados:</Text>
             <View style={styles.headerSensorial}>
@@ -600,9 +604,10 @@ const PDFReport = ({ data, datos }) => (
             <View style={styles.tableMayor}>
                 <View style={styles.plusCol}>
                   <View style={styles.halfTable}>
-                    <View style={styles.tableRowFisicos}>
+                    {/* <View style={styles.tableRowFisicos}> */}
                       <View style={styles.tableColSensorial}>
                         <Text style={styles.headTable}> ATRIBUTO </Text>
+                      </View>
                         <Text style={styles.tableCellDatosSensory}> Fragancia Aroma: </Text>  
                         <Text style={styles.tableCellDatosSensory}> Sabor: </Text>  
                         <Text style={styles.tableCellDatosSensory}> Retrogusto: </Text>  
@@ -614,13 +619,13 @@ const PDFReport = ({ data, datos }) => (
                         <Text style={styles.tableCellDatosSensory}> Dulzor: </Text>  
                         <Text style={styles.tableCellDatosSensory}> Puntaje general: </Text>  
                         <Text style={styles.tableCellDatosSensory}> Puntaje total: </Text>  
-                      </View>
-                    </View>
+                    {/* </View> */}
                   </View>
                   <View style={styles.halfTable}>
-                  <View style={styles.tableRowFisicos}>
+                  {/* <View style={styles.tableRowFisicos}> */}
                     <View style={styles.tableColSensorial}>
                       <Text style={styles.headTable}> PUNTAJE </Text>
+                    </View>
                         <Text style={styles.tableCellDatosSensory}> {datos.aroma} </Text>  
                         <Text style={styles.tableCellDatosSensory}> {datos.sabor} </Text>  
                         <Text style={styles.tableCellDatosSensory}> {datos.postgusto} </Text>  
@@ -632,26 +637,25 @@ const PDFReport = ({ data, datos }) => (
                         <Text style={styles.tableCellDatosSensory}> {datos.dulzura} </Text>  
                         <Text style={styles.tableCellDatosSensory}> {datos.punteo} </Text>  
                         <Text style={styles.tableCellDatosSensory}> {datos.punteo_final} </Text>  
-                    </View>
-                  </View>
+                  {/* </View> */}
                   </View>
                   <View style={styles.halfTable}>
                     <View style={styles.tableColSensorial}>
                       <Text style={styles.headTable}> DESCRIPCIÓN SENSORIAL</Text>
-                     {/*  <Text style={styles.headTable}>  </Text> */}
-                      <Text style={styles.headTableDes}> {datos.notas} </Text>
+                      {/* <Text style={styles.headTable}> SENSORIAL </Text> */}
                     </View>
+                      <Text style={styles.headTableDes}> {datos.notas} </Text>
                   </View>
                 </View>
             </View>
           </View>
           
         </View>
+      {/* <RadarChart /> */}
+    </Page>
       ): (
         ''
       )}
-      {/* <RadarChart /> */}
-    </Page>
     <Page size='A4' style={styles.page}>
     <View style={styles.header} fixed>
         <View style={styles.row1}>

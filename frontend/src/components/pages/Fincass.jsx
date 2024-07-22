@@ -27,7 +27,7 @@ import {
   import ButtonActivar from "../atoms/ButtonActivar.jsx";
   import FincasContext from '../../context/FincasContext.jsx';
 
-export function Fincas() {
+const Fincas = () => {
 
 const statusColorMap = {
   activo: "primary",
@@ -466,7 +466,6 @@ const data = [
     return (
         <div>
           <div className='bg-[#EAEDF6] h-screen max-h-max'>
-          <Header title="Fincas"/>
               <div className='bg-[#EAEDF6]'>
                 <div className='w-full max-w-[90%] ml-28 items-center p-10'>
 
@@ -496,3 +495,5 @@ const data = [
         </div>
     );
 }
+
+export default Fincas

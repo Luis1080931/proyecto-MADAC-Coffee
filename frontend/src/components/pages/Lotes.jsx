@@ -27,7 +27,7 @@ import {
   import ButtonActivar from "../atoms/ButtonActivar.jsx";
   import LotesContext from '../../context/LotesContext.jsx';
 
-export function Lotes () {
+const Lotes = () => {
 
 const statusColorMap = {
   activo: "primary",
@@ -459,7 +459,6 @@ const handleActivar = async (codigo) => {
 
         <div>
           <div className='bg-[#EAEDF6] h-screen max-h-max'>
-          <Header title="Lotes"/>
               <div className='bg-[#EAEDF6]'>
                 <div className='w-full max-w-[90%] ml-28 items-center p-10'>
                     <AccionesModal
@@ -488,3 +487,5 @@ const handleActivar = async (codigo) => {
         </div>
     )
 }
+
+export default Lotes
