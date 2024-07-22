@@ -249,3 +249,44 @@ export const actualizarSensorial = async (req, res) => {
         })
     }
 }
+
+export const listarResultadosFisicos = async (req, res) => {
+
+    try {
+        
+        const {id} = req.params
+        let sql = `
+                SELECT 
+                codigo, 
+                fecha, 
+                fk_analisis AS analisis, 
+                nombre AS variable, 
+                v_codigo, 
+                valor, 
+                r.estado 
+                
+                FROM resultados AS r 
+
+                JOIN 
+                    variables ON fk_variables = v_codigo
+
+                WHERE fk_analisis = ?
+                `
+
+        const [result] = await pool.query(sql, [id])
+
+        if(result.length>0){
+            res.status(200).json(result)
+        }else{
+            res.status(404).json({
+                'status': 404,
+                'message': 'No hay resultados registrados'
+            })
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error del servidor' + error
+        })
+    }
+}

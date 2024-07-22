@@ -410,3 +410,40 @@ export const buscarSensorial = async (req, res) => {
         })
     }
 }
+
+export const analisisCalificados = async (req, res) => {
+    try {
+        let sql = `
+            SELECT 
+            codigo, 
+            fecha, 
+            c.nombre AS analista,
+            c.identificacion, 
+            fk_muestra AS muestra,
+            tipo_analisis,
+            t.id AS codeTipo,
+            a.estado 
+
+            FROM analisis AS a 
+
+            JOIN 
+                usuarios c ON fk_analista = identificacion 
+            JOIN 
+                tipo_analisis t ON fk_tipo_analisis = id 
+            WHERE a.estado = 2 `
+
+            const [result] = await pool.query(sql)
+            if(result.length>0){
+                res.status(200).json(result)
+            }else{
+                res.status(404).json({
+                    status: 404,
+                    message: 'No se encontraron analisis calificados'
+                })
+            }
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error del servidor' + error
+        })
+    }
+}

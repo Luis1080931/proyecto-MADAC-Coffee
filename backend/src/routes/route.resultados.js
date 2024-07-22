@@ -1,5 +1,5 @@
 import { Router } from "express"; 
-import { listarResultados, registrarResultados, actualizarResultado, desactivarResultado, buscarResultados, activarResultado, registrarSensorial, actualizarSensorial, cargarImagen } from "../controllers/controller.resultados.js"; 
+import { listarResultados, registrarResultados, actualizarResultado, desactivarResultado, buscarResultados, activarResultado, registrarSensorial, actualizarSensorial, cargarImagen, listarResultadosFisicos } from "../controllers/controller.resultados.js"; 
 import { validarResultados } from "../../validate/resultados.validate.js";
 import { validarToken } from "../controllers/seguridad.controller.js";
 
@@ -13,5 +13,6 @@ routeResultados.put('/actualizarSensory/:id', validarToken, actualizarSensorial)
 routeResultados.put('/desactivar/:idResultado',validarToken, desactivarResultado)
 routeResultados.get('/buscar/:idResultado',validarToken, buscarResultados)
 routeResultados.put('/activar/:id',validarToken, activarResultado)
+routeResultados.get('/fisicos/:id',validarToken, listarResultadosFisicos)
 
 export default routeResultados
