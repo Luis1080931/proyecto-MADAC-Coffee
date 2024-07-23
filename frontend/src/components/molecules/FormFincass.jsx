@@ -139,7 +139,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
                             Cerrar
                         </Button>
                         <Button
-                            type='submit' color='primary'
+                            type='submit' className='bg-[#273468] text-white'
                         >
                             {actionLabel}
                         </Button>

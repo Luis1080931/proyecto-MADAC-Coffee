@@ -277,7 +277,18 @@ export function VistaAdminSensory () {
           </div>
         </div>
       );
-    }, [filterValue, statusFilter, onRowsPerPageChange, onSearchChange, onClear]);
+    }, [filterValue,
+      onClear,
+      onSearchChange,
+      results,
+      statusFilter,
+      selectedKeys,
+      analisisValue,
+      selectedAnalysis,
+      handleAnalysisChange,
+      statusOptions,
+      onStatusFilter,
+      onRowsPerPageChange]);
   
     const bottomContent = React.useMemo(() => {
       return (

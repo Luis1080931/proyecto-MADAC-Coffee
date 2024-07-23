@@ -140,7 +140,7 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
           <Button color="danger" variant="light" onPress={onClose}>
             Cerrar
           </Button>
-          <Button type="submit" color="primary">
+          <Button type="submit" className='bg-[#273468] text-white'>
             {actionLabel}
           </Button>
         </ModalFooter>

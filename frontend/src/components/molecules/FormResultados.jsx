@@ -127,10 +127,10 @@ const FormResultados = ({ mode, handleSubmit, onClose, actionLabel }) => {
                 />
             </div>
             <ModalFooter>
-                <Button color="danger" variant="flat" onPress={onClose}>
+                <Button color="danger" variant="shadow" onPress={onClose}>
                   Close
                 </Button>
-                <Button type='submit' color="primary">
+                <Button type='submit' className='bg-[#273468] text-white'>
                   {actionLabel}
                 </Button>
                 

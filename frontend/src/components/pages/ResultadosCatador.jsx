@@ -273,7 +273,18 @@ export function ResultadosCatador () {
           </div>
         </div>
       );
-    }, [filterValue, statusFilter, onRowsPerPageChange, onSearchChange, onClear]);
+    }, [filterValue,
+      onClear,
+      onSearchChange,
+      results,
+      statusFilter,
+      selectedKeys,
+      analisisValue,
+      selectedAnalysis,
+      handleAnalysisChange,
+      statusOptions,
+      onStatusFilter,
+      onRowsPerPageChange]);
   
     const bottomContent = React.useMemo(() => {
       return (
@@ -583,12 +594,12 @@ export function ResultadosCatador () {
                               value={variables[currentIndex]}
                               onChange={(e) => handleChange(e, currentIndex)}
                             />
-                            <Button color='primary' onClick={handleNext}>Next</Button>
+                            <Button className='bg-[#273468] text-white' onClick={handleNext}>Next</Button>
                           </>
                         ) : (
                           <>
                             <h2>Registro completo</h2>
-                            <Button color='primary' onClick={handleSubmitRegister}>Registrar</Button>
+                            <Button className='bg-[#273468] text-white' onClick={handleSubmitRegister}> Finalizar </Button>
                           </>
                         )}
                       </ModalBody>
@@ -654,8 +665,6 @@ import { PlusIcon } from "./../atoms/PlusIcon.jsx";
 import { SearchIcon } from "./../atoms/SearchIcon.jsx";
 import { ChevronDownIcon } from "./../atoms/ChevronDownIcon.jsx";
 import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
-import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
-import ButtonActivar from "../atoms/ButtonActivar.jsx";
 import axiosClient from "../axiosClient.js";
 import ResultadoContext from '../../context/ResultadosContext.jsx';
 
@@ -976,7 +985,6 @@ export function ResultadosCatador() {
     const [ modalAcciones, setModalAcciones ] = useState(false)
     const [mode, setMode] = useState('update')
     const [mensaje, setMensaje] = useState('')
-    const [results, setResults] = useState([]);
     const { resultadoSeleccionado, setResultadoSeleccionado } = useContext(ResultadoContext)
 
     const handleCalificado = () => {
@@ -995,8 +1003,8 @@ export function ResultadosCatador() {
     
 
   const handleSubmit = async (datosForm, e) => {
-      console.log(datosForm);
       e.preventDefault()
+      console.log(datosForm);
       try {
           if(mode === 'update'){
 
@@ -1112,67 +1120,71 @@ export function ResultadosCatador() {
 
   return (
     <ResultadoProvider>
-      <div className="w-full h-full flex flex-col gap-2 p-4">
-        <Header title="Resultados" />
-        <Ejemplo />
-        <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)}>
-                    <ModalContent>
-                      <ModalHeader> Registro de resultados de los análisis </ModalHeader>
-                      <ModalBody>
-                      <Select 
-                          label="Seleccione el análisis"
-                          value={selectedAnalysis}
-                          onChange={handleAnalysisChange}
-                          required
-                        >
-                          {analisis.map(analisi => (
-                            <SelectItem key={analisi.codigo} value={analisi.codigo} textValue={analisi.codigo}>
-                              {analisi.codigo}
-                            </SelectItem>
-                          ))}
-                        </Select>
-                        <Input 
-                          type='date'
-                          placeholder='Ingrese la fecha'
-                          value={selectedDate}
-                          onChange={handleDateChange}
-                        />
-                        {currentIndex < variables.length ? (
-                          <>
-                            <h2>{`Variable ${currentIndex + 1}:`} {variablesBase[currentIndex]?.nombre} </h2>
-                            <Input
-                              placeholder="Ingrese el valor"
-                              required={true}
-                              value={variables[currentIndex]}
-                              onChange={(e) => handleChange(e, currentIndex)}
-                            />
-                            <Button color='primary' onClick={handleNext}>Next</Button>
-                          </>
-                        ) : (
-                          <>
-                            <h2>Registro completo</h2>
-                            <Button color='primary' onClick={handleSubmitRegister}>Registrar</Button>
-                          </>
-                        )}
-                      </ModalBody>
-                    </ModalContent>
-                  </Modal>
+      <div className='bg-[#EAEDF6] h-screen max-h-max'>
 
-              <AccionesModal 
-                  isOpen={modalAcciones}
-                  onClose={() => setModalAcciones(false)}
-                  label={mensaje}
-              />
-              
-                  <ResultadosModal 
-                      open={modalOpen} 
-                      onClose={() => setModalOpen(false)} 
-                      title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
-                      actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                      handleSubmit={handleSubmit}
-                      mode={mode}
-                  />
-      </div>
+        <Header title="Resultados" />
+          <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
+            <Ejemplo />
+
+          <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)}>
+            <ModalContent>
+              <ModalHeader> Registro de resultados de los análisis </ModalHeader>
+              <ModalBody>
+              <Select 
+                  label="Seleccione el análisis"
+                  value={selectedAnalysis}
+                  onChange={handleAnalysisChange}
+                  required
+                >
+                  {analisis.map(analisi => (
+                    <SelectItem key={analisi.codigo} value={analisi.codigo} textValue={analisi.codigo}>
+                      {analisi.codigo}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <Input 
+                  type='date'
+                  placeholder='Ingrese la fecha'
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                />
+                {currentIndex < variables.length ? (
+                  <>
+                    <h2>{`Variable ${currentIndex + 1}:`} {variablesBase[currentIndex]?.nombre} </h2>
+                    <Input
+                      placeholder="Ingrese el valor"
+                      required={true}
+                      value={variables[currentIndex]}
+                      onChange={(e) => handleChange(e, currentIndex)}
+                    />
+                    <Button color='primary' onClick={handleNext}>Next</Button>
+                  </>
+                ) : (
+                  <>
+                    <h2>Registro completo</h2>
+                    <Button color='primary' onClick={handleSubmitRegister}>Registrar</Button>
+                  </>
+                )}
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+
+          <AccionesModal 
+            isOpen={modalAcciones}
+            onClose={() => setModalAcciones(false)}
+            label={mensaje}
+          />
+          
+          <ResultadosModal 
+            open={modalOpen} 
+            onClose={() => setModalOpen(false)} 
+            title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
+            actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
+            handleSubmit={handleSubmit}
+            mode={mode}
+          />
+          </div>
+        </div>
     </ResultadoProvider>
   );
 } */

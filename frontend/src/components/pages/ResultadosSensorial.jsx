@@ -280,7 +280,18 @@ export function ResultadosSensorialCatador () {
           </div>
         </div>
       );
-    }, [filterValue, statusFilter, onRowsPerPageChange, onSearchChange, onClear]);
+    }, [filterValue,
+      onClear,
+      onSearchChange,
+      results,
+      statusFilter,
+      selectedKeys,
+      analisisValue,
+      selectedAnalysis,
+      handleAnalysisChange,
+      statusOptions,
+      onStatusFilter,
+      onRowsPerPageChange]);
   
     const bottomContent = React.useMemo(() => {
       return (
@@ -488,7 +499,7 @@ export function ResultadosSensorialCatador () {
         setModalOpen(true)
         setMode(mode)
     }    
-        const [selectedAnalysis, setSelectedAnalysis] = useState('');
+        const [analisis, setAnalisis] = useState('');
 
         const stored = localStorage.getItem('user');
         const user = stored ? JSON.parse(stored) : null;

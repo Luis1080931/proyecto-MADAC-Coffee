@@ -73,7 +73,7 @@ const FormVariables = ({ actionLabel , handleSubmit, mode, onClose}) => {
                 Close
                 </Button>
                 <Button
-                type='submit' color='primary'
+                type='submit' className='bg-[#273468] text-white'
                 >
                 {actionLabel}
                 </Button>

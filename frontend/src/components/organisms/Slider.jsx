@@ -727,7 +727,7 @@ const captureChart = async () => {
             </div>
         </div>
       </div>
-      <Button type='submit' color='primary'>
+      <Button type='submit' className='bg-[#273468] text-white mt-10'>
         Terminar
       </Button>
     </form>

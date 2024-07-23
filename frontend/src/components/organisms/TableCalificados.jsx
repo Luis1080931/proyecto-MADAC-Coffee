@@ -57,8 +57,9 @@ const AnalisisCalificados = () => {
     const [page, setPage] = React.useState(1);
    
     const statusOptions = [
-      {name: "Activo", uid: "activo"},
-      {name: "Inactivo", uid: "inactivo"},
+      {name: "Asignado", uid: "asignado"},
+      {name: "Calificado", uid: "calificado"},
+      {name: "Terminado", uid: "terminado"},
     ];
   
     const [analisisValue, setAnalisisValue] = useState([])
@@ -82,9 +83,6 @@ const AnalisisCalificados = () => {
       setSelectedAnalysis(value);
     };
     
-    
-    
-  
     const hasSearchFilter = Boolean(filterValue);
   
     const filteredItems = React.useMemo(() => {
@@ -158,14 +156,13 @@ const AnalisisCalificados = () => {
         case "actions":
           return (
             <div className="flex flex-row">
-              <VscEye className='cursor-pointer text-3xl text-black mr-5' onClick={() => ver(result.codigo)} />
-              {/* {result.estado === 'activo' || result.estado === 'calificado' ? (
-                <ButtonActualizar click={() =>  handleToggle('update', setResultadoSeleccionado(result))} />
-              ) : (
-                ''
-              )} */}
-              
-            </div>
+            {/* <ButtonActualizar click={() =>  handleToggle('update', setAnalisisId(result))} />  */}
+            {result.estado === 'asignado' || result.estado === 'calificado' ? (
+              <ButtonDesactivar click={() => handleDesactivar(result.codigo)} />
+            ) : (
+              <ButtonActivar click={() => handleActivar(result.codigo)} />
+            )}
+          </div>
           );
         default:
           return cellValue;
@@ -222,7 +219,7 @@ const AnalisisCalificados = () => {
             />
             
             <div className="flex gap-3">
-            <Select
+            {/* <Select
               className="w-48"
               aria-label="Select analisis"
               placeholder="Seleccionar análisis"
@@ -234,9 +231,9 @@ const AnalisisCalificados = () => {
                   {analisis.codigo}
                 </SelectItem>
               ))}
-            </Select> 
+            </Select>  */}
               
-              <Dropdown>
+              {/* <Dropdown>
                 <DropdownTrigger className="hidden sm:flex">
                   <Button className="text-xl bg-gray-100" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
                     Estado
@@ -257,7 +254,7 @@ const AnalisisCalificados = () => {
                     </DropdownItem>
                   ))}
                 </DropdownMenu>
-              </Dropdown>
+              </Dropdown> */}
             </div>
           </div>
           <div className="flex justify-between items-center">

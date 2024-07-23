@@ -97,7 +97,7 @@ export const FormLotes = ({ mode,handleSubmit,onClose,actionLabel }) => {
                         </Button>
                         <Button
                             type='submit'
-                            color='primary'
+                            className='bg-[#273468] text-white'
                         >
                             {actionLabel}
                         </Button>

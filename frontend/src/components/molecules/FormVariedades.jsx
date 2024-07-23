@@ -43,7 +43,7 @@ const FormVariedades = ({ handleSubmit, onClose, actionLabel, mode }) => {
         <Button color="danger" variant="flat" onPress={onClose}>
           Cerrar
         </Button>
-        <Button type='submit' color="primary">
+        <Button type='submit' className='bg-[#273468] text-white'>
           {actionLabel}
         </Button>
       </ModalFooter>
