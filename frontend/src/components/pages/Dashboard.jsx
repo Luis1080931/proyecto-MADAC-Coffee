@@ -8,28 +8,59 @@ import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import  AnalisisCalificados from '../organisms/TableCalificados.jsx';
 import AnalisisFisicosChart from '../organisms/Estadisticas.jsx';
 import { Header } from '../molecules/Header.jsx';
+import VistaAnalisisCatador from './AnalisisCatador.jsx';
+import TazaVariedadChart from '../organisms/TazaVariedadGraphic.jsx';
+import TazaMunicipioChart from '../organisms/TazaMunicipioGraphic.jsx';
 
 export const Dashboard = () => {
+
+  /* const fetchUser = async () => {
+    try {
+    } catch (error) {
+      
+    }
+  } */
+  const stored = localStorage.getItem("user");
+  const user = stored ? JSON.parse(stored) : null;
 
   return(
     <div className='bg-[#EAEDF6] h-screen max-h-max'>
     <Header title="Resultado de los análisis sensoriales" />
       <div className='bg-[#EAEDF6]'>
-        <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
+        <div className='w-full max-w-[95%] ml-20 items-center p-10 flex-auto'>
 
-          <div className="flex flex-col px-10 gap-x-4 pt-8 w-full bg-[#EAEDF6]">
+          <div className="flex flex-col w-full bg-[#EAEDF6]">
             <Tabs aria-label="Options" variant="bordered" >
-              <Tab key="departamentos" title="Análisis calificados">
+              <Tab key="analisis" title={user.tipo_usuario === 'admin' ? 'Analisis calificados' : 'Análisis asignados'}>
                 <Card className=" ">
                   <CardBody>
-                    <AnalisisCalificados />
+                    {user && user.tipo_usuario === 'admin' ? (
+                      <AnalisisCalificados />
+                    ): (
+                      <VistaAnalisisCatador />
+                    )}
                   </CardBody>
                 </Card>
               </Tab>
-              <Tab key="municipios" title="Estadísticas">
-                <Card className=" ">
+              <Tab key="estadisticas" title="Estadísticas">
+                <Card>
                   <CardBody>
-                    <AnalisisFisicosChart />
+                    <div className='flex flex-col justify-center items-center'>
+                      <div className='w-[1000px] flex flex-row justify-between'>
+                        <div className='shadow-xl w-[450px] rounded-xl m-2 text-center'>
+                          <label className='text-xl font-bold'> Análisis físicos en los ultimos meses </label>
+                          <AnalisisFisicosChart />
+                        </div>
+                        <div className='shadow-xl w-[450px] rounded-xl m-2 text-center'>
+                          <label className='text-xl font-bold'> Mejores tazas de café según municipios </label>
+                          <TazaMunicipioChart />
+                        </div>
+                      </div>
+                      <div className='w-[1000px] mt-20 rounded-xl shadow-2xl text-center'>
+                        <label className='text-xl font-bold'> Mejores tazas de café según variedad </label>
+                        <TazaVariedadChart />
+                      </div>
+                    </div>
                   </CardBody>
                 </Card>
               </Tab>

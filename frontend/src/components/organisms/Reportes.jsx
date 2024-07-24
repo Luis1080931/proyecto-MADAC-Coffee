@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PDFReport = ({ data, datos }) => (
+const PDFReport = ({ data, datos, radarChart }) => (
 
   <Document>
     <Page size="A4" style={styles.page}>
@@ -651,7 +651,7 @@ const PDFReport = ({ data, datos }) => (
           </View>
           
         </View>
-      {/* <RadarChart /> */}
+      <Image style={{ width: 200 }} src={radarChart} />
     </Page>
       ): (
         ''

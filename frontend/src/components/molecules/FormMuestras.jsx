@@ -6,13 +6,13 @@ import MuestrasContext from './../../context/MuestrasContext.jsx'
 const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
 
     const [fecha, setFecha] = useState('')
-    const [tipoMolienda, setTipoMolienda] = useState('')
-    const [densidadCafe, setDensidadCafe] = useState('')
+    const [cantidad, setCantidad] = useState('')
+    /* const [densidadCafe, setDensidadCafe] = useState('') */
     const [proceso, setProceso] = useState('')
-    const [tipoTostion, setipoTostion] = useState('')
+   /*  const [tipoTostion, setipoTostion] = useState('') */
     const [altura, setAltura] = useState('')
     const [tiempoFermento, setTiempoFermento] = useState('')
-    const [actividadAgua, setActividadAgua] = useState('')
+    /* const [actividadAgua, setActividadAgua] = useState('') */
     const [tiempoSecado, setTiempoSecado] = useState('')
     const [presentacion, setPresentacion] = useState('')
     const [loteFk, setLoteFk] = useState('') 
@@ -35,13 +35,13 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
           };
       
           setFecha(formatFecha(idMuestras.fecha));
-          setTipoMolienda(idMuestras.nombre);
-          setDensidadCafe(idMuestras.densidad_cafe);
+          setCantidad(idMuestras.cantidad);
+          /* setDensidadCafe(idMuestras.densidad_cafe); */
           setProceso(idMuestras.proceso_fermentacion);
-          setipoTostion(idMuestras.tipo_tostion);
+          /* setipoTostion(idMuestras.tipo_tostion); */
           setAltura(idMuestras.altura_MSNM);
           setTiempoFermento(idMuestras.tiempo_fermentacion);
-          setActividadAgua(idMuestras.actividad_agua);
+         /*  setActividadAgua(idMuestras.actividad_agua); */
           setTiempoSecado(idMuestras.tiempo_secado);
           setPresentacion(idMuestras.presentacion);
           setLoteFk(idMuestras.fk_lote);
@@ -59,13 +59,13 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
 
           const datosForm = {
             fecha: fechaValue,
-            tipo_molienda: tipoMolienda,
-            densidad_cafe: densidadCafe,
+            cantidad: cantidad,
+            /* densidad_cafe: densidadCafe, */
             proceso_fermentacion: proceso,
-            tipo_tostion: tipoTostion,
+            /* tipo_tostion: tipoTostion, */
             altura_MSNM: altura,
             tiempo_fermentacion: tiempoFermento,
-            actividad_agua: actividadAgua,
+            /* actividad_agua: actividadAgua, */
             tiempo_secado: tiempoSecado,
             presentacion: presentacion,
             fk_lote : parseInt(loteFk)
@@ -100,15 +100,15 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             id='tipoMolienda'
                             name='tipoMolienda'
                             type="decimal"
-                            label='Tipo de molienda'
-                            value={tipoMolienda}
-                            onChange={(e) => setTipoMolienda(e.target.value)}
+                            label='Cantidad (g)'
+                            value={cantidad}
+                            onChange={(e) => setCantidad(e.target.value)}
                             required={true}
                             placeholder='Tipo molienda'
                         />
                     
                     </div>
-                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                    {/* <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input
                             id='densidadCafe'
                             type="text"
@@ -120,7 +120,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             placeholder='Densidad café'
                         />
                     
-                    </div>
+                    </div> */}
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input
                             id='proceso_fermentacion'
@@ -133,7 +133,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             placeholder='Proceso fermetación'
                         />
                     </div>
-                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                    {/* <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input
                             id='tipoTostion_cafe'
                             type="text"
@@ -145,6 +145,17 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             placeholder='Tostion del café'
                         />
                     
+                    </div> */}
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
+                        <select className='w-[400px] rounded-xl bg-gray-100 h-[60px]' label='Selecciones el lote' value={loteFk} onChange={(e) => setLoteFk(e.target.value)} required={true}>
+                            <option value='' hidden> Seleccione el lote... </option>
+                        {lotes.map(lote => (
+                            <option key={lote.codigo} value={lote.codigo} textValue={lote.codigo}>
+                            {lote.codigo}
+                            </option>
+                        ))}
+                        </select>
+                                
                     </div>
                 </div>
                 <div className='flex flex-col ml-2 w-[190px]'>
@@ -174,7 +185,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                         />
                     
                     </div>
-                    <div className="flex flex-wrap md:flex-nowrap mb-4 w-full">
+                    {/* <div className="flex flex-wrap md:flex-nowrap mb-4 w-full">
                         <Input
                             id='actividadAgua'
                             name="actividadAgua"
@@ -186,7 +197,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             rows="3"
                         />
                         
-                        </div>
+                        </div> */}
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <Input
                             id='tiempo_secado'
@@ -217,17 +228,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             
             </div>
             <div>
-                <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
-                    <select className='w-[400px] rounded-xl bg-gray-100 h-[40px]' label='Selecciones el lote' value={loteFk} onChange={(e) => setLoteFk(e.target.value)} required={true}>
-                        <option value='' hidden> Seleccione el lote... </option>
-                    {lotes.map(lote => (
-                        <option key={lote.codigo} value={lote.codigo} textValue={lote.codigo}>
-                        {lote.codigo}
-                        </option>
-                    ))}
-                    </select>
-                            
-                </div> 
+                 
             </div>
             
             

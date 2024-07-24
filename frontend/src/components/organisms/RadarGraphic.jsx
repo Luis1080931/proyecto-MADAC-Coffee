@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+/* import React, { useRef } from 'react';
 import { Radar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -67,7 +67,49 @@ const RadarChart = ({ datos }) => {
   );
 };
 
-export default RadarChart;
+export default RadarChart; */
+
+// RadarChartToBase64.jsx
+// RadarChartToBase64.jsx
+// RadarGraphicToBase64.jsx
+import React, { useEffect } from 'react';
+import { Radar } from 'react-chartjs-2';
+import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
+
+ChartJS.register(
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend
+);
+
+const RadarChartToBase64 = ({ data, onBase64Ready }) => {
+  useEffect(() => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    new ChartJS(ctx, {
+      type: 'radar',
+      data: {
+        labels: ['Attribute 1', 'Attribute 2', 'Attribute 3', 'Attribute 4', 'Attribute 5'],
+        datasets: [{
+          label: 'Sensory Analysis',
+          data,
+          backgroundColor: 'rgba(34, 202, 236, 0.2)',
+          borderColor: 'rgba(34, 202, 236, 1)',
+          borderWidth: 1,
+        }],
+      },
+    });
+    onBase64Ready(canvas.toDataURL());
+  }, [data, onBase64Ready]);
+
+  return null;
+};
+
+export default RadarChartToBase64;
+
 
 
 

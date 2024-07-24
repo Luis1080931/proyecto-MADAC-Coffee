@@ -525,7 +525,8 @@ import { FaFileDownload } from "react-icons/fa";
 import { PDFViewer } from '@react-pdf/renderer'; // Importar PDFViewer
 import PDFReport from '../organisms/Reportes.jsx';
 import { format } from 'date-fns';
-import RadarChart from '../organisms/RadarGraphic.jsx';
+/* import RadarChart from '../organisms/RadarGraphic.jsx'; */
+import RadarChartToBase64 from '../organisms/RadarGraphic.jsx';
 
 export function Reportes() {
   const statusColorMap = {
@@ -578,6 +579,24 @@ export function Reportes() {
     const [modalPdfOpen, setModalPdfOpen] = useState(false)
     const [modalGraphic, setModalGraphic] = useState(false)
 
+    const [base64RadarChart, setBase64RadarChart] = useState('');
+
+  const handleDownloadClick = async (id) => {
+    await fetchDataPdf(id);
+    generateBase64Chart(datosPdfSensory);
+    setModalPdfOpen(true);
+  };
+
+  const generateBase64Chart = (data) => {
+    setBase64RadarChart(''); // Reset base64 state
+    return (
+      <RadarChartToBase64
+        data={data}
+        onBase64Ready={(base64Image) => setBase64RadarChart(base64Image)}
+      />
+    );
+  };
+
     const fetchDataPdf = useCallback(async (id) => {
       setLoadingPdf(true);
       try {
@@ -599,11 +618,11 @@ export function Reportes() {
       }
     }, []);
 
-    const handleDownloadClick = async (id) => {
+    /* const handleDownloadClick = async (id) => {
       await fetchDataPdf(id); 
       setModalPdfOpen(true)
     };
-
+ */
     const handleGraphic = async (id) => {
       await fetchDataPdf(id)
       setModalGraphic(true)
@@ -904,7 +923,7 @@ export function Reportes() {
               ) : (
                 datosPdf && (
                   <PDFViewer width="100%" height="100%">
-                    <PDFReport data={datosPdf} datos={datosPdfSensory} productor={datosPdfProductor} />
+                    <PDFReport data={datosPdf} datos={datosPdfSensory} radarChart={base64RadarChart} />
                   </PDFViewer>
                 )
               )}
@@ -921,8 +940,8 @@ export function Reportes() {
               <h2>Ver Graphic</h2>
             </ModalHeader>
             <ModalBody>
-              {datosPdf ? (
-                <RadarChart datos={datosPdfSensory} />
+              {datosPdfSensory ? (
+                <RadarChartToBase64 datos={datosPdfSensory} />
               ) : (
                 'No hay datos por mostrar'
               )}

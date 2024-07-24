@@ -368,7 +368,6 @@ function Ejemplo() {
     return (
         <div>
           <div className='bg-[#EAEDF6] h-screen max-h-max'>
-            <Header title='Análisis físico y sensorial' />
               <div className='bg-[#EAEDF6]'>
                 <div className='w-full max-w-[90%] ml-28 items-center p-10'>
                     <AccionesModal 

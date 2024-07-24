@@ -57,7 +57,6 @@ export const Sidebar = () => {
 ];
 const MenusCatador = [
   { title: "Dashboard", link: "/dashboard", icon: MdDashboard },
-  { title: "Análisis", link: "/analisisCatador", icon: MdOutlineCoffeeMaker},
   { title: "Resultados", link: "/resultadosCatador", icon: BsCardChecklist},
   { title: "Sensorial", link: "/resultadosSensorial", icon: BsCardChecklist},
   { title: "Reportes", link: "/reportes", icon: IoDocuments}
