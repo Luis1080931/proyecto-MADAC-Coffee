@@ -12,6 +12,7 @@ import rutaValidacion from "./src/routes/seguridad.route.js";
 import RutaMunicipios from "./src/routes/municipios.route.js";
 import routeTipoAnalisis from "./src/routes/route.tipoAnalisis.js";
 import routeReportes from "./src/routes/route.reporte.js";
+import rutaGraphics from "./src/routes/graphics.routes.js";
 import cors from 'cors'
 
 const servidor = express();
@@ -32,6 +33,7 @@ servidor.use('/resultados', routeResultados)
 servidor.use('/municipios', RutaMunicipios)
 servidor.use('/tipoanalisis', routeTipoAnalisis)
 servidor.use('/reportes', routeReportes)
+servidor.use('/graphics', rutaGraphics)
 servidor.use(rutaValidacion)
 
 servidor.set('view engine', 'ejs')
