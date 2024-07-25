@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer';
 import logoSena from './../../assets/icons/logoPDFSENA.png'
 import logoSennova from './../../assets/icons/logoSennova.png'
@@ -348,8 +348,37 @@ const styles = StyleSheet.create({
   },
 });
 
-const PDFReport = ({ data, datos, radarChart }) => (
+const PDFReport = ({ data, datos, radarChart }) => {
+  
+  /* console.log('RadarChart en PDFReport:', radarChart);  */ // Verifica aquí
+  console.log('Data en PDFReport:', data);  // Verifica aquí
+  console.log('Datos en PDFReport:', datos); 
 
+  const [base64RadarChart, setBase64RadarChart] = useState('');
+
+  const handleBase64Ready = (base64Image) => {
+    setBase64RadarChart(base64Image);
+  };
+
+  console.log('64:', radarChart);
+
+  /* useEffect(() => {
+    if (datos) {
+      const chartComponent = (
+        
+      );
+      // Simular la renderización del componente para generar el base64
+      const renderChartToBase64 = async () => {
+        const container = document.createElement('div');
+        document.body.appendChild(container);
+        ReactDOM.render(chartComponent, container);
+      };
+      renderChartToBase64();
+    }
+    console.log('Base 64 en pdf reportttt: ', base64RadarChart);
+  }, [datos]); */
+
+return(
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.header} fixed>
@@ -649,9 +678,12 @@ const PDFReport = ({ data, datos, radarChart }) => (
                 </View>
             </View>
           </View>
+          <Image src={radarChart} />
+          {/* <Text><RadarChart datos={datos} onBase64Ready={handleBase64Ready} /></Text> */}
+          {/* <Text style={{ width: 300, height: 300 }}>{base64RadarChart}</Text> */}
+          {/* <RadarChart datos={datos} onBase64Ready={handleBase64Ready} /> */}
           
         </View>
-      <Image style={{ width: 200 }} src={radarChart} />
     </Page>
       ): (
         ''
@@ -717,7 +749,8 @@ frutos maduros evitando granos inmaduros y sobre maduros. </Text>
       {/* <RadarChart datos={datos.aroma} /> */}
     </Page>
   </Document>
-);
+  )
+};
 
 export default PDFReport; 
 

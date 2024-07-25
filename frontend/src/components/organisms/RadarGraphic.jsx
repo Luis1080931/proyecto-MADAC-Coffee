@@ -1,4 +1,4 @@
-/* import React, { useRef } from 'react';
+import React, { useRef } from 'react';
 import { Radar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -21,7 +21,7 @@ ChartJS.register(
   Legend
 );
 
-const RadarChart = ({ datos }) => {
+const RadarChart = ({ datos, onBase64Ready }) => {
   const chartRef = useRef(null);
 
   const chartData = {
@@ -40,6 +40,11 @@ const RadarChart = ({ datos }) => {
   const chartOptions = {
     scales: {
       r: {
+        min: 0,
+        max: 10,
+        ticks: {
+          stepSize: 2,
+        },
         beginAtZero: true,
       },
     },
@@ -48,31 +53,33 @@ const RadarChart = ({ datos }) => {
   const handleCapture = () => {
     if (chartRef.current) {
       html2canvas(chartRef.current).then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const link = document.createElement('a');
-        link.href = imgData;
-        link.download = 'radar-chart.png';
-        link.click();
+        const base64Image = canvas.toDataURL('image/png');
+        if (onBase64Ready) {
+          onBase64Ready(base64Image); // Pasar el base64 a través del callback
+        }
       });
     }
   };
 
+  React.useEffect(() => {
+    handleCapture(); // Llamar a la captura cuando el componente se monta
+  }, [datos]);
+
   return (
-    <div>
-      <div ref={chartRef} style={{ width: '300px', height: '300px' }}>
-        <Radar data={chartData} options={chartOptions} />
-      </div>
-      <button onClick={handleCapture}>Capturar Gráfica</button>
+    <div ref={chartRef} style={{ width: '300px', height: '300px' }}>
+      <Radar data={chartData} options={chartOptions} />
     </div>
   );
 };
 
-export default RadarChart; */
+export default RadarChart;
+
+
 
 // RadarChartToBase64.jsx
 // RadarChartToBase64.jsx
 // RadarGraphicToBase64.jsx
-import React, { useEffect } from 'react';
+/* import React, { useEffect } from 'react';
 import { Radar } from 'react-chartjs-2';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 
@@ -87,9 +94,10 @@ ChartJS.register(
 
 const RadarChartToBase64 = ({ data, onBase64Ready }) => {
   useEffect(() => {
+    console.log('RadarChartToBase64 montado con datos:', data);
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    new ChartJS(ctx, {
+    const chart = new ChartJS(ctx, {
       type: 'radar',
       data: {
         labels: ['Attribute 1', 'Attribute 2', 'Attribute 3', 'Attribute 4', 'Attribute 5'],
@@ -102,15 +110,17 @@ const RadarChartToBase64 = ({ data, onBase64Ready }) => {
         }],
       },
     });
+
+    chart.update();
+    console.log('Canvas convertido a Base64:', canvas.toDataURL());
     onBase64Ready(canvas.toDataURL());
   }, [data, onBase64Ready]);
 
   return null;
 };
+ */
 
-export default RadarChartToBase64;
-
-
+/* export default RadarChartToBase64 */
 
 
 

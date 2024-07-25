@@ -517,16 +517,13 @@ import {
   ModalHeader,
   ModalBody,
 } from "@nextui-org/react";
-import { PlusIcon } from "./../atoms/PlusIcon.jsx";
 import { SearchIcon } from "./../atoms/SearchIcon.jsx";
 import { ChevronDownIcon } from "./../atoms/ChevronDownIcon.jsx";
 import axiosClient from "../axiosClient.js";
-import { FaFileDownload } from "react-icons/fa";
 import { PDFViewer } from '@react-pdf/renderer'; // Importar PDFViewer
 import PDFReport from '../organisms/Reportes.jsx';
-import { format } from 'date-fns';
-/* import RadarChart from '../organisms/RadarGraphic.jsx'; */
 import RadarChartToBase64 from '../organisms/RadarGraphic.jsx';
+import RadarChart from '../organisms/RadarGraphic.jsx';
 
 export function Reportes() {
   const statusColorMap = {
@@ -573,29 +570,52 @@ export function Reportes() {
     };
 
     const [datosPdf, setDatosPdf] = useState(null);
-    const [datosPdfSensory, setDatosPdfSensory] = useState(null);
-    const [datosPdfProductor, setDatosPdfProductor] = useState(null);
+    const [datosPdfSensory, setDatosPdfSensory] = useState(null); 
     const [loadingPdf, setLoadingPdf] = useState(false);
     const [modalPdfOpen, setModalPdfOpen] = useState(false)
     const [modalGraphic, setModalGraphic] = useState(false)
 
-    const [base64RadarChart, setBase64RadarChart] = useState('');
+    const [base64RadarChart, setBase64RadarChart] = useState('')
 
-  const handleDownloadClick = async (id) => {
-    await fetchDataPdf(id);
-    generateBase64Chart(datosPdfSensory);
-    setModalPdfOpen(true);
-  };
-
-  const generateBase64Chart = (data) => {
-    setBase64RadarChart(''); // Reset base64 state
-    return (
-      <RadarChartToBase64
-        data={data}
-        onBase64Ready={(base64Image) => setBase64RadarChart(base64Image)}
-      />
-    );
-  };
+    /* const generateBase64Chart = (data) => {
+      return new Promise((resolve, reject) => {
+        const radarChartComponent = (
+          <RadarChartToBase64
+            data={data}
+            onBase64Ready={(base64Image) => {
+              console.log('Base64 recibido:', base64Image); // Log aquí
+              if (base64Image) {
+                resolve(base64Image);
+              } else {
+                reject('Base64 vacío');
+              }
+            }}
+          />
+        );
+    
+        const container = document.createElement('div');
+        ReactDOM.render(radarChartComponent, container);
+    
+        setTimeout(() => {
+          const canvas = container.querySelector('canvas');
+          if (canvas) {
+            const base64Image = canvas.toDataURL();
+            console.log('Base64 generado desde canvas:', base64Image); // Log aquí
+            if (base64Image) {
+              resolve(base64Image);
+            } else {
+              reject('No se pudo obtener el Base64 del canvas.');
+            }
+          } else {
+            reject('Canvas no encontrado.');
+          }
+        }, 100);
+      });
+    }; */
+    
+    const handleBase64Ready = (base64Image) => {
+      setBase64RadarChart(base64Image);
+    };
 
     const fetchDataPdf = useCallback(async (id) => {
       setLoadingPdf(true);
@@ -603,26 +623,64 @@ export function Reportes() {
         const response = await axiosClient.get(`/reportes/generar/${id}`);
         console.log('Response data fisicos:', response.data);
         setDatosPdf(response.data);
-
-        const responseSensory = await axiosClient.get(`/reportes/sensory/${id}`)
+    
+        const responseSensory = await axiosClient.get(`/reportes/sensory/${id}`);
         console.log('Response data sensorial:', responseSensory.data);
-        setDatosPdfSensory(responseSensory.data)
-
-        const responseProductor = await axiosClient.get(`/reportes/productor/${id}`)
+        setDatosPdfSensory(responseSensory.data);
+    
+        const responseProductor = await axiosClient.get(`/reportes/productor/${id}`);
         console.log('Response data productor:', responseProductor.data);
-        setDatosPdfProductor(responseProductor.data)
+        setDatosPdfProductor(responseProductor.data);
+    
+        const base64Chart = await new Promise((resolve) => {
+          ReactDOM.render(
+            <RadarChartToBase64 data={responseSensory.data} onBase64Ready={resolve} />,
+            document.createElement('div')
+          );
+        });
+    
+        setBase64RadarChart(base64Chart);
+        
+        /* console.log('Generando Base64 del gráfico...');
+        const base64Chart = await generateBase64Chart(responseSensory.data);
+        console.log('Base64 Radar Chart:', base64Chart);
+        if (!base64RadarChart) {
+          console.error('Error: El Base64 del gráfico radar no se generó correctamente.');
+          setLoadingPdf(false);
+          return;
+        }
+        setBase64RadarChart(base64Chart); */
+    
       } catch (error) {
         console.error('Error al obtener los datos del PDF:', error);
       } finally {
         setLoadingPdf(false);
       }
     }, []);
+    
+    const handleDownloadClick = async (id) => {
+      /* handleBase64Ready() */
+      await fetchDataPdf(id); // Espera a que se complete fetchDataPdf
+      setModalPdfOpen(true);
+      /* if (base64RadarChart) {
+      } else {
+        console.error('Error: El Base64 del gráfico radar no está disponible.');
+      } */
+    };
 
     /* const handleDownloadClick = async (id) => {
-      await fetchDataPdf(id); 
-      setModalPdfOpen(true)
-    };
- */
+      console.log('Antes de fetchDataPdf');
+      await fetchDataPdf(id); // Espera a que se complete fetchDataPdf
+      console.log('Base 64 después de fetchDataPdf:', base64RadarChart);
+      setModalPdfOpen(true);
+
+      if(base64RadarChart){
+      }else {
+        console.error('Error: No se puede abrir el modal porque el Base64 del gráfico radar no está disponible.');
+      }
+    }; */
+    
+
     const handleGraphic = async (id) => {
       await fetchDataPdf(id)
       setModalGraphic(true)
@@ -719,8 +777,6 @@ export function Reportes() {
                     Ver gráfica
                   </button>
                 </>
-                    
-               
               )}
             </div>
           );
@@ -923,7 +979,17 @@ export function Reportes() {
               ) : (
                 datosPdf && (
                   <PDFViewer width="100%" height="100%">
-                    <PDFReport data={datosPdf} datos={datosPdfSensory} radarChart={base64RadarChart} />
+                    {console.log('Props para PDFReport:', {
+                      data: datosPdf, 
+                      datos: datosPdfSensory, 
+                      radarChart: base64RadarChart
+                    })}
+                    <PDFReport 
+                      data={datosPdf} 
+                      datos={datosPdfSensory} 
+                      radarChart={base64RadarChart} 
+                    />
+                    
                   </PDFViewer>
                 )
               )}
@@ -941,7 +1007,8 @@ export function Reportes() {
             </ModalHeader>
             <ModalBody>
               {datosPdfSensory ? (
-                <RadarChartToBase64 datos={datosPdfSensory} />
+                /* <RadarChartToBase64 datos={datosPdfSensory} /> */
+                <RadarChart datos={datosPdfSensory} onBase64Ready={handleBase64Ready} />
               ) : (
                 'No hay datos por mostrar'
               )}
