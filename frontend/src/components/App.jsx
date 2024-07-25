@@ -23,6 +23,7 @@ import { ResultadosSensorialCatador } from "./pages/ResultadosSensorial.jsx";
 import { VistaAdminSensory } from "./pages/VistaAdminSensory.jsx";
 import RadarChart from "./organisms/RadarGraphic.jsx";
 import { Cultivos } from "./pages/Cultivos.jsx";
+import HtmlReport from "./organisms/ReporteHtml.jsx";
 
 const stored = localStorage.getItem('user');
 const user = stored ? JSON.parse(stored) : null;
@@ -39,7 +40,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/slider" element={<SliderVertical />} />
               <Route path="/estadisticas" element={<AnalisisFisicosChart />} />
-              <Route path="/pdf" element={<PDFReport />} />
+              <Route path="/pdf" element={<HtmlReport />} />
               <Route path="/analisis" element={<VistaAnalisis />} />
               {/* {user && user.tipo_usuario === 'admin' && (
                 <> */}
