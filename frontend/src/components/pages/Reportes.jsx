@@ -492,7 +492,7 @@ export function Reportes() {
 }
  */
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Header } from './../molecules/Header.jsx';
 import {
   Table,
@@ -524,6 +524,10 @@ import { PDFViewer } from '@react-pdf/renderer'; // Importar PDFViewer
 import PDFReport from '../organisms/Reportes.jsx';
 import RadarChartToBase64 from '../organisms/RadarGraphic.jsx';
 import RadarChart from '../organisms/RadarGraphic.jsx';
+import PDFReportHtml from '../organisms/ReporteHtml.jsx';
+import { useNavigate, useNavigation } from 'react-router-dom';
+import jsPDF from 'jspdf';
+import { IconDownload } from '../atoms/IconDownload.jsx';
 
 export function Reportes() {
   const statusColorMap = {
@@ -551,6 +555,7 @@ export function Reportes() {
 
     const [analisisValue, setAnalisisValue] = useState([]);
     const [selectedAnalysis, setSelectedAnalysis] = useState("");
+    const navigate = useNavigate()
 
     useEffect(() => {
       axiosClient.get('/analisis/listar')
@@ -574,6 +579,22 @@ export function Reportes() {
     const [loadingPdf, setLoadingPdf] = useState(false);
     const [modalPdfOpen, setModalPdfOpen] = useState(false)
     const [modalGraphic, setModalGraphic] = useState(false)
+    const reporteTemplateRef = useRef(null)
+
+    const handleGeneratePdf = () => {
+      const doc = new jsPDF({
+        format: [595.28, 900],
+        unit: 'px'
+      })
+
+      doc.setFont('Inter-Regular', 'normal')
+
+      doc.html(reporteTemplateRef.current, {
+        async callback(doc) {
+          await doc.save('document')
+        }
+      })
+    }
 
     const [base64RadarChart, setBase64RadarChart] = useState('')
 
@@ -662,6 +683,7 @@ export function Reportes() {
       /* handleBase64Ready() */
       await fetchDataPdf(id); // Espera a que se complete fetchDataPdf
       setModalPdfOpen(true);
+      /* navigate('/pdf') */
       /* if (base64RadarChart) {
       } else {
         console.error('Error: El Base64 del gráfico radar no está disponible.');
@@ -966,35 +988,43 @@ export function Reportes() {
         <Modal
           isOpen={modalPdfOpen}
           onClose={closeModal}
-          size='full'
+          size='2xl'
         >
           <ModalContent>
             <ModalHeader>
 
               <h2> Ver PDF </h2>
             </ModalHeader>
-            <ModalBody className="h-[1000px]"> 
+            <ModalBody className='overflow-y-auto max-h-[70vh]'> 
               {loadingPdf ? (
                 'Cargando documento...'
               ) : (
                 datosPdf && (
-                  <PDFViewer width="100%" height="100%">
-                    {console.log('Props para PDFReport:', {
+                  
+                    /* {console.log('Props para PDFReport:', {
                       data: datosPdf, 
                       datos: datosPdfSensory, 
                       radarChart: base64RadarChart
-                    })}
-                    <PDFReport 
+                    })} */
+                    /* <PDFReport 
                       data={datosPdf} 
                       datos={datosPdfSensory} 
                       radarChart={base64RadarChart} 
-                    />
+                    /> */
+                    <div ref={reporteTemplateRef}>
+                      <PDFReportHtml 
+                        data={datosPdf}
+                        datos={datosPdfSensory}
+                      />
+                      
+                    </div>
                     
-                  </PDFViewer>
+                  
                 )
               )}
             </ModalBody>
             <ModalFooter>
+              <IconDownload color='default' click={handleGeneratePdf} />
               <Button color='danger' onClick={closeModal}> Cerrar </Button>
             </ModalFooter>
           </ModalContent>

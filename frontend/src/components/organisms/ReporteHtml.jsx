@@ -203,7 +203,6 @@ const styles = {
   },
   tableFisicos: {
     width: '558px',
-    flex: 1,
     flexDirection: 'column',
     marginBottom: 10,
   },
@@ -345,360 +344,370 @@ const styles = {
     fontSize: 10,
     fontWeight: 'bold',
   },
-  document: {
-    width: '700px',
+  /* document: {
+    width: '300px',
     justifyContent: 'center'
-  }
+  } */
 }
 
-const PDFReport = () => {
+const PDFReportHtml = ({ data, datos }) => {
+
+  const [chartBase64, setChartBase64] = React.useState('');
+
+  const handleBase64Ready = (base64Image) => {
+    setChartBase64(base64Image);
+  };
+
+  console.log('Imagen base 64 en pdf html', chartBase64);
 
 return (
     <div className='flex justify-center items-center'>
-    <div style={styles.document}>
-      <div style={styles.header} >
-        <div style={styles.row1}>
-          <div className='border-1 border-black mt-4 flex justify-center h-[60px]'>
-            <img style={styles.img} src={logoSena} />
+    <div>
+    <div className='flex flex-row w-[500px] mt-12 justify-center items-center ml-[40px]' >
+        <div className='w-[150px]'>
+          <div className='border-1 border-black flex justify-center items-center h-[60px]'>
+            <img className='w-[40px] h-[40px] flex' src={logoSena} />
           </div>
-          <div className='border-1 border-black h-[60px] flex justify-center'>
-            <img style={styles.img} src={logoENCC} />
+          <div className='border-1 border-black h-[60px] flex justify-center items-center'>
+            <img className='w-[40px] h-[40px] flex' src={logoENCC} />
           </div>
         </div>
-        <div style={styles.row2}>
+        <div className='w-[400px]'>
           <div className='border-1 border-black text-center justify-center items-center h-[60px]'>
-            <label className='flex text-sm text-center justify-center'>Centro de Gestión y Desarrollo Sostenible </label>
-            <label className='flex text-sm justify-center'>Surcolombiano</label>
-            <label className='flex text-sm justify-center'>Escuela Nacional de la Calidad del Café </label>
+            <label className='flex text-xs text-center justify-center'>Centro de Gestión y Desarrollo Sostenible </label>
+            <label className='flex text-xs justify-center'>Surcolombiano</label>
+            <label className='flex text-xs justify-center'>Escuela  Nacional de la Calidad del Café </label>
           </div>
           <div className='border-1 border-black h-[60px] flex items-center justify-center'>
-            <label className='flex text-sm justify-center items-center text-center'>INFORME SERVICIO ANALISIS FISICO SENSORIAL</label>
+            <label className='flex text-xs justify-center items-center text-center'>INFORME SERVICIO ANALISIS FISICO SENSORIAL</label>
           </div>
         </div>
-        <div style={styles.row3}>
-          <div className='border-1 border-black flex h-[60px] justify-center'>
-            <img style={styles.imgSennova} src={logoSennova} />
+        <div className='w-[150px]'>
+          <div className='border-1 border-black flex h-[60px] justify-center items-center'>
+            <img className='w-[90px] h-[90px]' src={logoSennova} />
           </div>
-          <div className='flex flex-col border-1 border-black h-[60px]'>
-            <label style={styles.labelCol3}>CÓDIGO: {/* {data.muestra_id} */}</label>
-            <label style={styles.labelCol3}>VERSIÓN: 01</label>
-            <label style={styles.labelCol3}>FECHA: 2023-05-05</label>
-            <label style={styles.labelCol3}>PÁGINA: </label>
-            {/* <label style={styles.labelCol3} render={({ pageNumber, totalPages }) => (
+          <div className='flex flex-col'>
+            <label className='text-[9px] border-1 border-black h-[15px]'>CÓDIGO: {data.muestra_id}</label>
+            <label className='text-[9px] border-1 border-black h-[15px]'>VERSIÓN: 01</label>
+            <label className='text-[9px] border-1 border-black h-[15px]'>FECHA: 2023-05-05</label>
+            <label className='text-[9px] border-1 border-black h-[15px]'>PÁGINA: </label>
+            {/* <label className='text-[9px] border-1 border-black' render={({ pageNumber, totalPages }) => (
               `PÁGINA: ${pageNumber} de ${totalPages}`
             )}  /> */}
           </div>
         </div>
       </div>
         
-      <div className='flex flex-col m-8'>
-        <label className='text-sm font-bold mb-5'>1. Objetivo</label>
-        <label className='text-sm'>El objetivo del siguiente informe es presentar los resultados del análisis físico-sensorial obtenidos para la muestra de café {/* {data.muestra_id} */} descrita a continuación.</label>
+      <div className='flex flex-col mt-8 ml-16'>
+        <label className='text-[10px] font-bold mb-5'>1. Objetivo</label>
+        <label className='text-[10px] w-[490px]'>El objetivo del siguiente informe es presentar los resultados del análisis físico-sensorial obtenidos para la muestra de café {data.muestra_id} descrita a continuación.</label>
       </div>
-      <div className='flex flex-col m-8'>
-        <label className='text-sm font-bold mb-5'>2. Información General:</label>
-        <label className='text-sm'>Caficultor: {/* {data.caficultor_nombre} */}</label>
-        <label className='text-sm'>Departamento: {/* {data.municipio} */}</label>
-        <label className='text-sm'>Vereda: {/* {data.vereda} */}</label>
-        <label className='text-sm'>Nombre de la finca: {/* {data.nombre_finca} */}</label>
-        <label className='text-sm'>Código de la muestra: {/* {data.muestra_id} */}</label>
+      <div className='flex flex-col mb-8 mt-8 ml-16'>
+        <label className='text-[10px] font-bold mb-5'>2. Información General:</label>
+        <label className='text-[10px]'>Caficultor: {data.caficultor_nombre}</label>
+        <label className='text-[10px]'>Departamento: {data.municipio}</label>
+        <label className='text-[10px]'>Vereda: {data.vereda}</label>
+        <label className='text-[10px]'>Nombre de la finca: {data.nombre_finca}</label>
+        <label className='text-[10px]'>Código de la muestra: {data.muestra_id}</label>
       </div>
-      <div style={styles.section}>
-        <label className='text-sm font-bold ml-8'>3. Especificaciones del Café:</label>
-        <div className='flex flex-row border-1 border-black h-auto mt-3'>
-          <div className='flex flex-col w-[350px]'>
+      <div>
+        <label className='text-[10px] font-bold ml-16'>3. Especificaciones del Café:</label>
+        <div className='flex flex-row border-1 w-[500px] h-auto mt-6 ml-[40px]'>
+          <div className='flex flex-col w-[250px]'>
             <div className='flex flex-row'>
               <div className='border-1 border-black w-[250px]'>
-                <label className='text-sm'>Variedad del Café</label>
+                <label className='text-[10px]'>Variedad del Café</label>
               </div>
               <div className='border-1 border-black w-[100px]'>
-                <label style={styles.tableCell}>{/* {data.variedad} */}</label>
+                <label style={styles.tableCell}>{data.variedad}</label>
               </div>
             </div>
             <div className='flex flex-row h-[49px]'>
               <div className='border-1 border-black w-[250px]'>
-                <label className='text-sm'>Altura sobre el nivel del mar</label>
+                <label className='text-[10px]'>Altura sobre el nivel del mar</label>
               </div>
               <div className='border-1 border-black w-[100px]'>
-                <label style={styles.tableCell}>{/* {data.altura_MSNM} */}</label>
+                <label style={styles.tableCell}>{data.altura_MSNM}</label>
               </div>
             </div>
           </div>
-          <div className='flex flex-col w-[350px]'>
+          <div className='flex flex-col w-[250px]'>
             <div className='flex flex-row'>
               <div className='border-1 border-black w-[250px]'>
-                <label className='text-sm flex-wrap'>Método de muestreo: </label>
+                <label className='text-[10px] flex-wrap'>Método de muestreo: </label>
               </div>
               <div className='border-1 border-black w-[100px]'>
-                <label className='text-sm flex-wrap'>{/* {data.variedad} */}</label>
+                <label className='text-[10px] flex-wrap'>{data.variedad}</label>
               </div>
             </div>
             <div className='flex flex-row'>
               <div className='border-1 border-black w-[250px]'>
-                <label className='text-sm'>Método para la preparacion de la muestra:</label>
+                <label className='text-[10px]'>Método para la preparacion de la muestra:</label>
               </div>
               <div className='border-1 border-black w-[100px]'>
-                <label className='text-sm flex-wrap'>{/* {data.altura_MSNM} */}</label>
+                <label className='text-[10px] flex-wrap'>{data.altura_MSNM}</label>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div style={styles.tableFisicos}>
-        <label className='flex text-sm font-bold m-8'>4. Datos Generales del Café:</label>
-        <div className='flex flex-row'>
-            <div className='flex flex-row'>
-              <div className='flex flex-col w-[235px]'>
-                <label className='border-1 border-black text-sm h-[30px]'>Tipo De Molienda: </label>
-                <label className='border-1 border-black text-sm h-[30px]'>Tipo de Fermentacion: </label>
-                <label className='border-1 border-black text-sm h-[30px]'>Densidad De Café Verede(g/l): </label>
-                <label className='border-1 border-black text-sm h-[30px]'>Fecha De Procesamiento: </label>
-                <label className='border-1 border-black text-sm h-[30px]'> Código de la muestra: </label>
+      <div className='flex flex-col w-[500px]'>
+        <label className='flex text-[10px] font-bold mt-8 mb-8 ml-16'>4. Datos Generales del Café:</label>
+        <div className='flex flex-row mb-24'>
+            <div className='flex flex-row ml-[40px] w-[500px]'>
+              <div className='flex flex-col w-[160px]'>
+                <label className='border-1 border-black text-[10px] h-[30px]'>Tipo De Molienda: </label>
+                <label className='border-1 border-black text-[10px] h-[30px]'>Tipo de Fermentacion: </label>
+                <label className='border-1 border-black text-[10px] h-[30px]'>Densidad De Café Verede(g/l): </label>
+                <label className='border-1 border-black text-[10px] h-[30px]'>Fecha De Procesamiento: </label>
+                <label className='border-1 border-black text-[10px] h-[30px]'> Código de la muestra: </label>
               </div>
-              <div className='flex flex-col'>
-                <label style={styles.tableCellValorDatos}>{/* {data.tipo_molienda} */}</label>
-                <label style={styles.tableCellValorDatos}>{/* {data.proceso_fermentacion} */}</label>
-                <label style={styles.tableCellValorDatos}>{/* {data.densidad_cafe} */}</label>
-                <label style={styles.tableCellValorDatos}>{/* {new Date(data.fecha).toLocaleDateString('es-CO')} */}</label>
-                <label style={styles.tableCellValorDatos}>{/* {data.muestra_id} */}</label>
+              <div className='flex flex-col w-[90px]'>
+                <label className='text-[10px] border-1 border-black h-[30px]'>{data.tipo_molienda}</label>
+                <label className='text-[10px] border-1 border-black h-[30px]'>{data.proceso_fermentacion}</label>
+                <label className='text-[10px] border-1 border-black h-[30px]'>{data.densidad_cafe}</label>
+                <label className='text-[10px] border-1 border-black h-[30px]'>{new Date(data.fecha).toLocaleDateString('es-CO')}</label>
+                <label className='text-[10px] border-1 border-black h-[30px]'>{data.muestra_id}</label>
               </div>
           </div>
           <div className='flex flex-col'>
             <div className='flex flex-row'>
-              <div className='flex flex-col w-[235px]'>
-                <label className='border-1 border-black h-[30px] text-sm'> Tipo de Tostión: </label>
-                <label className='border-1 border-black h-[30px] text-sm'> Tiempo de Fermentación: </label>
-                <label className='border-1 border-black h-[30px] text-sm'> Actividad De Agua(Aw): </label>
-                <label className='border-1 border-black h-[30px] text-sm'> Tipo De Secado: </label>
-                <label className='border-1 border-black h-[30px] text-sm'> Presentación: </label>
+              <div className='flex flex-col w-[160px]'>
+                <label className='border-1 border-black h-[30px] text-[10px]'> Tipo de Tostión: </label>
+                <label className='border-1 border-black h-[30px] text-[10px]'> Tiempo de Fermentación: </label>
+                <label className='border-1 border-black h-[30px] text-[10px]'> Actividad De Agua(Aw): </label>
+                <label className='border-1 border-black h-[30px] text-[10px]'> Tipo De Secado: </label>
+                <label className='border-1 border-black h-[30px] text-[10px]'> Presentación: </label>
               </div>
-              <div className='flex flex-col'>
-                <label style={styles.tableCellValorDatos}> {/* {data.tipo_tostion} */} </label>
-                <label style={styles.tableCellValorDatos}> {/* {data.tiempo_fermentacion} */} </label>
-                <label style={styles.tableCellValorDatos}> {/* {data.actividad_agua} */} </label>
-                <label style={styles.tableCellValorDatos}> {/* {data.tiempo_secado} */} </label>
-                <label style={styles.tableCellValorDatos}> {/* {data.presentacion} */} </label>
+              <div className='flex flex-col w-[90px]'>
+                <label className='text-[10px] border-1 border-black h-[30px]'> {data.tipo_tostion} </label>
+                <label className='text-[10px] border-1 border-black h-[30px]'> {data.tiempo_fermentacion} </label>
+                <label className='text-[10px] border-1 border-black h-[30px]'> {data.actividad_agua} </label>
+                <label className='text-[10px] border-1 border-black h-[30px]'> {data.tiempo_secado} </label>
+                <label className='text-[10px] border-1 border-black h-[30px]'> {data.presentacion} </label>
               </div>
             </div>
           </div>
           
         </div>
       </div>
-    <div style={styles.header} >
-        <div style={styles.row1}>
-          <div style={styles.col1}>
-            <img style={styles.img} src={logoSena} />
+      <div className='flex flex-row w-[500px] mt-12 justify-center items-center ml-[40px] mb-8' >
+        <div className='w-[150px]'>
+          <div className='border-1 border-black flex justify-center items-center h-[60px]'>
+            <img className='w-[40px] h-[40px] flex' src={logoSena} />
           </div>
-          <div style={styles.col1}>
-            <img style={styles.img} src={logoENCC} />
-          </div>
-        </div>
-        <div style={styles.row2}>
-          <div style={styles.col2}>
-            <label style={styles.label}>Centro de Gestión y Desarrollo Sostenible </label>
-            <label style={styles.label}>Surcolombiano</label>
-            <label style={styles.label}>Escuela Nacional de la Calidad del Café </label>
-          </div>
-          <div style={styles.col2}>
-            <label style={styles.label2}>INFORME SERVICIO ANALISIS FISICO SENSORIAL</label>
+          <div className='border-1 border-black h-[60px] flex justify-center items-center'>
+            <img className='w-[40px] h-[40px] flex' src={logoENCC} />
           </div>
         </div>
-        <div style={styles.row3}>
-          <div style={styles.col3}>
-            <img style={styles.imgSennova} src={logoSennova} />
+        <div className='w-[400px]'>
+          <div className='border-1 border-black text-center justify-center items-center h-[60px]'>
+            <label className='flex text-xs text-center justify-center'>Centro de Gestión y Desarrollo Sostenible </label>
+            <label className='flex text-xs justify-center'>Surcolombiano</label>
+            <label className='flex text-xs justify-center'>Escuela  Nacional de la Calidad del Café </label>
           </div>
-          <div style={styles.col3label}>
-            <label style={styles.labelCol3}>CÓDIGO: {/* {data.muestra_id} */}</label>
-            <label style={styles.labelCol3}>VERSIÓN: 01</label>
-            <label style={styles.labelCol3}>FECHA: 2023-05-05</label>
-            <label style={styles.labelCol3}>PÁGINA: </label>
-            {/* <label style={styles.labelCol3} render={({ pageNumber, totalPages }) => (
+          <div className='border-1 border-black h-[60px] flex items-center justify-center'>
+            <label className='flex text-xs justify-center items-center text-center'>INFORME SERVICIO ANALISIS FISICO SENSORIAL</label>
+          </div>
+        </div>
+        <div className='w-[150px]'>
+          <div className='border-1 border-black flex h-[60px] justify-center items-center'>
+            <img className='w-[90px] h-[90px]' src={logoSennova} />
+          </div>
+          <div className='flex flex-col'>
+            <label className='text-[9px] border-1 border-black h-[15px]'>CÓDIGO: {data.muestra_id}</label>
+            <label className='text-[9px] border-1 border-black h-[15px]'>VERSIÓN: 01</label>
+            <label className='text-[9px] border-1 border-black h-[15px]'>FECHA: 2023-05-05</label>
+            <label className='text-[9px] border-1 border-black h-[15px]'>PÁGINA: </label>
+            {/* <label className='text-[9px] border-1 border-black' render={({ pageNumber, totalPages }) => (
               `PÁGINA: ${pageNumber} de ${totalPages}`
             )}  /> */}
           </div>
         </div>
       </div>
         <>
-          <label style={styles.sectionTitleFisicos}>5. Análisis Físico:</label>
-          <div style={styles.tableFisicos}>
-            <div style={styles.tableColHeader}>
-              <label style={styles.tableCellHeaderFisicos} >Análisis Físicos</label>
+          <label className='text-sm font-bold ml-16'>5. Análisis Físico:</label>
+          <div className='w-[520px] ml-[40px]'>
+            <div className='bg-[#C6E0B4] w-[500px] border-1 border-black mt-5'>
+              <label className='flex justify-center'>Análisis Físicos</label>
             </div>
-            <div style={styles.plusCol}>
-              {/* <div style={styles.halfTable}>
+            <div className='flex flex-row w-[500px] mb-60'>
+              <div className='flex flex-col'>
                 {[...Array(15)].map((_, index) => (
-                <div key={index} style={styles.tableRowFisicos}>
-                  <div style={styles.tableColVariable}>
-                    <label style={styles.tableCell}>{data.resultados[index].variable}</label>
+                <div key={index} className='flex flex-row'>
+                  <div className='border-1 border-black w-[210px] h-[30px]'>
+                    <label className='text-sm h-[30px]'>{data.resultados[index].variable}</label>
                   </div>
-                  <div style={styles.tableColValor}>
-                    <label style={styles.tableCell}>{data.resultados[index].valor}</label>
+                  <div className='w-[40px] border-1 border-black flex justify-center h-[30px]'>
+                    <label className='text-sm h-[30px]'>{data.resultados[index].valor}</label>
                   </div>
                 </div>
                 ))}
-              </div> */}
-              {/* <div style={styles.halfTable}>
+              </div>
+              <div className='flex flex-col'>
                 {[...Array(15)].map((_, index) => (
-                  <div key={index} style={styles.tableRowFisicos}>
-                    <div style={styles.tableColVariable}>
-                      <label style={styles.tableCell}>{data.resultados[index + 15].variable}</label>
+                  <div key={index} className='flex flex-row'>
+                    <div className='border-1 border-black w-[210px] h-[30px]'>
+                      <label className='text-sm h-[30px]'>{data.resultados[index + 15].variable}</label>
                     </div>
-                    <div style={styles.tableColValor}>
-                      <label style={styles.tableCell}>{data.resultados[index + 15].valor}</label>
+                    <div className='w-[39px] border-1 border-black flex justify-center h-[30px]'>
+                      <label className='text-sm h-[30px]'>{data.resultados[index + 15].valor}</label>
                     </div>
                   </div>
                 ))}
-              </div> */}
+              </div>
             </div>
           </div>
         </>
         <>
-    <div style={styles.header} >
-        <div style={styles.row1}>
-          <div style={styles.col1}>
-            <img style={styles.img} src={logoSena} />
+        <div className='flex flex-row w-[500px] mt-12 justify-center items-center ml-[40px]' >
+        <div className='w-[150px]'>
+          <div className='border-1 border-black flex justify-center items-center h-[60px]'>
+            <img className='w-[40px] h-[40px] flex' src={logoSena} />
           </div>
-          <div style={styles.col1}>
-            <img style={styles.img} src={logoENCC} />
-          </div>
-        </div>
-        <div style={styles.row2}>
-          <div style={styles.col2}>
-            <label style={styles.label}>Centro de Gestión y Desarrollo Sostenible </label>
-            <label style={styles.label}>Surcolombiano</label>
-            <label style={styles.label}>Escuela Nacional de la Calidad del Café </label>
-          </div>
-          <div style={styles.col2}>
-            <label style={styles.label2}>INFORME SERVICIO ANALISIS FISICO SENSORIAL</label>
+          <div className='border-1 border-black h-[60px] flex justify-center items-center'>
+            <img className='w-[40px] h-[40px] flex' src={logoENCC} />
           </div>
         </div>
-        <div style={styles.row3}>
-          <div style={styles.col3}>
-            <img style={styles.imgSennova} src={logoSennova} />
+        <div className='w-[400px]'>
+          <div className='border-1 border-black text-center justify-center items-center h-[60px]'>
+            <label className='flex text-xs text-center justify-center'>Centro de Gestión y Desarrollo Sostenible </label>
+            <label className='flex text-xs justify-center'>Surcolombiano</label>
+            <label className='flex text-xs justify-center'>Escuela  Nacional de la Calidad del Café </label>
           </div>
-          <div style={styles.col3label}>
-            <label style={styles.labelCol3}>CÓDIGO: {/* {data.muestra_id} */}</label>
-            <label style={styles.labelCol3}>VERSIÓN: 01</label>
-            <label style={styles.labelCol3}>FECHA: 2023-05-05</label>
-            <label style={styles.labelCol3}>PÁGINA: </label>
-            {/* <label style={styles.labelCol3} render={({ pageNumber, totalPages }) => (
+          <div className='border-1 border-black h-[60px] flex items-center justify-center'>
+            <label className='flex text-xs justify-center items-center text-center'>INFORME SERVICIO ANALISIS FISICO SENSORIAL</label>
+          </div>
+        </div>
+        <div className='w-[150px]'>
+          <div className='border-1 border-black flex h-[60px] justify-center items-center'>
+            <img className='w-[90px] h-[90px]' src={logoSennova} />
+          </div>
+          <div className='flex flex-col'>
+            <label className='text-[9px] border-1 border-black h-[15px]'>CÓDIGO: {data.muestra_id}</label>
+            <label className='text-[9px] border-1 border-black h-[15px]'>VERSIÓN: 01</label>
+            <label className='text-[9px] border-1 border-black h-[15px]'>FECHA: 2023-05-05</label>
+            <label className='text-[9px] border-1 border-black h-[15px]'>PÁGINA: </label>
+            {/* <label className='text-[9px] border-1 border-black' render={({ pageNumber, totalPages }) => (
               `PÁGINA: ${pageNumber} de ${totalPages}`
             )}  /> */}
           </div>
         </div>
       </div>
         <div style={styles.section}>
-          <label style={styles.sectionTitle}>6. Resultados:</label>
-            <div style={styles.headerSensorial}>
-              <label style={styles.labelHeaderSensorial}> Datos Generales De La Muestra </label>
+          <label className='text-sm font-bold mt-8 ml-16'>6. Resultados:</label>
+            <div className='bg-[#C6E0B4] border-1 border-black mt-7 w-[500px] ml-[40px]'>
+              <label className='text-sm font-bold flex justify-center'> Datos Generales De La Muestra </label>
             </div>
-          <div style={styles.tabelSensorial}>
-            <div style={styles.tableMayor}>
-                <div style={styles.plusCol}>
-                  <div style={styles.halfTable}>
-                    {/* <div style={styles.tableRowFisicos}> */}
-                      <div style={styles.tableColSensorial}>
-                        <label style={styles.headTable}> ATRIBUTO </label>
-                      </div>
-                        <label style={styles.tableCellDatosSensory}> Fragancia Aroma: </label>  
-                        <label style={styles.tableCellDatosSensory}> Sabor: </label>  
-                        <label style={styles.tableCellDatosSensory}> Retrogusto: </label>  
-                        <label style={styles.tableCellDatosSensory}> Acidez: </label>  
-                        <label style={styles.tableCellDatosSensory}> Cuerpo: </label>  
-                        <label style={styles.tableCellDatosSensory}> Uniformidad: </label>  
-                        <label style={styles.tableCellDatosSensory}> Balance: </label>  
-                        <label style={styles.tableCellDatosSensory}> Taza limpia: </label>  
-                        <label style={styles.tableCellDatosSensory}> Dulzor: </label>  
-                        <label style={styles.tableCellDatosSensory}> Puntaje general: </label>  
-                        <label style={styles.tableCellDatosSensory}> Puntaje total: </label>  
-                    {/* </div> */}
+          <div className='border-1 border-black flex justify-center w-[500px] ml-[40px]'>
+            <div className='border-1 border-black w-[430px] mt-7'>
+                <div className='flex flex-row'>
+                  
+                  <div className='border-1 border-black flex flex-col'>
+                    <label className='text-xs font-bold border-1 border-black w-[142px] h-[33px] flex justify-center items-center'> ATRIBUTO </label>
+                    
+                      <label className='border-1 border-black w-[142px] text-[12px]'> Fragancia Aroma: </label>  
+                      <label className='border-1 border-black w-[142px] text-[12px]'> Sabor: </label>  
+                      <label className='border-1 border-black w-[142px] text-[12px]'> Retrogusto: </label>  
+                      <label className='border-1 border-black w-[142px] text-[12px]'> Acidez: </label>  
+                      <label className='border-1 border-black w-[142px] text-[12px]'> Cuerpo: </label>  
+                      <label className='border-1 border-black w-[142px] text-[12px]'> Uniformidad: </label>  
+                      <label className='border-1 border-black w-[142px] text-[12px]'> Balance: </label>  
+                      <label className='border-1 border-black w-[142px] text-[12px]'> Taza limpia: </label>  
+                      <label className='border-1 border-black w-[142px] text-[12px]'> Dulzor: </label>  
+                      <label className='border-1 border-black w-[142px] text-[12px]'> Puntaje general: </label>  
+                      <label className='border-1 border-black w-[142px] text-[12px]'> Puntaje total: </label>  
                   </div>
-                  <div style={styles.halfTable}>
-                  {/* <div style={styles.tableRowFisicos}> */}
-                    <div style={styles.tableColSensorial}>
-                      <label style={styles.headTable}> PUNTAJE </label>
+                      <div className='border-1 border-black flex flex-col'>
+                        <label className='text-xs font-bold border-1 border-black w-[142px] h-[33px] flex justify-center items-center text-center'> PUNTAJE </label>
+                          
+                          <label className='border-1 border-black w-[142px] text-[12px] flex justify-center'> {datos.aroma} </label>  
+                          <label className='border-1 border-black w-[142px] text-[12px] flex justify-center'> {datos.sabor} </label>  
+                          <label className='border-1 border-black w-[142px] text-[12px] flex justify-center'> {datos.postgusto} </label>  
+                          <label className='border-1 border-black w-[142px] text-[12px] flex justify-center'> {datos.acidez} </label>  
+                          <label className='border-1 border-black w-[142px] text-[12px] flex justify-center'> {datos.cuerpo} </label>  
+                          <label className='border-1 border-black w-[142px] text-[12px] flex justify-center'> {datos.uniformidad} </label>  
+                          <label className='border-1 border-black w-[142px] text-[12px] flex justify-center'> {datos.balance} </label>  
+                          <label className='border-1 border-black w-[142px] text-[12px] flex justify-center'> {datos.taza_limpia} </label>  
+                          <label className='border-1 border-black w-[142px] text-[12px] flex justify-center'> {datos.dulzura} </label>  
+                          <label className='border-1 border-black w-[142px] text-[12px] flex justify-center'> {datos.punteo} </label>  
+                          <label className='border-1 border-black w-[142px] text-[12px] flex justify-center'> {datos.punteo_final} </label>  
+                  
                     </div>
-                        <label style={styles.tableCellDatosSensory}> {/* {datos.aroma}  */}</label>  
-                        <label style={styles.tableCellDatosSensory}> {/* {datos.sabor} */} </label>  
-                        <label style={styles.tableCellDatosSensory}> {/* {datos.postgusto} */} </label>  
-                        <label style={styles.tableCellDatosSensory}> {/* {datos.acidez} */} </label>  
-                        <label style={styles.tableCellDatosSensory}> {/* {datos.cuerpo} */} </label>  
-                        <label style={styles.tableCellDatosSensory}> {/* {datos.uniformidad} */} </label>  
-                        <label style={styles.tableCellDatosSensory}> {/* {datos.balance} */} </label>  
-                        <label style={styles.tableCellDatosSensory}> {/* {datos.taza_limpia} */} </label>  
-                        <label style={styles.tableCellDatosSensory}> {/* {datos.dulzura} */} </label>  
-                        <label style={styles.tableCellDatosSensory}> {/* {datos.punteo} */} </label>  
-                        <label style={styles.tableCellDatosSensory}> {/* {datos.punteo_final} */} </label>  
-                  {/* </div> */}
+                   
+                  <div className='border-1 border-black flex flex-col'>
+                      <label className='text-xs font-bold border-1 border-black w-[142px] flex justify-center items-center text-center'> DESCRIPCIÓN SENSORIAL</label>
+                      <label className='text-sm mt-5 text-justify'> Aqui puedes agregar tus notas catador {/* {datos.notas} */} </label>
                   </div>
-                  <div style={styles.halfTable}>
-                    <div style={styles.tableColSensorial}>
-                      <label style={styles.headTable}> DESCRIPCIÓN SENSORIAL</label>
-                      {/* <label style={styles.headTable}> SENSORIAL </label> */}
-                    </div>
-                      <label style={styles.headTableDes}> {/* {datos.notas} */} </label>
                   </div>
-                </div>
             </div>
           </div>
-          {/* <img src={radarChart} /> */}
+          <div className='bg-[#C6E0B4] border-1 border-black w-[500px] ml-[40px]'>
+            <label className='text-sm font-bold flex justify-center'> Análisis de atributos </label>
+          </div>
+          <div className='border-1 border-black flex justify-center w-[500px] ml-[40px] mb-36'>
+              <div className='flex justify-center mt-8'>
+                <RadarChart datos={datos} onBase64Ready={handleBase64Ready} />
+            </div>
+          </div>
+          
         </div>
-    <div style={styles.header}>
-        <div style={styles.row1}>
-          <div style={styles.col1}>
-            <img style={styles.img} src={logoSena} />
+        <div className='flex flex-row w-[500px] mt-12 justify-center items-center ml-[40px]' >
+        <div className='w-[150px]'>
+          <div className='border-1 border-black flex justify-center items-center h-[60px]'>
+            <img className='w-[40px] h-[40px] flex' src={logoSena} />
           </div>
-          <div style={styles.col1}>
-            <img style={styles.img} src={logoENCC} />
-          </div>
-        </div>
-        <div style={styles.row2}>
-          <div style={styles.col2}>
-            <label style={styles.label}>Centro de Gestión y Desarrollo Sostenible </label>
-            <label style={styles.label}>Surcolombiano</label>
-            <label style={styles.label}>Escuela Nacional de la Calidad del Café </label>
-          </div>
-          <div style={styles.col2}>
-            <label style={styles.label2}>INFORME SERVICIO ANALISIS FISICO SENSORIAL</label>
+          <div className='border-1 border-black h-[60px] flex justify-center items-center'>
+            <img className='w-[40px] h-[40px] flex' src={logoENCC} />
           </div>
         </div>
-        <div style={styles.row3}>
-          <div style={styles.col3}>
-            <img style={styles.imgSennova} src={logoSennova} />
+        <div className='w-[400px]'>
+          <div className='border-1 border-black text-center justify-center items-center h-[60px]'>
+            <label className='flex text-xs text-center justify-center'>Centro de Gestión y Desarrollo Sostenible </label>
+            <label className='flex text-xs justify-center'>Surcolombiano</label>
+            <label className='flex text-xs justify-center'>Escuela  Nacional de la Calidad del Café </label>
           </div>
-          <div style={styles.col3label}>
-            <label style={styles.labelCol3}>CÓDIGO: {/* {data.muestra_id} */}</label>
-            <label style={styles.labelCol3}>VERSIÓN: 01</label>
-            <label style={styles.labelCol3}>FECHA: 2023-05-05</label>
-            <label style={styles.labelCol3}>PÁGINA: </label>
-            {/* <label style={styles.labelCol3} render={({ pageNumber, totalPages }) => (
+          <div className='border-1 border-black h-[60px] flex items-center justify-center'>
+            <label className='flex text-xs justify-center items-center text-center'>INFORME SERVICIO ANALISIS FISICO SENSORIAL</label>
+          </div>
+        </div>
+        <div className='w-[150px]'>
+          <div className='border-1 border-black flex h-[60px] justify-center items-center'>
+            <img className='w-[90px] h-[90px]' src={logoSennova} />
+          </div>
+          <div className='flex flex-col'>
+            <label className='text-[9px] border-1 border-black h-[15px]'>CÓDIGO: {data.muestra_id}</label>
+            <label className='text-[9px] border-1 border-black h-[15px]'>VERSIÓN: 01</label>
+            <label className='text-[9px] border-1 border-black h-[15px]'>FECHA: 2023-05-05</label>
+            <label className='text-[9px] border-1 border-black h-[15px]'>PÁGINA: </label>
+            {/* <label className='text-[9px] border-1 border-black' render={({ pageNumber, totalPages }) => (
               `PÁGINA: ${pageNumber} de ${totalPages}`
             )}  /> */}
           </div>
         </div>
       </div>
-      <div style={styles.section}>
-        <label style={styles.sectionTitle}> 7. Conclusión y recomendaciones: </label>
-        <label style={styles.sectionlabel}> Se recomienda hacer un análisis de suelo, para que pueda hacer una regulación de pH y así realizar una
+      <div className='flex flex-col w-[520px]'>
+        <label className='text-sm font-bold ml-16 mb-3'> 7. Conclusión y recomendaciones: </label>
+        <label className='text-sm ml-[40px]'> Se recomienda hacer un análisis de suelo, para que pueda hacer una regulación de pH y así realizar una
 correcta fertilización del café, además se recomienda hacer una buena recolección seleccionando solo
 frutos maduros evitando granos inmaduros y sobre maduros. </label>
       </div>
-      <div style={styles.firmas}>
-        <div style={styles.recuadros}>
-              <label style={styles.firmaslabel}> Álvaro Murcia </label>
-              <label style={styles.firmaslabel}> Instructor Análisis Sensorial - ENCC </label>
-              <label style={styles.firmaslabel}> Pitalito </label>
+      <div className='flex flex-row mt-[300px] w-[500px] ml-[40px]'>
+        <div className='flex flex-col h-[120px] border-1 border-black w-[250px] justify-end items-center'>
+              <label className='text-sm font-bold'> Álvaro Murcia </label>
+              <label className='text-sm'> Instructor Análisis Sensorial - ENCC </label>
+              <label className='text-sm'> Pitalito </label>
         </div>
-        <div style={styles.recuadros}>
-              <label style={styles.firmaslabel}> Silvia Andrea Forero Artunduaga </label>
-              <label style={styles.firmaslabel}> Instructor Análisis Sensorial - ENCC </label>
-              <label style={styles.firmaslabel}> Pitalito </label>
+        <div className='flex flex-col h-[120px] border-1 border-black w-[250px] justify-end items-center'>
+              <label className='text-sm font-bold'> Silvia Andrea Forero Artunduaga </label>
+              <label className='text-sm'> Instructor Análisis Sensorial - ENCC </label>
+              <label className='text-sm'> Pitalito </label>
         </div>
-        <div style={styles.recuadros}>
-              <label style={styles.firmaslabel}> Julio Mario Artunduaga </label>
-              <label style={styles.firmaslabel}> Responsable Gestión Técnica - ENCC </label>
-              <label style={styles.firmaslabel}> Pitalito </label>
+        <div className='flex flex-col h-[120px] border-1 border-black w-[250px] justify-end items-center'>
+              <label className='text-sm font-bold'> Julio Mario Artunduaga </label>
+              <label className='text-sm'> Responsable Gestión Técnica - ENCC </label>
+              <label className='text-sm'> Pitalito </label>
         </div>
       </div>
       </>
@@ -708,4 +717,4 @@ frutos maduros evitando granos inmaduros y sobre maduros. </label>
     );
 };
 
-export default PDFReport
+export default PDFReportHtml

@@ -110,7 +110,7 @@ return (
                   <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 required={true}
-                label="Email"
+                label="Correo"
                 placeholder="Ingresa tu correo"
                 variant="bordered"
                 ref={correo_electronico}
@@ -122,7 +122,7 @@ return (
                 endContent={
                   <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
-                label="Password"
+                label="Contraseña"
                 placeholder="Ingresa tu contraseña"
                 type="password"
                 variant="bordered"
@@ -136,7 +136,7 @@ return (
               </Button>
               <div className="flex py-2 px-1 justify-between">
                 <Link color="primary" href="#" size="sm">
-                  Forgot password?
+                  ¿Olvidó su contraseña?
                 </Link>
               </div>
             </div>

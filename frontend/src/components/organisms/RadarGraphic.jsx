@@ -9,7 +9,6 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-import html2canvas from 'html2canvas';
 
 // Registra los componentes necesarios
 ChartJS.register(
@@ -21,7 +20,7 @@ ChartJS.register(
   Legend
 );
 
-const RadarChart = ({ datos, onBase64Ready }) => {
+const RadarChart = ({ datos }) => {
   const chartRef = useRef(null);
 
   const chartData = {
@@ -50,23 +49,8 @@ const RadarChart = ({ datos, onBase64Ready }) => {
     },
   };
 
-  const handleCapture = () => {
-    if (chartRef.current) {
-      html2canvas(chartRef.current).then((canvas) => {
-        const base64Image = canvas.toDataURL('image/png');
-        if (onBase64Ready) {
-          onBase64Ready(base64Image); // Pasar el base64 a través del callback
-        }
-      });
-    }
-  };
-
-  React.useEffect(() => {
-    handleCapture(); // Llamar a la captura cuando el componente se monta
-  }, [datos]);
-
   return (
-    <div ref={chartRef} style={{ width: '300px', height: '300px' }}>
+    <div ref={chartRef} style={{ width: '230px', height: '230px' }}>
       <Radar data={chartData} options={chartOptions} />
     </div>
   );
