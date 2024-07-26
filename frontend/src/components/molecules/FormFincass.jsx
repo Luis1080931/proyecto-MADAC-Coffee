@@ -3,6 +3,7 @@ import { ModalFooter, Button, SelectItem, Select, Input } from "@nextui-org/reac
 import axiosClient from '../axiosClient';
 import FincasContext from './../../context/FincasContext.jsx'
 
+//!Se pasan como parametros hijos estos datos, osea el modo,handkeSubmit, onClose,actionLabel
 export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
 
     const [caficultores, setCaficultores] = useState([]);
@@ -13,6 +14,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
     const [municipio, setMunicipio ] = useState('')
     const [vereda, setVereda ] = useState('')
 
+    //!Utilizamos el contexto de fincas, esto nos va a servir al momento de actualizar
     const { idFinca } = useContext(FincasContext)
 
     useEffect(() => {
@@ -28,6 +30,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
         });
     }, []);
 
+    //!Si esta actualizando, por ejemplo a setNombre se le va a colocar el valor que tenga idFinca en su posicion nombre_finca
     useEffect(() => {
         if (mode === 'update' && idFinca) {
             
@@ -39,7 +42,9 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
             console.log(idFinca);
         }
     }, [mode, idFinca]);
+    //!Dentro de este useEffect se extrae el modo y el idFinca
 
+    //!Creamos una data la cual va a contener los datos que tenemos en nuestra base de datos y luego pasamos esta funcion al formulario
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -58,6 +63,7 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
         }
     }
 
+    //!En esta parte pasamos la funcion anterior de habdleFormSubmit, el onChange singifica el cambio de datos para cuando sea actualizando
     return (
         <>
             <form method='post' onSubmit={handleFormSubmit}>
@@ -147,3 +153,5 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
         </>
     )
 };
+//!Como podemos observar hay varias funciones que nos dicen tipo, onClose,actionLabel y si nos damos cuenta 
+//!estos son los parametros hijos que tiene formFincas, estos hijos los podemos en en el

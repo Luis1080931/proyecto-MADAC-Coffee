@@ -34,17 +34,16 @@ export function Usuarios() {
     };
 
     function Ejemplo() {
-
-    const [filterValue, setFilterValue] = React.useState("");
-    const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
-    const [statusFilter, setStatusFilter] = React.useState("all");
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [sortDescriptor, setSortDescriptor] = React.useState({
-        column: "fecha",
-        direction: "ascending",
-    });
-    const [page, setPage] = React.useState(1);
-    
+        const [filterValue, setFilterValue] = React.useState("");
+        const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
+        const [statusFilter, setStatusFilter] = React.useState("all");
+        const [rowsPerPage, setRowsPerPage] = React.useState(5);
+        const [sortDescriptor, setSortDescriptor] = React.useState({
+            column: "fecha",
+            direction: "ascending",
+        });
+        const [page, setPage] = React.useState(1);
+        
     const statusOptions = [
         {name: "Activo", uid: "activo"},
         {name: "Inactivo", uid: "inactivo"},
@@ -54,9 +53,10 @@ export function Usuarios() {
 
     const filteredItems = React.useMemo(() => {
         let filteredResults = results;
-
+        
+        //?varia func
         if (hasSearchFilter) {
-        filteredResults = filteredResults.filter(result =>
+            filteredResults = filteredResults.filter(result =>
             String(result.identificacion).toLowerCase().includes(filterValue.toLowerCase()) ||
             result.telefono.toLowerCase().includes(filterValue.toLowerCase()) ||
             result.nombre.toLowerCase().includes(filterValue.toLowerCase()) ||

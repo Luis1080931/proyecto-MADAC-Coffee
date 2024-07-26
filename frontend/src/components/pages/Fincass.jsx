@@ -25,6 +25,7 @@ import {
   import { ButtonActualizar } from "../atoms/ButtonActualizar.jsx";
   import { ButtonDesactivar } from "../atoms/ButtonDesactivar.jsx";
   import ButtonActivar from "../atoms/ButtonActivar.jsx";
+  //!Importamos el contexto de fincas nuevamente
   import FincasContext from '../../context/FincasContext.jsx';
 
 export function Fincas() {
@@ -33,14 +34,19 @@ const statusColorMap = {
   activo: "primary",
   inactivo: "danger",
 };
+//!El dom web es el que nos ayuda a que al momento de ingresar a alguna ruta para que no se recargen todos los archivos nuevamente 
 
 function Ejemplo() {
 
-
+  //!el filterValue almacenara el valor del filtro de busqueda
   const [filterValue, setFilterValue] = React.useState("");
+  //!el selectedkeys almacenara la claves de la fincas seleccionadas
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
+  //!el statusFilter amacena el valor del filtro de estado activo o inactivo
   const [statusFilter, setStatusFilter] = React.useState("all");
+  //!el rowsPerpAge almacena la cantidad de filas a mostrar por pagina de tabla
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  //! el sortDescriptor, nos dira cual va a ser la direccion de ordenamiento
   const [sortDescriptor, setSortDescriptor] = React.useState({
     column: "fecha",
     direction: "ascending",
@@ -52,11 +58,18 @@ function Ejemplo() {
     {name: "Inactivo", uid: "inactivo"},
   ];
 
+  //*EL hasSearchFilter, nos indica si hay un filtro de busqueda activo
   const hasSearchFilter = Boolean(filterValue);
 
+  {/*//!Aqui se utiliza el filteredItem y el use memo para memorizar el resultado del filtrado */}
   const filteredItems = React.useMemo(() => {
     let filteredFincas = fincas;
 
+    //*el use efect se utliza para ejecutar funciones de manera inmediata
+    //*el use estate para almacenar estados y contener los datos en forma de array
+
+
+    {/*//!aqui nos esta diciendo que si existe un valor se filtrara por todos estos datos, osea por el nombre, por el codigo etc*/}
     if (hasSearchFilter) {
       filteredFincas = filteredFincas.filter(finca =>
         finca.nombre_finca.toLowerCase().includes(filterValue.toLocaleLowerCase()) ||
@@ -69,6 +82,7 @@ function Ejemplo() {
       );
     }
 
+    {/*//!aqui se esta diciendo que si existe un filtro de estado se filtrara por este estado*/}
     if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
       filteredFincas = filteredFincas.filter(finca =>
         Array.from(statusFilter).includes(finca.estado)
@@ -78,8 +92,10 @@ function Ejemplo() {
     return filteredFincas;
   }, [fincas, filterValue, statusFilter]);
 
+  {/*//! pages nos calcula el numero total de paginas */}
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
+  {/*//!items esta utilizando memo para memorizar los elementos a mostrar en la pagina actual basandose en filteredItem y rowsPerPages */}
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
@@ -87,6 +103,7 @@ function Ejemplo() {
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
 
+  {/*//!en sortedItems Utiliza useMemo para memorizar los elementos ordenados basandose en sortDescriptor y items */}
   const sortedItems = React.useMemo(() => {
     return [...items].sort((a, b) => {
       const first = a[sortDescriptor.column];
@@ -96,6 +113,7 @@ function Ejemplo() {
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
+
 
   const renderCell = React.useCallback((finca, columnKey) => {
     const cellValue = finca[columnKey];
@@ -115,6 +133,11 @@ function Ejemplo() {
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
+            {/*//!COOMO PODEMOS OBSERVAR AQUI UTILIZAMOS EL SETIDFINCA PARA CAMBIAR EL ESTADO A UPDATE, el setIdFinca es el que nosotros extrajimos del context
+            //!CADA VEZ QUE YO PRECIONE EL BOTON DE ACTUALIZAR SE ESTARA EJECUTANDO LA FUNCION DE HANLDETOGGLE ESTE HANLDE TOGLE, ESTE MODO DE UPDATE POSTEIORMNETE
+            //!SE ESTARA PASANDO EN EL FINCASMODAL, ESTE MODO VIAJARA DESDE AQUI AL TEMPLATE Y DEL TEMPLATE AL FORMULARIO Y JECUTARA LA FUNCION DEL USEFFECT
+            //?usted se preguntara como se hara para saber cual es el id que se va a actulizar? en el SetIdFinca se esta pasando el finca todo la finca con los datos y luego esto viaja al contexto, ahi lo explico
+            */}
             <ButtonActualizar click={() => handleToggle('update', setIdFinca(finca))} />
             {finca.estado === 'activo' ? (
               <ButtonDesactivar click={() => peticionDesactivar(finca.codigo)} />
@@ -128,23 +151,26 @@ function Ejemplo() {
     }
   }, []);
 
+  {/*//!elNextPage hace que se incremente la pagina actual, si no es la ultima*/}
   const onNextPage = React.useCallback(() => {
     if (page < pages) {
       setPage(page + 1);
     }
   }, [page, pages]);
-
+{/*//!y esta lo que hace es merma si la pagina actual no es la primera */}
   const onPreviousPage = React.useCallback(() => {
     if (page > 1) {
       setPage(page - 1);
     }
   }, [page]);
-
+{/*//!esto cambia la catidad de filas por pagina */}
   const onRowsPerPageChange = React.useCallback((e) => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
   }, []);
 
+
+  {/*//!Actualiza filterValue y resetea la página a 1 cuando el valor de búsqueda cambia */}
   const onSearchChange = React.useCallback((value) => {
     if (value) {
       setFilterValue(value);
@@ -159,6 +185,7 @@ function Ejemplo() {
     setPage(1);
   }, []);
 
+  {/*//!Actualiza statusFilter cuando cambia la selección en el dropdown de estado */}
   const onStatusFilter = (selectedKeys) => {
     setStatusFilter(selectedKeys)
   }
@@ -168,6 +195,7 @@ function Ejemplo() {
       <>
       <div className="flex flex-col gap-4">
         <div className="flex justify-between gap-3 items-end">
+          {/*//!este input es que nos ayuda a filtrar por texto,el onValieChanfe maneja el cambio de valor actualizado de filtervalue */}
           <Input
             isClearable
             className="w-full sm:max-w-[44%] text-xl"
@@ -179,6 +207,7 @@ function Ejemplo() {
           />
           <div className="flex gap-3">
   
+  {/* este dropdown es para filtrar por estado, el onSelectionChange maneja el cambio de seleccion actualizado de statusFilter */}
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button className="text-xl bg-gray-100" endContent={<ChevronDownIcon className="text-xl" />} variant="flat">
@@ -311,6 +340,7 @@ function Ejemplo() {
     const [mode, setMode] = useState('create');
     const [mensaje, setMensaje] = useState('')
     const [fincas,setFincas] = useState([]);
+    //!Aqui del contexto extraemos el setIdFinca y el idFinca, el setIdFinca lo utilizamos cuando nosotrso queremos actualizar en la parte de arriba los explico
     const { setIdFinca, idFinca } = useContext(FincasContext)
 
     useEffect(()=>{
@@ -319,7 +349,7 @@ function Ejemplo() {
 
     },[]);
 
-    //PETICION GET PARA TRAER LOS DATOS DE LAS FINCAS REGISTRADAS
+    //!PETICION GET PARA TRAER LOS DATOS DE LAS FINCAS REGISTRADAS
 
     const peticionGet = async () => {
         try {
@@ -334,7 +364,7 @@ function Ejemplo() {
         };
       
 
-//COLUMNAS DEL DATA_TABLE
+//!COLUMNAS DEL DATA_TABLE
 
 const data = [
     {
@@ -377,9 +407,10 @@ const data = [
         name: "Acciones",
         sortable:true
     }
+    
 ];
 
-    //PETICION PARA DESACTIVAR FINCAS    
+    //!PETICION PARA DESACTIVAR FINCAS    
 
     const peticionDesactivar = async (codigo) => {
         try {
@@ -413,7 +444,7 @@ const data = [
     }
 
 
-     //PETICION PARA ACTIVAR FINCAS
+     //! PETICION PARA ACTIVAR FINCAS
     const handleSubmit=async(data,e)=>{
         console.log(data);
         e.preventDefault()
