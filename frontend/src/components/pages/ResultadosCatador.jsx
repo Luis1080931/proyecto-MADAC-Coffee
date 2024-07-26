@@ -806,7 +806,7 @@ export function ResultadosCatador () {
           <Header title="Resultado de los análisis físicos" />
           <div className='bg-[#EAEDF6]'>
             <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
-              <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)} size='2xl'>
+              <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)} size='5xl'>
                 <ModalContent>
                   <ModalHeader> Registro de resultados de análisis físico </ModalHeader>
                   <ModalBody className='overflow-y-auto max-h-[70vh]'>
@@ -835,27 +835,38 @@ export function ResultadosCatador () {
                       </div>
                       <div className='flex flex-row'>
                         <div className='w-60 m-5'>
-                          {variablesBase.slice(0, Math.ceil(variablesBase.length / 2)).map((variable, index) => (
+                          {variablesBase.slice(0, Math.ceil(variablesBase.length / 3)).map((variable, index) => (
                             <Input
                               className='m-5'
                               label={variable.nombre}
                               key={index}
                               type='text'
-                              /* placeholder={variable.nombre} */
                               value={variables[index]}
                               onChange={(e) => handleChange(e, index)}
                             />
                           ))}
                         </div>
                         <div className='w-60 m-5'>
-                          {variablesBase.slice(Math.ceil(variablesBase.length / 2)).map((variable, index) => (
+                          {variablesBase.slice(Math.ceil(variablesBase.length / 3), 2 * Math.ceil(variablesBase.length / 3)).map((variable, index) => (
                             <Input
                               className='m-5'
-                              key={index + Math.ceil(variablesBase.length / 2)}
+                              key={index + Math.ceil(variablesBase.length / 3)}
                               type='text'
                               label={variable.nombre}
-                              value={variables[index + Math.ceil(variablesBase.length / 2)]}
-                              onChange={(e) => handleChange(e, index + Math.ceil(variablesBase.length / 2))}
+                              value={variables[index + Math.ceil(variablesBase.length / 3)]}
+                              onChange={(e) => handleChange(e, index + Math.ceil(variablesBase.length / 3))}
+                            />
+                          ))}
+                        </div>
+                        <div className='w-60 m-5'>
+                          {variablesBase.slice(2 * Math.ceil(variablesBase.length / 3)).map((variable, index) => (
+                            <Input
+                              className='m-5'
+                              key={index + 2 * Math.ceil(variablesBase.length / 3)}
+                              type='text'
+                              label={variable.nombre}
+                              value={variables[index + 2 * Math.ceil(variablesBase.length / 3)]}
+                              onChange={(e) => handleChange(e, index + 2 * Math.ceil(variablesBase.length / 3))}
                             />
                           ))}
                         </div>
@@ -863,18 +874,18 @@ export function ResultadosCatador () {
                     </div>
                   </ModalBody>
                   <ModalFooter>
-                    <Button colorScheme='teal' onClick={handleSubmitRegister}>Registrar</Button>
+                    <Button className='bg-[#273468] text-white' colorScheme='teal' onClick={handleSubmitRegister}>Registrar</Button>
                     <Button onClick={() => setModalRegister(false)}>Cancelar</Button>
                   </ModalFooter>
                 </ModalContent>
               </Modal>
-    
+      
               <AccionesModal
                 isOpen={modalAcciones}
                 onClose={() => setModalAcciones(false)}
                 label={mensaje}
               />
-    
+      
               <ResultadosModal
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}
@@ -883,7 +894,7 @@ export function ResultadosCatador () {
                 handleSubmit={handleSubmit}
                 mode={mode}
               />
-    
+      
               <Ejemplo
                 data={data}
                 results={results}
@@ -892,7 +903,7 @@ export function ResultadosCatador () {
           </div>
         </div>
       );
-}
+    }      
 
 {/* <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)}>
                     <ModalContent>
