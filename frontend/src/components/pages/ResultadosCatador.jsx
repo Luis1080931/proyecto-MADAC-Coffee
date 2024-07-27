@@ -520,287 +520,74 @@ export function ResultadosCatador () {
       
         const handleSubmitRegister = async () => {
           try {
+
+            const emptyFields = variables.some(variable => variable === '');
+            if (emptyFields) {
+              setMensaje('Todos los campos son obligatorios.');
+              setModalAcciones(true);
+              return;
+            }
+
+            const successfulResponses = [];
+        
             for (let i = 0; i < variables.length; i++) {
               const variable = variables[i];
               const variableBase = variablesBase[i];
-      
+        
               const data = {
                 fk_analisis: selectedAnalysis,
                 fecha: new Date(selectedDate).toISOString(),
                 fk_variables: variableBase?.v_codigo,
                 valor: variable,
               };
-      
-              await axiosClient.post('/resultados/registrar', data).then((response) => {
-                if (response.status === 200) {
-                  setMensaje(response.data.message);
-                  setModalAcciones(true);
-                  setModalRegister(false);
-                  handleCalificado();
-                  fetchData();
-                }
-              });
+        
+              const response = await axiosClient.post('/resultados/registrar', data);
+              if (response.status === 200) {
+                successfulResponses.push(response.data.message);
+              }
             }
-            setModalRegister(false);
+        
+            if (successfulResponses.length === variables.length) {
+              setMensaje('Resultado registrado con éxito');
+              setModalAcciones(true);
+              setModalRegister(false);
+              handleCalificado();
+              fetchData();
+            }
           } catch (error) {
             console.error('Error al enviar variables:', error);
           }
         };
 
         useEffect(() => {
-          const pesoCps = parseFloat(variables[0]) || 0; // Assume peso C.P.S is the first input
-          const pesoCisco = parseFloat(variables[1]) || 0; // Assume peso cisco is the second input
-          const pesoTotalAlmendra = pesoCps - pesoCisco;
+          const pesoCps = parseFloat(variables[0]) || 0
+          const pesoTotalAlmendra = parseFloat(variables[2]) || 0;  
+          const mallasMenores = parseFloat(variables[29]) || 0
+          const negroParcial = parseFloat(variables[5]) || 0
+          const flojo = parseFloat(variables[11]) || 0
+          const cardenillo = parseFloat(variables[20]) || 0
+          const decolorado = parseFloat(variables[26]) || 0
+
+          const pesoCiscoTotal = pesoCps - pesoTotalAlmendra;
+          const pesoDefectos = (negroParcial + flojo) + (cardenillo + decolorado)
+          const pesoAlmendraSana = pesoTotalAlmendra - (pesoDefectos + mallasMenores);
+
+          const mermaTrilla = pesoCps !== 0 ? (pesoCiscoTotal / pesoCps) * 100 : 0;
+          const porcentajeAlmendraSana = pesoCps !== 0 ? (pesoAlmendraSana / pesoCps) * 100 : 0;
+          const porcentajeDefectos = pesoCps !== 0 ? (pesoDefectos / pesoCps) * 100 : 0;
+          const factorRendimiento = pesoAlmendraSana !== 0 ? (pesoCps * 70) / pesoAlmendraSana : 0;
       
           const newVariables = [...variables];
-          newVariables[2] = pesoTotalAlmendra.toString(); // Assume peso total de la almendra is the third input
+          newVariables[1] = pesoCiscoTotal.toFixed(1);
+          newVariables[3] = pesoDefectos.toFixed(1)
+          newVariables[4] = pesoAlmendraSana.toFixed(1)
+          newVariables[16] = mermaTrilla.toFixed(1)
+          newVariables[17] = porcentajeAlmendraSana.toFixed(1)
+          newVariables[18] = porcentajeDefectos.toFixed(1)
+          newVariables[19] = factorRendimiento.toFixed(1) 
           setVariables(newVariables);
-        }, [variables[0], variables[1]]);
-
-        useEffect(() => {
-          const pesoTotalAlmendra = parseFloat(variables[2]) || 0; // Assume peso total de la almendra is the third input
-          const pesoDefectosTotales = parseFloat(variables[3]) || 0; // Assume peso defectos totales is the fourth input
-          const pesoAlmendraSana = pesoTotalAlmendra - pesoDefectosTotales;
-      
-          const newVariables = [...variables];
-          newVariables[4] = pesoAlmendraSana.toString(); // Assume peso de la almendra sana is the fifth input
-          setVariables(newVariables);
-        }, [variables[2], variables[3]]);
-        /* const handleChange = (e, index) => {
-          const newVariables = [...variables];
-          newVariables[index] = e.target.value;
-          setVariables(newVariables);
-        };
-      
-        const handleNext = () => {
-          setCurrentIndex(currentIndex + 1);
-        };
-      
-        const handleDateChange = (e) => {
-          setSelectedDate(e.target.value);
-        };
-      
-        const handleAnalysisChange = (e) => {
-          setSelectedAnalysis(e.target.value);
-        };
-        
-        const handleSubmitRegister = async () => {
-          try {
-           
-            for (let i = 0; i < variables.length; i++) {
-              const variable = variables[i]
-              const variableBase = variablesBase[currentIndex]
-              
-              const data = {
-                fk_analisis: selectedAnalysis,
-                fecha: new Date(selectedDate).toISOString(),
-                fk_variables: variablesBase[i]?.v_codigo, 
-                valor: variable 
-              };
-        
-              await axiosClient.post('/resultados/registrar', data).then((response) => {
-                console.log('Selected Analysis:', selectedAnalysis); 
-                console.log(`Variable ${i + 1} registrada correctamente:`, data);
-                console.log(response.data)
-                if(response.status == 200){
-                    setMensaje(response.data.message)
-                    setModalAcciones(true)
-                    setModalRegister(false)
-                    handleCalificado()
-                    fetchData()
-                }
-              })
-        
-              
-            }
-            setModalRegister(false);
-          } catch (error) {
-            console.error('Error al enviar variables:', error);
-          }
-      }; */
-
-  /* return (
-      <div className='bg-[#EAEDF6] h-screen max-h-max'>
-          <Header title="Resultado de los análisis fisicos" />
-            <div className='bg-[#EAEDF6]'>
-              <div className='w-full max-w-[90%] ml-28 items-center p-10 flex-auto'>
-
-              <Modal isOpen={modalRegister} onClose={() => setModalRegister(false)} size='5xl'>
-                <ModalContent>
-                  <ModalHeader> Registro de resultados de analisis físico </ModalHeader>
-                  <ModalBody>
-                    <div>
-                      <div>
-                        <Input type='date' value={selectedDate} placeholder='Selecciona la fecha' onChange={handleDateChange} />
-                        <Select 
-                          label="Seleccione el análisis"
-                          value={selectedAnalysis}
-                          onChange={handleAnalysisChange}
-                          required
-                          >
-                            {analisis.map(analisi => (
-                              <SelectItem key={analisi.codigo} value={analisi.codigo} textValue={analisi.codigo}>
-                                {analisi.codigo}
-                              </SelectItem>
-                            ))}
-                        </Select>
-                      </div>
-                      <div className='flex flex-row'>
-                        <div>
-                          <Input 
-                            type='text'
-                            placeholder='Peso C.P.S'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Peso cisco'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Peso total de la almendra'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Peso defectos totales'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Peso de la almendra sana'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Negro total o parcial'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Vinagre'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Veteado'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Sobresecado'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Picado por insectos'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Inmaduro o paloteado'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Flojo'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Malla 18'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Malla 17'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Malla 16'
-                          />
-                        </div>
-                        <div>
-                          <Input 
-                            type='text'
-                            placeholder='Humedad'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Merma por trilla'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Porcentaje de almendra sana'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Porcentaje de defectos totales'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Factor de rendimiento(kg C.P.S)'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Cardenillo'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Cristalizado'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Ambar o mantequillo'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Mordido o cortado'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Averanado o arrugado'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Aplastado'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Decolorado o reposado'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Malla 15'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Malla 14'
-                          />
-                          <Input 
-                            type='text'
-                            placeholder='Mallas menores'
-                          />
-                        </div>
-                      </div>
-                    </div>
-                        
-                  </ModalBody>
-                </ModalContent>
-              </Modal>
-
-              <AccionesModal 
-                  isOpen={modalAcciones}
-                  onClose={() => setModalAcciones(false)}
-                  label={mensaje}
-              />
-              
-                  <ResultadosModal 
-                      open={modalOpen} 
-                      onClose={() => setModalOpen(false)} 
-                      title={mode === 'create' ? 'Registrar resultados' : 'Actualizar resultados'}
-                      actionLabel={mode === 'create' ? 'Registrar' : 'Actualizar'}
-                      handleSubmit={handleSubmit}
-                      mode={mode}
-                  />
-
-                <Ejemplo 
-                      data={data}
-                      results={results}
-                />
-              </div>
-
-            </div>
-      </div>
-  ) */
+        }, [variables[0], variables[1], variables[2], variables[3], variables[4], variables[5], variables[11], variables[16], variables[17], variables[18], variables[19], variables[20], variables[26], variables[29]]);
+  
       return (
         <div className='bg-[#EAEDF6] h-screen max-h-max'>
           <Header title="Resultado de los análisis físicos" />
@@ -818,13 +605,14 @@ export function ResultadosCatador () {
                           value={selectedDate} 
                           label='Selecciona la fecha' 
                           onChange={handleDateChange} 
+                          required={true}
                         />
                         <Select 
                           className='m-2'
                           label="Seleccione el análisis" 
                           value={selectedAnalysis} 
                           onChange={handleAnalysisChange} 
-                          required
+                          required={true}
                         >
                           {analisis.map(analisi => (
                             <SelectItem key={analisi.codigo} value={analisi.codigo} textValue={analisi.codigo}>
@@ -843,6 +631,7 @@ export function ResultadosCatador () {
                               type='text'
                               value={variables[index]}
                               onChange={(e) => handleChange(e, index)}
+                              required={true}
                             />
                           ))}
                         </div>
@@ -855,6 +644,7 @@ export function ResultadosCatador () {
                               label={variable.nombre}
                               value={variables[index + Math.ceil(variablesBase.length / 3)]}
                               onChange={(e) => handleChange(e, index + Math.ceil(variablesBase.length / 3))}
+                              required={true}
                             />
                           ))}
                         </div>
@@ -867,6 +657,7 @@ export function ResultadosCatador () {
                               label={variable.nombre}
                               value={variables[index + 2 * Math.ceil(variablesBase.length / 3)]}
                               onChange={(e) => handleChange(e, index + 2 * Math.ceil(variablesBase.length / 3))}
+                              required={true}
                             />
                           ))}
                         </div>
