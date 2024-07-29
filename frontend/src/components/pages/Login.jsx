@@ -44,7 +44,6 @@ try {
   }  
   
   axios.post(baseURL, data).then((response) => {
-    console.log(response)
 
     if(response.status === 200){
       
@@ -64,7 +63,6 @@ try {
       }
       
     }else {
-      console.log('Response', response)
       setMensaje('Credenciales incorrectas')
       setModalAcciones(true)
     }

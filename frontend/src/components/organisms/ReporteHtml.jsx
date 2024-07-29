@@ -358,8 +358,6 @@ const PDFReportHtml = ({ data, datos }) => {
     setChartBase64(base64Image);
   };
 
-  console.log('Imagen base 64 en pdf html', chartBase64);
-
 return (
     <div className='flex justify-center items-center'>
     <div>

@@ -19,14 +19,12 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
 
   useEffect(() => {
     axiosClient.get('/usuarios/catadores').then((response) => {
-      console.log(response.data);
       setCatadores(response.data);
     });
   }, []);
 
   useEffect(() => {
     axiosClient.get('/muestras/activas').then((response) => {
-      console.log(response.data);
       setMuestras(response.data);
     });
   }, []);
@@ -48,7 +46,6 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
         setAnalista(analisisId.identificacion)
         setMuestra(analisisId.muestra)
         setTipo(analisisId.codeTipo)
-        console.log(analisisId);
       
     }
     

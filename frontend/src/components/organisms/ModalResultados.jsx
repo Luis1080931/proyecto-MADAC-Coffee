@@ -32,7 +32,6 @@ const VariableInputModal = ({ open, onClose }) => {
   useEffect(() => {
     axios.get('http://localhost:3000/variables/listarVariable', {headers: {token: token}})
       .then((response) => {
-        console.log(response.data)
         setVariablesBase(response.data);
         setVariables(Array(response.data.length).fill(''));
       })
@@ -43,7 +42,6 @@ const VariableInputModal = ({ open, onClose }) => {
 
   useEffect(() => {
     axios.get('http://localhost:3000/analisis/listar', {headers: {token: token}}).then((response) => {
-      console.log(response.data)
       const analisisFilter = response.data.filter(anali => anali.estado == 'activo')
       setAnalisis(analisisFilter)
     })
@@ -65,7 +63,6 @@ const VariableInputModal = ({ open, onClose }) => {
   
         await axios.post('http://localhost:3000/resultados/registrar', data, {headers: {token: token}});
   
-        console.log(`Variable ${i + 1} registrada correctamente:`, data);
       }
       setModalOpen(false);
     } catch (error) {

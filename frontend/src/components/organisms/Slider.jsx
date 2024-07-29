@@ -373,8 +373,6 @@ const captureChart = async () => {
       setTotal(resultadoSeleccionado.punteo)
       setNotas(resultadoSeleccionado.notas)
       setAnalisis(resultadoSeleccionado.fk_analisis)
-
-      console.log('Datos a actualizar aquiii: ', resultadoSeleccionado);
     }
   }, [mode, resultadoSeleccionado])
 

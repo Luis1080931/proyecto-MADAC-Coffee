@@ -24,7 +24,7 @@ const FormVariedades = ({ handleSubmit, onClose, actionLabel, mode }) => {
       };
       handleSubmit(data, e);
     } catch (error) {
-      // Manejo de errores
+      console.log('Error del servidor en formulario de analisis' + error);
     }
   };
 

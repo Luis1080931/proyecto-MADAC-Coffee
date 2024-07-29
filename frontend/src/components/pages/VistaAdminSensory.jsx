@@ -67,7 +67,6 @@ export function VistaAdminSensory () {
     useEffect(() => {
       axiosClient.get('/analisis/listar')
         .then((response) => {
-          console.log('Datos recibidos:', response.data)
           setAnalisisValue(response.data);
         })
         .catch((error) => {
@@ -78,7 +77,6 @@ export function VistaAdminSensory () {
     
     const handleAnalysisChange = (event) => {
       const { value } = event.target;
-      console.log('Analisis seleccionado:', value);
       setSelectedAnalysis(value);
     };
     
@@ -89,8 +87,7 @@ export function VistaAdminSensory () {
   
     const filteredItems = React.useMemo(() => {
       let filteredResults = results;
-    
-      console.log('Análisis seleccionado en el filtro:', selectedAnalysis)
+
       if (selectedAnalysis) {
         filteredResults = filteredResults.filter(
           (result) => parseInt(result.analisis) === parseInt(selectedAnalysis)
@@ -98,7 +95,6 @@ export function VistaAdminSensory () {
       }
     
       if (hasSearchFilter) {
-        console.log("Filter Value:", filterValue);
         filteredResults = filteredResults.filter(result =>
           String(result.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
           result.fecha.toLowerCase().includes(filterValue.toLowerCase()) ||
@@ -114,8 +110,6 @@ export function VistaAdminSensory () {
           Array.from(statusFilter).includes(result.estado)
         );
       }
-  
-      console.log('Resultados filtrados:', filteredResults);
   
       return filteredResults;
     }, [results, filterValue, statusFilter, selectedAnalysis]);
@@ -377,7 +371,6 @@ export function VistaAdminSensory () {
   const ver = (codigo) => {
     setModalVer(true)
     axiosClient.get(`/analisis/buscarSensorial/${codigo}`).then((response) => {
-      console.log('Datos de sensorial', response.data)
       setDatosSensorial(response.data)
     })
   }
@@ -389,7 +382,6 @@ export function VistaAdminSensory () {
         ...result,
         fecha: formatDate(result.fecha),
       }));
-      console.log('Datos sensoriales aqui:', formattedResults);
       setResults(formattedResults);
     } catch (error) {
       console.error('Error al obtener los datos:', error);
@@ -455,7 +447,6 @@ export function VistaAdminSensory () {
         e.preventDefault()
         try {
           axiosClient.post(`/resultados/sensorial`, data).then((response) => {
-            console.log(response.data)
             if(response.status == 200){
               setMensaje(response.data.message)
               setModalAcciones(true)
@@ -486,7 +477,6 @@ export function VistaAdminSensory () {
       
         useEffect(() => {
           axiosClient.get(`/analisis/analisisSensorialCatador/${user.identificacion}`).then((response) => {
-            console.log(response.data)
             setAnalisis(response.data)
           })
         },[])

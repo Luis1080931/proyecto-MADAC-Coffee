@@ -327,7 +327,6 @@ function Ejemplo() {
     const ver = (codigo) => {
       setModalVer(true)
       axiosClient.get(`/muestras/buscarmuestra/${codigo}`).then((response) => {
-        console.log(response.data)
         setDatosMuestras(response.data)
       })
     }
@@ -398,7 +397,6 @@ function Ejemplo() {
     const handleDesactivar = (codigo) => {
         try {
             axiosClient.put(`/muestras/desactivarMuestra/${codigo}`, null).then((response) => {
-                console.log(response.data);
             
                 if(response.status == 200) { 
                     setMensaje(response.data.message)
@@ -415,7 +413,6 @@ function Ejemplo() {
 
     const handleActivar = async (codigo) => {
         axiosClient.put(`/muestras/activarMuestra/${codigo}`).then((response) => {
-            console.log(response.data)
             if(response.status == 200){
                 setMensaje(response.data.message)
                 setModalAcciones(true)
@@ -428,14 +425,12 @@ function Ejemplo() {
     }
     
     const handleSubmit = async (datosForm, e) => {
-        console.log(datosForm); 
         e.preventDefault()
 
         try {
             if (mode === 'create') {
 
                 await axiosClient.post('/muestras/crearMuestra', datosForm).then((response) => {
-                    console.log(response.data);
                     if (response.status == 200) {
                         setMensaje(response.data.message)
                         setModalAcciones(true)
@@ -446,7 +441,6 @@ function Ejemplo() {
 
             } else if (mode === 'update') {
                 await axiosClient.put(`/muestras/actualizarMuestra/${idMuestras.codigo}`, datosForm).then((response) => {
-                    console.log(response);
 
                     if (response.status == 200) {
                         setMensaje(response.data.message)

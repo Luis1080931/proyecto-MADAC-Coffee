@@ -67,7 +67,6 @@ export function ResultadosSensorialCatador () {
     useEffect(() => {
       axiosClient.get('/analisis/listar')
         .then((response) => {
-          console.log('Datos recibidos:', response.data)
           setAnalisisValue(response.data);
         })
         .catch((error) => {
@@ -78,7 +77,6 @@ export function ResultadosSensorialCatador () {
     
     const handleAnalysisChange = (event) => {
       const { value } = event.target;
-      console.log('Analisis seleccionado:', value);
       setSelectedAnalysis(value);
     };
     
@@ -90,7 +88,6 @@ export function ResultadosSensorialCatador () {
     const filteredItems = React.useMemo(() => {
       let filteredResults = results;
     
-      console.log('Análisis seleccionado en el filtro:', selectedAnalysis)
       if (selectedAnalysis) {
         filteredResults = filteredResults.filter(
           (result) => parseInt(result.analisis) === parseInt(selectedAnalysis)
@@ -98,7 +95,6 @@ export function ResultadosSensorialCatador () {
       }
     
       if (hasSearchFilter) {
-        console.log("Filter Value:", filterValue);
         filteredResults = filteredResults.filter(result =>
           String(result.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
           result.fecha.toLowerCase().includes(filterValue.toLowerCase()) ||
@@ -114,8 +110,6 @@ export function ResultadosSensorialCatador () {
           Array.from(statusFilter).includes(result.estado)
         );
       }
-  
-      console.log('Resultados filtrados:', filteredResults);
   
       return filteredResults;
     }, [results, filterValue, statusFilter, selectedAnalysis]);
@@ -380,7 +374,6 @@ export function ResultadosSensorialCatador () {
   const ver = (codigo) => {
     setModalVer(true)
     axiosClient.get(`/analisis/buscarSensorial/${codigo}`).then((response) => {
-      console.log('Datos de sensorial', response.data)
       setDatosSensorial(response.data)
     })
   }
@@ -392,7 +385,6 @@ export function ResultadosSensorialCatador () {
         ...result,
         fecha: formatDate(result.fecha),
       }));
-      console.log('Datos sensoriales aqui:', formattedResults);
       setResults(formattedResults);
     } catch (error) {
       console.error('Error al obtener los datos:', error);
@@ -459,7 +451,6 @@ export function ResultadosSensorialCatador () {
         try {
           if(mode === 'create'){
             axiosClient.post(`/resultados/sensorial`, data).then((response) => {
-              console.log(response.data)
               if(response.status == 200){
                 setMensaje(response.data.message)
                 setModalAcciones(true)
@@ -474,7 +465,6 @@ export function ResultadosSensorialCatador () {
             })
           }else if(mode === 'update'){
             axiosClient.put(`/resultados/actualizarSensory/${resultadoSeleccionado.codigo}`, data).then((response) => {
-              console.log(response.data)
               if(response.status == 200){
                 setMensaje(response.data.message)
                 setModalAcciones(true)
@@ -506,7 +496,6 @@ export function ResultadosSensorialCatador () {
       
         useEffect(() => {
           axiosClient.get(`/analisis/analisisSensorialCatador/${user.identificacion}`).then((response) => {
-            console.log(response.data)
             setAnalisis(response.data)
           })
         },[])

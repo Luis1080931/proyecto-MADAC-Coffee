@@ -23,7 +23,6 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
 
     useEffect(() => {
       axiosClient.get('/lotes/activos').then((response) => {
-        console.log(response.data)
         setLotes(response.data)
       })
     }, [])
@@ -42,8 +41,6 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
           setTiempoSecado(idMuestras.tiempo_secado);
           setPresentacion(idMuestras.presentacion);
           setLoteFk(idMuestras.fk_lote);
-      
-          console.log(idMuestras.nombre);
         }
       }, [mode, idMuestras]);
       

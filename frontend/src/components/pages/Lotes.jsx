@@ -322,7 +322,6 @@ function Ejemplo() {
     const peticionGet = async () => {
       try{
         await axiosClient.get('/lotes/listar').then((response)=>{
-            console.log(response.data)
             setLotes(response.data)
         })
       }catch (error){
@@ -366,12 +365,9 @@ const data = [
 //PETICION PARA DESACTIVAR LOTES
 
 const peticionDesactivar = async (codigo) => {
-
-    // console.log("ID del lotes a desactivar:", codigo);
    
     try {
         axiosClient.put(`/lotes/desactivar/${codigo}`,null).then((response)=>{
-            console.log(response.data)
             if(response.status==200){
                 setMensaje(response.data.message)
                 setModalAcciones(true)
@@ -387,7 +383,6 @@ const peticionDesactivar = async (codigo) => {
 
 const handleActivar = async (codigo) => {
     axiosClient.put(`/lotes/activar/${codigo}`).then((response) => {
-        console.log(response.data)
         if(response.status==200){
             setMensaje(response.data.message)
             setModalAcciones(true)
@@ -404,7 +399,6 @@ const handleActivar = async (codigo) => {
 //PETICION PARA ACTIVAR LOTES
 
     const handleSubmit = async (formData,e)=>{
-        console.log(formData);
         e.preventDefault()
 
         try{
@@ -412,7 +406,6 @@ const handleActivar = async (codigo) => {
         if(mode === 'create'){
             
             await axiosClient.post('/lotes/registrar', formData).then((response)=>{
-                console.log(response)
 
                 if(response.status == 200){
                     setMensaje(response.data.message)
@@ -426,7 +419,6 @@ const handleActivar = async (codigo) => {
         }else if(mode==='update'){
 
             await axiosClient.put(`/lotes/actualizar/${idLote.codigo}`,formData).then((response)=>{
-                console.log(response); 
 
                 if(response.status==200){
                     setMensaje(response.data.message)

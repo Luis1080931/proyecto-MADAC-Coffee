@@ -324,7 +324,6 @@ function Ejemplo() {
     const peticionGet = async () => {
         try {
             await axiosClient.get('/fincas/listar').then((response)=>{
-                console.log(response.data)
                 setFincas(response.data)
             })        
 
@@ -384,7 +383,6 @@ const data = [
     const peticionDesactivar = async (codigo) => {
         try {
             axiosClient.put(`/fincas/desactivar/${codigo}`,null).then((response)=>{
-                console.log(response.data)
                 if(response.status==200){
                     setMensaje(response.data.message)
                     setModalAcciones(true)
@@ -400,7 +398,6 @@ const data = [
 
     const handleActivar = async (codigo) => {
         axiosClient.put(`/fincas/activar/${codigo}`).then((response) => {
-            console.log(response.data)
             if(response.status==200){
                 setMensaje(response.data.message)
                 setModalAcciones(true)
@@ -415,7 +412,6 @@ const data = [
 
      //PETICION PARA ACTIVAR FINCAS
     const handleSubmit=async(data,e)=>{
-        console.log(data);
         e.preventDefault()
 
         try{
@@ -423,7 +419,6 @@ const data = [
         if(mode === 'create'){
             
             await axiosClient.post('/fincas/registrar', data).then((response)=>{
-                console.log(response)
 
                 if(response.status == 200){
                     setMensaje(response.data.message)
@@ -437,7 +432,6 @@ const data = [
         }else if(mode==='update'){
 
             await axiosClient.put(`/fincas/actualizar/${idFinca.codigo}`,data).then((response)=>{
-                console.log(response.data); 
 
                 if(response.status==200){
                     setMensaje(response.data.message)

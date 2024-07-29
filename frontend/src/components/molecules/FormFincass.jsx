@@ -17,7 +17,6 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
 
     useEffect(() => {
         axiosClient.get('/usuarios/caficultores').then((response) => {
-            // console.log(response.data);
             setCaficultores(response.data);
         });
     }, []);
@@ -36,7 +35,6 @@ export const FormFincass = ({ mode, handleSubmit, onClose, actionLabel }) => {
             setDimension(idFinca.dimension_mt2)
             setMunicipio(idFinca.id_municipio)
             setVereda(idFinca.vereda)
-            console.log(idFinca);
         }
     }, [mode, idFinca]);
 

@@ -16,14 +16,12 @@ const FormResultados = ({ mode, handleSubmit, onClose, actionLabel }) => {
 
     useEffect(() => {
         axiosClient.get('/analisis/activos').then((response) => {
-            console.log(response.data)
             setAnalisis(response.data)
         })
     }, [])
 
     useEffect(() => {
         axiosClient.get('/variables/activas').then((response) => {
-            console.log(response.data)
             setVariables(response.data)
         })
     }, [])
@@ -39,8 +37,6 @@ const FormResultados = ({ mode, handleSubmit, onClose, actionLabel }) => {
             setAnalisisFk(resultadoSeleccionado.analisis)
             setVariableFk(resultadoSeleccionado.v_codigo)
             setValor(resultadoSeleccionado.valor)
-           
-            console.log('Va a actualizar', resultadoSeleccionado);
         } 
     }, [mode, resultadoSeleccionado]);
     

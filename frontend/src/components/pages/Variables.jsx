@@ -324,7 +324,6 @@ function Ejemplo() {
     const fetchData = async () => {
         try {
             axiosClient.get('/variables/listarvariable').then((response) => {
-                console.log(response.data)
                 setVariables(response.data)
             })
 
@@ -364,8 +363,6 @@ function Ejemplo() {
     const handleDesactivar = (codigo) => {
         try {
             axiosClient.put(`/variables/desactivarVariable/${codigo}`, null).then((response) => {
-                console.log(response.data);
-            
 
             if(response.status == 200) {
                 setMensaje(response.data.message)
@@ -382,7 +379,6 @@ function Ejemplo() {
 
     const handleActivar = async (codigo) => {
         axiosClient.put(`/variables/activarVariable/${codigo}`).then((response) => {
-            console.log(response.data)
             if(response.status == 200) {
                 setMensaje(response.data.message)
                 setModalAcciones(true)
@@ -395,14 +391,13 @@ function Ejemplo() {
     }
 
     const handleSubmit = async (datosForm, e  ) => {
-        console.log(datosForm);
         e.preventDefault()
 
         try {
             if(mode === 'create') {
 
                 await axiosClient.post('/variables/crearvariable', datosForm).then((response) => {
-                    console.log(response)
+
                     if(response.status == 200 ){
                         setMensaje(response.data.message)
                         setModalAcciones(true)
@@ -412,7 +407,6 @@ function Ejemplo() {
                 })
             }else if (mode === 'update'){
                 await axiosClient.put(`/variables/actualizarvariable/${variableId.v_codigo}`, datosForm).then((response) => {
-                    console.log(response);
 
                     if(response.status == 200){
                         setMensaje(response.data.message)

@@ -362,7 +362,6 @@ function Ejemplo() {
 
     const handleDesactivar = async (id) => {
         await axiosClient.put(`/analisis/desactivar/${id}`, null).then((response) => {
-            console.log(response.data)
             if(response.status==200){
                 setMensaje(response.data.message)
                 setModalAccionesOpen(true)
@@ -377,7 +376,6 @@ function Ejemplo() {
 
     const handleActivar = async (codigo) => {
         axiosClient.put(`/analisis/activar/${codigo}`).then((response) => {
-            console.log(response.data)
             if(response.status==200){
                 setMensaje(response.data.message)
                 setModalAccionesOpen(true)
@@ -418,7 +416,6 @@ function Ejemplo() {
         try {
             if(mode == 'create'){
                 axiosClient.post('/analisis/registrar', data).then((response) => {
-                    console.log(response.data)
                     if(response.status == 201){
                         setMensaje(response.data.message)
                         setModalAccionesOpen(true)
@@ -431,7 +428,6 @@ function Ejemplo() {
                 });
             }else if(mode == 'update'){ 
                 axiosClient.put(`/analisis/actualizar/${analisisId.codigo}`,data).then((response) => {
-                    console.log(response.data)
                     if(response.status == 201){
                         setMensaje(response.data.message)
                         setModalAccionesOpen(true)

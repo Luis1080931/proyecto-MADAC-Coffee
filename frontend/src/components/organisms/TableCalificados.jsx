@@ -362,7 +362,6 @@ const AnalisisCalificados = () => {
   const ver = (codigo) => {
     setModalVer(true)
     axiosClient.get(`/analisis/buscarSensorial/${codigo}`).then((response) => {
-      console.log('Datos de sensorial', response.data)
       setDatosSensorial(response.data)
     })
   }
@@ -374,7 +373,6 @@ const AnalisisCalificados = () => {
         ...result,
         fecha: formatDate(result.fecha),
       }));
-      console.log('Datos sensoriales aqui:', formattedResults);
       setResults(formattedResults);
     } catch (error) {
       console.error('Error al obtener los datos:', error);
@@ -439,7 +437,6 @@ const AnalisisCalificados = () => {
         e.preventDefault()
         try {
           axiosClient.post(`/resultados/sensorial`, data).then((response) => {
-            console.log(response.data)
             if(response.status == 200){
               setMensaje(response.data.message)
               setModalAcciones(true)
@@ -470,7 +467,6 @@ const AnalisisCalificados = () => {
       
         useEffect(() => {
           axiosClient.get(`/analisis/analisisSensorialCatador/${user.identificacion}`).then((response) => {
-            console.log(response.data)
             setAnalisis(response.data)
           })
         },[])

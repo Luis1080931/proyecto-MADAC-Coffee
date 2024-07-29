@@ -15,14 +15,12 @@ export const FormLotes = ({ mode,handleSubmit,onClose,actionLabel }) => {
 
     useEffect(() => {
         axiosClient.get('/fincas/activas').then((response) => {
-            console.log(response.data)
             setFincas(response.data)
         })
     }, [])
 
     useEffect(() => {
         axiosClient.get('/variedades/activas').then((response) => {
-            console.log(response.data)
             setVariedades(response.data)
         })
     }, [])
@@ -33,7 +31,6 @@ export const FormLotes = ({ mode,handleSubmit,onClose,actionLabel }) => {
             setNumero(idLote.numero_arboles)
             setFinca(idLote.fk_finca)
             setVariedadFk(idLote.codeVariedad)
-            console.log(idLote);
         }
     },[mode,idLote])
 

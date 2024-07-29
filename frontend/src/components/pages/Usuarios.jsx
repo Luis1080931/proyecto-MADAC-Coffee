@@ -362,7 +362,6 @@ export function Usuarios() {
             try {
                 
                 axiosClient.get('/usuarios/listar', null).then((response) => {
-                    console.log(response.data)
                     setResults(response.data.usuarios)
                 })
 
@@ -372,10 +371,8 @@ export function Usuarios() {
         };
 
         const handleUpdate = async (userId) => {
-            console.log("ID del usuario a actualizar:", userId);
             try {
                 await axiosClient.put(`/usuarios/desactivar/${userId}`, null).then((response) => {
-                    console.log("se desactivo correctamente el usuario");
 
                     if(response.status == 201) {
                         setMensaje(response.data.message);
@@ -401,7 +398,6 @@ export function Usuarios() {
 
         const handleActivar = async (identificacion) => {
             await axiosClient.put(`/usuarios/activar/${identificacion}`).then((response) => {
-                console.log(response.data)
                 if(response.status == 200){
                     setMensaje(response.data.message)
                     setModalAcciones(true)
@@ -418,7 +414,6 @@ export function Usuarios() {
             try {
                 if(mode === 'update'){
                     axiosClient.put(`/usuarios/actualizar/${idUser.identificacion}`, data).then((response) => {
-                        console.log(response.data)
                         if(response.status === 201){
                             setMensaje(response.data.message)
                             setModalAcciones(true)
@@ -431,7 +426,6 @@ export function Usuarios() {
                     
                 }else{
                     axiosClient.post(`/usuarios/registrar`, data).then((response) => {
-                        console.log(response.data);
                         if(response.status === 201){
                           setMensaje(response.data.message)
                           setModalAcciones(true)

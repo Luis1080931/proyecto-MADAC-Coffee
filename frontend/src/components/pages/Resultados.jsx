@@ -719,7 +719,6 @@ export function Resultados () {
     useEffect(() => {
       axiosClient.get('/analisis/listar')
         .then((response) => {
-          console.log('Datos recibidos:', response.data);
           setAnalisisValue(response.data);
         })
         .catch((error) => {
@@ -743,7 +742,6 @@ export function Resultados () {
 
     const handleAnalysisChange = (event) => {
       const { value } = event.target;
-      console.log('Analisis seleccionado:', value);
       setSelectedAnalysis(value);
     };
 
@@ -752,7 +750,6 @@ export function Resultados () {
     const filteredItems = React.useMemo(() => {
       let filteredResults = results;
 
-      console.log('Análisis seleccionado en el filtro:', selectedAnalysis);
       if (selectedAnalysis) {
         filteredResults = filteredResults.filter(
           (result) => parseInt(result.analisis) === parseInt(selectedAnalysis)
@@ -760,7 +757,6 @@ export function Resultados () {
       }
 
       if (hasSearchFilter) {
-        console.log("Filter Value:", filterValue);
         filteredResults = filteredResults.filter(result =>
           String(result.codigo).toLowerCase().includes(filterValue.toLowerCase()) ||
           result.fecha.toLowerCase().includes(filterValue.toLowerCase()) ||
@@ -776,8 +772,6 @@ export function Resultados () {
           Array.from(statusFilter).includes(result.estado)
         );
       }
-
-      console.log('Resultados filtrados:', filteredResults);
 
       return filteredResults;
     }, [results, filterValue, statusFilter, selectedAnalysis]);
@@ -1009,7 +1003,6 @@ export function Resultados () {
       if (selectedAnalysis) {
         axiosClient.put(`/analisis/calificar/${selectedAnalysis}`, null)
           .then((response) => {
-            console.log(response.data);
           })
           .catch((error) => {
             console.error('Error del servidor:', error);
@@ -1022,12 +1015,10 @@ export function Resultados () {
 
   const handleSubmit = async (datosForm, e) => {
       e.preventDefault()
-      console.log(datosForm);
       try {
           if(mode === 'update'){
 
             axiosClient.put(`/resultados/actualizar/${resultadoSeleccionado.codigo}`, datosForm).then((response) => {
-                console.log(response)
                 if(response.status == 200){
                     setMensaje(response.data.message)
                     setModalAcciones(true)
@@ -1082,7 +1073,6 @@ export function Resultados () {
       useEffect(() => {
         axiosClient.get('/variables/listarVariable')
           .then((response) => {
-            console.log(response.data)
             setVariablesBase(response.data);
             setVariables(Array(response.data.length).fill(''));
           })  
@@ -1096,7 +1086,6 @@ export function Resultados () {
     
       useEffect(() => {
         axiosClient.get(`/analisis/analisisFisicosCatador/${user.identificacion}`).then((response) => {
-          console.log(response.data)
           setAnalisis(response.data)
         })
       },[])
@@ -1116,9 +1105,6 @@ export function Resultados () {
             };
       
             await axiosClient.post('/resultados/registrar', data).then((response) => {
-              console.log('Selected Analysis:', selectedAnalysis); 
-              console.log(`Variable ${i + 1} registrada correctamente:`, data);
-              console.log(response.data)
               if(response.status == 200){
                   setMensaje(response.data.message)
                   setModalAcciones(true)

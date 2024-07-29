@@ -57,7 +57,6 @@ const AnalisisFisicosChart = () => {
 
   useEffect(() => {
     axiosClient.get('/analisis/fisicos').then((response) => {
-      console.log(response.data);
       setData(response.data);
     });
   }, []);

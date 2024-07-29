@@ -21,7 +21,6 @@ const FormVariables = ({ actionLabel , handleSubmit, mode, onClose}) => {
       setNombre(variableId.nombre)
       setAnalisisType(variableId.tipo_analisis)
     }
-    console.log(variableId.tipo_analisis);
   }, [mode, variableId])
 
   const handleFormSubmit  = async (e) => {

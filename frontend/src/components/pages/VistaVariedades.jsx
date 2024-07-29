@@ -313,7 +313,6 @@ const {setVariedadId, variedadId} = useContext(VariedadesContext)
     const fetchData = async () => {
         try {
             const response = await axiosClient.get('/variedades/listar');
-            console.log("variedades", response.data)
             setResults(response.data)
 
         } catch (error) {
@@ -355,7 +354,6 @@ const {setVariedadId, variedadId} = useContext(VariedadesContext)
         try {
             if(mode == 'create'){
                 const response = await axiosClient.post('/variedades/registrar', data);
-                console.log(response.data)
                 if(response.status==201){
                     setMensaje(response.data.message)
                     setModalAccionesOpen(true)
@@ -366,7 +364,6 @@ const {setVariedadId, variedadId} = useContext(VariedadesContext)
                 }
             }else if(mode == 'update'){
                 axiosClient.put(`/variedades/actualizar/${variedadId.codigo}`, data).then((response) => {
-                  console.log(response.data)
 
                   if(response.status==201){
                     setMensaje(response.data.message)
@@ -387,7 +384,6 @@ const {setVariedadId, variedadId} = useContext(VariedadesContext)
 
     const handleDesactivar = async (id) => {
         await axiosClient.put(`/variedades/desactivar/${id}`, null).then((response) => {
-            console.log(response.data)
             if(response.status==200){
                 setMensaje(response.data.message)
                 setModalAccionesOpen(true)
@@ -402,7 +398,6 @@ const {setVariedadId, variedadId} = useContext(VariedadesContext)
 
     const handleActivar = async (codigo) => {
         axiosClient.put(`/variedades/activar/${codigo}`).then((response) => {
-            console.log(response.data)
             if(response.status==200){
                 setMensaje(response.data.message)
                 setModalAccionesOpen(true)
