@@ -917,9 +917,6 @@ export function Resultados () {
                   ))}
                 </DropdownMenu>
               </Dropdown>
-              <Button className="text-xl bg-[#273468] text-white" endContent={<PlusIcon />} onClick={() => setModalRegister(true)}>
-                Registrar
-              </Button>
             </div>
           </div>
           <div className="flex justify-between items-center">

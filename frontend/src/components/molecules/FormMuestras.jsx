@@ -30,11 +30,8 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
 
     useEffect(() => {
         if (mode === 'update' && idMuestras) {
-          const formatFecha = (fecha) => {
-            return new Date(fecha).toISOString().split('T')[0];
-          };
-      
-          setFecha(formatFecha(idMuestras.fecha));
+        
+          setFecha(idMuestras.fecha);
           setCantidad(idMuestras.cantidad);
           /* setDensidadCafe(idMuestras.densidad_cafe); */
           setProceso(idMuestras.proceso_fermentacion);
@@ -104,7 +101,7 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                             value={cantidad}
                             onChange={(e) => setCantidad(e.target.value)}
                             required={true}
-                            placeholder='Tipo molienda'
+                            placeholder='Cantidad (g)'
                         />
                     
                     </div>

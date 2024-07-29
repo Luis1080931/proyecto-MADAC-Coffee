@@ -464,9 +464,9 @@ return (
                 <label className='border-1 border-black text-[10px] h-[30px]'> Código de la muestra: </label>
               </div>
               <div className='flex flex-col w-[90px]'>
-                <label className='text-[10px] border-1 border-black h-[30px]'>{data.tipo_molienda}</label>
+                <label className='text-[10px] border-1 border-black h-[30px]'>{data.tipo_molienda ? data.tipo_molienda : 'No especifica'}</label>
                 <label className='text-[10px] border-1 border-black h-[30px]'>{data.proceso_fermentacion}</label>
-                <label className='text-[10px] border-1 border-black h-[30px]'>{data.densidad_cafe}</label>
+                <label className='text-[10px] border-1 border-black h-[30px]'>{data.densidad_cafe ? data.densidad_cafe : 'No especifica'}</label>
                 <label className='text-[10px] border-1 border-black h-[30px]'>{new Date(data.fecha).toLocaleDateString('es-CO')}</label>
                 <label className='text-[10px] border-1 border-black h-[30px]'>{data.muestra_id}</label>
               </div>
@@ -481,9 +481,9 @@ return (
                 <label className='border-1 border-black h-[30px] text-[10px]'> Presentación: </label>
               </div>
               <div className='flex flex-col w-[90px]'>
-                <label className='text-[10px] border-1 border-black h-[30px]'> {data.tipo_tostion} </label>
+                <label className='text-[10px] border-1 border-black h-[30px]'> {data.tipo_tostion ? data.tipo_tostion : 'No especifica'} </label>
                 <label className='text-[10px] border-1 border-black h-[30px]'> {data.tiempo_fermentacion} </label>
-                <label className='text-[10px] border-1 border-black h-[30px]'> {data.actividad_agua} </label>
+                <label className='text-[10px] border-1 border-black h-[30px]'> {data.actividad_agua ? data.actividad_agua : 'No especifica'} </label>
                 <label className='text-[10px] border-1 border-black h-[30px]'> {data.tiempo_secado} </label>
                 <label className='text-[10px] border-1 border-black h-[30px]'> {data.presentacion} </label>
               </div>
