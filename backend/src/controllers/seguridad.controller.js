@@ -1,6 +1,7 @@
 
 import { pool } from "../database/conexion.js";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
 
 export const validar = async (req, res) => {
 
@@ -49,118 +50,98 @@ export const validarToken = async (req, res, next) => {
     
 }
 
-
-
-/* import { pool } from "../database/conexion.js"
-import jwt from "jsonwebtoken"
-import nodemailer from "nodemailer"
-import bcrypt from "bcrypt"
-import dotenv from 'dotenv'
-
-dotenv.config({ path: './src/env/.env' });
-
-const tokenPassword = async (peticion, respuesta) => {
+export const tokenPassword = async (req, res) => {
     try {
-        const { correo } = peticion.body;
-        const sql = "SELECT * FROM usuarios WHERE correo = ?"
-        const [user] = await pool.query(sql, correo);
-        if (user.length > 0) {
-            console.log(user[0].identificacion);
-        } else {
-            return respuesta.status(404).json({
-                "message": "Usuario no encontrado"
+        const { email } = req.body;
+        const sql = `SELECT * FROM usuarios WHERE correo_electronico = '${email}'`;
+        const [user] = await pool.query(sql);
+        
+        if (!user[0].correo_electronico) {
+            return res.status(404).json({ message: "Correo del usuario no definido" });
+        }else if (user.length > 0) {
+            const token = jwt.sign({ identificacion: user[0].identificacion}, "estemensajedebeserlargoyseguro", { expiresIn: "2h" });
+            console.log(token);
+
+            const transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: "madaccoffee@gmail.com",
+                    pass: "alkp fmcf kcxx rhca" 
+                },
+                tls: {
+                    rejectUnauthorized: false
+                }
             });
+
+            const mailOptions = {
+                from: "madaccoffee@gmail.com",
+                to: user[0].email_user,
+                subject: "Restablecer Contraseña SubCoffee",
+                html: `
+                    <p>Querido Usuario,</p>
+                    <p>Para restablecer tu contraseña, haz clic en el siguiente botón:</p>
+                    <a href="http://localhost:5173/reset-password?token=${token}" style="background-color: #39A900; color: white;
+                    padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px;">Restablecer Contraseña</a>
+                    <p>Si no solicitaste un cambio de contraseña, por favor ignora este correo.</p>
+                    <p>Saludos,<br>El equipo de SubCoffee</p>
+                    <br>
+                    <img src="cid:logoProyecto" alt="MADAC-COFFEE" style="width: 100px; height: auto;">
+                    <img src="cid:logo_sena" alt="SENA" style="width: 100px; height: auto;">
+                `,
+                attachments: [{
+                    filename: 'logoProyencto.png',
+                    path: './public/logoProyencto.png',
+                    cid: 'logoProyecto'
+                }, {
+                    filename: 'logoSena.png',
+                    path: './public/logoSena.png',
+                    cid: 'logo_sena'
+                }]};
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log(error);
+                    return res.status(500).json({ message: "No se pudo enviar el Correo" });
+                }
+                res.send({
+                    message: "Hemos enviado una notificación a tu cuenta de Gmail. Por favor, revisa tu bandeja de entrada y sigue las instrucciones proporcionadas para restablecer tu contraseña."
+                });
+            });
+        } else {
+            return res.status(404).json({ message: "Usuario no encontrado" });
         }
-
-        const token = jwt.sign({ identificacion: user[0].identificacion }, process.env.AUT_SECRET, { expiresIn: process.env.AUT_EXPIRE });
-
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: "karenvivianadiazguevara@gmail.com",
-                pass: process.env.CORREO_PASS
-            }
-        });
-
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: "Recuperar contraseña",
-        //     html: `
-        //     <p>Hola,</p>
-        //     <p>Da click en el siguiente botón para restablecer tu contraseña:</p>
-        //     <a href="http://localhost:5173/restablecer?token=${token}" 
-        //     style="display: inline-block; padding: 10px 20px; font-size: 16px; color: white; 
-        //     background-color: #38a800; text-decoration: none; border-radius: 5px;">Restablecer contraseña</a>
-        //     <p>Si no solicitaste un cambio de contraseña, ignora este correo.</p>
-        //   <img src="cid:imagenCorreo" alt="Descripción de la imagen" style="max-width: 200px;" />
-           
-        //     `,
-        //     attachments: [
-        //         {
-        //             filename: 'sena.png',
-        //             path: './src/public/sena.png',
-        //             cid: 'imagenCorreo' // cid debe coincidir con el src en el contenido HTML
-        //         }
-        //     ]
-             text: `Hola, da click en el siguiente enlace para restablecer la contraseña: 
-            http://localhost:5173/restablecer?token=${token}`
-            //text: ` token= ${token}`
-        }
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log(error);
-                return respuesta.status(500).json({
-                    "message": "No se pudo enviar el correo"
-                })
-            }
-            respuesta.send({
-                "message": "correo enviado"
-            })
-        })
     } catch (error) {
-        respuesta.status(500)
-        respuesta.send(error.message)
+        res.status(500).json({ message: "Error en el servidor" + error });
     }
-}
+};
 
-const resetPassword = async (peticion, respuesta) => {
+export const resetPassword = async (req, res) => {
     try {
-        const { token, password } = peticion.body;
+        const { token, password } = req.body;
 
-        const decoded = jwt.verify(token, process.env.SECRET);
-        const user = decoded.identificacion
+        // Verificar y decodificar el token
+        const decoded = jwt.verify(token, "estemensajedebeserlargoyseguro");
+        const userId = decoded.identificacion; 
 
-        const sql = "SELECT * FROM usuarios WHERE identificacion = ?"
-        const [usuario] = await pool.query(sql, user)
+        // Consultar el usuario por su ID
+        const sql = "SELECT * FROM usuarios WHERE identificacion = ?";
+        const [usuario] = await pool.query(sql, [userId]);
 
-        if (!usuario) {
-            return respuesta.status(404).json({
-                "message": "Usuario no encontrado"
-            })
+        if (usuario.length === 0) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
         }
 
-        // Encriptar la nueva contraseña antes de actualizarla
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-
         const sqlUpdate = "UPDATE usuarios SET password = ? WHERE identificacion = ?";
-        const [actualizar] = await pool.query(sqlUpdate, [hashedPassword, user]);
+        const [actualizar] = await pool.query(sqlUpdate, [hashedPassword, userId]);
 
         if (actualizar.affectedRows > 0) {
-            return respuesta.status(200).json({
-                "message": "Contraseña actualizada"
-            })
+            return res.status(200).json({ message: "Contraseña actualizada" });
+        } else {
+            return res.status(404).json({ message: "No se pudo actualizar la contraseña" });
         }
     } catch (error) {
-        respuesta.status(500);
-        respuesta.send(error.message);
+        res.status(500).json({ message: "Error en el servidor" + error });
     }
-}
-
-export const contraseña = {
-    tokenPassword,
-    resetPassword
-} */
+};
