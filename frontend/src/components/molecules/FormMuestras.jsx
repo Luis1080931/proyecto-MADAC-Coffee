@@ -30,7 +30,8 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
     useEffect(() => {
         if (mode === 'update' && idMuestras) {
         
-          setFecha(idMuestras.fecha);
+            setFecha(idMuestras.fecha ? new Date(idMuestras.fecha).toISOString().split('T')[0] : '');
+
           setCantidad(idMuestras.cantidad);
           /* setDensidadCafe(idMuestras.densidad_cafe); */
           setProceso(idMuestras.proceso_fermentacion);

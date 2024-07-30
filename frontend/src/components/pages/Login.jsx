@@ -133,7 +133,7 @@ return (
                 Iniciar sesión
               </Button>
               <div className="flex py-2 px-1 justify-between">
-                <Link color="primary" href="#" size="sm">
+                <Link color="primary" to="/recuperar" size="sm">
                   ¿Olvidó su contraseña?
                 </Link>
               </div>

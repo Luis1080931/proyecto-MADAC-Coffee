@@ -24,6 +24,8 @@ import { VistaAdminSensory } from "./pages/VistaAdminSensory.jsx";
 import RadarChart from "./organisms/RadarGraphic.jsx";
 import { Cultivos } from "./pages/Cultivos.jsx";
 import HtmlReport from "./organisms/ReporteHtml.jsx";
+import RecuperarPassword from "./pages/RecuperarPassword.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
 
 const stored = localStorage.getItem('user');
 const user = stored ? JSON.parse(stored) : null;
@@ -36,6 +38,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/radar" element={<RadarChart />} />
+            <Route path="/recuperar" element={<RecuperarPassword />} />
+            <Route path="/reset" element={<ResetPassword />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/slider" element={<SliderVertical />} />

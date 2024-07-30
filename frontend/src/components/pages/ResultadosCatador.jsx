@@ -65,7 +65,7 @@ export function ResultadosCatador () {
     const [selectedAnalysis, setSelectedAnalysis] = useState("");
   
     useEffect(() => {
-      axiosClient.get('/analisis/listar')
+      axiosClient.get(`/analisis/fisicosSelect/${user.identificacion}`)
         .then((response) => {
           setAnalisisValue(response.data);
         })
@@ -365,7 +365,7 @@ export function ResultadosCatador () {
 
   const fetchData = async () => {
     try {
-      const response = await axiosClient.get('/resultados/listar');
+      const response = await axiosClient.get(`/resultados/listar/${user.identificacion}`);
       const formattedResults = response.data.map((result) => ({
         ...result,
         fecha: formatDate(result.fecha),

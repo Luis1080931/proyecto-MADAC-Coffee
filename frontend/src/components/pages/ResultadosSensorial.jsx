@@ -65,7 +65,7 @@ export function ResultadosSensorialCatador () {
     const [selectedAnalysis, setSelectedAnalysis] = useState("");
   
     useEffect(() => {
-      axiosClient.get('/analisis/listar')
+      axiosClient.get(`/analisis/sensorialSelect/${user.identificacion}`)
         .then((response) => {
           setAnalisisValue(response.data);
         })
@@ -90,7 +90,7 @@ export function ResultadosSensorialCatador () {
     
       if (selectedAnalysis) {
         filteredResults = filteredResults.filter(
-          (result) => parseInt(result.analisis) === parseInt(selectedAnalysis)
+          (result) => parseInt(result.codigo) === parseInt(selectedAnalysis)
         );
       }
     
@@ -380,7 +380,7 @@ export function ResultadosSensorialCatador () {
 
   const fetchData = async () => {
     try {
-      const response = await axiosClient.get('/analisis/sensorial');
+      const response = await axiosClient.get(`/resultados/sensorialCatador/${user.identificacion}`);
       const formattedResults = response.data.map((result) => ({
         ...result,
         fecha: formatDate(result.fecha),

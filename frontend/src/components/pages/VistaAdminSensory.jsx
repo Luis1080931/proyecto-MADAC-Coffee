@@ -65,7 +65,7 @@ export function VistaAdminSensory () {
     const [selectedAnalysis, setSelectedAnalysis] = useState("");
   
     useEffect(() => {
-      axiosClient.get('/analisis/listar')
+      axiosClient.get('/resultados/sensorialSelect')
         .then((response) => {
           setAnalisisValue(response.data);
         })
@@ -79,9 +79,6 @@ export function VistaAdminSensory () {
       const { value } = event.target;
       setSelectedAnalysis(value);
     };
-    
-    
-    
   
     const hasSearchFilter = Boolean(filterValue);
   
@@ -90,7 +87,7 @@ export function VistaAdminSensory () {
 
       if (selectedAnalysis) {
         filteredResults = filteredResults.filter(
-          (result) => parseInt(result.analisis) === parseInt(selectedAnalysis)
+          (result) => parseInt(result.codigo) === parseInt(selectedAnalysis)
         );
       }
     
@@ -474,12 +471,6 @@ export function VistaAdminSensory () {
 
         const stored = localStorage.getItem('user');
         const user = stored ? JSON.parse(stored) : null;
-      
-        useEffect(() => {
-          axiosClient.get(`/analisis/analisisSensorialCatador/${user.identificacion}`).then((response) => {
-            setAnalisis(response.data)
-          })
-        },[])
 
   return (
     

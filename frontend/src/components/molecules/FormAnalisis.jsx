@@ -38,11 +38,7 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
   useEffect(() => {
     if (mode === 'update' && analisisId ) {
       
-      const formatFecha = (fecha) => {
-        return new Date(fecha).toISOString().split('T')[0];
-      };
-        
-        setFecha(analisisId.fecha)
+        setFecha(analisisId.fecha ? new Date(analisisId.fecha).toISOString().split('T')[0] : '')
         setAnalista(analisisId.identificacion)
         setMuestra(analisisId.muestra)
         setTipo(analisisId.codeTipo)
