@@ -52,12 +52,12 @@ export const validarToken = async (req, res, next) => {
 
 export const tokenPassword = async (req, res) => {
     try {
-        const { email } = req.body;
-        const sql = `SELECT * FROM usuarios WHERE correo_electronico = '${email}'`;
+        const { correo } = req.body;
+        const sql = `SELECT * FROM usuarios WHERE correo_electronico = '${correo}'`;
         const [user] = await pool.query(sql);
         
         if (!user[0].correo_electronico) {
-            return res.status(404).json({ message: "Correo del usuario no definido" });
+            return res.status(404).json({ message: "Correo del usuario no encontrado" });
         }else if (user.length > 0) {
             const token = jwt.sign({ identificacion: user[0].identificacion}, "estemensajedebeserlargoyseguro", { expiresIn: "2h" });
             console.log(token);
@@ -66,7 +66,7 @@ export const tokenPassword = async (req, res) => {
                 service: "gmail",
                 auth: {
                     user: "madaccoffee@gmail.com",
-                    pass: "alkp fmcf kcxx rhca" 
+                    pass: "otow npys clsp ycxj" 
                 },
                 tls: {
                     rejectUnauthorized: false
@@ -75,22 +75,22 @@ export const tokenPassword = async (req, res) => {
 
             const mailOptions = {
                 from: "madaccoffee@gmail.com",
-                to: user[0].email_user,
-                subject: "Restablecer Contraseña SubCoffee",
+                to: user[0].correo_electronico,
+                subject: "Restablecer Contraseña MADAC-COFFEE",
                 html: `
                     <p>Querido Usuario,</p>
                     <p>Para restablecer tu contraseña, haz clic en el siguiente botón:</p>
-                    <a href="http://localhost:5173/reset-password?token=${token}" style="background-color: #39A900; color: white;
+                    <a href="http://localhost:5173/reset?token=${token}" style="background-color: #39A900; color: white;
                     padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; border-radius: 5px;">Restablecer Contraseña</a>
                     <p>Si no solicitaste un cambio de contraseña, por favor ignora este correo.</p>
-                    <p>Saludos,<br>El equipo de SubCoffee</p>
+                    <p>Saludos,<br>El equipo de MADAC-COFFEE</p>
                     <br>
                     <img src="cid:logoProyecto" alt="MADAC-COFFEE" style="width: 100px; height: auto;">
                     <img src="cid:logo_sena" alt="SENA" style="width: 100px; height: auto;">
                 `,
                 attachments: [{
                     filename: 'logoProyencto.png',
-                    path: './public/logoProyencto.png',
+                    path: './public/logoProyecto.png',
                     cid: 'logoProyecto'
                 }, {
                     filename: 'logoSena.png',
@@ -100,7 +100,7 @@ export const tokenPassword = async (req, res) => {
             transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
                     console.log(error);
-                    return res.status(500).json({ message: "No se pudo enviar el Correo" });
+                    return res.status(500).json({ message: "No se pudo enviar el Correo" + error });
                 }
                 res.send({
                     message: "Hemos enviado una notificación a tu cuenta de Gmail. Por favor, revisa tu bandeja de entrada y sigue las instrucciones proporcionadas para restablecer tu contraseña."
@@ -131,10 +131,10 @@ export const resetPassword = async (req, res) => {
         }
 
         const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        /* const hashedPassword = await bcrypt.hash(password, saltRounds); */
 
         const sqlUpdate = "UPDATE usuarios SET password = ? WHERE identificacion = ?";
-        const [actualizar] = await pool.query(sqlUpdate, [hashedPassword, userId]);
+        const [actualizar] = await pool.query(sqlUpdate, [password, userId]);
 
         if (actualizar.affectedRows > 0) {
             return res.status(200).json({ message: "Contraseña actualizada" });

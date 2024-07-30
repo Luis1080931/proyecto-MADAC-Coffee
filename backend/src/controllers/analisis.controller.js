@@ -447,3 +447,63 @@ export const analisisCalificados = async (req, res) => {
         })
     }
 }
+
+export const fisicosListarSelect = async (req, res) => {
+    try {
+        const {id} = req.params
+        let sql = `
+                SELECT 
+                codigo 
+
+                FROM analisis
+
+                WHERE fk_tipo_analisis = 1
+                AND fk_analista = ?
+                `
+
+        const [rows] = await pool.query(sql, [id])
+
+        if(rows.length>0){
+            res.status(200).json(rows)
+        }else{
+            res.status(404).json({
+                status: 404,
+                message: 'No se encontraron analisis fisicos'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error del servidor' + error
+        })
+    }
+}
+
+export const sensorialesListarSelect = async (req, res) => {
+    try {
+        const {id} = req.params
+        let sql = `
+                SELECT 
+                s.codigo 
+
+                FROM sensoriales s
+
+                JOIN
+                    analisis a ON s.fk_analisis = a.codigo
+
+                WHERE fk_analista = ?
+                `
+
+        const [rows] = await pool.query(sql, [id])
+
+        if(rows.length>0){
+            res.status(200).json(rows)
+        }else{
+            res.status(404).json({
+                status: 404,
+                message: 'No se encontraron analisis sensoriales'
+            })
+        }
+    } catch (error) {
+        
+    }
+}

@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { desactivarAnalisis, actualizarAnalisis, registrarAnalisis, listarAnalisis, buscarAnalisis, activarAnalisis, analisisActivos, analisisFisicos, analisisCatador, calificarAnalisis, analisisFisicosCatador, analisisSensorialCatador, analisisSensorial, analisisSensorialListar, buscarSensorial, analisisCalificados } from '../controllers/analisis.controller.js'
+import { desactivarAnalisis, actualizarAnalisis, registrarAnalisis, listarAnalisis, buscarAnalisis, activarAnalisis, analisisActivos, analisisFisicos, analisisCatador, calificarAnalisis, analisisFisicosCatador, analisisSensorialCatador, analisisSensorial, analisisSensorialListar, buscarSensorial, analisisCalificados, sensorialesListarSelect, fisicosListarSelect } from '../controllers/analisis.controller.js'
 import { validarAnalisis } from '../../validate/analisis.validate.js'
 import { validarToken } from '../controllers/seguridad.controller.js'
 
@@ -16,7 +16,9 @@ routeAnalisis.get('/activos', validarToken, analisisActivos)
 routeAnalisis.get('/buscar/:codigo',validarToken, buscarAnalisis)
 routeAnalisis.get('/buscarSensorial/:codigo',validarToken, buscarSensorial)
 routeAnalisis.get('/fisicos',validarToken, analisisFisicos)
+routeAnalisis.get('/fisicosSelect/:id',validarToken, fisicosListarSelect)
 routeAnalisis.get('/sensorial',validarToken, analisisSensorial)
+routeAnalisis.get('/sensorialSelect/:id',validarToken, sensorialesListarSelect)
 routeAnalisis.get('/sensorialListar',validarToken, analisisSensorialListar)
 routeAnalisis.get('/analisisCatador/:id',validarToken, analisisCatador)
 routeAnalisis.get('/analisisFisicosCatador/:id',validarToken, analisisFisicosCatador)

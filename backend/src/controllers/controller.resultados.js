@@ -7,9 +7,27 @@ export const listarResultados = async (req, res) => {
 
     try {
         
-        let sql = `SELECT codigo, fecha, fk_analisis AS analisis, nombre AS variable, v_codigo, valor, r.estado FROM resultados AS r JOIN variables ON fk_variables = v_codigo`
+        const {id} = req.params
+        let sql = `
+                SELECT 
+                r.codigo,
+                r.fecha,
+                r.fk_analisis AS analisis,
+                v.nombre AS variable,
+                v.v_codigo, 
+                r.valor, 
+                r.estado 
+                
+                FROM resultados AS r 
 
-        const [result] = await pool.query(sql)
+                JOIN 
+                    variables v ON fk_variables = v_codigo 
+                JOIN 
+                    analisis a ON fk_analisis = a.codigo
+
+                WHERE fk_analista = ?`
+
+        const [result] = await pool.query(sql, [id])
 
         if(result.length>0){
             res.status(200).json(result)
@@ -274,6 +292,76 @@ export const listarResultadosFisicos = async (req, res) => {
                 `
 
         const [result] = await pool.query(sql, [id])
+
+        if(result.length>0){
+            res.status(200).json(result)
+        }else{
+            res.status(404).json({
+                'status': 404,
+                'message': 'No hay resultados registrados'
+            })
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error del servidor' + error
+        })
+    }
+}
+
+export const listarResultadosSensorialesCatador = async (req, res) => {
+
+    try {
+        
+        const {id} = req.params
+        let sql = `
+        SELECT 
+            s.*, 
+            a.fecha,
+            cat.nombre AS catador,
+            c.nombre, 
+            f.nombre_finca
+        FROM 
+            sensoriales s
+        JOIN analisis a ON fk_analisis = a.codigo
+        JOIN muestras m ON fk_muestra = m.codigo
+        JOIN lotes l ON fk_lote = l.codigo
+        JOIN fincas f ON fk_finca = f.codigo  
+        JOIN usuarios c ON fk_caficultor = c.identificacion
+        JOIN usuarios cat ON fk_analista = cat.identificacion
+        
+        WHERE fk_analista = ?`
+
+        const [result] = await pool.query(sql, [id])
+
+        if(result.length>0){
+            res.status(200).json(result)
+        }else{
+            res.status(404).json({
+                'status': 404,
+                'message': 'No hay resultados registrados'
+            })
+        }
+
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error del servidor' + error
+        })
+    }
+}
+
+export const listarResultadosSensorialesSelect = async (req, res) => {
+
+    try {
+        let sql = `
+            SELECT 
+            
+            s.codigo 
+
+            FROM sensoriales s
+        `
+
+        const [result] = await pool.query(sql)
 
         if(result.length>0){
             res.status(200).json(result)
