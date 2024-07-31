@@ -28,7 +28,7 @@ const RadarChart = ({ datos }) => {
     datasets: [
       {
         label: 'Análisis Sensorial',
-        data: [datos.aroma, datos.punteo, datos.dulzura, datos.taza_limpia, datos.balance, datos.uniformidad, datos.cuerpo, datos.acidez, datos.postgusto, datos.sabor],
+        data: [datos.aroma, datos.general, datos.dulzura, datos.taza_limpia, datos.balance, datos.uniformidad, datos.cuerpo, datos.acidez, datos.postgusto, datos.sabor],
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
