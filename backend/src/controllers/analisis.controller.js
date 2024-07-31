@@ -299,39 +299,40 @@ export const analisisSensorialCatador = async (req, res) => {
         const {id} = req.params
         let sql = `
             SELECT 
-            a.codigo, 
-            a.fecha, 
-            u.nombre, 
-            a.fk_muestra, 
-            t.tipo_analisis, 
-            a.estado 
-            
+                a.codigo, 
+                a.fecha, 
+                u.nombre, 
+                a.fk_muestra, 
+                t.tipo_analisis, 
+                a.estado 
             FROM analisis AS a 
-            
             JOIN 
                 usuarios u ON a.fk_analista = u.identificacion 
             JOIN 
                 tipo_analisis t ON a.fk_tipo_analisis = t.id 
-            WHERE a.fk_tipo_analisis = 2 AND a.estado = 1 || a.estado = 2 AND a.fk_analista = ?`
-        /* let sql = `SELECT * FROM analisis a WHERE fk_analista = ?` */
+            WHERE   
+                a.fk_tipo_analisis = 2 
+                AND (a.estado = 1 OR a.estado = 2) 
+                AND a.fk_analista = ?`
 
         const [rows] = await pool.query(sql, [id])
 
-        if(rows.length>0){
+        if(rows.length > 0){
             res.status(200).json(rows)  
-        }else{
+        } else {
             res.status(404).json({
                 status: 404,
-                message: 'No se encontraron analisis para este catador'
+                message: 'No se encontraron análisis para este catador'
             })
         }
     } catch (error) {
         res.status(500).json({
             status: 500,
-            message: 'Error del servidor' + error
+            message: 'Error del servidor: ' + error
         })
     }
 }
+
 
 export const analisisSensorial = async (req, res) => {
     try {
