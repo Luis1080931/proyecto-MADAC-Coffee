@@ -116,18 +116,6 @@ export function Reportes() {
         const responseSensory = await axiosClient.get(`/reportes/sensory/${id}`);
         setDatosPdfSensory(responseSensory.data);
     
-        const responseProductor = await axiosClient.get(`/reportes/productor/${id}`);
-        setDatosPdfProductor(responseProductor.data);
-    
-        const base64Chart = await new Promise((resolve) => {
-          ReactDOM.render(
-            <RadarChartToBase64 data={responseSensory.data} onBase64Ready={resolve} />,
-            document.createElement('div')
-          );
-        });
-    
-        setBase64RadarChart(base64Chart);
-    
       } catch (error) {
         console.error('Error al obtener los datos del PDF:', error);
       } finally {
@@ -440,18 +428,14 @@ export function Reportes() {
               <h2> Ver PDF </h2>
             </ModalHeader>
             <ModalBody className='overflow-y-auto max-h-[70vh]'> 
-              {loadingPdf ? (
-                'Cargando documento...'
-              ) : (
-                datosPdf && (
+              { datosPdf ? (
                     <div ref={reporteTemplateRef}>
                       <PDFReportHtml 
                         data={datosPdf}
                         datos={datosPdfSensory}
                       />
                     </div>
-                )
-              )}
+                ) : 'Debes generar los dos resultados'}
             </ModalBody>
             <ModalFooter>
               <IconDownload color='default' click={handleGeneratePdf} />

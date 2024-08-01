@@ -387,7 +387,7 @@ return (
           <div className='flex flex-col'>
             <label className='text-[9px] border-1 border-black h-[15px]'>CÓDIGO: {data.muestra_id}</label>
             <label className='text-[9px] border-1 border-black h-[15px]'>VERSIÓN: 01</label>
-            <label className='text-[9px] border-1 border-black h-[15px]'>FECHA: 2023-05-05</label>
+            <label className='text-[9px] border-1 border-black h-[15px]'>FECHA: {data.fecha}</label>
             <label className='text-[9px] border-1 border-black h-[15px]'>PÁGINA: </label>
             {/* <label className='text-[9px] border-1 border-black' render={({ pageNumber, totalPages }) => (
               `PÁGINA: ${pageNumber} de ${totalPages}`
@@ -490,74 +490,79 @@ return (
           
         </div>
       </div>
-      <div className='flex flex-row w-[500px] mt-12 justify-center items-center ml-[40px] mb-8' >
-        <div className='w-[150px]'>
-          <div className='border-1 border-black flex justify-center items-center h-[60px]'>
-            <img className='w-[40px] h-[40px] flex' src={logoSena} />
-          </div>
-          <div className='border-1 border-black h-[60px] flex justify-center items-center'>
-            <img className='w-[40px] h-[40px] flex' src={logoENCC} />
-          </div>
-        </div>
-        <div className='w-[400px]'>
-          <div className='border-1 border-black text-center justify-center items-center h-[60px]'>
-            <label className='flex text-xs text-center justify-center'>Centro de Gestión y Desarrollo Sostenible </label>
-            <label className='flex text-xs justify-center'>Surcolombiano</label>
-            <label className='flex text-xs justify-center'>Escuela  Nacional de la Calidad del Café </label>
-          </div>
-          <div className='border-1 border-black h-[60px] flex items-center justify-center'>
-            <label className='flex text-xs justify-center items-center text-center'>INFORME SERVICIO ANALISIS FISICO SENSORIAL</label>
-          </div>
-        </div>
-        <div className='w-[150px]'>
-          <div className='border-1 border-black flex h-[60px] justify-center items-center'>
-            <img className='w-[90px] h-[90px]' src={logoSennova} />
-          </div>
-          <div className='flex flex-col'>
-            <label className='text-[9px] border-1 border-black h-[15px]'>CÓDIGO: {data.muestra_id}</label>
-            <label className='text-[9px] border-1 border-black h-[15px]'>VERSIÓN: 01</label>
-            <label className='text-[9px] border-1 border-black h-[15px]'>FECHA: 2023-05-05</label>
-            <label className='text-[9px] border-1 border-black h-[15px]'>PÁGINA: </label>
-            {/* <label className='text-[9px] border-1 border-black' render={({ pageNumber, totalPages }) => (
-              `PÁGINA: ${pageNumber} de ${totalPages}`
-            )}  /> */}
-          </div>
-        </div>
-      </div>
+      {data ? (
         <>
-          <label className='text-sm font-bold ml-16'>5. Análisis Físico:</label>
-          <div className='w-[520px] ml-[40px]'>
-            <div className='bg-[#C6E0B4] w-[500px] border-1 border-black mt-5'>
-              <label className='flex justify-center'>Análisis Físicos</label>
+        <div className='flex flex-row w-[500px] mt-12 justify-center items-center ml-[40px] mb-8' >
+          <div className='w-[150px]'>
+            <div className='border-1 border-black flex justify-center items-center h-[60px]'>
+              <img className='w-[40px] h-[40px] flex' src={logoSena} />
             </div>
-            <div className='flex flex-row w-[500px] mb-60'>
-              <div className='flex flex-col'>
-                {[...Array(15)].map((_, index) => (
-                <div key={index} className='flex flex-row'>
-                  <div className='border-1 border-black w-[210px] h-[30px]'>
-                    <label className='text-sm h-[30px]'>{data.resultados[index].variable}</label>
-                  </div>
-                  <div className='w-[40px] border-1 border-black flex justify-center h-[30px]'>
-                    <label className='text-sm h-[30px]'>{data.resultados[index].valor}</label>
-                  </div>
-                </div>
-                ))}
+            <div className='border-1 border-black h-[60px] flex justify-center items-center'>
+              <img className='w-[40px] h-[40px] flex' src={logoENCC} />
+            </div>
+          </div>
+          <div className='w-[400px]'>
+            <div className='border-1 border-black text-center justify-center items-center h-[60px]'>
+              <label className='flex text-xs text-center justify-center'>Centro de Gestión y Desarrollo Sostenible </label>
+              <label className='flex text-xs justify-center'>Surcolombiano</label>
+              <label className='flex text-xs justify-center'>Escuela  Nacional de la Calidad del Café </label>
+            </div>
+            <div className='border-1 border-black h-[60px] flex items-center justify-center'>
+              <label className='flex text-xs justify-center items-center text-center'>INFORME SERVICIO ANALISIS FISICO SENSORIAL</label>
+            </div>
+          </div>
+          <div className='w-[150px]'>
+            <div className='border-1 border-black flex h-[60px] justify-center items-center'>
+              <img className='w-[90px] h-[90px]' src={logoSennova} />
+            </div>
+            <div className='flex flex-col'>
+              <label className='text-[9px] border-1 border-black h-[15px]'>CÓDIGO: {data.muestra_id}</label>
+              <label className='text-[9px] border-1 border-black h-[15px]'>VERSIÓN: 01</label>
+              <label className='text-[9px] border-1 border-black h-[15px]'>FECHA: 2023-05-05</label>
+              <label className='text-[9px] border-1 border-black h-[15px]'>PÁGINA: </label>
+              {/* <label className='text-[9px] border-1 border-black' render={({ pageNumber, totalPages }) => (
+                `PÁGINA: ${pageNumber} de ${totalPages}`
+              )}  /> */}
+            </div>
+          </div>
+        </div>
+          <>
+            <label className='text-sm font-bold ml-16'>5. Análisis Físico:</label>
+            <div className='w-[520px] ml-[40px]'>
+              <div className='bg-[#C6E0B4] w-[500px] border-1 border-black mt-5'>
+                <label className='flex justify-center'>Análisis Físicos</label>
               </div>
-              <div className='flex flex-col'>
-                {[...Array(15)].map((_, index) => (
+              <div className='flex flex-row w-[500px] mb-60'>
+                <div className='flex flex-col'>
+                  {[...Array(15)].map((_, index) => (
                   <div key={index} className='flex flex-row'>
                     <div className='border-1 border-black w-[210px] h-[30px]'>
-                      <label className='text-sm h-[30px]'>{data.resultados[index + 15].variable}</label>
+                      <label className='text-sm h-[30px]'>{data.resultados[index].variable}</label>
                     </div>
-                    <div className='w-[39px] border-1 border-black flex justify-center h-[30px]'>
-                      <label className='text-sm h-[30px]'>{data.resultados[index + 15].valor}</label>
+                    <div className='w-[40px] border-1 border-black flex justify-center h-[30px]'>
+                      <label className='text-sm h-[30px]'>{data.resultados[index].promedio_valor}</label>
                     </div>
                   </div>
-                ))}
+                  ))}
+                </div>
+                <div className='flex flex-col'>
+                  {[...Array(15)].map((_, index) => (
+                    <div key={index} className='flex flex-row'>
+                      <div className='border-1 border-black w-[210px] h-[30px]'>
+                        <label className='text-sm h-[30px]'>{data.resultados[index + 15].variable}</label>
+                      </div>
+                      <div className='w-[39px] border-1 border-black flex justify-center h-[30px]'>
+                        <label className='text-sm h-[30px]'>{data.resultados[index + 15].promedio_valor}</label>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </>
+          </>
+          </>
+      ): ''}
+      {datos ? (
         <>
         <div className='flex flex-row w-[500px] mt-12 justify-center items-center ml-[40px]' >
         <div className='w-[150px]'>
@@ -692,23 +697,24 @@ correcta fertilización del café, además se recomienda hacer una buena recolec
 frutos maduros evitando granos inmaduros y sobre maduros. </label>
       </div>
       <div className='flex flex-row mt-[300px] w-[500px] ml-[40px]'>
-        <div className='flex flex-col h-[120px] border-1 border-black w-[250px] justify-end items-center'>
+        <div className='flex flex-col h-[120px] border-1 border-black w-[250px] justify-end items-center text-center'>
               <label className='text-sm font-bold'> Álvaro Murcia </label>
               <label className='text-sm'> Instructor Análisis Sensorial - ENCC </label>
               <label className='text-sm'> Pitalito </label>
         </div>
-        <div className='flex flex-col h-[120px] border-1 border-black w-[250px] justify-end items-center'>
+        <div className='flex flex-col h-[120px] border-1 border-black w-[250px] justify-end items-center text-center'>
               <label className='text-sm font-bold'> Silvia Andrea Forero Artunduaga </label>
               <label className='text-sm'> Instructor Análisis Sensorial - ENCC </label>
               <label className='text-sm'> Pitalito </label>
         </div>
-        <div className='flex flex-col h-[120px] border-1 border-black w-[250px] justify-end items-center'>
+        <div className='flex flex-col h-[120px] border-1 border-black w-[250px] justify-end items-center text-center'>
               <label className='text-sm font-bold'> Julio Mario Artunduaga </label>
               <label className='text-sm'> Responsable Gestión Técnica - ENCC </label>
               <label className='text-sm'> Pitalito </label>
         </div>
       </div>
       </>
+      ): ''}
     </div>
     </div>
 
