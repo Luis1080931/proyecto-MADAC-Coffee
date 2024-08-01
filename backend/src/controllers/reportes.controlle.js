@@ -3,7 +3,7 @@ import query from 'express'
 
 export const generarPDF = async (req, res) => {
     try {
-        const {id} = req.params
+        const { id } = req.params;
         let sql = `
         SELECT 
             a.codigo AS analisis_id,
@@ -16,7 +16,7 @@ export const generarPDF = async (req, res) => {
             v.nombre AS variedad,
             m.codigo AS muestra_id,
             m.altura_MSNM,
-            m.fecha AS fecha,
+            DATE_FORMAT(r.fecha, '%Y-%M-%d') AS fecha,
             m.proceso_fermentacion,
             m.cantidad,
             m.densidad_cafe,
@@ -26,7 +26,7 @@ export const generarPDF = async (req, res) => {
             m.tiempo_secado,
             m.presentacion,
             var.nombre AS variable,
-            r.valor
+            AVG(r.valor) AS promedio_valor
         FROM 
             analisis a
         JOIN 
@@ -44,27 +44,30 @@ export const generarPDF = async (req, res) => {
         JOIN 
             resultados r ON a.codigo = r.fk_analisis
         JOIN 
-            variables var ON fk_variables = var.v_codigo
+            variables var ON r.fk_variables = var.v_codigo
         WHERE 
-            m.codigo = ?;
-    `
-    const [result] = await pool.query(sql, [id])
-    if(result.length>0){
-        const consolidatedResult = reestructurarDatos(result);
-        res.status(200).json(consolidatedResult);
-    }else{
-        res.status(404).json({
-           'status': 404,
-           'message': 'No se encontró el resultado'
-        })
-    }
+            m.codigo = ?
+        GROUP BY 
+            var.nombre;
+    `;
+
+        const [result] = await pool.query(sql, [id]);
+        if (result.length > 0) {
+            const consolidatedResult = reestructurarDatos(result);
+            res.status(200).json(consolidatedResult);
+        } else {
+            res.status(404).json({
+                'status': 404,
+                'message': 'No se encontró el resultado'
+            });
+        }
     } catch (error) {
         res.status(500).json({
             status: 500,
-            message: 'Error del servidor'+ error
-        })
+            message: 'Error del servidor' + error
+        });
     }
-}
+};
 
 function reestructurarDatos(datos) {
     if (datos.length === 0) return null;
@@ -94,9 +97,8 @@ function reestructurarDatos(datos) {
 
     datos.forEach(row => {
         resultadoFinal.resultados.push({
-            resultado_id: row.resultado_id,
             variable: row.variable,
-            valor: row.valor
+            promedio_valor: row.promedio_valor
         });
     });
 
@@ -148,34 +150,83 @@ export const listarDatos = async (req, res) => {
 
 export const datosSensorialPdf = async (req, res) => {
     try {
-        const {id} = req.params
+        const { id } = req.params;
         let sql = `
             SELECT 
-            s.*,
-            m.codigo
+                m.codigo AS muestra_id,
+                AVG(COALESCE(s.aroma, 0)) AS aroma,
+                AVG(COALESCE(s.sabor, 0)) AS sabor,
+                AVG(COALESCE(s.postgusto, 0)) AS postgusto,
+                AVG(COALESCE(s.acidez, 0)) AS acidez,
+                AVG(COALESCE(s.cuerpo, 0)) AS cuerpo,
+                AVG(COALESCE(s.uniformidad, 0)) AS uniformidad,
+                AVG(COALESCE(s.balance, 0)) AS balance,
+                AVG(COALESCE(s.taza_limpia, 0)) AS taza_limpia,
+                AVG(COALESCE(s.dulzura, 0)) AS dulzura,
+                AVG(COALESCE(s.general, 0)) AS general,
+                AVG(COALESCE(s.punteo, 0)) AS punteo,
+                AVG(COALESCE(s.taza_defecto, 0)) AS taza_defecto,
+                AVG(COALESCE(s.intensidad_defecto, 0)) AS intensidad_defecto,
+                AVG(COALESCE(s.sub_defecto, 0)) AS sub_defecto,
+                AVG(COALESCE(s.punteo_final, 0)) AS punteo_final
             FROM 
                 sensoriales s
             JOIN 
                 analisis a ON s.fk_analisis = a.codigo
             JOIN 
-                muestras m ON m.codigo = fk_muestra
+                muestras m ON m.codigo = a.fk_muestra
             WHERE m.codigo = ?
-            `
+            GROUP BY m.codigo;
+        `;
 
-        const [result] = await pool.query(sql, [id])
-        if(result.length>0){
-            res.status(200).json(result[0])
-        }else{
+        const [result] = await pool.query(sql, [id]);
+        if (result.length > 0) {
+            res.status(200).json(result[0]);
+        } else {
             res.status(404).json({
-                message: 'No se resultados para el analisis sensorial'
-            })
+                message: 'No se encontraron resultados para el análisis sensorial'
+            });
         }
     } catch (error) {
         res.status(500).json({
-            message: 'Error del servidor' , error
-        })
+            message: 'Error del servidor',
+            error
+        });
     }
 }
+
+
+/* export const datosSensorialPdf = async (req, res) => {
+    try {
+        const { id } = req.params;
+        let sql = `
+            SELECT *
+            FROM 
+                sensoriales s
+            JOIN 
+                analisis a ON s.fk_analisis = a.codigo
+            JOIN 
+                muestras m ON a.fk_muestra = m.codigo
+            WHERE m.codigo = ?
+            GROUP BY (m.codigo)
+        `;
+
+        const [result] = await pool.query(sql, [id]);
+        if (result.length > 0) {
+            res.status(200).json(result[0]);
+        } else {
+            res.status(404).json({
+                message: 'No se encontraron resultados para el análisis sensorial'
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: 'Error del servidor',
+            error
+        });
+    }
+} */
+
 
 /* export const datosProductor = async (req, res) => {
     try {
