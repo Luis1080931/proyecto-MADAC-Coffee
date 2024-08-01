@@ -651,7 +651,7 @@ return (
           </div>
           <div className='border-1 border-black flex justify-center w-[500px] ml-[40px] mb-36'>
               <div className='flex justify-center mt-8'>
-                <RadarChart datos={datos} onBase64Ready={handleBase64Ready} />
+                {/* <RadarChart datos={datos} onBase64Ready={handleBase64Ready} /> */}
             </div>
           </div>
           
