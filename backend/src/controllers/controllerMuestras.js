@@ -136,7 +136,7 @@ export const BuscarMuestra = async (req, res) => {
 
 export const muestrasActivas = async (req, res) => {
     try {
-        const [result] = await pool.query("SELECT * FROM muestras WHERE estado = 1")
+        const [result] = await pool.query(`SELECT m.codigo, l.codigo AS lote, f.nombre_finca FROM muestras m JOIN lotes l ON m.fk_lote = l.codigo JOIN fincas f ON l.fk_finca = f.codigo WHERE m.estado = 1`)
 
         if (result.length > 0 ) {
             res.status(200).json(result)

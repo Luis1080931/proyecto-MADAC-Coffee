@@ -145,9 +145,12 @@ export const actualizarLotes =async(req,res)=>{
 
 export const lotesActivos = async (req, res) => {
     try {
-        const [rows]=await pool.query(`SELECT l.codigo, l.numero_arboles, l.fk_finca, v.nombre AS fk_variedad, l.estado
+        const [rows]=await pool.query(`SELECT l.codigo, l.numero_arboles, f.nombre_finca,u.nombre, v.nombre AS fk_variedad, l.estado
         FROM lotes l
-        LEFT JOIN variedades v ON l.fk_variedad = v.codigo WHERE l.estado = 1`)
+        LEFT JOIN variedades v ON l.fk_variedad = v.codigo
+        LEFT JOIN fincas f ON l.fk_finca = f.codigo
+        LEFT JOIN usuarios u ON f.fk_caficultor = u.identificacion
+        WHERE l.estado = 1`)
       
         if (rows.length > 0) {
             res.status(200).json(rows);
