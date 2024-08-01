@@ -106,7 +106,7 @@ const FormAnalisis = ({ handleSubmit, actionLabel, mode, onClose }) => {
             <option value="" hidden> Codigo de muestra  ... </option>
             {muestras.map(mues => (
               <option key={mues.codigo} value={mues.codigo} >
-                {mues.codigo}
+                {mues.codigo} - {mues.nombre_finca}
               </option>
             ))}
           </select>

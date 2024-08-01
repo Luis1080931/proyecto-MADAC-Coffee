@@ -69,7 +69,7 @@ export const FormLotes = ({ mode,handleSubmit,onClose,actionLabel }) => {
                             <option value="" hidden> Seleccione finca ... </option>
                             {fincas.map(finca => (
                                 <option key={finca.codigo} value={finca.codigo}>
-                                    {finca.codigo} - {finca.fk_caficultor}
+                                    {finca.codigo} - {finca.nombre_finca} - {finca.fk_caficultor}
                                 </option>
                             ))}
                         </select>

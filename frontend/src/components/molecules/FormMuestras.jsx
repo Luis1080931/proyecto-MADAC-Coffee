@@ -144,11 +144,11 @@ const FormMuestras = ({ actionLabel, handleSubmit, mode, onClose}) => {
                     <div className="flex w-full flex-wrap md:flex-nowrap mb-4">
                         <select className='w-[400px] rounded-xl bg-gray-100 h-[60px]' label='Selecciones el lote' value={loteFk} onChange={(e) => setLoteFk(e.target.value)} required={true}>
                             <option value='' hidden> Seleccione el lote... </option>
-                        {lotes.map(lote => (
-                            <option key={lote.codigo} value={lote.codigo} textValue={lote.codigo}>
-                            {lote.codigo}
-                            </option>
-                        ))}
+                                {lotes.map(lote => (
+                                    <option key={lote.codigo} value={lote.codigo} textValue={lote.codigo}>
+                                        {lote.codigo} - {lote.nombre_finca} - {lote.nombre}
+                                    </option>
+                                ))}
                         </select>
                                 
                     </div>
